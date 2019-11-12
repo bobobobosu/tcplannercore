@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="tcplannercore:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="tcplannercore" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Pz5hYjAo5wApWmYLGvNyB0SwMt" />
+  <component name="PropertiesComponent">
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="tcplannercore" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn compile" />
+      <command value="mvn exec" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.TCSchedulingApp">
+    <configuration name="JsonServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.JsonServer" />
+      <module name="tcplannercore" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCSchedulingApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.TCSchedulingApp" />
+      <module name="tcplanner-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Test" />
+      <module name="tcplanner-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.JsonServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand />
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="" />
+      <created>1566864203603</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566864203603</updated>
+      <workItem from="1566864207043" duration="16898000" />
+      <workItem from="1567144116943" duration="13000" />
+      <workItem from="1567151865990" duration="1181000" />
+      <workItem from="1567184801927" duration="2305000" />
+      <workItem from="1567263572867" duration="13367000" />
+      <workItem from="1567359504847" duration="664000" />
+      <workItem from="1567406806345" duration="48000" />
+      <workItem from="1567519356583" duration="14615000" />
+      <workItem from="1567565973852" duration="9909000" />
+      <workItem from="1567663128576" duration="3339000" />
+      <workItem from="1567666990652" duration="3106000" />
+      <workItem from="1567676898822" duration="18530000" />
+      <workItem from="1568960494123" duration="196000" />
+      <workItem from="1569211396699" duration="4144000" />
+      <workItem from="1569219715946" duration="635000" />
+      <workItem from="1569282816363" duration="3897000" />
+      <workItem from="1569361377398" duration="4336000" />
+      <workItem from="1569437017870" duration="19820000" />
+      <workItem from="1569459779345" duration="80000" />
+      <workItem from="1569459871382" duration="8686000" />
+      <workItem from="1569469717542" duration="2234000" />
+      <workItem from="1569475065649" duration="660000" />
+      <workItem from="1569523656912" duration="674000" />
+      <workItem from="1569563367334" duration="2008000" />
+      <workItem from="1569568201367" duration="4668000" />
+      <workItem from="1569573116093" duration="12000" />
+      <workItem from="1569573394938" duration="819000" />
+      <workItem from="1569575921091" duration="572000" />
+      <workItem from="1569602543608" duration="7108000" />
+      <workItem from="1569612601748" duration="3163000" />
+      <workItem from="1569621672095" duration="3160000" />
+      <workItem from="1569628142185" duration="464000" />
+      <workItem from="1569628757741" duration="4628000" />
+      <workItem from="1569633646607" duration="28768000" />
+      <workItem from="1569665443035" duration="1782000" />
+      <workItem from="1569668109583" duration="47000" />
+      <workItem from="1569707966050" duration="23000" />
+      <workItem from="1569812503206" duration="669000" />
+      <workItem from="1569835268803" duration="843000" />
+      <workItem from="1569902900501" duration="5557000" />
+      <workItem from="1569913484926" duration="2173000" />
+      <workItem from="1569917528848" duration="2243000" />
+      <workItem from="1569919827771" duration="1187000" />
+      <workItem from="1569949555315" duration="3091000" />
+      <workItem from="1569953280179" duration="38000" />
+      <workItem from="1569956574875" duration="6220000" />
+      <workItem from="1569966591652" duration="528000" />
+      <workItem from="1570141945533" duration="126000" />
+      <workItem from="1570306710076" duration="7137000" />
+      <workItem from="1570317881110" duration="674000" />
+      <workItem from="1570335604804" duration="52000" />
+      <workItem from="1570348389261" duration="2390000" />
+      <workItem from="1570483199982" duration="1818000" />
+      <workItem from="1570487012058" duration="4287000" />
+      <workItem from="1570500676024" duration="63154000" />
+      <workItem from="1570695032205" duration="28770000" />
+      <workItem from="1571019418415" duration="1087000" />
+      <workItem from="1571081383795" duration="8762000" />
+      <workItem from="1571333193204" duration="119000" />
+      <workItem from="1571463333342" duration="3140000" />
+      <workItem from="1571558246869" duration="833000" />
+      <workItem from="1571769530844" duration="4533000" />
+      <workItem from="1572027326054" duration="15189000" />
+      <workItem from="1572122331355" duration="1204000" />
+      <workItem from="1572399717619" duration="9000" />
+      <workItem from="1572547032823" duration="7426000" />
+      <workItem from="1572589104416" duration="1522000" />
+      <workItem from="1572595612078" duration="781000" />
+      <workItem from="1572760211094" duration="637000" />
+      <workItem from="1572761040018" duration="21009000" />
+      <workItem from="1572809340346" duration="31000" />
+      <workItem from="1572809660692" duration="2016000" />
+      <workItem from="1572813437201" duration="20812000" />
+      <workItem from="1572849749583" duration="12365000" />
+      <workItem from="1572907880552" duration="1561000" />
+      <workItem from="1572948234360" duration="1533000" />
+      <workItem from="1572981644095" duration="2635000" />
+      <workItem from="1573204051198" duration="5326000" />
+      <workItem from="1573412643353" duration="16665000" />
+      <workItem from="1573449393431" duration="2989000" />
+      <workItem from="1573536954021" duration="141000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Job.java</url>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/ExecutionModeStrengthWeightFactory.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="217" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/ExecutionModeStrengthWeightFactory.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="218" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
+          <line>9</line>
+          <option name="timeStamp" value="221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="273" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/DataStructureBuilder.java</url>
+          <line>237</line>
+          <option name="timeStamp" value="275" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="continuetosolve" language="JAVA" />
+        <watch expression="result.allocationList.get(22)" />
+        <watch expression="result.allocationList.get(2)" />
+        <watch expression="result.allocationList" />
+        <watch expression="schedule.allocationList.get(6)" />
+        <watch expression="allocation.resourceStateChange_absolute" />
+        <watch expression="newlist.get(7).executionMode" />
+        <watch expression="schedule.allocationList.get(55)" />
+        <watch expression="result" />
+        <watch expression="result.allocationList.get(10)" />
+        <watch expression="result.allocationList.get(6)" />
+        <watch expression="result.allocationList.get(1)" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tcplannercore$TCSchedulingApp.ic" NAME="TCSchedulingApp Coverage Results" MODIFIED="1569606658515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>bo.tc.tcplanner.app.*</FILTER>
+    </SUITE>
+  </component>
+</project>

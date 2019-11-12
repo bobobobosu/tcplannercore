@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
+    <moveThreadCount>AUTO</moveThreadCount> To solve faster by saturating multiple CPU cores
+<!--    <daemon>true</daemon>-->
+    <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+    <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+
+    <scoreDirectorFactory>
+        <scoreDrl>TCRules_P2.drl</scoreDrl>
+    </scoreDirectorFactory>
+    <termination>
+<!--        <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+    </termination>
+
+    <localSearch>
+        <unionMoveSelector>
+            <swapMoveSelector>
+                <fixedProbabilityWeight>5.0</fixedProbabilityWeight>
+                <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
+                <variableNameInclude>executionMode</variableNameInclude>
+                <variableNameInclude>progressdelta</variableNameInclude>
+            </swapMoveSelector>
+            <changeMoveSelector>
+                <fixedProbabilityWeight>20.0</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="executionMode"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <fixedProbabilityWeight>8.0</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="delay"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <fixedProbabilityWeight>1.0</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="progressdelta"/>
+            </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor>
+            <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>1000</acceptedCountLimit>
+        </forager>
+    </localSearch>
+</solver>
