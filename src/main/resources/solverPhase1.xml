@@ -7,6 +7,7 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
+<!--        <millisecondsSpentLimit>90000</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
@@ -20,7 +21,6 @@
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
                     </entitySelector>
                     <valueSelector variableName="executionMode"/>
@@ -34,7 +34,6 @@
             <changeMoveSelector>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
                 </entitySelector>
                 <valueSelector variableName="executionMode"/>
@@ -42,14 +41,13 @@
             <changeMoveSelector>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
             <changeMoveSelector>
+                <selectedCountLimit>10</selectedCountLimit>
                 <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
                 </entitySelector>
@@ -61,7 +59,7 @@
         </acceptor>
         <forager>
             <pickEarlyType>NEVER</pickEarlyType>
-            <acceptedCountLimit>650</acceptedCountLimit>
+            <acceptedCountLimit>300</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

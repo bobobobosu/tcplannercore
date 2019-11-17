@@ -43,10 +43,12 @@
             </changeMoveSelector>
         </unionMoveSelector>
         <acceptor>
-            <entityTabuRatio>0.02</entityTabuRatio>
+            <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>1000</acceptedCountLimit>
+            <pickEarlyType>NEVER</pickEarlyType>
+            <acceptedCountLimit>650</acceptedCountLimit>
+            <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>
 </solver>

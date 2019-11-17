@@ -209,7 +209,7 @@ public class SolverThread extends Thread {
                     if (continuetosolve && !isSolved(result, solverList.get(0))) {
                         printCurrentSolution(result, solverList.get(0), false);
                         currentSchedule = result;
-                        result = solverList.get(0).solve(result);
+                        currentSchedule = result = solverList.get(0).solve(result);
                         jsonServer.updateTimelineBlock(false, result);
                     }
                     incrementalAllocationList = new ArrayList<>(result.getAllocationList());

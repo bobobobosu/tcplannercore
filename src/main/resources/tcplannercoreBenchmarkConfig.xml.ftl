@@ -40,6 +40,7 @@
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
+    <#list ['<selectedCountLimit>10</selectedCountLimit>'] as selectedCountLimit>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
     <#list [''] as IndexFilter>
@@ -64,6 +65,7 @@
                 </changeMoveSelector>
             </cartesianProductMoveSelector>'] as cartesian>
     <#list ['<changeMoveSelector>
+                ${selectedCountLimit}
                 <entitySelector>
                     ${IndexFilter}
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
@@ -90,7 +92,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>I${IndexFilter?index}</name>
+        <name>s${selectedCountLimit?index}</name>
         <solver>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
@@ -115,6 +117,7 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

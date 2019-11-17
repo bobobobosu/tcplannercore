@@ -45,12 +45,13 @@ end
 
 rule "checkTimeOverlapping"
     when
-        $allocation : Allocation(job.name != "dummyJob",$endDate :endDate, $nextStart : nextStart, $nextStart < endDate,
-            $executionMode : executionMode,$plannedDuration : plannedDuration)
+        $allocation : Allocation(job.name != "dummyJob",
+            $executionMode : executionMode,$predecessorsDoneDate : predecessorsDoneDate,$startDate : startDate,$predecessorsDoneDate > $startDate,$plannedDuration : plannedDuration)
+        ExecutionMode(this==$executionMode, $name : job.name)
 
     then
         // System.out.println("Rule Violation: "+ "checkMandatoryJob (" + $allocation.getJob().getTimelineid()+" "+ $allocation.getJob().getName()+")" );
-        scoreHolder.addHardConstraintMatch(kcontext, 4,-(int)(100*($endDate - $nextStart)/($plannedDuration==0 ? 1 : $plannedDuration)));
+        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
 end
 
 rule "checkDeadline"

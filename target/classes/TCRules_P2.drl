@@ -51,7 +51,7 @@ rule "checkTimeOverlapping"
 
     then
         // System.out.println("Rule Violation: "+ "checkMandatoryJob (" + $allocation.getJob().getTimelineid()+" "+ $allocation.getJob().getName()+")" );
-        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(100*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
+        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
 end
 
 rule "checkDeadline"
@@ -105,6 +105,11 @@ rule "checkRequirements"
                                                             0,
                                                             ($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)),0,0},
                                                 new int[]{0,0,0,0});
+//            scoreHolder.addMultiConstraintMatch(kcontext,
+//                                                new int[]{($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)),
+//                                                            0,
+//                                                            0,0,0},
+//                                                new int[]{0,0,0,0});
 end
 
 rule "checkSplittable"
@@ -144,9 +149,8 @@ rule "punishFragmentation"
         $allocation : Allocation(job.name != "dummyJob",
             $progressdelta : progressdelta,$progressdelta <100 )
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
 end
-
 
 // ############################################################################
 // Phase 2 Soft constraints
