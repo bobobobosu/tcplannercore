@@ -7,19 +7,19 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>30000</millisecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>120000</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
             <swapMoveSelector>
                 <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
-                <fixedProbabilityWeight>48.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>2.0</fixedProbabilityWeight>
                 <variableNameInclude>executionMode</variableNameInclude>
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>
             <cartesianProductMoveSelector>
-                <fixedProbabilityWeight>48.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -34,7 +34,7 @@
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
             </cartesianProductMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>48.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>

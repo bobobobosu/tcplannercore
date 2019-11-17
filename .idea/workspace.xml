@@ -2459,9 +2459,14 @@
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/MEMORY_USE.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/SCORE_CALCULATION_SPEED.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/STEP_SCORE.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/partitioners/SchedulePartitioner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase1.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -2557,7 +2562,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Benchmark">
+  <component name="RunManager" selected="Application.TCSchedulingApp">
     <configuration name="Benchmark" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Benchmark" />
       <module name="tcplanner-core" />
@@ -2620,8 +2625,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.JsonServer" />
       </list>
@@ -2745,7 +2750,8 @@
       <workItem from="1573971197317" duration="70000" />
       <workItem from="1573971337198" duration="344000" />
       <workItem from="1573971814934" duration="83000" />
-      <workItem from="1573972138051" duration="4888000" />
+      <workItem from="1573972138051" duration="4980000" />
+      <workItem from="1573985259522" duration="6659000" />
     </task>
     <task id="LOCAL-00001" summary="Add benchmark">
       <created>1573965651431</created>
@@ -2761,7 +2767,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573971899254</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fix Delay Move Weight">
+      <created>1573977111519</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1573977111519</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -2784,7 +2797,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Add benchmark" />
     <MESSAGE value="Added selected count limit for delay change move" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added selected count limit for delay change move" />
+    <MESSAGE value="Fix Delay Move Weight" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Delay Move Weight" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

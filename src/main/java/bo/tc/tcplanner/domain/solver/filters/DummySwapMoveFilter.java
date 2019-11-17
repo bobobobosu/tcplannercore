@@ -17,6 +17,8 @@ public class DummySwapMoveFilter implements SelectionFilter<Schedule, SwapMove> 
         Allocation rallocation = (Allocation) swapMove.getRightEntity();
         if (isNotChangeable(lallocation)) return false;
         if (isNotChangeable(rallocation)) return false;
+//        if(isNotInIndex(lallocation)) return false;
+//        if(isNotInIndex(rallocation)) return false;
         if (isLocked(lallocation)) return false;
         if (isLocked(rallocation)) return false;
 

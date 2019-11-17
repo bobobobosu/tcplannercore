@@ -26,6 +26,7 @@ import bo.tc.tcplanner.domain.solver.listeners.ProgressDeltaVariableListener;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;

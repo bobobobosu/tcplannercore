@@ -1,0 +1,711 @@
+<plannerBenchmarkResult xStreamId="1">
+  <name>2019-11-15_221413</name>
+  <aggregation>false</aggregation>
+  <availableProcessors>12</availableProcessors>
+  <loggingLevelOptaPlannerCore>debug</loggingLevelOptaPlannerCore>
+  <loggingLevelDroolsCore>info</loggingLevelDroolsCore>
+  <maxMemory>17163091968</maxMemory>
+  <optaPlannerVersion>7.25.0.Final</optaPlannerVersion>
+  <javaVersion>Java 13.0.1 (Oracle Corporation)</javaVersion>
+  <javaVM>Java Java HotSpot(TM) 64-Bit Server VM 13.0.1+9 (Oracle Corporation)</javaVM>
+  <operatingSystem>Windows 10 amd64 10.0</operatingSystem>
+  <parallelBenchmarkCount>1</parallelBenchmarkCount>
+  <warmUpTimeMillisSpentLimit>30</warmUpTimeMillisSpentLimit>
+  <solverBenchmarkResult xStreamId="2">
+    <name>acceptedCountLimit 500</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="3">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="4">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="5">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="6">
+        <unionMoveSelector xStreamId="7">
+          <changeMoveSelector xStreamId="8">
+            <entitySelector xStreamId="9">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="10" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="11">
+            <entitySelector xStreamId="12">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="13" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="14">
+            <entitySelector xStreamId="15">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="16" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="17">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="18">
+          <acceptedCountLimit>500</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="19">
+      <subSingleBenchmarkResult xStreamId="20">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22390384</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="21">[0/-100/0/-500/-180]hard/[0/-8800/-40/0]soft</score>
+        <timeMillisSpent>10006</timeMillisSpent>
+        <scoreCalculationCount>26672</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="22">
+    <name>acceptedCountLimit 1000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="23">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="24">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="25">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="26">
+        <unionMoveSelector xStreamId="27">
+          <changeMoveSelector xStreamId="28">
+            <entitySelector xStreamId="29">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="30" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="31">
+            <entitySelector xStreamId="32">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="33" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="34">
+            <entitySelector xStreamId="35">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="36" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="37">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="38">
+          <acceptedCountLimit>1000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="39">
+      <subSingleBenchmarkResult xStreamId="40">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22490560</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="41">[0/-300/0/-400/-900]hard/[0/-8500/-110/0]soft</score>
+        <timeMillisSpent>10006</timeMillisSpent>
+        <scoreCalculationCount>33406</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="42">
+    <name>acceptedCountLimit 2000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="43">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="44">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="45">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="46">
+        <unionMoveSelector xStreamId="47">
+          <changeMoveSelector xStreamId="48">
+            <entitySelector xStreamId="49">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="50" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="51">
+            <entitySelector xStreamId="52">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="53" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="54">
+            <entitySelector xStreamId="55">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="56" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="57">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="58">
+          <acceptedCountLimit>2000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="59">
+      <subSingleBenchmarkResult xStreamId="60">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22495272</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="61">[0/-1500/0/-1500/0]hard/[0/-7400/-20/0]soft</score>
+        <timeMillisSpent>10005</timeMillisSpent>
+        <scoreCalculationCount>39757</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="62">
+    <name>acceptedCountLimit 3000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="63">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="64">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="65">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="66">
+        <unionMoveSelector xStreamId="67">
+          <changeMoveSelector xStreamId="68">
+            <entitySelector xStreamId="69">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="70" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="71">
+            <entitySelector xStreamId="72">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="73" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="74">
+            <entitySelector xStreamId="75">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="76" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="77">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="78">
+          <acceptedCountLimit>3000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="79">
+      <subSingleBenchmarkResult xStreamId="80">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22501168</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="81">[-288/-1500/-288/-1500/0]hard/[0/-7100/-10/0]soft</score>
+        <timeMillisSpent>10003</timeMillisSpent>
+        <scoreCalculationCount>41968</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="82">
+    <name>acceptedCountLimit 4000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="83">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="84">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="85">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="86">
+        <unionMoveSelector xStreamId="87">
+          <changeMoveSelector xStreamId="88">
+            <entitySelector xStreamId="89">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="90" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="91">
+            <entitySelector xStreamId="92">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="93" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="94">
+            <entitySelector xStreamId="95">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="96" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="97">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="98">
+          <acceptedCountLimit>4000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="99">
+      <subSingleBenchmarkResult xStreamId="100">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22517656</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="101">[-387/-1500/-387/-1500/0]hard/[0/-7000/-10/0]soft</score>
+        <timeMillisSpent>10005</timeMillisSpent>
+        <scoreCalculationCount>42217</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="102">
+    <name>acceptedCountLimit 5000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="103">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="104">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="105">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="106">
+        <unionMoveSelector xStreamId="107">
+          <changeMoveSelector xStreamId="108">
+            <entitySelector xStreamId="109">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="110" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="111">
+            <entitySelector xStreamId="112">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="113" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="114">
+            <entitySelector xStreamId="115">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="116" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="117">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="118">
+          <acceptedCountLimit>5000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="119">
+      <subSingleBenchmarkResult xStreamId="120">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22575624</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="121">[-577/-1500/-577/-1500/0]hard/[0/-6900/-10/0]soft</score>
+        <timeMillisSpent>10004</timeMillisSpent>
+        <scoreCalculationCount>45156</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="122">
+    <name>acceptedCountLimit 6000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="123">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="124">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="125">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="126">
+        <unionMoveSelector xStreamId="127">
+          <changeMoveSelector xStreamId="128">
+            <entitySelector xStreamId="129">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="130" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="131">
+            <entitySelector xStreamId="132">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="133" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="134">
+            <entitySelector xStreamId="135">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="136" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="137">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="138">
+          <acceptedCountLimit>6000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="139">
+      <subSingleBenchmarkResult xStreamId="140">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22576688</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="141">[-599/-1500/-599/-1500/0]hard/[0/-6800/0/0]soft</score>
+        <timeMillisSpent>10003</timeMillisSpent>
+        <scoreCalculationCount>43513</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="142">
+    <name>acceptedCountLimit 7000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="143">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="144">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="145">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="146">
+        <unionMoveSelector xStreamId="147">
+          <changeMoveSelector xStreamId="148">
+            <entitySelector xStreamId="149">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="150" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="151">
+            <entitySelector xStreamId="152">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="153" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="154">
+            <entitySelector xStreamId="155">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="156" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="157">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="158">
+          <acceptedCountLimit>7000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="159">
+      <subSingleBenchmarkResult xStreamId="160">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22584288</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="161">[-778/-1500/-778/-1500/0]hard/[0/-6800/-10/0]soft</score>
+        <timeMillisSpent>10004</timeMillisSpent>
+        <scoreCalculationCount>44510</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="162">
+    <name>acceptedCountLimit 8000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="163">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="164">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="165">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="166">
+        <unionMoveSelector xStreamId="167">
+          <changeMoveSelector xStreamId="168">
+            <entitySelector xStreamId="169">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="170" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="171">
+            <entitySelector xStreamId="172">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="173" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="174">
+            <entitySelector xStreamId="175">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="176" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="177">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="178">
+          <acceptedCountLimit>8000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="179">
+      <subSingleBenchmarkResult xStreamId="180">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22588016</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="181">[-799/-1500/-799/-1500/0]hard/[0/-6700/0/0]soft</score>
+        <timeMillisSpent>10003</timeMillisSpent>
+        <scoreCalculationCount>42277</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="182">
+    <name>acceptedCountLimit 9000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="183">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="184">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="185">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="186">
+        <unionMoveSelector xStreamId="187">
+          <changeMoveSelector xStreamId="188">
+            <entitySelector xStreamId="189">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="190" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="191">
+            <entitySelector xStreamId="192">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="193" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="194">
+            <entitySelector xStreamId="195">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="196" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="197">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="198">
+          <acceptedCountLimit>9000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="199">
+      <subSingleBenchmarkResult xStreamId="200">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22583752</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="201">[-799/-1500/-799/-1500/0]hard/[0/-6700/0/0]soft</score>
+        <timeMillisSpent>10003</timeMillisSpent>
+        <scoreCalculationCount>47061</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <solverBenchmarkResult xStreamId="202">
+    <name>acceptedCountLimit 10000</name>
+    <subSingleCount>1</subSingleCount>
+    <solverConfig xStreamId="203">
+      <moveThreadCount>AUTO</moveThreadCount>
+      <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
+      <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+      <scoreDirectorFactory xStreamId="204">
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+      </scoreDirectorFactory>
+      <termination xStreamId="205">
+        <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+      </termination>
+      <localSearch xStreamId="206">
+        <unionMoveSelector xStreamId="207">
+          <changeMoveSelector xStreamId="208">
+            <entitySelector xStreamId="209">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="210" variableName="executionMode"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="211">
+            <entitySelector xStreamId="212">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="213" variableName="progressdelta"/>
+          </changeMoveSelector>
+          <changeMoveSelector xStreamId="214">
+            <entitySelector xStreamId="215">
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+              <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+            </entitySelector>
+            <valueSelector xStreamId="216" variableName="delay"/>
+          </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor xStreamId="217">
+          <entityTabuRatio>0.2</entityTabuRatio>
+        </acceptor>
+        <forager xStreamId="218">
+          <acceptedCountLimit>10000</acceptedCountLimit>
+        </forager>
+      </localSearch>
+    </solverConfig>
+    <singleBenchmarkResult xStreamId="219">
+      <subSingleBenchmarkResult xStreamId="220">
+        <subSingleBenchmarkIndex>0</subSingleBenchmarkIndex>
+        <usedMemoryAfterInputSolution>22585448</usedMemoryAfterInputSolution>
+        <succeeded>true</succeeded>
+        <score class="org.optaplanner.core.api.score.buildin.bendable.BendableScore" xStreamId="221">[-978/-1500/-978/-1500/0]hard/[0/-6700/-10/0]soft</score>
+        <timeMillisSpent>10003</timeMillisSpent>
+        <scoreCalculationCount>46017</scoreCalculationCount>
+      </subSingleBenchmarkResult>
+      <timeMillisSpent>-1</timeMillisSpent>
+      <scoreCalculationCount>-1</scoreCalculationCount>
+    </singleBenchmarkResult>
+  </solverBenchmarkResult>
+  <unifiedProblemBenchmarkResult xStreamId="222">
+    <name>TimelineBlockFull</name>
+    <problemProvider class="fileProblemProvider" xStreamId="223">
+      <problemFile>C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources\Solutions\TimelineBlockFull.json</problemFile>
+    </problemProvider>
+    <writeOutputSolutionEnabled>false</writeOutputSolutionEnabled>
+    <problemStatistic class="bestScoreProblemStatistic" xStreamId="224">
+      <problemStatisticType>BEST_SCORE</problemStatisticType>
+    </problemStatistic>
+    <problemStatistic class="stepScoreProblemStatistic" xStreamId="225">
+      <problemStatisticType>STEP_SCORE</problemStatisticType>
+    </problemStatistic>
+    <problemStatistic class="memoryUseProblemStatistic" xStreamId="226">
+      <problemStatisticType>MEMORY_USE</problemStatisticType>
+    </problemStatistic>
+    <problemStatistic class="scoreCalculationSpeedProblemStatistic" xStreamId="227">
+      <problemStatisticType>SCORE_CALCULATION_SPEED</problemStatisticType>
+    </problemStatistic>
+    <singleBenchmarkResult xStreamRef="19"/>
+    <singleBenchmarkResult xStreamRef="39"/>
+    <singleBenchmarkResult xStreamRef="59"/>
+    <singleBenchmarkResult xStreamRef="79"/>
+    <singleBenchmarkResult xStreamRef="99"/>
+    <singleBenchmarkResult xStreamRef="119"/>
+    <singleBenchmarkResult xStreamRef="139"/>
+    <singleBenchmarkResult xStreamRef="159"/>
+    <singleBenchmarkResult xStreamRef="179"/>
+    <singleBenchmarkResult xStreamRef="199"/>
+    <singleBenchmarkResult xStreamRef="219"/>
+    <entityCount>1304</entityCount>
+    <variableCount>3912</variableCount>
+    <maximumValueCount>200</maximumValueCount>
+    <problemScale>-1</problemScale>
+    <inputSolutionLoadingTimeMillisSpent>6</inputSolutionLoadingTimeMillisSpent>
+  </unifiedProblemBenchmarkResult>
+  <startingTimestamp>2019-11-15T22:14:13.4169416-08:00</startingTimestamp>
+  <benchmarkTimeMillisSpent>116470</benchmarkTimeMillisSpent>
+</plannerBenchmarkResult>
