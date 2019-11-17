@@ -2459,21 +2459,10 @@
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/MEMORY_USE.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/SCORE_CALCULATION_SPEED.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/benchmark/tcplannercore/2019-11-15_233832/TimelineBlockFull/lateAcceptanceSize 3 acceptedCountLimit 3 tabuRatio 3/sub0/STEP_SCORE.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilterIgnoreIndex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockFull.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockFull.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P2.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P2.drl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P2.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TCRules_P2.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase2.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -2755,6 +2744,8 @@
       <workItem from="1573966036789" duration="4379000" />
       <workItem from="1573971197317" duration="70000" />
       <workItem from="1573971337198" duration="344000" />
+      <workItem from="1573971814934" duration="83000" />
+      <workItem from="1573972138051" duration="4888000" />
     </task>
     <task id="LOCAL-00001" summary="Add benchmark">
       <created>1573965651431</created>
@@ -2763,7 +2754,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573965651431</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added selected count limit for delay change move">
+      <created>1573971899254</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1573971899254</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -2785,7 +2783,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Add benchmark" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add benchmark" />
+    <MESSAGE value="Added selected count limit for delay change move" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added selected count limit for delay change move" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

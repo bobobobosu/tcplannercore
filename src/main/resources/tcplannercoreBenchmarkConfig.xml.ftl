@@ -5,7 +5,7 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockLarge.json</inputSolutionFile>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockFormalPaperTest.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -22,7 +22,7 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>90000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>30000</millisecondsSpentLimit>
             </termination>
         </solver>
     </inheritedSolverBenchmark>
@@ -40,16 +40,18 @@
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
-    <#list ['<selectedCountLimit>10</selectedCountLimit>'] as selectedCountLimit>
+    <#list 1..10 as ProbabilityWeight>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
     <#list [''] as IndexFilter>
     <#list ['<swapMoveSelector>
+                <fixedProbabilityWeight>${50-ProbabilityWeight}</fixedProbabilityWeight>
                 <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
                 <variableNameInclude>executionMode</variableNameInclude>
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>'] as swapMove>
     <#list ['<cartesianProductMoveSelector>
+                <fixedProbabilityWeight>${50-ProbabilityWeight}</fixedProbabilityWeight>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
@@ -65,7 +67,7 @@
                 </changeMoveSelector>
             </cartesianProductMoveSelector>'] as cartesian>
     <#list ['<changeMoveSelector>
-                ${selectedCountLimit}
+                <fixedProbabilityWeight>${ProbabilityWeight}</fixedProbabilityWeight>
                 <entitySelector>
                     ${IndexFilter}
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
@@ -74,6 +76,7 @@
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>'] as delay>
     <#list ['<changeMoveSelector>
+                <fixedProbabilityWeight>${50-ProbabilityWeight}</fixedProbabilityWeight>
                 <entitySelector>
                     ${IndexFilter}
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -82,6 +85,7 @@
                 <valueSelector variableName="executionMode"/>
             </changeMoveSelector>
             <changeMoveSelector>
+                ${50-ProbabilityWeight}
                 <entitySelector>
                     ${IndexFilter}
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -92,7 +96,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>s${selectedCountLimit?index}</name>
+        <name>s${ProbabilityWeight} a${acceptedCountLimit}</name>
         <solver>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
@@ -133,6 +137,8 @@
     </#list>
     </#list>
     </#list>
+
+
 
 
 
