@@ -267,6 +267,12 @@ public class Allocation extends AbstractPersistable {
         }
         return predecessorsDoneDate + (delay == null ? 0 : delay) + (plannedDuration == null ? 0 : plannedDuration);
     }
+
+    public Integer getNextStart() {
+        if (successorAllocationList.size() > 0) return successorAllocationList.get(0).getStartDate();
+        return null;
+    }
+
     public Job getPrevJob() {
         if (predecessorAllocationList.size() > 0) {
             return predecessorAllocationList.get(0).getJob();
@@ -274,6 +280,7 @@ public class Allocation extends AbstractPersistable {
             return job;
         }
     }
+
     public Integer getPredecessorGap() {
         if (predecessorAllocationList.size() == 0)
             return 0;

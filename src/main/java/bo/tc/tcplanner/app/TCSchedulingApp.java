@@ -72,7 +72,8 @@ public class TCSchedulingApp {
                         System.exit(0);
                     } else if (input.equals("e")) {
                         solverThread.getCurrentSolver().explainBestScore();
-                    } else if (input.startsWith("acl")) {
+                    } else if (input.startsWith("t")) {
+                        solverThread.printCurrentSolution(solverThread.currentSchedule,solverThread.currentSolver,true);
                     } else {
 
                     }
@@ -85,7 +86,7 @@ public class TCSchedulingApp {
 
     }
 
-    private static void setConstants() throws IOException {
+    static void setConstants() throws IOException {
         HashMap ConstantsJson = new ObjectMapper().readValue(
                 IOUtils.toString(new FileInputStream(new File(fpath_Constants)), StandardCharsets.UTF_8), HashMap.class);
         path_Notebook = castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get("Notebook"));

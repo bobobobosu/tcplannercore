@@ -117,24 +117,26 @@ rule "checkSplittable"
         scoreHolder.addHardConstraintMatch(kcontext, 4, $progressdelta-100);
 end
 
-rule "distributeAllocations"
-    when
-        $allocation : Allocation(job.name != "dummyJob",
-            job.jobType==JobType.MANDATORY || job.jobType==JobType.STANDARD,index > 1,job.name != "dummyJob",prevJob.name != "dummyJob")
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, 0,  -(100));
-end
+
 
 // ############################################################################
 // Soft constraints
 // ############################################################################
 
+rule "distributeAllocations"
+    when
+        $allocation : Allocation(job.name != "dummyJob",
+            job.jobType==JobType.MANDATORY || job.jobType==JobType.STANDARD,index > 1,job.name != "dummyJob",prevJob.name != "dummyJob")
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
+//        scoreHolder.addHardConstraintMatch(kcontext, 0,  -(100));
+end
 
 rule "dummyJob"
     when
         $allocation : Allocation(job.name!= "dummyJob")
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end
 
 rule "punishFragmentation"
@@ -144,7 +146,6 @@ rule "punishFragmentation"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 1,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
 end
-
 
 
 // ############################################################################
@@ -169,7 +170,7 @@ rule "checkExcessResource"
         eval($net> 0)
     then
         // System.out.println("Rule Violation: "+ "checkMandatoryJob (" + $allocation.getJob().getTimelineid()+" "+ $allocation.getJob().getName()+")" );
-        scoreHolder.addSoftConstraintMatch(kcontext, 0,  (int)(-$net*100));
+        scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)(-$net*100));
 end
 
 rule "laterTheBetter"
@@ -180,7 +181,7 @@ rule "laterTheBetter"
                gravity == 1 || gravity == 0)
 
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1, (int)($endDate)*100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 3, (int)($endDate)*100);
 end
 
 rule "earlierTheBetter"
@@ -191,7 +192,7 @@ rule "earlierTheBetter"
                gravity == -1)
 
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1, -(int)($endDate)*100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 3, -(int)($endDate)*100);
 end
 
 
@@ -202,6 +203,6 @@ rule "timePreference"
         ExecutionMode(this == $executionMode, $requirementTimerange : requirementTimerange)
         eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 2, -100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 3, -100);
 end
 

@@ -45,13 +45,12 @@ end
 
 rule "checkTimeOverlapping"
     when
-        $allocation : Allocation(job.name != "dummyJob",
-            $executionMode : executionMode,$predecessorsDoneDate : predecessorsDoneDate,$startDate : startDate,$predecessorsDoneDate > $startDate,$plannedDuration : plannedDuration)
-        ExecutionMode(this==$executionMode, $name : job.name)
+        $allocation : Allocation(job.name != "dummyJob",$endDate :endDate, $nextStart : nextStart, $nextStart < endDate,
+            $executionMode : executionMode,$plannedDuration : plannedDuration)
 
     then
         // System.out.println("Rule Violation: "+ "checkMandatoryJob (" + $allocation.getJob().getTimelineid()+" "+ $allocation.getJob().getName()+")" );
-        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(100*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
+        scoreHolder.addHardConstraintMatch(kcontext, 4,-(int)(100*($endDate - $nextStart)/($plannedDuration==0 ? 1 : $plannedDuration)));
 end
 
 rule "checkDeadline"
@@ -105,6 +104,11 @@ rule "checkRequirements"
                                                             0,
                                                             ($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)),0,0},
                                                 new int[]{0,0,0,0});
+//            scoreHolder.addMultiConstraintMatch(kcontext,
+//                                                new int[]{($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)),
+//                                                            0,
+//                                                            0,0,0},
+//                                                new int[]{0,0,0,0});
 end
 
 rule "checkSplittable"
@@ -117,24 +121,26 @@ rule "checkSplittable"
         scoreHolder.addHardConstraintMatch(kcontext, 4, $progressdelta-100);
 end
 
-rule "distributeAllocations"
-    when
-        $allocation : Allocation(job.name != "dummyJob",
-            job.jobType==JobType.MANDATORY || job.jobType==JobType.STANDARD,index > 1,job.name != "dummyJob",prevJob.name != "dummyJob")
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, 0,  -(100));
-end
+
 
 // ############################################################################
 // Soft constraints
 // ############################################################################
 
+rule "distributeAllocations"
+    when
+        $allocation : Allocation(job.name != "dummyJob",
+            job.jobType==JobType.MANDATORY || job.jobType==JobType.STANDARD,index > 1,job.name != "dummyJob",prevJob.name != "dummyJob")
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
+//        scoreHolder.addHardConstraintMatch(kcontext, 0,  -(100));
+end
 
 rule "dummyJob"
     when
         $allocation : Allocation(job.name!= "dummyJob")
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end
 
 rule "punishFragmentation"
@@ -142,5 +148,5 @@ rule "punishFragmentation"
         $allocation : Allocation(job.name != "dummyJob",
             $progressdelta : progressdelta,$progressdelta <100 )
     then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
+        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
 end

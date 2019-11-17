@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <!--    <environmentMode>FULL_ASSERT</environmentMode> To slowly prove there are no bugs in this code-->
     <moveThreadCount>AUTO</moveThreadCount>
-
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
-
     <scoreDirectorFactory>
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
-
     <localSearch>
         <unionMoveSelector>
-            <changeMoveSelector>
-                <fixedProbabilityWeight>50.0</fixedProbabilityWeight>
-                <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
-                    <!--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.SplittableAllocationFilter</filterClass>-->
-                </entitySelector>
-                <valueSelector variableName="progressdelta"/>
-            </changeMoveSelector>
-
-            <changeMoveSelector>
-                <fixedProbabilityWeight>50.0</fixedProbabilityWeight>
-                <entitySelector>
-                    <!--                    <cacheType>STEP</cacheType>-->
-                    <selectionOrder>ORIGINAL</selectionOrder>
-                    <!--                    <sorterManner>DECREASING_DIFFICULTY</sorterManner>-->
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
-                </entitySelector>
-
-                <valueSelector variableName="executionMode"/>
-            </changeMoveSelector>
-
             <swapMoveSelector>
-                <fixedProbabilityWeight>10.0</fixedProbabilityWeight>
                 <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
                 <variableNameInclude>executionMode</variableNameInclude>
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>
+            <cartesianProductMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector id="entitySelector">
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                    </entitySelector>
+                    <valueSelector variableName="executionMode"/>
+                </changeMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector mimicSelectorRef="entitySelector"/>
+                    <valueSelector variableName="progressdelta"/>
+                </changeMoveSelector>
+                <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
+            </cartesianProductMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>2.0</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="executionMode"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="progressdelta"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
                 </entitySelector>
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>
         </unionMoveSelector>
-
-
         <acceptor>
-            <!--            <entityTabuSize>1</entityTabuSize>-->
-            <entityTabuRatio>0.2</entityTabuRatio>
-            <!--            <lateAcceptanceSize>4</lateAcceptanceSize>-->
+            <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
-<!--                        <pickEarlyType>FIRST_BEST_SCORE_IMPROVING</pickEarlyType>-->
-            <acceptedCountLimit>10000</acceptedCountLimit>
+            <pickEarlyType>NEVER</pickEarlyType>
+            <acceptedCountLimit>650</acceptedCountLimit>
+            <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>
 </solver>

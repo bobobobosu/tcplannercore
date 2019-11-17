@@ -5,7 +5,7 @@ import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-public class DummyExecutionModeFilter implements SelectionFilter<Schedule, ExecutionMode> {
+public class    DummyExecutionModeFilter implements SelectionFilter<Schedule, ExecutionMode> {
     @Override
     public boolean accept(ScoreDirector<Schedule> scoreDirector, ExecutionMode executionMode) {
         return executionMode.getJob().getName().equals("dummyJob");

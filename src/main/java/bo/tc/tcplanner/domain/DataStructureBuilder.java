@@ -136,7 +136,7 @@ public class DataStructureBuilder {
     }
 
     public void addJobsFromValueEntryDict(ValueEntryMap ValueEntryMap, Project project) {
-        this.valueEntryMap = valueEntryMap;
+        this.valueEntryMap = ValueEntryMap;
         //ExecutionModeList
         for (Map.Entry<String, ValueEntry> valueEntry : ValueEntryMap.entrySet()) {
             if (valueEntry.getValue().getType().equals("工作")) {

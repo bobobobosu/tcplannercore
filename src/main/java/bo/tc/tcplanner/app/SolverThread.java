@@ -47,6 +47,7 @@ public class SolverThread extends Thread {
     }
 
     Solver currentSolver;
+    Schedule currentSchedule;
     private List<Solver<Schedule>> solverList;
     private Object resumeSolvingLock;
     private Object newTimelineBlockLock;
@@ -76,7 +77,7 @@ public class SolverThread extends Thread {
     }
 
 
-    public Schedule initializeData(TimelineBlock latestTimelineBlock) throws IOException {
+    public static Schedule initializeData(TimelineBlock latestTimelineBlock) throws IOException {
         //Proprocess TEBlock
 //        Collections.sort(latestTimelineBlock.getTimelineEntryList(), new Comparator<TimelineEntry>() {
 //            @Override
@@ -95,7 +96,7 @@ public class SolverThread extends Thread {
         return DSB.getDefaultSchedule();
     }
 
-    public void initializeFiles() {
+    public static void initializeFiles() {
         // Load TimelineBlock & ValueEntryMap
         try {
             valueEntryMap = new ObjectMapper().readValue(
@@ -134,7 +135,8 @@ public class SolverThread extends Thread {
         solver.addEventListener(new SolverEventListener<Schedule>() {
             @Override
             public void bestSolutionChanged(BestSolutionChangedEvent<Schedule> bestSolutionChangedEvent) {
-                printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver);
+                printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false);
+                currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
                 jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
 //                jsonServer.saveFiles();
             }
@@ -188,7 +190,7 @@ public class SolverThread extends Thread {
         }
 
         //Solve Hard Incremental By AllocationList
-        if (false) {
+        if (true) {
             currentSolver = solverList.get(0);
             List<Allocation> incrementalAllocationList = new ArrayList<>();
             List<Allocation> fullAllocationList = new ArrayList<>(result.getAllocationList());
@@ -205,6 +207,8 @@ public class SolverThread extends Thread {
                     result.setAllocationList(incrementalAllocationList);
 //                    printCurrentSolution(result, solverList.get(0));
                     if (continuetosolve && !isSolved(result, solverList.get(0))) {
+                        printCurrentSolution(result, solverList.get(0), false);
+                        currentSchedule = result;
                         result = solverList.get(0).solve(result);
                         jsonServer.updateTimelineBlock(false, result);
                     }
@@ -217,20 +221,20 @@ public class SolverThread extends Thread {
         }
 
         //Solve Hard Full
-        if (true) {
+        if (false) {
             currentSolver = solverList.get(0);
-            printCurrentSolution(result, solverList.get(0));
+            printCurrentSolution(result, solverList.get(0), false);
             if (continuetosolve) result.setAllocationList(solverList.get(0).solve(result).getAllocationList());
         }
+
+        printCurrentSolution(result, solverList.get(0), true);
 
         //Solve Soft
         currentSolver = solverList.get(1);
         if (continuetosolve) {
             result.setAllocationList(solverList.get(1).solve(result).getAllocationList());
-            List<ExecutionMode> newExecutionModeList = new ArrayList<>();
-            newExecutionModeList.add(DataStructureBuilder.dummyExecutionMode);
-            result.setExecutionModeList(newExecutionModeList);
         }
+
         jsonServer.updateTimelineBlock(false, result);
         return result;
     }
@@ -285,7 +289,7 @@ public class SolverThread extends Thread {
         return true;
     }
 
-    public void printCurrentSolution(Schedule schedule, Solver solver) {
+    public void printCurrentSolution(Schedule schedule, Solver solver, boolean showTimeline) {
 //        System.out.println(solver.explainBestScore());
 //        return;
         try {
@@ -301,8 +305,8 @@ public class SolverThread extends Thread {
             ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
             scoreDirector.setWorkingSolution(schedule);
             for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
-                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
-                    breakByRules.add(new String[]{constraintMatch.toString()});
+//                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
+                breakByRules.add(new String[]{constraintMatch.toString()});
             }
             for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
                 if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
@@ -324,9 +328,9 @@ public class SolverThread extends Thread {
                             datetime,
                             LocalTime.MIN.plus(Duration.ofMinutes(allocation.getEndDate() - allocation.getStartDate())).toString(),
                             "P:" + allocation.getPreviousStandstill() +
-                                    "\nC:" + allocation.getExecutionMode().getCurrentLocation()+
+                                    "\nC:" + allocation.getExecutionMode().getCurrentLocation() +
                                     "\nM:" + allocation.getExecutionMode().getMovetoLocation()
-                                    ,
+                            ,
                             allocation.getJob().getChangeable() + "C/" +
                                     allocation.getJob().getMovable() + "M/" +
                                     allocation.getJob().getSplittable() + "S/" +
@@ -338,7 +342,8 @@ public class SolverThread extends Thread {
             }
             timeline.add(timelineHeader);
             solver.explainBestScore();
-            System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            if (showTimeline)
+                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
             System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
             System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
         } catch (Exception ex) {
