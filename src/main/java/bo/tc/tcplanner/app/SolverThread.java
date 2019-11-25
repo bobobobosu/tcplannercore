@@ -29,24 +29,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
-import static bo.tc.tcplanner.app.Toolbox.OffsetMinutes2ZonedDatetime;
-import static bo.tc.tcplanner.app.Toolbox.displayTray;
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyJob;
+import static bo.tc.tcplanner.app.Toolbox.*;
+import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyExecutionMode;
 
 public class SolverThread extends Thread {
     JsonServer jsonServer;
     boolean continuetosolve = true;
+    String P1_mode = "incremental";
+    String P2_mode = "global";
     String solvingStatus;
 
-    public Solver getCurrentSolver() {
+    public Solver<Schedule> getCurrentSolver() {
         return currentSolver;
     }
 
-    public void setCurrentSolver(Solver currentSolver) {
+    public void setCurrentSolver(Solver<Schedule> currentSolver) {
         this.currentSolver = currentSolver;
     }
 
-    Solver currentSolver;
+    Solver<Schedule> currentSolver;
     Schedule currentSchedule;
     private List<Solver<Schedule>> solverList;
     private Object resumeSolvingLock;
@@ -72,28 +73,7 @@ public class SolverThread extends Thread {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
         }
-    }
-
-
-    public static Schedule initializeData(TimelineBlock latestTimelineBlock) throws IOException {
-        //Proprocess TEBlock
-//        Collections.sort(latestTimelineBlock.getTimelineEntryList(), new Comparator<TimelineEntry>() {
-//            @Override
-//            public int compare(TimelineEntry o1, TimelineEntry o2) {
-//                return o1.getStartTime().compareTo(o2.getStartTime());
-//            }
-//        });
-        // Build DataStructure
-        DataStructureBuilder DSB = new DataStructureBuilder();
-        DSB.setGlobalProperties(latestTimelineBlock);
-        DSB.addResourcesFromValueEntryMap(valueEntryMap, DSB.getDefaultProject());
-        DSB.addJobsFromValueEntryDict(valueEntryMap, DSB.getDefaultProject());
-        DSB.addJobsFromTimelineBlock(latestTimelineBlock, DSB.getDefaultProject());
-        DSB.initializeAllocationList(20);
-        DataStructureBuilder.constructChainProperty(DSB.getListOfAllocations());
-        return DSB.getDefaultSchedule();
     }
 
     public static void initializeFiles() {
@@ -132,14 +112,10 @@ public class SolverThread extends Thread {
     }
 
     public void setSolverListener(Solver<Schedule> solver) {
-        solver.addEventListener(new SolverEventListener<Schedule>() {
-            @Override
-            public void bestSolutionChanged(BestSolutionChangedEvent<Schedule> bestSolutionChangedEvent) {
-                printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false);
-                currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
-                jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
-//                jsonServer.saveFiles();
-            }
+        solver.addEventListener(bestSolutionChangedEvent -> {
+            printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false, solvingStatus);
+            currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
+            jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
         });
     }
 
@@ -180,59 +156,70 @@ public class SolverThread extends Thread {
         }
     }
 
+    public static DataStructureBuilder initializeData(TimelineBlock latestTimelineBlock) throws IOException {
+        // Build DataStructure
+        DataStructureBuilder DSB = new DataStructureBuilder();
+        DSB.setGlobalProperties(latestTimelineBlock);
+        DSB.addResourcesFromValueEntryMap(valueEntryMap, DSB.getDefaultProject());
+        DSB.addJobsFromValueEntryDict(valueEntryMap, DSB.getDefaultProject());
+        DSB.addJobsFromTimelineBlock(latestTimelineBlock, DSB.getDefaultProject());
+        DSB.initializeAllocationList(20);
+        DSB.initializeSchedule();
+        DataStructureBuilder.constructChainProperty(DSB.getListOfAllocations());
+        return DSB;
+    }
+
     public Schedule runSolve() throws IOException {
-        Schedule result = null;
         continuetosolve = true;
+        DataStructureBuilder DSB = null;
+        Schedule result = null;
         try {
-            result = initializeData(jsonServer.getLatestTimelineBlock());
+            DSB = initializeData(jsonServer.getLatestTimelineBlock());
+            result = DSB.getFullSchedule();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //Solve Hard Incremental By AllocationList
-        if (true) {
+        if (P1_mode.equals("incremental")) {
             currentSolver = solverList.get(0);
-            List<Allocation> incrementalAllocationList = new ArrayList<>();
             List<Allocation> fullAllocationList = new ArrayList<>(result.getAllocationList());
-            Allocation source = fullAllocationList.get(0);
-            Allocation sink = fullAllocationList.get(fullAllocationList.size() - 1);
-            for (Allocation allocation : fullAllocationList) {
-                if (allocation == source || allocation == sink) continue;
-                incrementalAllocationList.add(allocation);
-                solvingStatus = 100 * incrementalAllocationList.size() / (fullAllocationList.size() - 2) + "%";
-                if (allocation.getJob().getJobType() == JobType.MANDATORY && allocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
-                    incrementalAllocationList.add(0, source);
-                    incrementalAllocationList.add(sink);
-                    DataStructureBuilder.constructChainProperty(incrementalAllocationList);
-                    result.setAllocationList(incrementalAllocationList);
-//                    printCurrentSolution(result, solverList.get(0));
-                    if (continuetosolve && !isSolved(result, solverList.get(0))) {
-                        printCurrentSolution(result, solverList.get(0), false);
+            result.setAllocationList(new ArrayList<>(Arrays.asList(fullAllocationList.get(0), fullAllocationList.get(fullAllocationList.size() - 1))));
+            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
+                Allocation thisAllocation = fullAllocationList.get(i);
+                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
+                result.getAllocationList().set(0,fullAllocationList.get(0));
+                result.getAllocationList().set(result.getAllocationList().size()-1, fullAllocationList.get(fullAllocationList.size() - 1));
+                DataStructureBuilder.constructChainProperty(result.getAllocationList());
+                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
+                if (thisAllocation.getJob().getJobType() == JobType.SCHEDULED && thisAllocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
+                    if (continuetosolve && !isSolved(result, currentSolver)) {
+                        printCurrentSolution(result, currentSolver, false, solvingStatus);
                         currentSchedule = result;
-                        currentSchedule = result = solverList.get(0).solve(result);
+                        currentSchedule = result = currentSolver.solve(result);
                         jsonServer.updateTimelineBlock(false, result);
                     }
-                    incrementalAllocationList = new ArrayList<>(result.getAllocationList());
-                    incrementalAllocationList.remove(0);
-                    incrementalAllocationList.remove(incrementalAllocationList.size() - 1);
                 }
-
             }
         }
-
+        
         //Solve Hard Full
-        if (false) {
+        if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
-            printCurrentSolution(result, solverList.get(0), false);
-            if (continuetosolve) result.setAllocationList(solverList.get(0).solve(result).getAllocationList());
+            DataStructureBuilder.constructChainProperty(result.getAllocationList());
+            printCurrentSolution(result, solverList.get(0), true,solvingStatus);
+            if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
         }
 
-        printCurrentSolution(result, solverList.get(0), true);
+        displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+        printCurrentSolution(result, solverList.get(0), true,solvingStatus);
 
         //Solve Soft
-        currentSolver = solverList.get(1);
-        if (continuetosolve) {
-            result.setAllocationList(solverList.get(1).solve(result).getAllocationList());
+        if(P2_mode.equals("global")){
+            currentSolver = solverList.get(1);
+            if (continuetosolve) {
+                currentSchedule = result = solverList.get(1).solve(result);
+            }
         }
 
         jsonServer.updateTimelineBlock(false, result);
@@ -289,65 +276,4 @@ public class SolverThread extends Thread {
         return true;
     }
 
-    public void printCurrentSolution(Schedule schedule, Solver solver, boolean showTimeline) {
-//        System.out.println(solver.explainBestScore());
-//        return;
-        try {
-            System.err.print("\033[H\033[2J");
-            System.err.flush();
-            String[] breakByRulesHeader = {"Break Up By Rule"};
-            String[] timelineHeader = {"Row", "%", "Date", "Duration", "Location", "Restriction", "Score", "Task"};
-            List<String[]> breakByRules = new ArrayList();
-            Map<Allocation, Indictment> breakByTasks = new HashMap<>();
-            List<String[]> timeline = new ArrayList();
-
-
-            ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
-            scoreDirector.setWorkingSolution(schedule);
-            for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
-//                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
-                breakByRules.add(new String[]{constraintMatch.toString()});
-            }
-            for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
-                if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
-                        Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
-                    Allocation matchAllocation = (Allocation) indictmentEntry.getValue().getJustification();
-                    breakByTasks.put(matchAllocation, indictmentEntry.getValue());
-                }
-            }
-            for (Allocation allocation : schedule.getAllocationList()) {
-                if (allocation.getJob() != dummyJob) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
-                    String datetime = formatter.format(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                            allocation.getStartDate()).withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
-                            formatter.format(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                                    allocation.getEndDate()).withZoneSameInstant(ZoneId.systemDefault()));
-                    timeline.add(new String[]{
-                            (allocation.getJob().getRownum() == null || allocation.getJob().getRownum() < 0) ? "****" : String.valueOf(allocation.getJob().getRownum()),
-                            String.valueOf(allocation.getProgressdelta()),
-                            datetime,
-                            LocalTime.MIN.plus(Duration.ofMinutes(allocation.getEndDate() - allocation.getStartDate())).toString(),
-                            "P:" + allocation.getPreviousStandstill() +
-                                    "\nC:" + allocation.getExecutionMode().getCurrentLocation() +
-                                    "\nM:" + allocation.getExecutionMode().getMovetoLocation()
-                            ,
-                            allocation.getJob().getChangeable() + "C/" +
-                                    allocation.getJob().getMovable() + "M/" +
-                                    allocation.getJob().getSplittable() + "S/" +
-                                    ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
-                            (breakByTasks.containsKey(allocation) ? "\n" + Arrays.toString(((BendableScore) breakByTasks.get(allocation).getScore()).getHardScores()) : ""),
-                            allocation.getJob().getName() + " " + allocation.getId()
-                    });
-                }
-            }
-            timeline.add(timelineHeader);
-            solver.explainBestScore();
-            if (showTimeline)
-                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
-        } catch (Exception ex) {
-//                    ex.printStackTrace();
-        }
-    }
 }

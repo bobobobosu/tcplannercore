@@ -59,7 +59,6 @@ public class Allocation extends AbstractPersistable {
     private Integer plannedDuration;
     // Force Settings
     private Integer forceStartTime;
-    private Integer forceEndTime;
 
     public Allocation() {
 
@@ -97,7 +96,7 @@ public class Allocation extends AbstractPersistable {
         this.setId(listOfAllocation.size());
         this.setIndex(listOfAllocation.size());
         this.setPredecessorsDoneDate(0);
-
+        this.plannedDuration = executionMode.getTimeduration();
         // Update Lists
 
     }
@@ -116,7 +115,7 @@ public class Allocation extends AbstractPersistable {
         this.predecessorsDoneDate = other.predecessorsDoneDate;
         this.previousStandstill = other.previousStandstill;
         this.forceStartTime = other.forceStartTime;
-        this.forceEndTime = other.forceEndTime;
+        this.plannedDuration = other.getPlannedDuration();
     }
 
     public Integer getIndex() {
@@ -141,7 +140,7 @@ public class Allocation extends AbstractPersistable {
         this.predecessorsDoneDate = other.predecessorsDoneDate;
         this.previousStandstill = other.previousStandstill;
         this.forceStartTime = other.forceStartTime;
-        this.forceEndTime = other.forceEndTime;
+        this.plannedDuration = other.getPlannedDuration();
     }
 
     public Job getJob() {
@@ -261,12 +260,10 @@ public class Allocation extends AbstractPersistable {
     }
 
     public Integer getEndDate() {
-        if (this.forceEndTime != null)
-            return this.forceEndTime;
         if (predecessorsDoneDate == null) {
             return null;
         }
-        return predecessorsDoneDate + (delay == null ? 0 : delay) + (plannedDuration == null ? 0 : plannedDuration);
+        return getStartDate() + (delay == null ? 0 : delay) + (plannedDuration == null ? 0 : plannedDuration);
     }
 
     public Integer getNextStart() {
@@ -361,7 +358,7 @@ public class Allocation extends AbstractPersistable {
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
         if (job.getSplittable() == 0) return ValueRangeFactory.createIntValueRange(100, 110, 10);
-        return ValueRangeFactory.createIntValueRange(10, 110, 10);
+        return ValueRangeFactory.createIntValueRange(0, 110, 10);
     }
 
 
@@ -379,14 +376,6 @@ public class Allocation extends AbstractPersistable {
 
     public void setForceStartTime(Integer forceStartTime) {
         this.forceStartTime = forceStartTime;
-    }
-
-    public Integer getForceEndTime() {
-        return forceEndTime;
-    }
-
-    public void setForceEndTime(Integer forceEndTime) {
-        this.forceEndTime = forceEndTime;
     }
 
 

@@ -1,7 +1,6 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.*;
-import bo.tc.tcplanner.datastructure.converters.TE2dhtmlxgantt;
 import bo.tc.tcplanner.domain.DataStructureWriter;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,9 +19,6 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
@@ -56,14 +52,10 @@ public class JsonServer {
 
     public HttpServer createServer() throws IOException {
         final HttpServer server = HttpServer.create(new InetSocketAddress(HOSTNAME, PORT), BACKLOG);
-        GetGanttDataHandler getGanttDataHandler = new GetGanttDataHandler();
-        server.createContext("/getGanttData", getGanttDataHandler);
         NewTimelineBlockNotifier newTimelineBlockNotifier = new NewTimelineBlockNotifier();
         server.createContext("/newTimelineBlock", newTimelineBlockNotifier);
         UpdateOptaFilesHandler updateOptaFilesHandler = new UpdateOptaFilesHandler();
         server.createContext("/updateOptaFiles", updateOptaFilesHandler);
-        UpdateTimelineBlockHandler updateTimelineBlockHandler = new UpdateTimelineBlockHandler();
-        server.createContext("/updateGanttData", updateTimelineBlockHandler);
         return server;
     }
 
@@ -85,54 +77,6 @@ public class JsonServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public TimelineBlock getLatestTimelineBlock() {
-        return latestTimelineBlock;
-    }
-
-    public void setLatestTimelineBlock(TimelineBlock latestTimelineBlock) {
-        this.latestTimelineBlock = latestTimelineBlock;
-    }
-
-    public Schedule getLatestBestSolutions() {
-        return latestBestSolutions;
-    }
-
-    public void setLatestBestSolutions(Schedule latestBestSolutions) {
-        this.latestBestSolutions = latestBestSolutions;
-    }
-
-    public Object getResumeSolvingLock() {
-        return resumeSolvingLock;
-    }
-
-    public void setResumeSolvingLock(Object resumeSolvingLock) {
-        this.resumeSolvingLock = resumeSolvingLock;
-    }
-
-    public SolverThread getSolverThread() {
-        return solverThread;
-    }
-
-    public void setSolverThread(SolverThread solverThread) {
-        this.solverThread = solverThread;
-    }
-
-    public Object getNewTimelineBlockLock() {
-        return newTimelineBlockLock;
-    }
-
-    public void setNewTimelineBlockLock(Object newTimelineBlockLock) {
-        this.newTimelineBlockLock = newTimelineBlockLock;
-    }
-
-    public TimelineBlock getProblemTimelineBlock() {
-        return problemTimelineBlock;
-    }
-
-    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
-        this.problemTimelineBlock = problemTimelineBlock;
     }
 
     public boolean compareTimelineBlock(TimelineBlock TB1, TimelineBlock TB2) throws JsonProcessingException {
@@ -182,34 +126,6 @@ public class JsonServer {
         }
     }
 
-    public class GetGanttDataHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            if (!exchange.getRequestMethod().equals("GET")) {
-                throw new UnsupportedOperationException();
-            }
-
-            new Thread(() -> {
-                try {
-                    //            printTimelineBlock(latestTimelineBlock);
-                    String GanttDataString;
-                    try {
-                        GanttDataString = new TE2dhtmlxgantt().convert(latestTimelineBlock).toJson();
-                    } catch (Exception ex) {
-                        GanttDataString = "Error";
-                    }
-                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
-                    exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
-                    OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write(GanttDataString.getBytes("UTF8"));
-                    responseBody.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-        }
-    }
 
     public class NewTimelineBlockNotifier implements HttpHandler {
         @Override
@@ -287,70 +203,58 @@ public class JsonServer {
         }
     }
 
-    public class UpdateTimelineBlockHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            if (!exchange.getRequestMethod().equals("POST")) {
-                throw new UnsupportedOperationException();
-            }
-
-            new Thread(() -> {
-                try {
-                    solverThread.terminateSolver();
-
-                    System.out.println("Receive Update");
-                    String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), "UTF-8"),
-                            "UTF-8");
-                    Dhtmlxgantt GanttData = new ObjectMapper().readValue(javaString, Dhtmlxgantt.class);
-
-                    HashMap<Integer, TimelineEntry> id2timelineentryMap = new HashMap<>();
-                    for (TimelineEntry timelineEntry : latestTimelineBlock.getTimelineEntryList())
-                        id2timelineentryMap.put(timelineEntry.getId(), timelineEntry);
-
-                    //Changed
-                    for (DhtmlxganttData dhtmlxganttData : GanttData.getData()) {
-                        if (id2timelineentryMap.containsKey(dhtmlxganttData.getId())) {
-
-                            TimelineEntry timelineEntry = id2timelineentryMap.get(dhtmlxganttData.getId());
-                            try {
-                                timelineEntry.setStartTime(ZonedDateTime
-                                        .of(LocalDateTime.parse(dhtmlxganttData.getStart_date(), dtf_Dhtmlxgantt),
-                                                ZonedDateTime.parse(timelineEntry.getStartTime()).getZone())
-                                        .format(dtf_TimelineEntry));
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-
-                            timelineEntry.getHumanStateChange()
-                                    .setDuration(Duration.between(LocalDateTime.parse(dhtmlxganttData.getStart_date(), dtf_Dhtmlxgantt),
-                                            LocalDateTime.parse(dhtmlxganttData.getEnd_date(), dtf_Dhtmlxgantt)).toMinutes());
-
-                            timelineEntry.setMovable(0);
-                        }
-                    }
-                    solverThread.restartSolvers();
-                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
-                    exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
-                    OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write("{\"Sent\":true}".getBytes("UTF8"));
-                    responseBody.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        }
-    }
-
-    public class ErrorResponse {
-
-        int code;
-        String message;
-    }
 
     public class Constants {
-
         public static final String CONTENT_TYPE = "Content-Type";
         public static final String APPLICATION_JSON = "application/json";
     }
 
+
+    public TimelineBlock getLatestTimelineBlock() {
+        return latestTimelineBlock;
+    }
+
+    public void setLatestTimelineBlock(TimelineBlock latestTimelineBlock) {
+        this.latestTimelineBlock = latestTimelineBlock;
+    }
+
+    public Schedule getLatestBestSolutions() {
+        return latestBestSolutions;
+    }
+
+    public void setLatestBestSolutions(Schedule latestBestSolutions) {
+        this.latestBestSolutions = latestBestSolutions;
+    }
+
+    public Object getResumeSolvingLock() {
+        return resumeSolvingLock;
+    }
+
+    public void setResumeSolvingLock(Object resumeSolvingLock) {
+        this.resumeSolvingLock = resumeSolvingLock;
+    }
+
+    public SolverThread getSolverThread() {
+        return solverThread;
+    }
+
+    public void setSolverThread(SolverThread solverThread) {
+        this.solverThread = solverThread;
+    }
+
+    public Object getNewTimelineBlockLock() {
+        return newTimelineBlockLock;
+    }
+
+    public void setNewTimelineBlockLock(Object newTimelineBlockLock) {
+        this.newTimelineBlockLock = newTimelineBlockLock;
+    }
+
+    public TimelineBlock getProblemTimelineBlock() {
+        return problemTimelineBlock;
+    }
+
+    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
+        this.problemTimelineBlock = problemTimelineBlock;
+    }
 }

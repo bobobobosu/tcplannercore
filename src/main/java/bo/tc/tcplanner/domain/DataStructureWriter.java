@@ -5,6 +5,7 @@ import bo.tc.tcplanner.datastructure.ProgressChange;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import com.google.common.collect.Lists;
+import org.kie.api.definition.rule.All;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -34,10 +35,7 @@ public class DataStructureWriter {
         // create result TimelineEntry
         List<TimelineEntry> TEList = new ArrayList<>();
         for (Allocation allocation : result.getAllocationList()) {
-            if (allocation.getJob().getJobType() == JobType.SOURCE
-                    || allocation.getExecutionMode().getJob().getJobType() == JobType.SINK
-                    || allocation.getExecutionMode().getJob().getName().equals("dummyJob"))
-                continue;
+            if(!TimelineBlockFilter(allocation)) continue;
 
             TimelineEntry TE = new TimelineEntry();
             if (allocation.getJob().getTimelineid() != null) {
@@ -51,20 +49,9 @@ public class DataStructureWriter {
                 zoneId = ZonedDateTime.parse(id2timelineEntryMap.get(TE.getId()).getStartTime()).getZone();
 
             //Progress Change
+            TE.setProgressChange(new ProgressChange());
+            TE.getProgressChange().setProgressDelta((double) allocation.getProgressdelta() / 100);
             if (allocation.getProgressdelta() == 0) TE.setRownum(999999);
-            if (id2timelineEntryMap.containsKey(TE.getId())) {
-                TE.setProgressChange(id2timelineEntryMap.get(TE.getId()).getProgressChange());
-            } else {
-                TE.setProgressChange(
-                        new ProgressChange(0, (double) allocation.getProgressdelta() / 100,
-                                (double) allocation.getProgressdelta() / 100));
-            }
-            if (!isNotMovable(allocation)) {
-                double latestProgress = getLatestProgress(TEList, allocation.getJob().getName());
-                TE.setProgressChange(
-                        new ProgressChange(latestProgress, latestProgress + (double) allocation.getProgressdelta() / 100,
-                                latestProgress + (double) allocation.getProgressdelta() / 100));
-            }
 
             // Write New Settings
             if (allocation.getJob().getRownum() != null)
@@ -135,19 +122,10 @@ public class DataStructureWriter {
         return tmpId;
     }
 
-    public double getLatestProgress(List<TimelineEntry> TEList, String jobName) {
-        for (TimelineEntry timelineEntry : Lists.reverse(TEList)) {
-            if (timelineEntry.getTitle().equals(jobName)) {
-
-                if (timelineEntry.getProgressChange().getActualEndPercent() < 1) {
-                    return timelineEntry.getProgressChange().getActualEndPercent();
-                }
-                if (timelineEntry.getProgressChange().getPlannedEndPercent() < 1) {
-                    return timelineEntry.getProgressChange().getActualEndPercent();
-                }
-                return 0;
-            }
-        }
-        return 0;
+    public boolean TimelineBlockFilter(Allocation allocation) {
+        if (allocation.getJob() == DataStructureBuilder.dummyJob) return false;
+        if (allocation.getJob() == DataStructureBuilder.sourceJob) return false;
+        if (allocation.getJob() == DataStructureBuilder.sinkJob) return false;
+        return true;
     }
 }

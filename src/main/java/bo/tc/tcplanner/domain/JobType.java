@@ -20,5 +20,5 @@ public enum JobType {
     SOURCE,
     STANDARD,
     SINK,
-    MANDATORY
+    SCHEDULED
 }

@@ -1,11 +1,7 @@
 package bo.tc.tcplanner.datastructure.persistence;
 
 import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.domain.DataStructureWriter;
-import bo.tc.tcplanner.domain.Schedule;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.commons.io.IOUtils;
 import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
 
@@ -31,7 +27,7 @@ public class ScheduleFileIO implements SolutionFileIO {
             oldTimelineBlock = new ObjectMapper().readValue(
                     IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8), TimelineBlock.class);
             initializeFiles();
-            return initializeData(oldTimelineBlock);
+            return initializeData(oldTimelineBlock).getFullSchedule();
         } catch (IOException e) {
             e.printStackTrace();
         }

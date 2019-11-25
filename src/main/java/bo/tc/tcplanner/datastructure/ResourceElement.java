@@ -6,13 +6,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class ResourceElement {
     //numeric property
     double amt;
-    double capacity;
     //requirement availability property
     String requirementLocation;
     //production  availability property
     String productionLocation;
 
     public ResourceElement() {
+    }
+
+    public ResourceElement(double amt, String requirementLocation, String productionLocation) {
+        this.amt = amt;
+        this.requirementLocation = requirementLocation;
+        this.productionLocation = productionLocation;
     }
 
     public ResourceElement(ResourceElement resourceElement) {
@@ -43,13 +48,5 @@ public class ResourceElement {
 
     public void setProductionLocation(String productionLocation) {
         this.productionLocation = productionLocation;
-    }
-
-    public double getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
     }
 }

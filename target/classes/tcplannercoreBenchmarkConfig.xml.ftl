@@ -5,7 +5,7 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockLarge.json</inputSolutionFile>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockFull.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -22,26 +22,28 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>120000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
             </termination>
         </solver>
     </inheritedSolverBenchmark>
 
 <#--    numbers-->
-    <#list ['300','350','400','450','500','550'] as acceptedCountLimit>
-    <#list ['0.3'] as etabuRatio>
-    <#list ['1'] as lateAcceptanceSize>
+    <#list 1..480 as acceptedCountLimit>
+<#--    <#list ['0.3'] as etabuRatio>-->
+    <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
-    <#list ['<entityTabuRatio>${etabuRatio}</entityTabuRatio>'] as tabu>
+    <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
+    <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
+    <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
-    <#list 1..2 as ProbabilityWeight>
-    <#list 1..25 as ProbabilityWeight2>
+    <#list [2] as ProbabilityWeight>
+    <#list [2] as ProbabilityWeight2>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
     <#list [''] as IndexFilter>
@@ -71,6 +73,7 @@
                 <fixedProbabilityWeight>${ProbabilityWeight}</fixedProbabilityWeight>
                 <entitySelector>
                     ${IndexFilter}
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
                     ${NotDummyFilter}
                 </entitySelector>
@@ -84,8 +87,8 @@
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
                 </entitySelector>
                 <valueSelector variableName="executionMode"/>
-            </changeMoveSelector>
-            <changeMoveSelector>
+            </changeMoveSelector>'] as executionMode>
+    <#list ['<changeMoveSelector>
                 ${50-ProbabilityWeight2-ProbabilityWeight}
                 <entitySelector>
                     ${IndexFilter}
@@ -93,11 +96,13 @@
                     ${NotDummyFilter}
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
-            </changeMoveSelector>
+            </changeMoveSelector>'] as progressdelta>
+    <#list ['${progressdelta}
+            ${executionMode}
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>p${ProbabilityWeight}p${ProbabilityWeight2}a${acceptedCountLimit}</name>
+        <name>a${acceptedCountLimit}</name>
         <solver>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
@@ -108,20 +113,25 @@
                     ${cartesian}
                     ${fineMoves}
                 </unionMoveSelector>
-                <#if lateAcceptance != "" || tabu != "">
+                <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>
                         ${lateAcceptance}
 <#--                        ${tabu}-->
+                        ${mtabu}
+                        ${umtabu}
                     </acceptor>
                 </#if>
                 <forager>
-                    <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
+                    <acceptedCountLimit>${250+acceptedCountLimit}</acceptedCountLimit>
                     ${finalistPodiumType}
                     <pickEarlyType>${pickEarlyType}</pickEarlyType>
                 </forager>
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
+    </#list>
+    </#list>
     </#list>
     </#list>
     </#list>

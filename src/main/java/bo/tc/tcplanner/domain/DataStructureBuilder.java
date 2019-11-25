@@ -1,7 +1,9 @@
 package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.*;
+import org.kie.api.definition.rule.All;
 
+import java.lang.reflect.Array;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +64,7 @@ public class DataStructureBuilder {
         // dummy humanStateChange
         dummyHumamStateChange = new HumanStateChange(dummyLocation, dummyLocation, 0, "Anytime");
         // dummy dummyProgressChange
-        dummyProgressChange = new ProgressChange(0, 1, 1);
+        dummyProgressChange = new ProgressChange(100);
         // dummy jobs
         dummyJob = new Job("dummyJob", JobType.STANDARD, listOfJobs, defaultProject);
         sourceJob = new Job("sourceJob", JobType.SOURCE, listOfJobs, defaultProject);
@@ -76,8 +78,10 @@ public class DataStructureBuilder {
         // dummy executionModes
         dummyExecutionMode = new ExecutionMode(dummyHumamStateChange, listOfExecutionMode, dummyJob);
         dummyExecutionMode.setProgressChange(dummyProgressChange);
+
         sourceExecutionMode = new ExecutionMode(dummyHumamStateChange, listOfExecutionMode, sourceJob);
         sourceExecutionMode.setProgressChange(dummyProgressChange);
+
         sinkExecutionMode = new ExecutionMode(dummyHumamStateChange, listOfExecutionMode, sinkJob);
         sinkExecutionMode.setProgressChange(dummyProgressChange);
     }
@@ -121,6 +125,17 @@ public class DataStructureBuilder {
             }
         }
 
+        // Set Scheduled Job requirement
+        Allocation sinkAllocation = allocationList.get(allocationList.size() - 1);
+        sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
+        for (Allocation allocation : allocationList) {
+            if (allocation.getJob().getJobType() == JobType.SCHEDULED && allocation.getJob().getChangeable() == 0) {
+                if (allocation.getJob().getTimelineid() > 0) {
+                    sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
+                            allocation.getJob().getId().toString(), new ResourceElement(-1, dummyLocation, dummyLocation));
+                }
+            }
+        }
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {
@@ -137,7 +152,7 @@ public class DataStructureBuilder {
 
     public void addJobsFromValueEntryDict(ValueEntryMap ValueEntryMap, Project project) {
         this.valueEntryMap = ValueEntryMap;
-        //ExecutionModeList
+        //Add standard jobs
         for (Map.Entry<String, ValueEntry> valueEntry : ValueEntryMap.entrySet()) {
             if (valueEntry.getValue().getType().equals("工作")) {
                 Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, project);
@@ -164,15 +179,16 @@ public class DataStructureBuilder {
 
     public void addJobsFromTimelineBlock(TimelineBlock timelineBlock, Project project) {
         this.timelineBlock = timelineBlock;
+
         for (TimelineEntry timelineEntry : timelineBlock.getTimelineEntryList()) {
-            // Create Job
-            Job mandJob = new Job(timelineEntry.getTitle(), JobType.MANDATORY, listOfJobs, project);
+            // Add timeline jobs SCHEDULED
+            Job mandJob = new Job(timelineEntry.getTitle(), JobType.SCHEDULED, listOfJobs, project);
             mandJob.setDescription(timelineEntry.getDescription());
             mandJob.setDependencyTimelineIdList(timelineEntry.getDependencyIdList());
             mandJob.setRownum(timelineEntry.getRownum());
             mandJob.setTimelineid(timelineEntry.getId());
             mandJob.setDeadline(ZonedDatetime2OffsetMinutes(this.defaultSchedule.getGlobalStartTime(),
-                    defaultSchedule.getGlobalEndTime()));
+                    timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()));
             mandJob.setGravity(timelineEntry.getGravity());
             mandJob.setSplittable(timelineEntry.getSplittable());
             mandJob.setMovable(timelineEntry.getMovable());
@@ -182,12 +198,45 @@ public class DataStructureBuilder {
             ExecutionMode thisExecutionMode = new ExecutionMode(timelineEntry.getHumanStateChange(), listOfExecutionMode, mandJob);
             thisExecutionMode.setHumanStateChange(timelineEntry.getHumanStateChange());
 
+
             // resourceStateChange
             thisExecutionMode.setResourceStateChange(timelineEntry.getResourceStateChange());
+            thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), new ResourceElement(1, dummyLocation, dummyLocation));
 
-            // progressChangee
+            // progressChange
             thisExecutionMode.setProgressChange(timelineEntry.getProgressChange());
+
+            // Add timeline jobs STANDARD
+            Job stdJob = new Job(timelineEntry.getTitle() , JobType.STANDARD, listOfJobs, project);
+            stdJob.setDescription(timelineEntry.getDescription());
+            stdJob.setDependencyTimelineIdList(timelineEntry.getDependencyIdList());
+            stdJob.setDeadline(ZonedDatetime2OffsetMinutes(this.defaultSchedule.getGlobalStartTime(),
+                    timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()));
+            stdJob.setGravity(timelineEntry.getGravity());
+            stdJob.setSplittable(timelineEntry.getSplittable());
+            stdJob.setMovable(timelineEntry.getMovable());
+            stdJob.setChangeable(timelineEntry.getChangeable());
+
+            // humanStateChange
+            ExecutionMode stdExecutionMode = new ExecutionMode(timelineEntry.getHumanStateChange(), listOfExecutionMode, stdJob);
+            stdExecutionMode.setHumanStateChange(timelineEntry.getHumanStateChange());
+
+
+            // resourceStateChange
+            stdExecutionMode.setResourceStateChange(timelineEntry.getResourceStateChange());
+            stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), new ResourceElement(1, dummyLocation, dummyLocation));
+
+            // progressChange
+            thisExecutionMode.setProgressChange(timelineEntry.getProgressChange());
+
+            // Add ValueEntry to Map
+            ValueEntry timelineValueEntry = new ValueEntry();
+            timelineValueEntry.setCapacity(1d);
+            timelineValueEntry.setClassification("task");
+            valueEntryMap.put(mandJob.getId().toString(), timelineValueEntry);
         }
+
+
         int g = 0;
     }
 
@@ -195,10 +244,9 @@ public class DataStructureBuilder {
         //Add Source
         Allocation sourceallocation = new Allocation(sourceExecutionMode, listOfAllocations, 100);
         sourceallocation.setForceStartTime(0);
-        sourceallocation.setForceEndTime(0);
         sourceallocation.setAllocationType(AllocationType.Locked);
 
-        //Add Mandatory Jobs: Fixed Length Chain Mode
+        //Add Scheduled Jobs: Fixed Length Chain Mode
         HashMap<Integer, ExecutionMode> timelineid2executionModeMap = new HashMap<>();
         for (ExecutionMode executionMode : listOfExecutionMode)
             timelineid2executionModeMap.put(executionMode.getJob().getTimelineid(), executionMode);
@@ -212,33 +260,22 @@ public class DataStructureBuilder {
             if (timelineEntry.getMovable() == 1) {
             } else {
                 mandallocation.setForceStartTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), ZonedDateTime.parse(timelineEntry.getStartTime())));
-                mandallocation.setForceEndTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(),
-                        ZonedDateTime.parse(timelineEntry.getStartTime()).plusMinutes((long) timelineEntry.getHumanStateChange().getDuration())));
             }
 
-            for(int k=0;k<dummyLengthInChain;k++){
+            for (int k = 0; k < dummyLengthInChain; k++) {
                 Allocation allocation = new Allocation(dummyExecutionMode, listOfAllocations, 10);
                 allocation.setAllocationType(lockStatus);
             }
-//            if (i + 1 < timelineBlock.getTimelineEntryList().size()) {
-//                int timeGap = ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), ZonedDateTime.parse(timelineBlock.getTimelineEntryList().get(i + 1).getStartTime()))
-//                        - mandallocation.getEndDate();
-//                do {
-//                    timeGap -= dummyLengthInChain;
-//                    Allocation allocation = new Allocation(dummyExecutionMode, listOfAllocations, 100);
-//                    allocation.setAllocationType(lockStatus);
-//                } while ((timeGap > dummyLengthInChain));
-//            }
         }
 
         //Add Sink
         Allocation sinkallocation = new Allocation(sinkExecutionMode, listOfAllocations, 100);
         sinkallocation.setForceStartTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), defaultSchedule.getGlobalEndTime()));
-        sinkallocation.setForceEndTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), defaultSchedule.getGlobalEndTime()));
         sinkallocation.setAllocationType(AllocationType.Locked);
 
 
     }
+
 
     //// Getter Setter
     public Project getDefaultProject() {
@@ -249,7 +286,7 @@ public class DataStructureBuilder {
         return dummyExecutionMode;
     }
 
-    public Schedule getDefaultSchedule() {
+    public void initializeSchedule() {
         for (Project project : listOfProjects) {
             project.getSchedule().getProjectList().add(project);
         }
@@ -266,12 +303,15 @@ public class DataStructureBuilder {
         for (Allocation allocation : listOfAllocations) {
             allocation.getProject().getSchedule().getAllocationList().add(allocation);
         }
+    }
 
+    public Schedule getFullSchedule() {
+        defaultSchedule.setAllocationList(listOfAllocations);
+        constructChainProperty(defaultSchedule.getAllocationList());
         defaultSchedule.setValueEntryMap(valueEntryMap);
         return defaultSchedule;
     }
 
-    //// Toolbox
     public List<Allocation> getListOfAllocations() {
         return listOfAllocations;
     }

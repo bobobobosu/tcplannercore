@@ -73,7 +73,13 @@ public class TCSchedulingApp {
                     } else if (input.equals("e")) {
                         solverThread.getCurrentSolver().explainBestScore();
                     } else if (input.startsWith("t")) {
-                        solverThread.printCurrentSolution(solverThread.currentSchedule,solverThread.currentSolver,true);
+                        printCurrentSolution(solverThread.currentSchedule, solverThread.currentSolver, true, solverThread.solvingStatus);
+                    } else if (input.equals("p1i")) {
+                        solverThread.P1_mode = "incremental";
+                    } else if (input.equals("p1g")) {
+                        solverThread.P1_mode = "global";
+                    } else if (input.equals("p2g")) {
+                        solverThread.P2_mode = "global";
                     } else {
 
                     }

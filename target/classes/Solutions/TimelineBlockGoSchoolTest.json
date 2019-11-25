@@ -15,9 +15,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-20T23:58:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -43,9 +41,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T15:23:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -71,9 +67,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T15:25:12-08:00[America/Los_Angeles]",
       "deadline": "2019-11-21T18:24:04-08:00[America/Los_Angeles]",
@@ -99,9 +93,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T15:28:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -127,9 +119,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T16:58:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -155,9 +145,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T18:28:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -183,9 +171,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-21T23:58:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -211,9 +197,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-22T12:58:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -239,9 +223,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-22T23:59:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -267,9 +249,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-23T23:59:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
@@ -295,9 +275,7 @@
         "mode": "delta"
       },
       "progressChange": {
-        "startPercent": 0.0,
-        "plannedEndPercent": 1.0,
-        "actualEndPercent": 1.0
+        "progressDelta": 1.0
       },
       "startTime": "2019-11-24T23:59:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",

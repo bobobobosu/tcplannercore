@@ -123,10 +123,4 @@ public class ExecutionMode extends AbstractPersistable {
     public void setProgressChange(ProgressChange progressChange) {
         this.progressChange = progressChange;
     }
-
-
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
-
 }
