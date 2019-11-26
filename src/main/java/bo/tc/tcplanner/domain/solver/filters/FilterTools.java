@@ -12,8 +12,8 @@ public class FilterTools {
 //        return allocation.getIndex() <= allocation.getProject().getSchedule().getGlobalScheduleAfterIndex();
         List<Allocation> allocationList = allocation.getProject().getSchedule().getAllocationList();
 //        return (allocationList.get(allocationList.size() - 2).getStartDate() - allocation.getStartDate()) > 60 * 24 * 3;
-        return allocationList.get(allocationList.size() - 2).getIndex() - allocation.getIndex() > 500;
-//        return false;
+//        return allocationList.get(allocationList.size() - 2).getIndex() - allocation.getIndex() > 500;
+        return false;
     }
 
     static boolean isLocked(Allocation allocation) {

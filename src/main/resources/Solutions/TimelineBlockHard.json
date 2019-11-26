@@ -2,7 +2,7 @@
   "timelineEntryList": [
     {
       "title": "\u5b58\u53d6\u6b0a\u6b78\u96f6",
-      "description": "[\u4ed8\u623f\u79df\n\n\n\n\n\n\n]",
+      "description": "\u4ed8\u623f\u79df\nHW8 due",
       "id": 6696,
       "humanStateChange": {
         "currentLocation": "Undefined",
@@ -23,6 +23,11 @@
             "productionLocation": ""
           },
           "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
+            "requirementLocation": "",
+            "productionLocation": ""
+          },
+          "r.CIS Assignment": {
             "amt": 0,
             "requirementLocation": "",
             "productionLocation": ""
@@ -48,716 +53,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2019-11-22T14:25:42-08:00[America/Los_Angeles]",
+      "startTime": "2019-11-25T21:58:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
       "movable": 0.0,
       "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6342.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "t.CIS Assignment",
-      "description": "[HW8 due]",
-      "id": 6688,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 418.9999999999997,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.CIS Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-22T14:25:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6343.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Back Home",
-      "description": null,
-      "id": 6640,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 18.000000000000004,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-22T21:24:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6344.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "\u7761\u7720",
-      "description": null,
-      "id": 5604,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 423.00000000000006,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Calories Consumption": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-22T23:58:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6345.0,
-      "dependencyIdList": [
-        6696
-      ]
-    },
-    {
-      "title": "\u7761\u7720",
-      "description": null,
-      "id": 5605,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 423.00000000000006,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Calories Consumption": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-23T23:58:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6346.0,
-      "dependencyIdList": [
-        6696
-      ]
-    },
-    {
-      "title": "\u7761\u7720",
-      "description": null,
-      "id": 5607,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 423.00000000000006,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Calories Consumption": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T00:47:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6347.0,
-      "dependencyIdList": [
-        6696
-      ]
-    },
-    {
-      "title": "t.EWRT Reading Assignment",
-      "description": "[Reading: Articles from group f]",
-      "id": 6794,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 20.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.EWRT Reading Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T11:45:00-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 1.0,
-      "gravity": 0.0,
-      "rownum": 6348.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "t.Informal Writing Assignment",
-      "description": "[Reading: Articles from group f]",
-      "id": 6731,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 16.233333335258067,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Informal Writing Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T12:05:00-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 1.0,
-      "gravity": 0.0,
-      "rownum": 6349.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "t.Informal Writing Assignment",
-      "description": "[Reading: Articles from group f]",
-      "id": 6732,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 29.999999999999954,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Informal Writing Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T12:21:14-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 1.0,
-      "gravity": 0.0,
-      "rownum": 6350.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Go School",
-      "description": "",
-      "id": 6697,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "University of California San Diego",
-        "duration": 5.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T12:51:14-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6351.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "CSE 21\u5c08\u6848",
-      "description": "Lecture",
-      "id": 6151,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "University of California San Diego",
-        "duration": 45.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T12:57:00-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6352.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "CSE 15L\u5c08\u6848",
-      "description": "Lecture",
-      "id": 6152,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "University of California San Diego",
-        "duration": 45.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T15:56:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6353.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Deadline",
-      "description": "Reading: Articles from group folders Writing: 2G & 3A",
-      "id": 6258,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 0.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.EWRT Reading Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": ""
-          },
-          "r.Informal Writing Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T16:51:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6354.0,
-      "dependencyIdList": [
-        6794,
-        6731,
-        6732
-      ]
-    },
-    {
-      "title": "t.\u7463\u4e8b",
-      "description": "",
-      "id": 6701,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 0.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T16:53:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6355.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "WCWP 100\u5c08\u6848",
-      "description": "Use 3A to begin PowerPoint Presentation preparations",
-      "id": 6239,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "University of California San Diego",
-        "duration": 72.00000000000001,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T16:58:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6356.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Back Home",
-      "description": "",
-      "id": 5692,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 19.999999999999872,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T18:10:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
       "splittable": 0.0,
       "gravity": 0.0,
       "rownum": 6357.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "t.Billing Cycle",
-      "description": "",
-      "id": 6728,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 2.999999999999995,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.BOA Credit Card Payment": {
-            "amt": 1.0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          },
-          "r.Rent Payment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          },
-          "r.Verizon Sean Payment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T18:30:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 0.0,
-      "splittable": 1.0,
-      "gravity": 0.0,
-      "rownum": 6358.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "t.CIS Assignment",
-      "description": "[Scripting Project 2]",
-      "id": 6695,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 118.99999999999987,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.CIS Assignment": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T19:26:22-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6359.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "\u74b0\u5883\u6e05\u7406_\u771f\u5be6\u74b0\u5883",
-      "description": "",
-      "id": 5771,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 21.99999999999989,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-25T23:10:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6360.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "\u6d17\u6fa1",
-      "description": "",
-      "id": 5788,
-      "humanStateChange": {
-        "currentLocation": "Home",
-        "movetoLocation": "Home",
-        "duration": 15.999999999999982,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": "Undefined"
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-26T01:18:02-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6361.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Go School",
-      "description": "",
-      "id": 5791,
-      "humanStateChange": {
-        "currentLocation": "8855 Villa La Jolla Drive",
-        "movetoLocation": "University of California San Diego",
-        "duration": 19.999999999999872,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-26T03:19:22-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6362.0,
-      "dependencyIdList": []
-    },
-    {
-      "title": "Back Home",
-      "description": "",
-      "id": 6702,
-      "humanStateChange": {
-        "currentLocation": "University of California San Diego",
-        "movetoLocation": "8855 Villa La Jolla Drive",
-        "duration": 18.000000000000004,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-26T05:24:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6363.0,
       "dependencyIdList": []
     },
     {
@@ -772,17 +74,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -792,7 +84,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": 0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": 0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -803,18 +105,15 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2019-11-26T07:28:02-08:00[America/Los_Angeles]",
+      "startTime": "2019-11-26T04:53:12-08:00[America/Los_Angeles]",
       "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
       "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6364.0,
+      "rownum": 6358.0,
       "dependencyIdList": [
-        6696,
-        5788,
-        5771,
-        6796
+        6696
       ]
     },
     {
@@ -846,9 +145,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6365.0,
+      "rownum": 6359.0,
       "dependencyIdList": [
-        6688
+        6696
       ]
     },
     {
@@ -874,7 +173,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6366.0,
+      "rownum": 6360.0,
       "dependencyIdList": []
     },
     {
@@ -900,7 +199,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6367.0,
+      "rownum": 6361.0,
       "dependencyIdList": []
     },
     {
@@ -915,12 +214,12 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.Clean Room": {
+          "r.Calories Consumption": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -930,12 +229,12 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.Calories Consumption": {
-            "amt": -100.0,
+          "r.Clean Body": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.Clean Room": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -952,10 +251,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6368.0,
+      "rownum": 6362.0,
       "dependencyIdList": [
-        6696,
-        5771
+        6696
       ]
     },
     {
@@ -981,7 +279,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6369.0,
+      "rownum": 6363.0,
       "dependencyIdList": []
     },
     {
@@ -1007,7 +305,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6370.0,
+      "rownum": 6364.0,
       "dependencyIdList": []
     },
     {
@@ -1039,7 +337,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6371.0,
+      "rownum": 6365.0,
       "dependencyIdList": []
     },
     {
@@ -1065,7 +363,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6372.0,
+      "rownum": 6366.0,
       "dependencyIdList": []
     },
     {
@@ -1097,7 +395,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6373.0,
+      "rownum": 6367.0,
       "dependencyIdList": []
     },
     {
@@ -1123,7 +421,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6374.0,
+      "rownum": 6368.0,
       "dependencyIdList": []
     },
     {
@@ -1138,12 +436,12 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.Clean Room": {
+          "r.Calories Consumption": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1153,13 +451,13 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.Calories Consumption": {
-            "amt": -100.0,
+          "r.Clean Body": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.Clean Room": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -1175,10 +473,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6375.0,
+      "rownum": 6369.0,
       "dependencyIdList": [
-        6696,
-        5771
+        6696
       ]
     },
     {
@@ -1204,7 +501,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6376.0,
+      "rownum": 6370.0,
       "dependencyIdList": []
     },
     {
@@ -1230,7 +527,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6377.0,
+      "rownum": 6371.0,
       "dependencyIdList": []
     },
     {
@@ -1256,7 +553,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6378.0,
+      "rownum": 6372.0,
       "dependencyIdList": []
     },
     {
@@ -1271,18 +568,8 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -1291,7 +578,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1308,9 +605,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6379.0,
+      "rownum": 6373.0,
       "dependencyIdList": [
-        5771
+        6696
       ]
     },
     {
@@ -1336,7 +633,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6380.0,
+      "rownum": 6374.0,
       "dependencyIdList": []
     },
     {
@@ -1352,22 +649,12 @@
       "resourceStateChange": {
         "resourceChange": {
           "r.Verizon Sean Payment": {
-            "amt": 0,
+            "amt": -1.0,
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -1376,7 +663,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1393,10 +690,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6381.0,
+      "rownum": 6375.0,
       "dependencyIdList": [
-        6728,
-        5771
+        6696
       ]
     },
     {
@@ -1433,7 +729,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6382.0,
+      "rownum": 6376.0,
       "dependencyIdList": []
     },
     {
@@ -1449,22 +745,12 @@
       "resourceStateChange": {
         "resourceChange": {
           "r.Rent Payment": {
-            "amt": 0,
+            "amt": -1.0,
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -1473,7 +759,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1490,10 +786,9 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6383.0,
+      "rownum": 6377.0,
       "dependencyIdList": [
-        6728,
-        5771
+        6696
       ]
     },
     {
@@ -1530,7 +825,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6384.0,
+      "rownum": 6378.0,
       "dependencyIdList": [
         6696
       ]
@@ -1552,28 +847,28 @@
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.Clean Body": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
-            "amt": 0,
+            "amt": -100.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -1589,7 +884,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6385.0,
+      "rownum": 6379.0,
       "dependencyIdList": [
         6696
       ]
@@ -1617,7 +912,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6386.0,
+      "rownum": 6380.0,
       "dependencyIdList": []
     },
     {
@@ -1643,7 +938,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6387.0,
+      "rownum": 6381.0,
       "dependencyIdList": []
     },
     {
@@ -1669,7 +964,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6388.0,
+      "rownum": 6382.0,
       "dependencyIdList": []
     },
     {
@@ -1695,7 +990,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6389.0,
+      "rownum": 6383.0,
       "dependencyIdList": []
     },
     {
@@ -1711,7 +1006,7 @@
       "resourceStateChange": {
         "resourceChange": {
           "r.CIS Assignment": {
-            "amt": 0,
+            "amt": -1.0,
             "requirementLocation": "",
             "productionLocation": ""
           }
@@ -1727,10 +1022,8 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6390.0,
-      "dependencyIdList": [
-        6695
-      ]
+      "rownum": 6384.0,
+      "dependencyIdList": []
     },
     {
       "title": "\u7761\u7720",
@@ -1744,17 +1037,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1764,7 +1047,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1781,10 +1074,8 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6391.0,
-      "dependencyIdList": [
-        5771
-      ]
+      "rownum": 6385.0,
+      "dependencyIdList": []
     },
     {
       "title": "CSE 12\u5c08\u6848",
@@ -1809,7 +1100,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6392.0,
+      "rownum": 6386.0,
       "dependencyIdList": []
     },
     {
@@ -1835,7 +1126,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6393.0,
+      "rownum": 6387.0,
       "dependencyIdList": []
     },
     {
@@ -1850,17 +1141,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1870,7 +1151,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1887,7 +1178,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6394.0,
+      "rownum": 6388.0,
       "dependencyIdList": []
     },
     {
@@ -1913,7 +1204,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6395.0,
+      "rownum": 6389.0,
       "dependencyIdList": []
     },
     {
@@ -1939,7 +1230,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6396.0,
+      "rownum": 6390.0,
       "dependencyIdList": []
     },
     {
@@ -1965,7 +1256,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6397.0,
+      "rownum": 6391.0,
       "dependencyIdList": []
     },
     {
@@ -1991,7 +1282,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6398.0,
+      "rownum": 6392.0,
       "dependencyIdList": []
     },
     {
@@ -2023,7 +1314,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6399.0,
+      "rownum": 6393.0,
       "dependencyIdList": []
     },
     {
@@ -2049,7 +1340,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6400.0,
+      "rownum": 6394.0,
       "dependencyIdList": []
     },
     {
@@ -2064,17 +1355,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Clean Body": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.Clean Room": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -2084,7 +1365,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Body": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.Clean Room": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -2101,7 +1392,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6401.0,
+      "rownum": 6395.0,
       "dependencyIdList": []
     },
     {
@@ -2133,7 +1424,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6402.0,
+      "rownum": 6396.0,
       "dependencyIdList": []
     },
     {
@@ -2159,7 +1450,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6403.0,
+      "rownum": 6397.0,
       "dependencyIdList": []
     },
     {
@@ -2185,7 +1476,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6404.0,
+      "rownum": 6398.0,
       "dependencyIdList": []
     },
     {
@@ -2211,15 +1502,15 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6405.0,
+      "rownum": 6399.0,
       "dependencyIdList": []
     }
   ],
-  "blockStartTime": "2019-11-22T14:25:42-08:00[America/Los_Angeles]",
+  "blockStartTime": "2019-11-25T21:58:12-08:00[America/Los_Angeles]",
   "blockEndTime": "2019-12-05T19:17:12-08:00[America/Los_Angeles]",
-  "blockStartRow": 6342.0,
-  "blockEndRow": 6405.0,
-  "blockScheduleAfter": 6361.0,
+  "blockStartRow": 6357.0,
+  "blockEndRow": 6399.0,
+  "blockScheduleAfter": 6358.0,
   "score": "",
   "origin": "TCxlsb"
 }

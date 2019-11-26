@@ -8,6 +8,7 @@ import bo.tc.tcplanner.domain.Schedule;
 import com.jakewharton.fliptables.FlipTable;
 import org.apache.commons.lang3.StringUtils;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.Solver;
@@ -148,9 +149,10 @@ public class Toolbox {
                                     allocation.getJob().getMovable() + "M/" +
                                     allocation.getJob().getSplittable() + "S/" +
                                     ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
-                            (breakByTasks.containsKey(allocation) ? "\n" + Arrays.toString(((BendableScore) breakByTasks.get(allocation).getScore()).getHardScores()) : ""),
+                            (breakByTasks.containsKey(allocation) ?
+                                    hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()): ""),
                             allocation.getJob().getName() + " " + allocation.getIndex() + "\n" +
-                                    StringUtils.abbreviate(allocation.getExecutionMode().getResourceStateChange().getResourceChange().toString(),60)
+                                    allocation.getExecutionMode().getResourceStateChange().getResourceChange().toString().replaceAll("(.{60})", "$1\n")
                     });
                 }
             }
@@ -160,13 +162,13 @@ public class Toolbox {
 //                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
 //            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
 //            System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
-            if(showTimeline){
-                SolverThread.logger.info("\n"+FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            }else{
-                SolverThread.logger.debug("\n"+FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            if (showTimeline) {
+                SolverThread.logger.info("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            } else {
+                SolverThread.logger.debug("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
             }
-            SolverThread.logger.info("\n"+FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            SolverThread.logger.info("\n"+"Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
+            SolverThread.logger.info("\n" + FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
+            SolverThread.logger.info("\n" + "Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -174,6 +176,21 @@ public class Toolbox {
 
     public static String genPathFromConstants(String filename, HashMap<String, Object> ConstantsJson) {
         return castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get(castString(castDict(castDict(ConstantsJson.get("Paths")).get("Files")).get(filename)))) + filename;
+    }
+
+    public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet){
+        StringBuilder result = new StringBuilder();
+        Iterator<ConstraintMatch> constraintMatchSetIterator = ConstraintMatchSet.iterator();
+        while (constraintMatchSetIterator.hasNext()){
+            ConstraintMatch constraintMatch = constraintMatchSetIterator.next();
+            if(Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0)){
+                result.append(constraintMatch.getConstraintName())
+                        .append("\n")
+                        .append(Arrays.toString(((BendableScore) (constraintMatch.getScore())).getHardScores()))
+                        .append("\n");
+            }
+        }
+        return result.toString();
     }
 }
 

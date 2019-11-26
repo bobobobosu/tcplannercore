@@ -8,7 +8,7 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>100</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
@@ -23,6 +23,7 @@
                 <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
                     </entitySelector>
@@ -36,6 +37,7 @@
             </cartesianProductMoveSelector>
             <changeMoveSelector>
                 <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
                 </entitySelector>
@@ -44,6 +46,7 @@
             <changeMoveSelector>
                 <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
                 <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
                 </entitySelector>
@@ -52,6 +55,7 @@
             <changeMoveSelector>
                 <fixedProbabilityWeight>2.0</fixedProbabilityWeight>
                 <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
@@ -66,7 +70,7 @@
         </acceptor>
         <forager>
             <pickEarlyType>NEVER</pickEarlyType>
-            <acceptedCountLimit>280</acceptedCountLimit>
+            <acceptedCountLimit>250280</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

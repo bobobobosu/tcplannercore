@@ -5,7 +5,7 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockFull.json</inputSolutionFile>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockHard.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -22,13 +22,13 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>100</millisecondsSpentLimit>
             </termination>
         </solver>
     </inheritedSolverBenchmark>
 
 <#--    numbers-->
-    <#list 1..480 as acceptedCountLimit>
+    <#list ['280'] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
@@ -46,7 +46,7 @@
     <#list [2] as ProbabilityWeight2>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
-    <#list [''] as IndexFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>'] as IndexFilter>
     <#list ['<swapMoveSelector>
                 <fixedProbabilityWeight>${ProbabilityWeight2}</fixedProbabilityWeight>
                 <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
