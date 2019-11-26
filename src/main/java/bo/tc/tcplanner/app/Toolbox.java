@@ -158,17 +158,17 @@ public class Toolbox {
             }
             timeline.add(timelineHeader);
             solver.explainBestScore();
-//            if (showTimeline)
-//                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-//            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-//            System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
-            if (showTimeline) {
-                SolverThread.logger.info("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            } else {
-                SolverThread.logger.debug("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            }
+            if (showTimeline)
+                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
+            System.err.println("Status: " + solvingStatus
+                    + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date())
+                    + " " + scoreDirector.calculateScore().toShortString());
+            SolverThread.logger.debug("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
             SolverThread.logger.info("\n" + FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            SolverThread.logger.info("\n" + "Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
+            SolverThread.logger.info("\n" + "Status: " + solvingStatus
+                    + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date())
+                    + " " + scoreDirector.calculateScore().toShortString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

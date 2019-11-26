@@ -5,7 +5,7 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockHard.json</inputSolutionFile>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockFull.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -22,13 +22,13 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>100</millisecondsSpentLimit>
+                <millisecondsSpentLimit>10000</millisecondsSpentLimit>
             </termination>
         </solver>
     </inheritedSolverBenchmark>
 
 <#--    numbers-->
-    <#list ['280'] as acceptedCountLimit>
+    <#list [280] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
@@ -102,7 +102,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>a${acceptedCountLimit}</name>
+        <name>d${scoreDrl?index}</name>
         <solver>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>

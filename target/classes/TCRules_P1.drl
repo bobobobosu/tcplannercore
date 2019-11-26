@@ -68,11 +68,10 @@ rule "checkPreviousStandstill"
             $jobType : jobType)
         ExecutionMode(this == $executionMode, $currentLocation : currentLocation, eval(!locationRestrictionCheck($previousStandstill,$currentLocation)))
     then
-        scoreHolder.addMultiConstraintMatch(kcontext,
-                                            new int[]{0, ($jobType!=JobType.STANDARD)  ? -(100) : 0,
-                                                        0,
-                                                        -(100),0},
-                                            new int[]{0,0,0,0});
+
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{-(100),0,0,0,0},
+											new int[]{0,0,0,0});
 end
 
 rule "checkRequirements"
@@ -96,11 +95,19 @@ rule "checkRequirements"
 
         eval($net<0 || ($net>$capacity))
     then
-            scoreHolder.addMultiConstraintMatch(kcontext,
-                                                new int[]{($jobType!=JobType.STANDARD) ? ($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)) : 0,
-                                                            0,
-                                                            ($net>$capacity ? (int)(100*($capacity-$net)) : (int)(100*$net)),0,0},
-                                                new int[]{0,0,0,0});
+    	if($net>$capacity){
+    	    scoreHolder.addMultiConstraintMatch(kcontext,
+                                                            new int[]{ (int)(100*($capacity-$net)),
+                                                                        0,0,0,0},
+                                                            new int[]{0,0,0,0});
+    	}else if($net<0){
+			scoreHolder.addMultiConstraintMatch(kcontext,
+												new int[]{(int)(100*$net),
+															0,0,0,0},
+												new int[]{0,0,0,0});
+    	}
+
+
 end
 
 
@@ -109,7 +116,10 @@ rule "checkSplittable"
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,
             $executionMode : executionMode,job.getSplittable() == 0,$progressdelta : progressdelta,$progressdelta<100 )
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 4, $progressdelta-100);
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{($progressdelta-100),
+														0,0,0,0},
+											new int[]{0,0,0,0});
 end
 
 

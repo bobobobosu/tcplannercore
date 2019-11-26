@@ -2,7 +2,7 @@
   "timelineEntryList": [
     {
       "title": "\u5b58\u53d6\u6b0a\u6b78\u96f6",
-      "description": "\u4ed8\u623f\u79df\nHW8 due",
+      "description": "",
       "id": 6696,
       "humanStateChange": {
         "currentLocation": "Undefined",
@@ -59,7 +59,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6357.0,
+      "rownum": 6354.0,
       "dependencyIdList": []
     },
     {
@@ -74,17 +74,12 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
-            "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -95,6 +90,11 @@
             "productionLocation": ""
           },
           "r.Clean Room": {
+            "amt": 0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -111,7 +111,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6358.0,
+      "rownum": 6355.0,
       "dependencyIdList": [
         6696
       ]
@@ -145,7 +145,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6359.0,
+      "rownum": 6356.0,
       "dependencyIdList": [
         6696
       ]
@@ -173,7 +173,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6360.0,
+      "rownum": 6357.0,
       "dependencyIdList": []
     },
     {
@@ -199,7 +199,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6361.0,
+      "rownum": 6358.0,
       "dependencyIdList": []
     },
     {
@@ -214,18 +214,13 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -235,6 +230,11 @@
             "productionLocation": ""
           },
           "r.Clean Room": {
+            "amt": 0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -251,7 +251,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6362.0,
+      "rownum": 6359.0,
       "dependencyIdList": [
         6696
       ]
@@ -279,7 +279,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6363.0,
+      "rownum": 6360.0,
       "dependencyIdList": []
     },
     {
@@ -305,7 +305,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6364.0,
+      "rownum": 6361.0,
       "dependencyIdList": []
     },
     {
@@ -337,7 +337,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6365.0,
+      "rownum": 6362.0,
       "dependencyIdList": []
     },
     {
@@ -363,7 +363,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6366.0,
+      "rownum": 6363.0,
       "dependencyIdList": []
     },
     {
@@ -395,7 +395,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6367.0,
+      "rownum": 6364.0,
       "dependencyIdList": []
     },
     {
@@ -421,7 +421,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6368.0,
+      "rownum": 6365.0,
       "dependencyIdList": []
     },
     {
@@ -436,18 +436,13 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": 0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -458,6 +453,11 @@
           },
           "r.Clean Room": {
             "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -473,7 +473,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6369.0,
+      "rownum": 6366.0,
       "dependencyIdList": [
         6696
       ]
@@ -501,7 +501,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6370.0,
+      "rownum": 6367.0,
       "dependencyIdList": []
     },
     {
@@ -527,7 +527,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6371.0,
+      "rownum": 6368.0,
       "dependencyIdList": []
     },
     {
@@ -553,7 +553,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6372.0,
+      "rownum": 6369.0,
       "dependencyIdList": []
     },
     {
@@ -568,18 +568,13 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": -100.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -590,6 +585,11 @@
           },
           "r.Clean Room": {
             "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -605,7 +605,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6373.0,
+      "rownum": 6370.0,
       "dependencyIdList": [
         6696
       ]
@@ -633,7 +633,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6374.0,
+      "rownum": 6371.0,
       "dependencyIdList": []
     },
     {
@@ -653,18 +653,13 @@
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": -100.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -675,6 +670,11 @@
           },
           "r.Clean Room": {
             "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -690,47 +690,10 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6375.0,
+      "rownum": 6372.0,
       "dependencyIdList": [
         6696
       ]
-    },
-    {
-      "title": "t.\u7463\u4e8b",
-      "description": "Verizon",
-      "id": 5735,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 0.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.\u7f8e\u91d1USD": {
-            "amt": 133.22,
-            "requirementLocation": "",
-            "productionLocation": ""
-          },
-          "r.Verizon Sean Payment": {
-            "amt": 1.0,
-            "requirementLocation": "",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-11-30T22:58:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6376.0,
-      "dependencyIdList": []
     },
     {
       "title": "\u7761\u7720",
@@ -749,18 +712,13 @@
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": -100.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -771,6 +729,11 @@
           },
           "r.Clean Room": {
             "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -786,46 +749,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6377.0,
-      "dependencyIdList": [
-        6696
-      ]
-    },
-    {
-      "title": "t.\u7463\u4e8b",
-      "description": "\u4ed8\u623f\u79df",
-      "id": 5731,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 0.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.\u7f8e\u91d1USD": {
-            "amt": 0,
-            "requirementLocation": "",
-            "productionLocation": ""
-          },
-          "r.Rent Payment": {
-            "amt": 1.0,
-            "requirementLocation": "",
-            "productionLocation": ""
-          }
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0
-      },
-      "startTime": "2019-12-01T22:58:42-08:00[America/Los_Angeles]",
-      "deadline": "2021-12-11T00:00:01-08:00[America/Los_Angeles]",
-      "movable": 0.0,
-      "changeable": 0.0,
-      "splittable": 0.0,
-      "gravity": 0.0,
-      "rownum": 6378.0,
+      "rownum": 6373.0,
       "dependencyIdList": [
         6696
       ]
@@ -847,18 +771,13 @@
             "requirementLocation": "",
             "productionLocation": ""
           },
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
-            "amt": 0,
+          "r.meal": {
+            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Calories Consumption": {
             "amt": -100.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
-          "r.meal": {
-            "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
@@ -869,6 +788,11 @@
           },
           "r.Clean Room": {
             "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           }
@@ -884,7 +808,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6379.0,
+      "rownum": 6374.0,
       "dependencyIdList": [
         6696
       ]
@@ -912,7 +836,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6380.0,
+      "rownum": 6375.0,
       "dependencyIdList": []
     },
     {
@@ -938,7 +862,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6381.0,
+      "rownum": 6376.0,
       "dependencyIdList": []
     },
     {
@@ -964,7 +888,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6382.0,
+      "rownum": 6377.0,
       "dependencyIdList": []
     },
     {
@@ -990,7 +914,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6383.0,
+      "rownum": 6378.0,
       "dependencyIdList": []
     },
     {
@@ -1022,7 +946,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6384.0,
+      "rownum": 6379.0,
       "dependencyIdList": []
     },
     {
@@ -1037,7 +961,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1047,17 +971,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.meal": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
           "r.Clean Body": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Clean Room": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1074,7 +998,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6385.0,
+      "rownum": 6380.0,
       "dependencyIdList": []
     },
     {
@@ -1100,7 +1024,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6386.0,
+      "rownum": 6381.0,
       "dependencyIdList": []
     },
     {
@@ -1126,7 +1050,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6387.0,
+      "rownum": 6382.0,
       "dependencyIdList": []
     },
     {
@@ -1141,7 +1065,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1151,17 +1075,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.meal": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
           "r.Clean Body": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Clean Room": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1178,7 +1102,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6388.0,
+      "rownum": 6383.0,
       "dependencyIdList": []
     },
     {
@@ -1204,7 +1128,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6389.0,
+      "rownum": 6384.0,
       "dependencyIdList": []
     },
     {
@@ -1230,7 +1154,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6390.0,
+      "rownum": 6385.0,
       "dependencyIdList": []
     },
     {
@@ -1256,7 +1180,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6391.0,
+      "rownum": 6386.0,
       "dependencyIdList": []
     },
     {
@@ -1282,7 +1206,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6392.0,
+      "rownum": 6387.0,
       "dependencyIdList": []
     },
     {
@@ -1314,7 +1238,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6393.0,
+      "rownum": 6388.0,
       "dependencyIdList": []
     },
     {
@@ -1340,7 +1264,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6394.0,
+      "rownum": 6389.0,
       "dependencyIdList": []
     },
     {
@@ -1355,7 +1279,7 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+          "r.meal": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1365,17 +1289,17 @@
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
-          "r.meal": {
-            "amt": -1.0,
-            "requirementLocation": "Undefined",
-            "productionLocation": ""
-          },
           "r.Clean Body": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
           },
           "r.Clean Room": {
+            "amt": -1.0,
+            "requirementLocation": "Undefined",
+            "productionLocation": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
             "amt": -1.0,
             "requirementLocation": "Undefined",
             "productionLocation": ""
@@ -1392,7 +1316,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6395.0,
+      "rownum": 6390.0,
       "dependencyIdList": []
     },
     {
@@ -1424,7 +1348,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6396.0,
+      "rownum": 6391.0,
       "dependencyIdList": []
     },
     {
@@ -1450,7 +1374,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6397.0,
+      "rownum": 6392.0,
       "dependencyIdList": []
     },
     {
@@ -1476,7 +1400,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6398.0,
+      "rownum": 6393.0,
       "dependencyIdList": []
     },
     {
@@ -1502,15 +1426,15 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6399.0,
+      "rownum": 6394.0,
       "dependencyIdList": []
     }
   ],
   "blockStartTime": "2019-11-25T21:58:12-08:00[America/Los_Angeles]",
   "blockEndTime": "2019-12-05T19:17:12-08:00[America/Los_Angeles]",
-  "blockStartRow": 6357.0,
-  "blockEndRow": 6399.0,
-  "blockScheduleAfter": 6358.0,
+  "blockStartRow": 6354.0,
+  "blockEndRow": 6394.0,
+  "blockScheduleAfter": 6355.0,
   "score": "",
   "origin": "TCxlsb"
 }
