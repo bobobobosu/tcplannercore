@@ -26,7 +26,10 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
 
     protected Integer id;
 
+    protected boolean volatileFlag;
+
     protected AbstractPersistable() {
+        this.volatileFlag = false;
     }
 
     protected AbstractPersistable(Integer id) {
@@ -87,4 +90,12 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
         return getClass().getName().replaceAll(".*\\.", "") + "-" + id;
     }
 
+    public boolean isVolatileFlag() {
+        return volatileFlag;
+    }
+
+    public AbstractPersistable setVolatileFlag(boolean volatileFlag) {
+        this.volatileFlag = volatileFlag;
+        return this;
+    }
 }

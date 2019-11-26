@@ -5,7 +5,7 @@ import bo.tc.tcplanner.domain.AllocationType;
 
 import java.util.List;
 
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyJob;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 public class FilterTools {
     static boolean  isNotInIndex(Allocation allocation) {

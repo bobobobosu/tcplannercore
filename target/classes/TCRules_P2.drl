@@ -12,7 +12,7 @@ import bo.tc.tcplanner.domain.Project;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.ValueEntry;
-import bo.tc.tcplanner.domain.DataStructureBuilder;
+import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import java.util.Map;
 
 global BendableScoreHolder scoreHolder;
@@ -139,6 +139,7 @@ rule "punishFragmentation"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
 end
+
 
 
 // ############################################################################

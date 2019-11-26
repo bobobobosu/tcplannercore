@@ -3,41 +3,37 @@ package bo.tc.tcplanner.app;
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
+import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.domain.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.jakewharton.fliptables.FlipTable;
 import org.apache.commons.io.IOUtils;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
-import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyExecutionMode;
 
 public class SolverThread extends Thread {
+    public static final Logger logger
+            = LoggerFactory.getLogger(SolverThread.class);
     JsonServer jsonServer;
     boolean continuetosolve = true;
     String P1_mode = "incremental";
     String P2_mode = "global";
     String solvingStatus;
+
 
     public Solver<Schedule> getCurrentSolver() {
         return currentSolver;
@@ -100,13 +96,13 @@ public class SolverThread extends Thread {
 
         // Solve Phase 1 : to met requirements
         solverFactory = SolverFactory.createFromXmlInputStream(this.getClass().getResourceAsStream("/solverPhase1.xml"));
-        Solver solver1 = solverFactory.buildSolver();
+        Solver<Schedule> solver1 = solverFactory.buildSolver();
         setSolverListener(solver1);
         solverList.add(solver1);
 
         // Solve Phase 2 : to remove dummyjobs
         solverFactory = SolverFactory.createFromXmlInputStream(this.getClass().getResourceAsStream("/solverPhase2.xml"));
-        Solver solver2 = solverFactory.buildSolver();
+        Solver<Schedule> solver2 = solverFactory.buildSolver();
         setSolverListener(solver2);
         solverList.add(solver2);
     }
@@ -120,15 +116,15 @@ public class SolverThread extends Thread {
     }
 
     public Schedule getBestSolution() {
-        for (Solver solver : Lists.reverse(solverList)) {
-            if (solver.getBestSolution() != null) return (Schedule) solver.getBestSolution();
+        for (Solver<Schedule> solver : Lists.reverse(solverList)) {
+            if (solver.getBestSolution() != null) return solver.getBestSolution();
         }
         return null;
     }
 
     public void terminateSolver() {
         setContinuetosolve(false);
-        if (solverList != null) for (Solver solver : solverList) solver.terminateEarly();
+        if (solverList != null) for (Solver<Schedule> solver : solverList) solver.terminateEarly();
     }
 
     public void restartSolversWithNewTimelineBlock(TimelineBlock timelineBlock) {
@@ -209,6 +205,7 @@ public class SolverThread extends Thread {
             DataStructureBuilder.constructChainProperty(result.getAllocationList());
             printCurrentSolution(result, solverList.get(0), true,solvingStatus);
             if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
+            jsonServer.updateTimelineBlock(false, result);
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
@@ -266,7 +263,7 @@ public class SolverThread extends Thread {
         this.newTimelineBlockLock = newTimelineBlockLock;
     }
 
-    private boolean isSolved(Schedule schedule, Solver solver) {
+    private boolean isSolved(Schedule schedule, Solver<Schedule> solver) {
         ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
         scoreDirector.setWorkingSolution(schedule);
         for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {

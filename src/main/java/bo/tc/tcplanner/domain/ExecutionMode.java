@@ -18,11 +18,14 @@ package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.HumanStateChange;
 import bo.tc.tcplanner.datastructure.ProgressChange;
+import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ResourceStateChange;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @XStreamAlias("PjsExecutionMode")
 public class ExecutionMode extends AbstractPersistable {
@@ -45,11 +48,10 @@ public class ExecutionMode extends AbstractPersistable {
     private ProgressChange progressChange;
 
 
-    public ExecutionMode(HumanStateChange humanStateChange, List<ExecutionMode> listOfExecutionMode, Job job) {
+    public ExecutionMode(List<ExecutionMode> listOfExecutionMode, Job job) {
         //Set Basic Information
         this.setJob(job);
         this.setId(listOfExecutionMode.size());
-        this.setHumanStateChange(humanStateChange);
 
         //Initialize
         resourceStateChange = new ResourceStateChange();
@@ -58,18 +60,18 @@ public class ExecutionMode extends AbstractPersistable {
         listOfExecutionMode.add(this);
     }
 
-    public ExecutionMode(Job job, HumanStateChange humanStateChange, List<ExecutionMode> listOfExecutionMode) {
+    public ExecutionMode(Job job, List<ExecutionMode> listOfExecutionMode) {
         this.setJob(job);
         this.setId(listOfExecutionMode.size());
-        this.setHumanStateChange(humanStateChange);
     }
 
     public Job getJob() {
         return job;
     }
 
-    public void setJob(Job job) {
+    public ExecutionMode setJob(Job job) {
         this.job = job;
+        return this;
     }
 
 
@@ -95,8 +97,9 @@ public class ExecutionMode extends AbstractPersistable {
         return ExecutionModeIndex;
     }
 
-    public void setExecutionModeIndex(int executionModeIndex) {
+    public ExecutionMode setExecutionModeIndex(int executionModeIndex) {
         ExecutionModeIndex = executionModeIndex;
+        return this;
     }
 
 
@@ -104,23 +107,26 @@ public class ExecutionMode extends AbstractPersistable {
         return resourceStateChange;
     }
 
-    public void setResourceStateChange(ResourceStateChange resourceStateChange) {
+    public ExecutionMode setResourceStateChange(ResourceStateChange resourceStateChange) {
         this.resourceStateChange = resourceStateChange;
+        return this;
     }
 
     public HumanStateChange getHumanStateChange() {
         return humanStateChange;
     }
 
-    public void setHumanStateChange(HumanStateChange humanStateChange) {
+    public ExecutionMode setHumanStateChange(HumanStateChange humanStateChange) {
         this.humanStateChange = humanStateChange;
+        return this;
     }
 
     public ProgressChange getProgressChange() {
         return progressChange;
     }
 
-    public void setProgressChange(ProgressChange progressChange) {
+    public ExecutionMode setProgressChange(ProgressChange progressChange) {
         this.progressChange = progressChange;
+        return this;
     }
 }

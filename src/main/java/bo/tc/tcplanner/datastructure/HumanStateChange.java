@@ -1,6 +1,8 @@
 package bo.tc.tcplanner.datastructure;
 
-public class HumanStateChange {
+import bo.tc.tcplanner.persistable.AbstractPersistable;
+
+public class HumanStateChange extends AbstractPersistable {
     //location change
     String currentLocation;
     String movetoLocation;
@@ -8,51 +10,39 @@ public class HumanStateChange {
     double duration;
     String requirementTimerange;
 
-    public HumanStateChange(){
-
-    }
-    public HumanStateChange(String currentLocation, String movetoLocation, double duration){
-        this.currentLocation = currentLocation;
-        this.movetoLocation = movetoLocation;
-        this.duration = duration;
-    }
-
-    public HumanStateChange(String currentLocation, String movetoLocation, double duration,String requirementTimerange){
-        this.currentLocation = currentLocation;
-        this.movetoLocation = movetoLocation;
-        this.duration = duration;
-        this.requirementTimerange = requirementTimerange;
-    }
-
     public String getCurrentLocation() {
         return currentLocation;
     }
 
-    public void setCurrentLocation(String currentLocation) {
+    public HumanStateChange setCurrentLocation(String currentLocation) {
         this.currentLocation = currentLocation;
+        return this;
     }
 
     public String getMovetoLocation() {
         return movetoLocation;
     }
 
-    public void setMovetoLocation(String movetoLocation) {
+    public HumanStateChange setMovetoLocation(String movetoLocation) {
         this.movetoLocation = movetoLocation;
+        return this;
     }
 
     public double getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public HumanStateChange setDuration(double duration) {
         this.duration = duration;
+        return this;
     }
 
     public String getRequirementTimerange() {
         return requirementTimerange;
     }
 
-    public void setRequirementTimerange(String requirementTimerange) {
+    public HumanStateChange setRequirementTimerange(String requirementTimerange) {
         this.requirementTimerange = requirementTimerange;
+        return this;
     }
 }

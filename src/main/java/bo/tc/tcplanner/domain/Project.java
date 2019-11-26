@@ -53,24 +53,24 @@ public class Project extends AbstractPersistable {
         return releaseDate;
     }
 
-    public void setReleaseDate(int releaseDate) {
-        this.releaseDate = releaseDate;
+    public Project setReleaseDate(int releaseDate) {
+        this.releaseDate = releaseDate;return this;
     }
 
     public int getCriticalPathDuration() {
         return criticalPathDuration;
     }
 
-    public void setCriticalPathDuration(int criticalPathDuration) {
-        this.criticalPathDuration = criticalPathDuration;
+    public Project setCriticalPathDuration(int criticalPathDuration) {
+        this.criticalPathDuration = criticalPathDuration;return this;
     }
 
     public List<Job> getJobList() {
         return jobList;
     }
 
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
+    public Project setJobList(List<Job> jobList) {
+        this.jobList = jobList;return this;
     }
 
     // ************************************************************************
@@ -89,16 +89,16 @@ public class Project extends AbstractPersistable {
         return executionModeList;
     }
 
-    public void setExecutionModeList(List<ExecutionMode> executionModeList) {
-        this.executionModeList = executionModeList;
+    public Project setExecutionModeList(List<ExecutionMode> executionModeList) {
+        this.executionModeList = executionModeList;return this;
     }
 
     public Schedule getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public Project setSchedule(Schedule schedule) {
+        this.schedule = schedule;return this;
     }
 
 }

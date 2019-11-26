@@ -2,7 +2,7 @@ package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
 
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyLocation;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
 
 public class ListenerTools {
     public static void updateAllocationPreviousStandstill(Allocation allocation) {

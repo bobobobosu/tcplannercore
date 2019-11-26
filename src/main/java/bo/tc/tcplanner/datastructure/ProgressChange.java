@@ -1,22 +1,22 @@
 package bo.tc.tcplanner.datastructure;
 
-public class ProgressChange {
+import bo.tc.tcplanner.persistable.AbstractPersistable;
+
+public class ProgressChange extends AbstractPersistable {
     //percentage change
     double progressDelta;
-
-    public ProgressChange() {
-
-    }
 
     public ProgressChange(double progressDelta) {
         this.progressDelta = progressDelta;
      }
-
+    public ProgressChange() {
+    }
     public double getProgressDelta() {
         return progressDelta;
     }
 
-    public void setProgressDelta(double progressDelta) {
+    public ProgressChange setProgressDelta(double progressDelta) {
         this.progressDelta = progressDelta;
+        return this;
     }
 }

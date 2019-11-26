@@ -10,7 +10,7 @@
 //
 //import java.util.*;
 //
-//import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyJob;
+//import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 //import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
 //
 //public class ResourceStateChangeVariableListener implements VariableListener<Allocation> {

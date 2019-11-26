@@ -6,7 +6,7 @@ import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFi
 import org.optaplanner.core.impl.heuristic.selector.move.generic.SwapMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyJob;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.*;
 
 public class ProgressSwapMoveFilter implements SelectionFilter<Schedule, SwapMove> {

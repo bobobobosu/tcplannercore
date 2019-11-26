@@ -4,7 +4,7 @@ import bo.tc.tcplanner.domain.Allocation;
 
 import java.util.Comparator;
 
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyJob;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 public class AllocationDifficultyComparator implements Comparator<Allocation> {
     @Override

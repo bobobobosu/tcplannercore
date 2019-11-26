@@ -28,7 +28,7 @@ public class Job extends AbstractPersistable {
     private String description = "";
     private Project project;
     private JobType jobType;
-    private Integer rownum;
+    private Integer rownum; //negative if new, positive if exist, 0 if to delete
     private Integer timelineid;
     private List<ExecutionMode> executionModeList;
     private List<Job> successorJobList;
@@ -79,117 +79,126 @@ public class Job extends AbstractPersistable {
         return name;
     }
 
-    public void setName(String name) {
+    public Job setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Job setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Project getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public Job setProject(Project project) {
         this.project = project;
+        return this;
     }
 
     public JobType getJobType() {
         return jobType;
     }
 
-    public void setJobType(JobType jobType) {
+    public Job setJobType(JobType jobType) {
         this.jobType = jobType;
+        return this;
     }
 
     public Integer getRownum() {
         return rownum;
     }
 
-    public void setRownum(Integer rownum) {
+    public Job setRownum(Integer rownum) {
         this.rownum = rownum;
+        return this;
     }
 
     public Integer getTimelineid() {
         return timelineid;
     }
 
-    public void setTimelineid(Integer timelineid) {
+    public Job setTimelineid(Integer timelineid) {
         this.timelineid = timelineid;
+        return this;
     }
 
     public List<ExecutionMode> getExecutionModeList() {
         return executionModeList;
     }
 
-    public void setExecutionModeList(List<ExecutionMode> executionModeList) {
+    public Job setExecutionModeList(List<ExecutionMode> executionModeList) {
         this.executionModeList = executionModeList;
+        return this;
     }
 
     public List<Job> getSuccessorJobList() {
         return successorJobList;
     }
 
-    public void setSuccessorJobList(List<Job> successorJobList) {
+    public Job setSuccessorJobList(List<Job> successorJobList) {
         this.successorJobList = successorJobList;
+        return this;
     }
 
     public Integer getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Integer deadline) {
+    public Job setDeadline(Integer deadline) {
         this.deadline = deadline;
+        return this;
     }
 
     public List<Integer> getDependencyTimelineIdList() {
         return dependencyTimelineIdList;
     }
 
-    public void setDependencyTimelineIdList(List<Integer> dependencyTimelineIdList) {
+    public Job setDependencyTimelineIdList(List<Integer> dependencyTimelineIdList) {
         this.dependencyTimelineIdList = dependencyTimelineIdList;
+        return this;
     }
 
     public Integer getGravity() {
         return gravity;
     }
 
-    public void setGravity(Integer gravity) {
+    public Job setGravity(Integer gravity) {
         this.gravity = gravity;
+        return this;
     }
 
     public Integer getSplittable() {
         return splittable;
     }
 
-    public void setSplittable(Integer splittable) {
+    public Job setSplittable(Integer splittable) {
         this.splittable = splittable;
+        return this;
     }
 
     public Integer getMovable() {
         return movable;
     }
 
-    public void setMovable(Integer movable) {
+    public Job setMovable(Integer movable) {
         this.movable = movable;
+        return this;
     }
 
     public Integer getChangeable() {
         return changeable;
     }
 
-    public void setChangeable(Integer changeable) {
+    public Job setChangeable(Integer changeable) {
         this.changeable = changeable;
+        return this;
     }
-
-
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
 
 }

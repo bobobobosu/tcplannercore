@@ -6,6 +6,7 @@ import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.Schedule;
 import com.jakewharton.fliptables.FlipTable;
+import org.apache.commons.lang3.StringUtils;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
@@ -22,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
-import static bo.tc.tcplanner.domain.DataStructureBuilder.dummyExecutionMode;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyExecutionMode;
 
 public class Toolbox {
     public static Integer ZonedDatetime2OffsetMinutes(ZonedDateTime startDatetime, ZonedDateTime targetedDatetime) {
@@ -86,7 +87,7 @@ public class Toolbox {
     }
 
     public static void terminateSolvers(List<Solver<Schedule>> solverList) {
-        for (Solver solver : solverList) solver.terminateEarly();
+        for (Solver<Schedule> solver : solverList) solver.terminateEarly();
         solverList = new ArrayList<>();
     }
 
@@ -103,15 +104,15 @@ public class Toolbox {
         }
     }
 
-    public static void printCurrentSolution(Schedule schedule, Solver solver, boolean showTimeline, String solvingStatus) {
+    public static void printCurrentSolution(Schedule schedule, Solver<Schedule> solver, boolean showTimeline, String solvingStatus) {
         try {
             System.err.print("\033[H\033[2J");
             System.err.flush();
             String[] breakByRulesHeader = {"Break Up By Rule"};
             String[] timelineHeader = {"Row", "%", "Date", "Duration", "Location", "Restriction", "Score", "Task"};
-            List<String[]> breakByRules = new ArrayList();
+            List<String[]> breakByRules = new ArrayList<>();
             Map<Allocation, Indictment> breakByTasks = new HashMap<>();
-            List<String[]> timeline = new ArrayList();
+            List<String[]> timeline = new ArrayList<>();
 
 
             ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
@@ -148,16 +149,24 @@ public class Toolbox {
                                     allocation.getJob().getSplittable() + "S/" +
                                     ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ? "\n" + Arrays.toString(((BendableScore) breakByTasks.get(allocation).getScore()).getHardScores()) : ""),
-                            allocation.getJob().getName() + " " + allocation.getId()
+                            allocation.getJob().getName() + " " + allocation.getIndex() + "\n" +
+                                    StringUtils.abbreviate(allocation.getExecutionMode().getResourceStateChange().getResourceChange().toString(),60)
                     });
                 }
             }
             timeline.add(timelineHeader);
             solver.explainBestScore();
-            if (showTimeline)
-                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
+//            if (showTimeline)
+//                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+//            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
+//            System.err.println("Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
+            if(showTimeline){
+                SolverThread.logger.info("\n"+FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            }else{
+                SolverThread.logger.debug("\n"+FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+            }
+            SolverThread.logger.info("\n"+FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
+            SolverThread.logger.info("\n"+"Status: " + solvingStatus + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

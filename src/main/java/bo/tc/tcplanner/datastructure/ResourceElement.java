@@ -1,9 +1,10 @@
 package bo.tc.tcplanner.datastructure;
 
+import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResourceElement {
+public class ResourceElement extends AbstractPersistable {
     //numeric property
     double amt;
     //requirement availability property
@@ -30,23 +31,31 @@ public class ResourceElement {
         return amt;
     }
 
-    public void setAmt(double amt) {
+    public ResourceElement setAmt(double amt) {
         this.amt = amt;
+        return this;
     }
 
     public String getRequirementLocation() {
         return requirementLocation;
     }
 
-    public void setRequirementLocation(String requirementLocation) {
+    public ResourceElement setRequirementLocation(String requirementLocation) {
         this.requirementLocation = requirementLocation;
+        return this;
     }
 
     public String getProductionLocation() {
         return productionLocation;
     }
 
-    public void setProductionLocation(String productionLocation) {
+    public ResourceElement setProductionLocation(String productionLocation) {
         this.productionLocation = productionLocation;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(amt);
     }
 }

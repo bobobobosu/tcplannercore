@@ -1,7 +1,7 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.*;
-import bo.tc.tcplanner.domain.DataStructureWriter;
+import bo.tc.tcplanner.datastructure.converters.DataStructureWriter;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -143,7 +143,7 @@ public class JsonServer {
                         exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                         exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                         OutputStream responseBody = exchange.getResponseBody();
-                        responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(latestTimelineBlock).getBytes("UTF8"));
+                        responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(latestTimelineBlock).getBytes(StandardCharsets.UTF_8));
                         responseBody.close();
                     } catch (InterruptedException | IOException e) {
                         e.printStackTrace();
@@ -162,8 +162,8 @@ public class JsonServer {
             }
             new Thread(() -> {
                 try {
-                    String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), "UTF-8"),
-                            "UTF-8");
+                    String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
+                            StandardCharsets.UTF_8);
                     Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
                     for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
                         if (entry.getKey().equals("TimeHierarchyMap.json")) {
@@ -192,7 +192,7 @@ public class JsonServer {
                             set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                     exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                     OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write("{\"Updated\":true}".getBytes("UTF8"));
+                    responseBody.write("{\"Updated\":true}".getBytes(StandardCharsets.UTF_8));
                     responseBody.close();
                 } catch (Exception e) {
                     e.printStackTrace();

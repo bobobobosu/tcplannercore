@@ -74,8 +74,9 @@ public class Schedule extends AbstractPersistable {
         return valueEntryMap;
     }
 
-    public void setValueEntryMap(ValueEntryMap valueEntryMap) {
+    public Schedule setValueEntryMap(ValueEntryMap valueEntryMap) {
         this.valueEntryMap = valueEntryMap;
+        return this;
     }
 
     @ProblemFactCollectionProperty
@@ -83,8 +84,9 @@ public class Schedule extends AbstractPersistable {
         return projectList;
     }
 
-    public void setProjectList(List<Project> projectList) {
+    public Schedule setProjectList(List<Project> projectList) {
         this.projectList = projectList;
+        return this;
     }
 
     @ProblemFactCollectionProperty
@@ -92,8 +94,9 @@ public class Schedule extends AbstractPersistable {
         return jobList;
     }
 
-    public void setJobList(List<Job> jobList) {
+    public Schedule setJobList(List<Job> jobList) {
         this.jobList = jobList;
+        return this;
     }
 
     @ProblemFactCollectionProperty
@@ -101,8 +104,9 @@ public class Schedule extends AbstractPersistable {
         return executionModeList;
     }
 
-    public void setExecutionModeList(List<ExecutionMode> executionModeList) {
+    public Schedule setExecutionModeList(List<ExecutionMode> executionModeList) {
         this.executionModeList = executionModeList;
+        return this;
     }
 
 
@@ -111,8 +115,9 @@ public class Schedule extends AbstractPersistable {
         return allocationList;
     }
 
-    public void setAllocationList(List<Allocation> allocationList) {
+    public Schedule setAllocationList(List<Allocation> allocationList) {
         this.allocationList = allocationList;
+        return this;
     }
 
     @PlanningScore(bendableHardLevelsSize = 5, bendableSoftLevelsSize = 4)
@@ -128,40 +133,45 @@ public class Schedule extends AbstractPersistable {
         return globalStartTime;
     }
 
-    public void setGlobalStartTime(ZonedDateTime globalStartTime) {
+    public Schedule setGlobalStartTime(ZonedDateTime globalStartTime) {
         this.globalStartTime = globalStartTime;
+        return this;
     }
 
     public ZonedDateTime getGlobalEndTime() {
         return globalEndTime;
     }
 
-    public void setGlobalEndTime(ZonedDateTime globalEndTime) {
+    public Schedule setGlobalEndTime(ZonedDateTime globalEndTime) {
         this.globalEndTime = globalEndTime;
+        return this;
     }
 
     public int getGlobalStartRow() {
         return globalStartRow;
     }
 
-    public void setGlobalStartRow(int globalStartRow) {
+    public Schedule setGlobalStartRow(int globalStartRow) {
         this.globalStartRow = globalStartRow;
+        return this;
     }
 
     public int getGlobalEndRow() {
         return globalEndRow;
     }
 
-    public void setGlobalEndRow(int globalEndRow) {
+    public Schedule setGlobalEndRow(int globalEndRow) {
         this.globalEndRow = globalEndRow;
+        return this;
     }
 
     public int getGlobalScheduleAfterIndex() {
         return globalScheduleAfterIndex;
     }
 
-    public void setGlobalScheduleAfterIndex(int globalScheduleAfterIndex) {
+    public Schedule setGlobalScheduleAfterIndex(int globalScheduleAfterIndex) {
         this.globalScheduleAfterIndex = globalScheduleAfterIndex;
+        return this;
     }
 
 
