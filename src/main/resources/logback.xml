@@ -7,6 +7,7 @@
     </filter>
     <encoder>
       <!-- %L lowers performance, %C and %c break indentation and therefore reduce readability, normal %t is verbose -->
+<!--      <charset>utf-8</charset>-->
       <pattern>%d{HH:mm:ss.SSS} [%-12.12t] %-5p %m%n</pattern>
     </encoder>
   </appender>
@@ -25,6 +26,7 @@
       <maxFileSize>5MB</maxFileSize>
     </triggeringPolicy>
     <encoder>
+      <charset>utf-8</charset>
       <pattern>%d{HH:mm:ss.SSS} [%t] %-5p %m%n</pattern>
     </encoder>
   </appender>
@@ -42,7 +44,7 @@
   </logger>
 
   <logger name="bo.tc.tcplanner" level="debug">
-    <appender-ref ref="consoleAppender" />
+<!--    <appender-ref ref="consoleAppender" />-->
     <appender-ref ref="fileAppender" />
   </logger>
 
