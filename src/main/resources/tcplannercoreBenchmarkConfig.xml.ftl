@@ -122,7 +122,7 @@
                     </acceptor>
                 </#if>
                 <forager>
-                    <acceptedCountLimit>${250+acceptedCountLimit}</acceptedCountLimit>
+                    <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
                     ${finalistPodiumType}
                     <pickEarlyType>${pickEarlyType}</pickEarlyType>
                 </forager>
