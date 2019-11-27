@@ -20,9 +20,6 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 public class PredecessorsDoneDateUpdatingVariableListener implements VariableListener<Allocation> {
 
     @Override
@@ -56,41 +53,17 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        Queue<Allocation> uncheckedSuccessorQueue = new ArrayDeque<>();
-        uncheckedSuccessorQueue.addAll(originalAllocation.getSuccessorAllocationList());
-        while (!uncheckedSuccessorQueue.isEmpty()) {
-            Allocation allocation = uncheckedSuccessorQueue.remove();
-            boolean updated = updatePredecessorsDoneDate(scoreDirector, allocation);
-            if (updated) {
-                uncheckedSuccessorQueue.addAll(allocation.getSuccessorAllocationList());
-            }
+        NonDummyAllocationIterator nonDummyAllocationIterator = new NonDummyAllocationIterator(
+                originalAllocation);
+        Allocation prevAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
+        while (nonDummyAllocationIterator.hasNext()) {
+            Allocation thisAllocation = nonDummyAllocationIterator.next();
+            scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
+            thisAllocation.setPredecessorsDoneDate(prevAllocation == null? 0 : prevAllocation.getEndDate());
+            scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
+            prevAllocation = thisAllocation;
         }
-    }
 
-    /**
-     * @param scoreDirector never null
-     * @param allocation    never null
-     * @return true if the startDate changed
-     */
-    protected boolean updatePredecessorsDoneDate(ScoreDirector scoreDirector, Allocation allocation) {
-        Integer doneDate = 0;
-        Allocation prevAllocation = allocation;
-        // while (prevAllocation.getPredecessorAllocationList().size()>0){
-        //     prevAllocation = prevAllocation.getPredecessorAllocationList().get(0);
-        //     if(prevAllocation.getExecutionMode().getTimeduration() > 0){
-        //         int endDate = prevAllocation.getEndDate();
-        //         doneDate = Math.max(doneDate, endDate);
-        //         break;
-        //     }
-        // }
-        for (Allocation predecessorAllocation : allocation.getPredecessorAllocationList()) {
-            int endDate = predecessorAllocation.getEndDate();
-            doneDate = Math.max(doneDate, endDate);
-        }
-        scoreDirector.beforeVariableChanged(allocation, "predecessorsDoneDate");
-        allocation.setPredecessorsDoneDate(doneDate);
-        scoreDirector.afterVariableChanged(allocation, "predecessorsDoneDate");
-        return true;
     }
 
 }

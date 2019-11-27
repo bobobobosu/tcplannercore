@@ -5,8 +5,6 @@ import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import java.util.List;
-
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isNotInIndex;
 
 public class IndexAllocationFilter implements SelectionFilter<Schedule, Allocation> {

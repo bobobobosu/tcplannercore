@@ -2,7 +2,6 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
-import java.sql.Time;
 import java.util.List;
 
 public class TimelineEntry extends AbstractPersistable {

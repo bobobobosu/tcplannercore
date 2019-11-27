@@ -3,6 +3,8 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Objects;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceElement extends AbstractPersistable {
     //numeric property
@@ -57,5 +59,20 @@ public class ResourceElement extends AbstractPersistable {
     @Override
     public String toString() {
         return String.valueOf(amt);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourceElement that = (ResourceElement) o;
+        return Double.compare(that.amt, amt) == 0 &&
+                Objects.equals(requirementLocation, that.requirementLocation) &&
+                Objects.equals(productionLocation, that.productionLocation);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

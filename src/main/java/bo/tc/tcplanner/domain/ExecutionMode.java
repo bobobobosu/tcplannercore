@@ -18,14 +18,11 @@ package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.HumanStateChange;
 import bo.tc.tcplanner.datastructure.ProgressChange;
-import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ResourceStateChange;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @XStreamAlias("PjsExecutionMode")
 public class ExecutionMode extends AbstractPersistable {

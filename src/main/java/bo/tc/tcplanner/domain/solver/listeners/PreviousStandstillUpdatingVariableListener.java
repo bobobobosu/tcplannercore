@@ -1,12 +1,8 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
 
@@ -43,23 +39,19 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        Schedule schedule = (Schedule) scoreDirector.getWorkingSolution();
-        Queue<Allocation> uncheckedSuccessorQueue = new ArrayDeque<>();
-        uncheckedSuccessorQueue.addAll(originalAllocation.getSuccessorAllocationList());
-        while (!uncheckedSuccessorQueue.isEmpty()) {
-            Allocation allocation = uncheckedSuccessorQueue.remove();
-            boolean updated = updatePreviousStandstill(scoreDirector, allocation);
-            if (updated) {
-                uncheckedSuccessorQueue.addAll(allocation.getSuccessorAllocationList());
-            }
+        NonDummyAllocationIterator nonDummyAllocationIterator = new NonDummyAllocationIterator(
+                originalAllocation);
+        Allocation prevAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
+        while (nonDummyAllocationIterator.hasNext()) {
+            Allocation thisAllocation = nonDummyAllocationIterator.next();
+            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
+            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
+            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
+            prevAllocation = thisAllocation;
         }
+
+
         int i = 0;
     }
 
-    protected boolean updatePreviousStandstill(ScoreDirector scoreDirector, Allocation allocation) {
-        scoreDirector.beforeVariableChanged(allocation, "previousStandstill");
-        updateAllocationPreviousStandstill(allocation);
-        scoreDirector.afterVariableChanged(allocation, "previousStandstill");
-        return true;
-    }
 }

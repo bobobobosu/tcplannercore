@@ -5,7 +5,7 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockFull.json</inputSolutionFile>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockLarge.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -15,14 +15,14 @@
         </problemBenchmarks>
 
         <solver>
-<#--            <moveThreadCount>AUTO</moveThreadCount>-->
+            <moveThreadCount>AUTO</moveThreadCount>
             <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
             </termination>
         </solver>
     </inheritedSolverBenchmark>
@@ -36,7 +36,7 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['TCRules_P1_bend2.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>

@@ -4,11 +4,6 @@ import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import com.google.common.collect.Lists;
-import org.kie.api.definition.rule.All;
-import org.optaplanner.core.api.domain.solution.Solution;
-import org.optaplanner.core.api.domain.solution.cloner.SolutionCloner;
-import org.optaplanner.core.impl.domain.solution.cloner.FieldAccessingSolutionCloner;
-import org.optaplanner.core.impl.domain.solution.descriptor.SolutionDescriptor;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -17,10 +12,13 @@ import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.dtf_TimelineEntry;
 import static bo.tc.tcplanner.app.Toolbox.OffsetMinutes2ZonedDatetime;
+import static bo.tc.tcplanner.app.Toolbox.jacksonDeepCopy;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.deletedRownum;
 
 public class DataStructureWriter {
     public TimelineBlock generateTimelineBlock(TimelineBlock oldTimelineBlock, Schedule result) {
+        oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(oldTimelineBlock);
+
 
         TimelineBlock timelineBlock = new TimelineBlock()
                 .setBlockStartTime(oldTimelineBlock.getBlockStartTime())

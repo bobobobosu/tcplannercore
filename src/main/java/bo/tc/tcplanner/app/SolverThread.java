@@ -4,7 +4,9 @@ import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
-import bo.tc.tcplanner.domain.*;
+import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.JobType;
+import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
@@ -23,7 +25,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
-import static bo.tc.tcplanner.app.Toolbox.*;
+import static bo.tc.tcplanner.app.Toolbox.displayTray;
+import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 
 public class SolverThread extends Thread {
     public static final Logger logger
@@ -109,7 +112,7 @@ public class SolverThread extends Thread {
 
     public void setSolverListener(Solver<Schedule> solver) {
         solver.addEventListener(bestSolutionChangedEvent -> {
-            printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false, solvingStatus);
+//            printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false, solvingStatus);
             currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
             jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
         });
@@ -125,12 +128,14 @@ public class SolverThread extends Thread {
     public void terminateSolver() {
         setContinuetosolve(false);
         if (solverList != null) for (Solver<Schedule> solver : solverList) solver.terminateEarly();
+        while(solverList != null && solverList.stream().noneMatch(Solver::isSolving)){
+        }
     }
 
     public void restartSolversWithNewTimelineBlock(TimelineBlock timelineBlock) {
         terminateSolver();
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -216,10 +221,10 @@ public class SolverThread extends Thread {
             currentSolver = solverList.get(1);
             if (continuetosolve) {
                 currentSchedule = result = solverList.get(1).solve(result);
+                jsonServer.updateTimelineBlock(false, result);
             }
         }
 
-        jsonServer.updateTimelineBlock(false, result);
         return result;
     }
 

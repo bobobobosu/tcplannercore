@@ -5,8 +5,8 @@ import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.Schedule;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.fliptables.FlipTable;
-import org.apache.commons.lang3.StringUtils;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
@@ -15,16 +15,18 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.awt.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyExecutionMode;
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 public class Toolbox {
     public static Integer ZonedDatetime2OffsetMinutes(ZonedDateTime startDatetime, ZonedDateTime targetedDatetime) {
@@ -62,6 +64,17 @@ public class Toolbox {
 
     public static boolean castBoolean(Object obj) {
         return (boolean) obj;
+    }
+
+    public static Object jacksonDeepCopy(Object obj)  {
+        try {
+            String serielizedStr = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            Map serielizedMap =new ObjectMapper().readValue(serielizedStr, Map.class);
+            return new ObjectMapper().convertValue(serielizedMap, obj.getClass());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void displayTray(String caption, String text) {
@@ -130,7 +143,7 @@ public class Toolbox {
                 }
             }
             for (Allocation allocation : schedule.getAllocationList()) {
-                if (allocation.getExecutionMode() != dummyExecutionMode) {
+                if (allocation.getJob() != dummyJob) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
                     String datetime = formatter.format(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
                             allocation.getStartDate()).withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
@@ -151,8 +164,11 @@ public class Toolbox {
                                     ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ?
                                     hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()): ""),
-                            allocation.getJob().getName() + " " + allocation.getIndex() + "\n" +
-                                    allocation.getExecutionMode().getResourceStateChange().getResourceChange().toString().replaceAll("(.{60})", "$1\n")
+                            allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +
+                                    allocation.getResourceElementMap().entrySet()
+                                            .stream()
+                                            .filter(entry -> entry.getValue().getAmt()<0)
+                                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).toString().replaceAll("(.{60})", "$1\n")
                     });
                 }
             }

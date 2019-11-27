@@ -16,6 +16,7 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ExecutionModeStrengthComparator;
@@ -23,10 +24,10 @@ import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator
 import bo.tc.tcplanner.domain.solver.listeners.PredecessorsDoneDateUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.PreviousStandstillUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.ProgressDeltaVariableListener;
+import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListener;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
@@ -36,6 +37,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
 @XStreamAlias("PjsAllocation")
@@ -57,6 +59,7 @@ public class Allocation extends AbstractPersistable {
     private Integer predecessorsDoneDate;
     private String previousStandstill;
     private Integer plannedDuration;
+    private Map<String, ResourceElement> resourceElementMap;
     // Force Settings
     private Integer forceStartTime;
 
@@ -245,6 +248,17 @@ public class Allocation extends AbstractPersistable {
 
     public void setPlannedDuration(Integer plannedDuration) {
         this.plannedDuration = plannedDuration;
+    }
+
+    @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
+            @PlanningVariableReference(variableName = "progressdelta"),
+            @PlanningVariableReference(variableName = "executionMode")})
+    public Map<String, ResourceElement> getResourceElementMap() {
+        return resourceElementMap;
+    }
+
+    public void setResourceElementMap(Map<String, ResourceElement> resourceElementMap) {
+        this.resourceElementMap = resourceElementMap;
     }
 
     // ************************************************************************

@@ -5,10 +5,10 @@
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1.drl</scoreDrl>
+        <scoreDrl>TCRules_P1_bend2.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>100</millisecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>

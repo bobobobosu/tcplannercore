@@ -7,7 +7,8 @@ import org.optaplanner.core.impl.heuristic.selector.move.generic.SwapMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.*;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isLocked;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isNotChangeable;
 
 public class DummySwapMoveFilterIgnoreIndex implements SelectionFilter<Schedule, SwapMove> {
 

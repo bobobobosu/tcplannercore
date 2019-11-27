@@ -2,9 +2,7 @@ package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
-import org.kie.api.definition.rule.All;
 
-import java.lang.reflect.Array;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,17 +11,18 @@ import java.util.Map;
 
 import static bo.tc.tcplanner.app.Toolbox.ZonedDatetime2OffsetMinutes;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
 
 public class DataStructureBuilder {
     public static Integer deletedRownum = 99999;
     public static Job dummyJob;
-    public static Job sourceJob;
-    public static Job sinkJob;
-    public static ExecutionMode dummyExecutionMode;
-    public static ExecutionMode sourceExecutionMode;
-    public static ExecutionMode sinkExecutionMode;
-    public static HumanStateChange dummyHumamStateChange;
-    public static ProgressChange dummyProgressChange;
+    public Job sourceJob;
+    public Job sinkJob;
+    public ExecutionMode dummyExecutionMode;
+    public ExecutionMode sourceExecutionMode;
+    public ExecutionMode sinkExecutionMode;
+    public HumanStateChange dummyHumamStateChange;
+    public ProgressChange dummyProgressChange;
     public static String dummyLocation;
     public static String dummyTime;
     /*
@@ -116,16 +115,8 @@ public class DataStructureBuilder {
             allocation.setPredecessorsDoneDate(doneDate);
         }
 
-        // set PreviousStandstill
-        for (Allocation allocation : allocationList) {
-            if (allocation.getPredecessorAllocationList().size() == 0) {
-                allocation.setPreviousStandstill(dummyLocation);
-            } else {
-                updateAllocationPreviousStandstill(allocation);
-            }
-        }
-
         // Set Scheduled Job requirement
+        Allocation sourceAllocation = allocationList.get(0);
         Allocation sinkAllocation = allocationList.get(allocationList.size() - 1);
         sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
         for (Allocation allocation : allocationList) {
@@ -135,6 +126,23 @@ public class DataStructureBuilder {
                             allocation.getJob().getId().toString(), new ResourceElement(-1, dummyLocation, dummyLocation));
                 }
             }
+        }
+
+        Allocation prevAllocation = null;
+        for (Allocation allocation : allocationList) {
+            updateAllocationPreviousStandstill(allocation,prevAllocation);
+            prevAllocation = allocation;
+        }
+
+        // set ResourceElementMap
+        for (Allocation allocation : allocationList) {
+            allocation.setResourceElementMap(null);
+        }
+
+        prevAllocation = null;
+        for (Allocation allocation : allocationList) {
+            updateAllocationResourceStateChange(allocation,prevAllocation);
+            prevAllocation = allocation;
         }
     }
 
@@ -294,12 +302,12 @@ public class DataStructureBuilder {
         for (Allocation allocation : listOfAllocations) {
             allocation.getProject().getSchedule().getAllocationList().add(allocation);
         }
+        defaultSchedule.setValueEntryMap(valueEntryMap);
     }
 
     public Schedule getFullSchedule() {
         defaultSchedule.setAllocationList(listOfAllocations);
         constructChainProperty(defaultSchedule.getAllocationList());
-        defaultSchedule.setValueEntryMap(valueEntryMap);
         return defaultSchedule;
     }
 
