@@ -65,11 +65,11 @@
         <acceptor>
             <moveTabuSize>1</moveTabuSize>
             <undoMoveTabuSize>5</undoMoveTabuSize>
-            <lateAcceptanceSize>2</lateAcceptanceSize>
+            <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
             <pickEarlyType>NEVER</pickEarlyType>
-            <acceptedCountLimit>270</acceptedCountLimit>
+            <acceptedCountLimit>280</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>80000</millisecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+<#--                <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -30,17 +30,17 @@
     }
 
 <#--    files-->
-    <#list ['TimelineBlockEasy','TimelineBlockHard'] as solution>
+    <#list ['TimelineBlockHard'] as solution>
 <#--    numbers-->
-    <#list [270] as acceptedCountLimit>
+    <#list [240] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
-    <#list [2] as lateAcceptanceSize>
+    <#list [1, 2] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['TCRules_P1_4.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>

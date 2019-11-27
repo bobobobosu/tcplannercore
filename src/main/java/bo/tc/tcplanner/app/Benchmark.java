@@ -13,8 +13,8 @@ public class Benchmark {
         setConstants();
         PlannerBenchmarkFactory plannerBenchmarkFactory = PlannerBenchmarkFactory.createFromFreemarkerXmlResource(
                 "tcplannercoreBenchmarkConfig.xml.ftl");
-        BenchmarkAggregatorFrame.createAndDisplay(plannerBenchmarkFactory);
-//        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
-//        plannerBenchmark.benchmarkAndShowReportInBrowser();
+//        BenchmarkAggregatorFrame.createAndDisplay(plannerBenchmarkFactory);
+        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
+        plannerBenchmark.benchmarkAndShowReportInBrowser();
     }
 }
