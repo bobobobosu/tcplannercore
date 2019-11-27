@@ -23,7 +23,6 @@ import bo.tc.tcplanner.domain.solver.comparators.ExecutionModeStrengthComparator
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
 import bo.tc.tcplanner.domain.solver.listeners.PredecessorsDoneDateUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.PreviousStandstillUpdatingVariableListener;
-import bo.tc.tcplanner.domain.solver.listeners.ProgressDeltaVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListener;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -217,18 +216,6 @@ public class Allocation extends AbstractPersistable {
         this.progressdelta = progressdelta;
     }
 
-    @CustomShadowVariable(variableListenerClass = PredecessorsDoneDateUpdatingVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "executionMode"),
-            @PlanningVariableReference(variableName = "delay"),
-            @PlanningVariableReference(variableName = "progressdelta")})
-    public Integer getPredecessorsDoneDate() {
-        return predecessorsDoneDate;
-    }
-
-    public void setPredecessorsDoneDate(Integer predecessorsDoneDate) {
-        this.predecessorsDoneDate = predecessorsDoneDate;
-    }
-
     @CustomShadowVariable(variableListenerClass = PreviousStandstillUpdatingVariableListener.class, sources = {
             @PlanningVariableReference(variableName = "executionMode")})
     public String getPreviousStandstill() {
@@ -239,9 +226,32 @@ public class Allocation extends AbstractPersistable {
         this.previousStandstill = previousStandstill;
     }
 
-    @CustomShadowVariable(variableListenerClass = ProgressDeltaVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "progressdelta"),
-            @PlanningVariableReference(variableName = "executionMode")})
+    @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
+            @PlanningVariableReference(variableName = "executionMode"),
+            @PlanningVariableReference(variableName = "delay"),
+            @PlanningVariableReference(variableName = "progressdelta")})
+    public Map<String, ResourceElement> getResourceElementMap() {
+        return resourceElementMap;
+    }
+
+    public void setResourceElementMap(Map<String, ResourceElement> resourceElementMap) {
+        this.resourceElementMap = resourceElementMap;
+    }
+
+    @CustomShadowVariable(variableListenerClass = PredecessorsDoneDateUpdatingVariableListener.class,
+            sources = {
+                    @PlanningVariableReference(variableName = "executionMode"),
+                    @PlanningVariableReference(variableName = "delay"),
+                    @PlanningVariableReference(variableName = "progressdelta")})
+    public Integer getPredecessorsDoneDate() {
+        return predecessorsDoneDate;
+    }
+
+    public void setPredecessorsDoneDate(Integer predecessorsDoneDate) {
+        this.predecessorsDoneDate = predecessorsDoneDate;
+    }
+
+    @CustomShadowVariable(variableListenerRef = @PlanningVariableReference(variableName = "predecessorsDoneDate"))
     public Integer getPlannedDuration() {
         return plannedDuration;
     }
@@ -250,16 +260,7 @@ public class Allocation extends AbstractPersistable {
         this.plannedDuration = plannedDuration;
     }
 
-    @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "progressdelta"),
-            @PlanningVariableReference(variableName = "executionMode")})
-    public Map<String, ResourceElement> getResourceElementMap() {
-        return resourceElementMap;
-    }
 
-    public void setResourceElementMap(Map<String, ResourceElement> resourceElementMap) {
-        this.resourceElementMap = resourceElementMap;
-    }
 
     // ************************************************************************
     // Complex methods

@@ -2,6 +2,7 @@ package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
+import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -10,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static bo.tc.tcplanner.app.Toolbox.ZonedDatetime2OffsetMinutes;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 
 public class DataStructureBuilder {
     public static Integer deletedRownum = 99999;
@@ -105,15 +105,6 @@ public class DataStructureBuilder {
             allocationList.get(i).setPredecessorAllocationList(predecessorList);
         }
 
-        // set PredecessorsDoneDate
-        for (Allocation allocation : allocationList) {
-            int doneDate = 0;
-            for (Allocation predecessorAllocation : allocation.getPredecessorAllocationList()) {
-                int endDate = predecessorAllocation.getEndDate();
-                doneDate = Math.max(doneDate, endDate);
-            }
-            allocation.setPredecessorsDoneDate(doneDate);
-        }
 
         // Set Scheduled Job requirement
         Allocation sourceAllocation = allocationList.get(0);
@@ -128,22 +119,54 @@ public class DataStructureBuilder {
             }
         }
 
-        Allocation prevAllocation = null;
+
+        NonDummyAllocationIterator nonDummyAllocationIterator;
+        Allocation prevAllocation;
+
+        // set PreviousStandstill
         for (Allocation allocation : allocationList) {
-            updateAllocationPreviousStandstill(allocation,prevAllocation);
-            prevAllocation = allocation;
+            allocation.setPreviousStandstill(null);
+        }
+        sourceAllocation.setPreviousStandstill(dummyLocation);
+        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
+        prevAllocation = nonDummyAllocationIterator.next();
+        while (nonDummyAllocationIterator.hasNext()) {
+            Allocation thisAllocation = nonDummyAllocationIterator.next();
+            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
+            prevAllocation = thisAllocation;
+        }
+
+        // set PredecessorsDoneDate
+        for (Allocation allocation : allocationList) {
+            allocation.setPredecessorsDoneDate(null);
+            if (allocation.getJob() == dummyJob) {
+                allocation.setPlannedDuration(null);
+            } else {
+                updatePlanningDuration(allocation);
+            }
+        }
+        sourceAllocation.setPredecessorsDoneDate(0);
+        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
+        prevAllocation = nonDummyAllocationIterator.next();
+        while (nonDummyAllocationIterator.hasNext()) {
+            Allocation thisAllocation = nonDummyAllocationIterator.next();
+            updatePredecessorsDoneDate(thisAllocation, prevAllocation);
+            prevAllocation = thisAllocation;
         }
 
         // set ResourceElementMap
         for (Allocation allocation : allocationList) {
             allocation.setResourceElementMap(null);
         }
-
-        prevAllocation = null;
-        for (Allocation allocation : allocationList) {
-            updateAllocationResourceStateChange(allocation,prevAllocation);
-            prevAllocation = allocation;
+        sourceAllocation.setResourceElementMap(new HashMap<>());
+        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
+        prevAllocation = nonDummyAllocationIterator.next();
+        while (nonDummyAllocationIterator.hasNext()) {
+            Allocation thisAllocation = nonDummyAllocationIterator.next();
+            updateAllocationResourceStateChange(thisAllocation, prevAllocation);
+            prevAllocation = thisAllocation;
         }
+
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {
@@ -186,7 +209,7 @@ public class DataStructureBuilder {
         this.timelineBlock = timelineBlock;
 
         for (TimelineEntry timelineEntry : timelineBlock.getTimelineEntryList()) {
-            if(timelineEntry.getRownum().equals(deletedRownum)) continue;
+            if (timelineEntry.getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
             ResourceElement resourceElement = new ResourceElement().setAmt(1).setRequirementLocation(dummyLocation).setProductionLocation(dummyLocation);

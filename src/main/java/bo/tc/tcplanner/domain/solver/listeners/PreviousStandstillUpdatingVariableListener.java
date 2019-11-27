@@ -1,10 +1,13 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
 
 
 public class PreviousStandstillUpdatingVariableListener implements VariableListener<Allocation> {
@@ -39,19 +42,22 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        NonDummyAllocationIterator nonDummyAllocationIterator = new NonDummyAllocationIterator(
-                originalAllocation);
-        Allocation prevAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
+        if (originalAllocation.getJob() == dummyJob) {
+            originalAllocation.setPreviousStandstill(null);
+        }
+        NonDummyAllocationIterator nonDummyAllocationIterator;
+        while (originalAllocation.getPreviousStandstill() == null){
+            originalAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
+        }
+        nonDummyAllocationIterator = new NonDummyAllocationIterator(originalAllocation);
+        Allocation prevAllocation = nonDummyAllocationIterator.next();
         while (nonDummyAllocationIterator.hasNext()) {
             Allocation thisAllocation = nonDummyAllocationIterator.next();
-            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
+            scoreDirector.beforeVariableChanged(thisAllocation, "resourceElementMap");
             updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
-            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
+            scoreDirector.afterVariableChanged(thisAllocation, "resourceElementMap");
             prevAllocation = thisAllocation;
         }
-
-
-        int i = 0;
     }
 
 }

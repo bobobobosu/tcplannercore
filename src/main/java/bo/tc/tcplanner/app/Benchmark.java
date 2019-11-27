@@ -2,6 +2,7 @@ package bo.tc.tcplanner.app;
 
 import org.optaplanner.benchmark.api.PlannerBenchmark;
 import org.optaplanner.benchmark.api.PlannerBenchmarkFactory;
+import org.optaplanner.benchmark.impl.aggregator.swingui.BenchmarkAggregatorFrame;
 
 import java.io.IOException;
 
@@ -12,7 +13,8 @@ public class Benchmark {
         setConstants();
         PlannerBenchmarkFactory plannerBenchmarkFactory = PlannerBenchmarkFactory.createFromFreemarkerXmlResource(
                 "tcplannercoreBenchmarkConfig.xml.ftl");
-        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
-        plannerBenchmark.benchmarkAndShowReportInBrowser();
+        BenchmarkAggregatorFrame.createAndDisplay(plannerBenchmarkFactory);
+//        PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
+//        plannerBenchmark.benchmarkAndShowReportInBrowser();
     }
 }

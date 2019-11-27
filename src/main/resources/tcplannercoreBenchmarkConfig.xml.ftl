@@ -5,7 +5,6 @@
     <inheritedSolverBenchmark>
         <problemBenchmarks>
             <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
-            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/TimelineBlockLarge.json</inputSolutionFile>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>
@@ -21,22 +20,27 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>80000</millisecondsSpentLimit>
+
             </termination>
         </solver>
-    </inheritedSolverBenchmark>
 
+    {</inheritedSolverBenchmark>
+    }
+
+<#--    files-->
+    <#list ['TimelineBlockEasy','TimelineBlockHard'] as solution>
 <#--    numbers-->
-    <#list [280] as acceptedCountLimit>
+    <#list [270] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
-    <#list [1] as lateAcceptanceSize>
+    <#list [2] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['TCRules_P1_bend2.drl'] as scoreDrl>
+    <#list ['TCRules_P1_4.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -102,7 +106,10 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>d${scoreDrl?index}</name>
+        <name>a${acceptedCountLimit?index}d${scoreDrl?index}l${lateAcceptanceSize?index}t${tabu?index}s${solution?index}</name>
+        <problemBenchmarks>
+            <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
+        </problemBenchmarks>
         <solver>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
@@ -129,6 +136,7 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

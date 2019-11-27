@@ -29,7 +29,7 @@ rule "checkMandatoryJobUnique"
             )
         Number($amount > 1)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 0, (-$amount.intValue()+1)*100);
+        scoreHolder.addHardConstraintMatch(kcontext, 0, (-$amount.intValue()+1)*1000);
 end
 
 rule "checkDependencyId"
@@ -41,7 +41,7 @@ rule "checkDependencyId"
     then
 //        scoreHolder.addHardConstraintMatch(kcontext, 0, -100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(100),$jobType == JobType.SCHEDULED ? -(100) : 0,0,0,0},
+											new int[]{-(1000),$jobType == JobType.SCHEDULED ? -(1000) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -110,7 +110,7 @@ rule "checkSplittable"
             $executionMode : executionMode,job.getSplittable() == 0,$progressdelta : progressdelta,$progressdelta<100 )
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{($progressdelta-100),
+											new int[]{($progressdelta-100)*100,
 														$jobType == JobType.SCHEDULED ? ($progressdelta-100) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end

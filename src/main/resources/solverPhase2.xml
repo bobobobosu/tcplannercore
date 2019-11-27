@@ -4,11 +4,12 @@
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1_bend2.drl</scoreDrl>
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+        <!--        <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
 <!--        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+        <unimprovedSecondsSpentLimit>60</unimprovedSecondsSpentLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -65,11 +66,11 @@
         <acceptor>
             <moveTabuSize>1</moveTabuSize>
             <undoMoveTabuSize>5</undoMoveTabuSize>
-            <lateAcceptanceSize>1</lateAcceptanceSize>
+            <lateAcceptanceSize>2</lateAcceptanceSize>
         </acceptor>
         <forager>
             <pickEarlyType>NEVER</pickEarlyType>
-            <acceptedCountLimit>280</acceptedCountLimit>
+            <acceptedCountLimit>270</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

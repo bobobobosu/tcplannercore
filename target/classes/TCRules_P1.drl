@@ -29,36 +29,47 @@ rule "checkMandatoryJobUnique"
             )
         Number($amount > 1)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 0, (-$amount.intValue()+1)*100);
+        scoreHolder.addHardConstraintMatch(kcontext, 0, (-$amount.intValue()+1)*1000);
 end
 
 rule "checkDependencyId"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
             $index : index, $dependencyTimelineIdList : job.getDependencyTimelineIdList )
         $dependencyId : Integer() from $dependencyTimelineIdList
         Allocation(job != DataStructureBuilder.dummyJob, $timelineid : job.getTimelineid(), $timelineid == $dependencyId,index > $index)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 0, -100);
+//        scoreHolder.addHardConstraintMatch(kcontext, 0, -100);
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{-(1000),$jobType == JobType.SCHEDULED ? -(1000) : 0,0,0,0},
+											new int[]{0,0,0,0});
 end
 
 rule "checkTimeOverlapping"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
             $executionMode : executionMode,$predecessorsDoneDate : predecessorsDoneDate,$startDate : startDate,$predecessorsDoneDate > $startDate,$plannedDuration : plannedDuration)
         ExecutionMode(this==$executionMode, $name : job.name)
 
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
+//        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration))
+											,$jobType == JobType.SCHEDULED ?
+											 -(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)): 0,0,0,0},
+											new int[]{0,0,0,0});
 end
 
 rule "checkDeadline"
    when
-       $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+       $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
             $executionMode : executionMode,$job : executionMode.getJob(), $endDate : endDate)
        Job(this == $job,$deadline : deadline, $deadline < $endDate)
    then
-       scoreHolder.addHardConstraintMatch(kcontext, 0, $deadline - $endDate);
+//       scoreHolder.addHardConstraintMatch(kcontext, 0, $deadline - $endDate);
+       		scoreHolder.addMultiConstraintMatch(kcontext,
+       											new int[]{$deadline - $endDate,$jobType == JobType.SCHEDULED ? $deadline - $endDate : 0,0,0,0},
+       											new int[]{0,0,0,0});
 end
 
 rule "checkPreviousStandstill"
@@ -70,7 +81,7 @@ rule "checkPreviousStandstill"
     then
 
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(100),0,0,0,0},
+											new int[]{-(100),$jobType == JobType.SCHEDULED ? -(100) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -88,18 +99,19 @@ rule "checkRequirements"
     then
 			scoreHolder.addMultiConstraintMatch(kcontext,
 												new int[]{(int)(100*$net),
-															0,0,0,0},
+															$jobType == JobType.SCHEDULED ? (int)(100*$net) : 0,0,0,0},
 												new int[]{0,0,0,0});
 end
 
 rule "checkSplittable"
     when
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        	$jobType : executionMode.job.jobType,
             $executionMode : executionMode,job.getSplittable() == 0,$progressdelta : progressdelta,$progressdelta<100 )
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{($progressdelta-100),
-														0,0,0,0},
+											new int[]{($progressdelta-100)*100,
+														$jobType == JobType.SCHEDULED ? ($progressdelta-100) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -111,7 +123,7 @@ end
 
 rule "distributeAllocations"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob && job != DataStructureBuilder.sinkJob,prevJob != DataStructureBuilder.dummyJob)
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob, prevJob != DataStructureBuilder.dummyJob)
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
 end

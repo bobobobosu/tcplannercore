@@ -203,7 +203,8 @@ public class SolverThread extends Thread {
                 }
             }
         }
-        
+
+        DataStructureBuilder.constructChainProperty(result.getAllocationList());
         //Solve Hard Full
         if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
