@@ -71,16 +71,6 @@ public class JsonServer {
             printTimelineBlock(latestTimelineBlock);
     }
 
-    public void saveFiles() {
-        // Write TimelineBlock_result
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(fpath_TimelineBlock), latestTimelineBlock);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean compareTimelineBlock(TimelineBlock TB1, TimelineBlock TB2) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(TB1).equals(mapper.writeValueAsString(TB2));

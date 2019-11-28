@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static bo.tc.tcplanner.app.SolverThread.initializeData;
-import static bo.tc.tcplanner.app.SolverThread.initializeFiles;
 
 public class ScheduleFileIO implements SolutionFileIO {
     private static TimelineBlock oldTimelineBlock;
@@ -26,7 +25,6 @@ public class ScheduleFileIO implements SolutionFileIO {
         try {
             oldTimelineBlock = new ObjectMapper().readValue(
                     IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8), TimelineBlock.class);
-            initializeFiles();
             return initializeData(oldTimelineBlock).getFullSchedule();
         } catch (IOException e) {
             e.printStackTrace();

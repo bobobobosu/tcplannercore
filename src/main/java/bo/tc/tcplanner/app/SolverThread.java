@@ -42,23 +42,6 @@ public class SolverThread extends Thread {
     private Object resumeSolvingLock;
     private Object newTimelineBlockLock;
 
-    public static void initializeFiles() {
-        // Load TimelineBlock & ValueEntryMap
-        try {
-            valueEntryMap = new ObjectMapper().readValue(
-                    IOUtils.toString(new FileInputStream(new File(fpath_ValueEntryMap)), StandardCharsets.UTF_8), ValueEntryMap.class);
-            locationHierarchyMap = new ObjectMapper().readValue(
-                    IOUtils.toString(new FileInputStream(new File(fpath_LocationHierarchyMap)), StandardCharsets.UTF_8),
-                    LocationHierarchyMap.class);
-            timeHierarchyMap = (HashMap<String, Object>) (new ObjectMapper().readValue("{\"root\":"
-                    + IOUtils.toString(new FileInputStream(new File(fpath_TimeHierarchyMap)), StandardCharsets.UTF_8) + "}", Map.class)
-                    .get("root"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     public static DataStructureBuilder initializeData(TimelineBlock latestTimelineBlock) throws IOException {
         // Build DataStructure
         DataStructureBuilder DSB = new DataStructureBuilder();
@@ -94,7 +77,6 @@ public class SolverThread extends Thread {
 
             displayTray("Solving Started", "Good Luck");
             try {
-                initializeFiles();
                 initializeSolvers();
                 runSolve();
             } catch (Exception ex) {

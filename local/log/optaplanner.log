@@ -14414,3 +14414,189 @@ Status: 100% 28-11 12:41 [-200/-700/0/0]soft
 12:41:56.496 [Thread-1] DEBUG     LS step (93), time spent (13966), score ([0/0/0/0/0]hard/[-200/-700/0/0]soft),     best score ([0/0/0/0/0]hard/[-200/-700/0/0]soft), accepted/selected move count (41/2781), picked move ([34-dummyJob {dummyJob -> dummyJob}, 34-dummyJob {40 -> 10}]).
 12:41:56.499 [Thread-1] INFO  Local Search phase (0) ended: time spent (13968), best score ([0/0/0/0/0]hard/[-200/-700/0/0]soft), score calculation speed (82003/sec), step total (94).
 12:41:56.500 [Thread-1] INFO  Solving ended: time spent (13969), best score ([0/0/0/0/0]hard/[-200/-700/0/0]soft), score calculation speed (81973/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+13:28:08.442 [Thread-1] INFO  KieModule was added: MemoryKieModule[releaseId=org.default:artifact:1.0.0]
+13:28:08.677 [Thread-1] INFO  KieModule was added: MemoryKieModule[releaseId=org.default:artifact:1.0.0]
+13:29:13.431 [Thread-9] INFO  Terminating solver early.
+13:29:13.432 [Thread-9] INFO  Terminating solver early.
+13:29:14.622 [Thread-1] INFO  KieModule was added: MemoryKieModule[releaseId=org.default:artifact:1.0.0]
+13:29:14.769 [Thread-1] INFO  KieModule was added: MemoryKieModule[releaseId=org.default:artifact:1.0.0]
+13:29:15.079 [Thread-1] DEBUG 
+╔══════╤═════╤═════════════╤══════════╤═════════════════════════════╤═════════════╤═══════╤═════════════════════╗
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╠══════╪═════╪═════════════╪══════════╪═════════════════════════════╪═════════════╪═══════╪═════════════════════╣
+║ **** │ 100 │ 11/28 16:56 │ 00:00    │ P:Undefined                 │ 0C/0M/0S/1L │       │ sourceJob 1         ║
+║      │     │ 11/28 16:56 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6135 │ 100 │ 11/28 16:56 │ 00:13    │ P:Undefined                 │ 1C/1M/0S/0L │       │ 午餐 20               ║
+║      │     │ 11/28 17:09 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6136 │ 100 │ 11/28 17:09 │ 01:21    │ P:Undefined                 │ 0C/1M/1S/0L │       │ t.CIS Assignment 22 ║
+║      │     │ 11/28 18:30 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6137 │ 100 │ 11/28 18:30 │ 00:15    │ P:Undefined                 │ 1C/1M/0S/0L │       │ 洗澡 24               ║
+║      │     │ 11/28 18:45 │          │ C:Home                      │             │       │ {}                  ║
+║      │     │             │          │ M:Home                      │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6138 │ 100 │ 11/28 23:58 │ 07:03    │ P:Home                      │ 0C/0M/0S/0L │       │ 睡眠 26               ║
+║      │     │ 11/29 07:01 │          │ C:8855 Villa La Jolla Drive │             │       │ {}                  ║
+║      │     │             │          │ M:8855 Villa La Jolla Drive │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ **** │ 100 │ 11/29 07:01 │ 00:00    │ P:8855 Villa La Jolla Drive │ 0C/0M/0S/1L │       │ sinkJob 2           ║
+║      │     │ 11/29 07:01 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╚══════╧═════╧═════════════╧══════════╧═════════════════════════════╧═════════════╧═══════╧═════════════════════╝
+
+13:29:15.080 [Thread-1] INFO  
+╔═══════════════════════════════════════════════════════════════════╗
+║ Break Up By Rule                                                  ║
+╠═══════════════════════════════════════════════════════════════════╣
+║ defaultpkg/distributeAllocations=[0/0/0/0/0]hard/[-200/0/0/0]soft ║
+╟───────────────────────────────────────────────────────────────────╢
+║ defaultpkg/dummyJob=[0/0/0/0/0]hard/[0/-600/0/0]soft              ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+13:29:15.080 [Thread-1] INFO  
+Status: 100% 28-11 13:29 [-200/-600/0/0]soft
+13:29:15.096 [Thread-1] INFO  Solving started: time spent (15), best score ([0/0/0/0/0]hard/[-200/-600/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+13:29:15.602 [Thread-1] DEBUG 
+╔══════╤═════╤═════════════╤══════════╤═════════════════════════════╤═════════════╤═══════╤═════════════════════╗
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╠══════╪═════╪═════════════╪══════════╪═════════════════════════════╪═════════════╪═══════╪═════════════════════╣
+║ **** │ 100 │ 11/28 16:56 │ 00:00    │ P:Undefined                 │ 0C/0M/0S/1L │       │ sourceJob 1         ║
+║      │     │ 11/28 16:56 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6136 │ 100 │ 11/28 16:56 │ 01:21    │ P:Undefined                 │ 0C/1M/1S/0L │       │ t.CIS Assignment 22 ║
+║      │     │ 11/28 18:17 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6137 │ 100 │ 11/28 18:17 │ 00:15    │ P:Undefined                 │ 1C/1M/0S/0L │       │ 洗澡 24               ║
+║      │     │ 11/28 18:32 │          │ C:Home                      │             │       │ {}                  ║
+║      │     │             │          │ M:Home                      │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6138 │ 100 │ 11/28 23:58 │ 07:03    │ P:Home                      │ 0C/0M/0S/0L │       │ 睡眠 26               ║
+║      │     │ 11/29 07:01 │          │ C:8855 Villa La Jolla Drive │             │       │ {}                  ║
+║      │     │             │          │ M:8855 Villa La Jolla Drive │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ **** │ 100 │ 11/29 07:01 │ 00:00    │ P:8855 Villa La Jolla Drive │ 0C/0M/0S/1L │       │ sinkJob 2           ║
+║      │     │ 11/29 07:01 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╚══════╧═════╧═════════════╧══════════╧═════════════════════════════╧═════════════╧═══════╧═════════════════════╝
+
+13:29:15.603 [Thread-1] INFO  
+╔═══════════════════════════════════════════════════════════════════╗
+║ Break Up By Rule                                                  ║
+╠═══════════════════════════════════════════════════════════════════╣
+║ defaultpkg/distributeAllocations=[0/0/0/0/0]hard/[-100/0/0/0]soft ║
+╟───────────────────────────────────────────────────────────────────╢
+║ defaultpkg/dummyJob=[0/0/0/0/0]hard/[0/-500/0/0]soft              ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+13:29:15.603 [Thread-1] INFO  
+Status: 100% 28-11 13:29 [-100/-500/0/0]soft
+13:29:15.626 [Thread-1] DEBUG     LS step (0), time spent (545), score ([0/0/0/0/0]hard/[-100/-500/0/0]soft), new best score ([0/0/0/0/0]hard/[-100/-500/0/0]soft), accepted/selected move count (240/4690), picked move (1-午餐 {午餐 -> dummyJob}).
+13:29:15.849 [Thread-1] DEBUG 
+╔══════╤═════╤═════════════╤══════════╤═════════════════════════════╤═════════════╤═══════╤═════════════════════╗
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╠══════╪═════╪═════════════╪══════════╪═════════════════════════════╪═════════════╪═══════╪═════════════════════╣
+║ **** │ 100 │ 11/28 16:56 │ 00:00    │ P:Undefined                 │ 0C/0M/0S/1L │       │ sourceJob 1         ║
+║      │     │ 11/28 16:56 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6136 │ 100 │ 11/28 16:56 │ 01:21    │ P:Undefined                 │ 0C/1M/1S/0L │       │ t.CIS Assignment 22 ║
+║      │     │ 11/28 18:17 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ 6138 │ 100 │ 11/28 23:58 │ 07:03    │ P:Undefined                 │ 0C/0M/0S/0L │       │ 睡眠 26               ║
+║      │     │ 11/29 07:01 │          │ C:8855 Villa La Jolla Drive │             │       │ {}                  ║
+║      │     │             │          │ M:8855 Villa La Jolla Drive │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ **** │ 100 │ 11/29 07:01 │ 00:00    │ P:8855 Villa La Jolla Drive │ 0C/0M/0S/1L │       │ sinkJob 2           ║
+║      │     │ 11/29 07:01 │          │ C:Undefined                 │             │       │ {}                  ║
+║      │     │             │          │ M:Undefined                 │             │       │                     ║
+╟──────┼─────┼─────────────┼──────────┼─────────────────────────────┼─────────────┼───────┼─────────────────────╢
+║ Row  │ %   │ Date        │ Duration │ Location                    │ Restriction │ Score │ Task                ║
+╚══════╧═════╧═════════════╧══════════╧═════════════════════════════╧═════════════╧═══════╧═════════════════════╝
+
+13:29:15.850 [Thread-1] INFO  
+╔═══════════════════════════════════════════════════════════════════╗
+║ Break Up By Rule                                                  ║
+╠═══════════════════════════════════════════════════════════════════╣
+║ defaultpkg/distributeAllocations=[0/0/0/0/0]hard/[-100/0/0/0]soft ║
+╟───────────────────────────────────────────────────────────────────╢
+║ defaultpkg/dummyJob=[0/0/0/0/0]hard/[0/-400/0/0]soft              ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+13:29:15.850 [Thread-1] INFO  
+Status: 100% 28-11 13:29 [-100/-400/0/0]soft
+13:29:15.862 [Thread-1] DEBUG     LS step (1), time spent (781), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), new best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/4602), picked move ([43-洗澡 {洗澡 -> dummyJob}, 43-洗澡 {100 -> 100}]).
+13:29:15.874 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.023 [Thread-1] DEBUG     LS step (2), time spent (942), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6361), picked move ([5-dummyJob {dummyJob -> dummyJob}, 5-dummyJob {10 -> 90}]).
+13:29:16.031 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.167 [Thread-1] DEBUG     LS step (3), time spent (1086), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6219), picked move ([60-dummyJob {dummyJob -> dummyJob}, 60-dummyJob {10 -> 90}]).
+13:29:16.176 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.312 [Thread-1] DEBUG     LS step (4), time spent (1231), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6903), picked move ([54-dummyJob {dummyJob -> dummyJob}, 54-dummyJob {10 -> 20}]).
+13:29:16.326 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.470 [Thread-1] DEBUG     LS step (5), time spent (1389), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6680), picked move (22-t.CIS Assignment {0 -> 120}).
+13:29:16.483 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.654 [Thread-1] DEBUG     LS step (6), time spent (1573), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6654), picked move (22-t.CIS Assignment {120 -> 30}).
+13:29:16.666 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.793 [Thread-1] DEBUG     LS step (7), time spent (1712), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6785), picked move ([66-dummyJob {dummyJob -> dummyJob}, 66-dummyJob {10 -> 90}]).
+13:29:16.802 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:16.945 [Thread-1] DEBUG     LS step (8), time spent (1864), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6677), picked move (22-t.CIS Assignment {30 -> 99}).
+13:29:16.953 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.067 [Thread-1] DEBUG     LS step (9), time spent (1986), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6223), picked move ([70-dummyJob {dummyJob -> dummyJob}, 70-dummyJob {10 -> 70}]).
+13:29:17.073 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.161 [Thread-1] DEBUG     LS step (10), time spent (2080), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6534), picked move (22-t.CIS Assignment {99 -> 23}).
+13:29:17.165 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.256 [Thread-1] DEBUG     LS step (11), time spent (2175), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6019), picked move ([82-dummyJob {dummyJob -> dummyJob}, 82-dummyJob {10 -> 80}]).
+13:29:17.261 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.336 [Thread-1] DEBUG     LS step (12), time spent (2255), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6500), picked move (22-t.CIS Assignment {23 -> 85}).
+13:29:17.340 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.399 [Thread-1] DEBUG     LS step (13), time spent (2318), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5847), picked move (22-t.CIS Assignment {85 -> 34}).
+13:29:17.403 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.461 [Thread-1] DEBUG     LS step (14), time spent (2380), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5777), picked move ([9-dummyJob {dummyJob -> dummyJob}, 9-dummyJob {10 -> 30}]).
+13:29:17.466 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.528 [Thread-1] DEBUG     LS step (15), time spent (2447), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5725), picked move (22-t.CIS Assignment {34 -> 24}).
+13:29:17.532 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.611 [Thread-1] DEBUG     LS step (16), time spent (2530), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6732), picked move (22-t.CIS Assignment {24 -> 114}).
+13:29:17.617 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.673 [Thread-1] DEBUG     LS step (17), time spent (2592), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5613), picked move (22-t.CIS Assignment {114 -> 60}).
+13:29:17.677 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.741 [Thread-1] DEBUG     LS step (18), time spent (2660), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6730), picked move ([23-dummyJob {dummyJob -> dummyJob}, 23-dummyJob {10 -> 60}]).
+13:29:17.746 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.804 [Thread-1] DEBUG     LS step (19), time spent (2723), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6126), picked move (22-t.CIS Assignment {60 -> 0}).
+13:29:17.808 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.875 [Thread-1] DEBUG     LS step (20), time spent (2794), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6395), picked move ([55-dummyJob {dummyJob -> dummyJob}, 55-dummyJob {10 -> 20}]).
+13:29:17.880 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:17.946 [Thread-1] DEBUG     LS step (21), time spent (2865), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6877), picked move ([34-dummyJob {dummyJob -> dummyJob}, 34-dummyJob {10 -> 100}]).
+13:29:17.951 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.012 [Thread-1] DEBUG     LS step (22), time spent (2931), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6515), picked move (22-t.CIS Assignment {0 -> 65}).
+13:29:18.017 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.071 [Thread-1] DEBUG     LS step (23), time spent (2990), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5836), picked move ([13-dummyJob {dummyJob -> dummyJob}, 13-dummyJob {10 -> 90}]).
+13:29:18.075 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.126 [Thread-1] DEBUG     LS step (24), time spent (3045), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5595), picked move (22-t.CIS Assignment {65 -> 19}).
+13:29:18.130 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.190 [Thread-1] DEBUG     LS step (25), time spent (3109), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6500), picked move ([40-dummyJob {dummyJob -> dummyJob}, 40-dummyJob {10 -> 50}]).
+13:29:18.195 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.249 [Thread-1] DEBUG     LS step (26), time spent (3168), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5896), picked move ([47-dummyJob {dummyJob -> dummyJob}, 47-dummyJob {10 -> 60}]).
+13:29:18.254 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.307 [Thread-1] DEBUG     LS step (27), time spent (3226), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/5507), picked move ([14-dummyJob {dummyJob -> dummyJob}, 14-dummyJob {10 -> 80}]).
+13:29:18.311 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.370 [Thread-1] DEBUG     LS step (28), time spent (3289), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6070), picked move ([58-dummyJob {dummyJob -> dummyJob}, 58-dummyJob {10 -> 30}]).
+13:29:18.375 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.442 [Thread-1] DEBUG     LS step (29), time spent (3361), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6644), picked move ([60-dummyJob {dummyJob -> dummyJob}, 60-dummyJob {90 -> 80}]).
+13:29:18.447 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.509 [Thread-1] DEBUG     LS step (30), time spent (3428), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6504), picked move (22-t.CIS Assignment {19 -> 74}).
+13:29:18.513 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.579 [Thread-1] DEBUG     LS step (31), time spent (3498), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6674), picked move ([46-dummyJob {dummyJob -> dummyJob}, 46-dummyJob {10 -> 70}]).
+13:29:18.583 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.
+13:29:18.647 [Thread-1] DEBUG     LS step (32), time spent (3566), score ([0/0/0/0/0]hard/[-100/-400/0/0]soft),     best score ([0/0/0/0/0]hard/[-100/-400/0/0]soft), accepted/selected move count (240/6554), picked move (22-t.CIS Assignment {74 -> 136}).
+13:29:18.651 [Thread-1] WARN  Bailing out of neverEnding selector (Filtering(SwapMoveSelector(FromSolutionEntitySelector(Allocation), FromSolutionEntitySelector(Allocation)))) to avoid infinite loop.

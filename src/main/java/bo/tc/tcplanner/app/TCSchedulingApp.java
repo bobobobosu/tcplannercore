@@ -17,13 +17,6 @@ import java.util.Scanner;
 import static bo.tc.tcplanner.app.Toolbox.*;
 
 public class TCSchedulingApp {
-    public static String fpath_Constants = "C:\\_DATA\\_Storage\\_Sync\\Devices\\root\\Constants.json";
-    public static String path_Notebook;
-    public static String fpath_TimelineBlock;
-    public static String fpath_ValueEntryMap;
-    public static String fpath_LocationHierarchyMap;
-    public static String fpath_TimeHierarchyMap;
-
     public static LocationHierarchyMap locationHierarchyMap = null;
     public static HashMap<String, Object> timeHierarchyMap = null;
     public static ValueEntryMap valueEntryMap = null;
@@ -37,7 +30,6 @@ public class TCSchedulingApp {
         Object newTimelineBlockLock = new Object();
         JsonServer jsonServer = new JsonServer();
         SolverThread solverThread = new SolverThread();
-        setConstants();
 
         //GUI
         new StartStopGui(solverThread);
@@ -90,16 +82,5 @@ public class TCSchedulingApp {
                 start();
 
     }
-
-    static void setConstants() throws IOException {
-        HashMap ConstantsJson = new ObjectMapper().readValue(
-                IOUtils.toString(new FileInputStream(new File(fpath_Constants)), StandardCharsets.UTF_8), HashMap.class);
-        path_Notebook = castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get("Notebook"));
-        fpath_TimelineBlock = genPathFromConstants("TimelineBlock.json", ConstantsJson);
-        fpath_ValueEntryMap = genPathFromConstants("ValueEntryMap.json", ConstantsJson);
-        fpath_LocationHierarchyMap = genPathFromConstants("LocationHierarchyMap.json", ConstantsJson);
-        fpath_TimeHierarchyMap = genPathFromConstants("TimeHierarchyMap.json", ConstantsJson);
-    }
-
 
 }
