@@ -1,7 +1,6 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
@@ -43,10 +42,8 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
         if (originalAllocation.getJob() == dummyJob) {
             originalAllocation.setResourceElementMap(null);
         }
-        NonDummyAllocationIterator nonDummyAllocationIterator;
 
-        // Still have to update this Allocation since it is impossible to obtain
-        // abs from delta resourceElements
+        // Start from prev to update this
         originalAllocation =
                 NonDummyAllocationIterator.getPrev(originalAllocation) != null ?
                         NonDummyAllocationIterator.getPrev(originalAllocation) :
@@ -55,16 +52,14 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
         while (originalAllocation.getResourceElementMap() == null) {
             originalAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
         }
-        nonDummyAllocationIterator = new NonDummyAllocationIterator(originalAllocation);
-        Allocation prevAllocation = nonDummyAllocationIterator.next();
-        while (nonDummyAllocationIterator.hasNext()) {
-            Allocation thisAllocation = nonDummyAllocationIterator.next();
+        Allocation prevAllocation = originalAllocation;
+        Allocation thisAllocation;
+        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             scoreDirector.beforeVariableChanged(thisAllocation, "resourceElementMap");
             updateAllocationResourceStateChange(thisAllocation, prevAllocation);
             scoreDirector.afterVariableChanged(thisAllocation, "resourceElementMap");
             prevAllocation = thisAllocation;
         }
-
     }
 
 }

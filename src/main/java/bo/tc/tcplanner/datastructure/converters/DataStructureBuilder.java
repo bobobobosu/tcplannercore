@@ -16,6 +16,8 @@ import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 public class DataStructureBuilder {
     public static Integer deletedRownum = 99999;
     public static Job dummyJob;
+    public static String dummyLocation;
+    public static String dummyTime;
     public Job sourceJob;
     public Job sinkJob;
     public ExecutionMode dummyExecutionMode;
@@ -23,8 +25,6 @@ public class DataStructureBuilder {
     public ExecutionMode sinkExecutionMode;
     public HumanStateChange dummyHumamStateChange;
     public ProgressChange dummyProgressChange;
-    public static String dummyLocation;
-    public static String dummyTime;
     /*
      * id is set from global list before being added into the list Setter only
      * modify global lists(ex. listOfxxx) & maps(ex. xxToyy), lists in each problem
@@ -114,24 +114,22 @@ public class DataStructureBuilder {
             if (allocation.getJob().getJobType() == JobType.SCHEDULED && allocation.getJob().getChangeable() == 0) {
                 if (allocation.getJob().getTimelineid() > 0) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
-                            allocation.getJob().getId().toString(), new ResourceElement(-1, dummyLocation, dummyLocation));
+                            allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation, dummyLocation));
                 }
             }
         }
 
 
-        NonDummyAllocationIterator nonDummyAllocationIterator;
         Allocation prevAllocation;
+        Allocation thisAllocation;
 
         // set PreviousStandstill
         for (Allocation allocation : allocationList) {
             allocation.setPreviousStandstill(null);
         }
         sourceAllocation.setPreviousStandstill(dummyLocation);
-        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
-        prevAllocation = nonDummyAllocationIterator.next();
-        while (nonDummyAllocationIterator.hasNext()) {
-            Allocation thisAllocation = nonDummyAllocationIterator.next();
+        prevAllocation = sourceAllocation;
+        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
             prevAllocation = thisAllocation;
         }
@@ -146,10 +144,8 @@ public class DataStructureBuilder {
             }
         }
         sourceAllocation.setPredecessorsDoneDate(0);
-        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
-        prevAllocation = nonDummyAllocationIterator.next();
-        while (nonDummyAllocationIterator.hasNext()) {
-            Allocation thisAllocation = nonDummyAllocationIterator.next();
+        prevAllocation = sourceAllocation;
+        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
             prevAllocation = thisAllocation;
         }
@@ -159,10 +155,8 @@ public class DataStructureBuilder {
             allocation.setResourceElementMap(null);
         }
         sourceAllocation.setResourceElementMap(new HashMap<>());
-        nonDummyAllocationIterator = new NonDummyAllocationIterator(sourceAllocation);
-        prevAllocation = nonDummyAllocationIterator.next();
-        while (nonDummyAllocationIterator.hasNext()) {
-            Allocation thisAllocation = nonDummyAllocationIterator.next();
+        prevAllocation = sourceAllocation;
+        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updateAllocationResourceStateChange(thisAllocation, prevAllocation);
             prevAllocation = thisAllocation;
         }
@@ -212,7 +206,7 @@ public class DataStructureBuilder {
             if (timelineEntry.getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
-            ResourceElement resourceElement = new ResourceElement().setAmt(1).setRequirementLocation(dummyLocation).setProductionLocation(dummyLocation);
+            ResourceElement resourceElement = new ResourceElement().setAmt(100).setRequirementLocation(dummyLocation).setProductionLocation(dummyLocation);
             resourceElement.setVolatileFlag(true);
 
             // Add timeline jobs SCHEDULED
@@ -254,7 +248,7 @@ public class DataStructureBuilder {
             stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
 
             // Add ValueEntry to Map
-            ValueEntry timelineValueEntry = new ValueEntry().setCapacity(1d).setClassification("task");
+            ValueEntry timelineValueEntry = new ValueEntry().setCapacity(100d).setClassification("task");
             valueEntryMap.put(mandJob.getId().toString(), timelineValueEntry);
         }
 

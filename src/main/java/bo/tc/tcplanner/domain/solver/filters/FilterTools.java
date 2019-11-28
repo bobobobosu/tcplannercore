@@ -8,7 +8,7 @@ import java.util.List;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 public class FilterTools {
-    static boolean  isNotInIndex(Allocation allocation) {
+    static boolean isNotInIndex(Allocation allocation) {
 //        return allocation.getIndex() <= allocation.getProject().getSchedule().getGlobalScheduleAfterIndex();
         List<Allocation> allocationList = allocation.getProject().getSchedule().getAllocationList();
 //        return (allocationList.get(allocationList.size() - 2).getStartDate() - allocation.getStartDate()) > 60 * 24 * 3;

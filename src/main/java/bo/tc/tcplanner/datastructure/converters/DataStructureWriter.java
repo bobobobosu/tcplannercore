@@ -105,11 +105,10 @@ public class DataStructureWriter {
             }
         }
         Collections.sort(rownumList);
-        Collections.reverse(rownumList);
         ListIterator<Integer> rownumIterator = rownumList.listIterator();
-        int tmprownum = deletedRownum;
-        for (TimelineEntry timelineEntry : Lists.reverse(TEList)) {
-            if (timelineEntry.getRownum() != null) {
+        int tmprownum = rownumList.get(0);
+        for (TimelineEntry timelineEntry : TEList) {
+            if (timelineEntry.getRownum() != null && rownumIterator.hasNext()) {
                 tmprownum = rownumIterator.next();
             }
             timelineEntry.setRownum(tmprownum);

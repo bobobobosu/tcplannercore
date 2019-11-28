@@ -42,11 +42,6 @@ public class Job extends AbstractPersistable {
     public Job() {
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
     public Job(String name, JobType jobType) {
         this.name = name;
         this.jobType = jobType;
@@ -74,6 +69,10 @@ public class Job extends AbstractPersistable {
         jobList.add(this);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 
     public String getName() {
         return name;

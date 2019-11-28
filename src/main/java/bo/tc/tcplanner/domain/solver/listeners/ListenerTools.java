@@ -6,7 +6,6 @@ import bo.tc.tcplanner.domain.Allocation;
 import java.util.HashMap;
 import java.util.Map;
 
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
 
 public class ListenerTools {
@@ -50,7 +49,7 @@ public class ListenerTools {
             double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
             double resourceDeltaAmt = (resource.getValue().getAmt() * thisallocation.getProgressdelta()) / 100;
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
-            double capped = resourceDeltaAmt + resourceAbsAmt <= capacity ? resourceDeltaAmt + resourceAbsAmt : resourceDeltaAmt + resourceAbsAmt - capacity;
+            double capped = resourceDeltaAmt + resourceAbsAmt <= capacity ? resourceDeltaAmt + resourceAbsAmt : capacity - (resourceDeltaAmt + resourceAbsAmt);
             if (capped == 0) {
                 thisallocation.getResourceElementMap().remove(resource.getKey());
             } else {

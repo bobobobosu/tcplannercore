@@ -66,10 +66,10 @@ public class Toolbox {
         return (boolean) obj;
     }
 
-    public static Object jacksonDeepCopy(Object obj)  {
+    public static Object jacksonDeepCopy(Object obj) {
         try {
             String serielizedStr = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(obj);
-            Map serielizedMap =new ObjectMapper().readValue(serielizedStr, Map.class);
+            Map serielizedMap = new ObjectMapper().readValue(serielizedStr, Map.class);
             return new ObjectMapper().convertValue(serielizedMap, obj.getClass());
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,11 +163,11 @@ public class Toolbox {
                                     allocation.getJob().getSplittable() + "S/" +
                                     ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ?
-                                    hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()): ""),
+                                    hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()) : ""),
                             allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +
                                     allocation.getResourceElementMap().entrySet()
                                             .stream()
-                                            .filter(entry -> entry.getValue().getAmt()!=0)
+                                            .filter(entry -> entry.getValue().getAmt() < 0)
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).toString().replaceAll("(.{60})", "$1\n")
                     });
                 }
@@ -194,12 +194,12 @@ public class Toolbox {
         return castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get(castString(castDict(castDict(ConstantsJson.get("Paths")).get("Files")).get(filename)))) + filename;
     }
 
-    public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet){
+    public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet) {
         StringBuilder result = new StringBuilder();
         Iterator<ConstraintMatch> constraintMatchSetIterator = ConstraintMatchSet.iterator();
-        while (constraintMatchSetIterator.hasNext()){
+        while (constraintMatchSetIterator.hasNext()) {
             ConstraintMatch constraintMatch = constraintMatchSetIterator.next();
-            if(Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0)){
+            if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x < 0)) {
                 result.append(constraintMatch.getConstraintName())
                         .append("\n")
                         .append(Arrays.toString(((BendableScore) (constraintMatch.getScore())).getHardScores()))

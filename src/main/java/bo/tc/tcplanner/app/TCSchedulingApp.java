@@ -29,7 +29,6 @@ public class TCSchedulingApp {
     public static ValueEntryMap valueEntryMap = null;
 
     public static DateTimeFormatter dtf_TimelineEntry = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-    public static DateTimeFormatter dtf_Dhtmlxgantt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
     public static void main(String[] args) throws IOException {

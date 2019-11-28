@@ -24,7 +24,7 @@ public class TimelineEntry extends AbstractPersistable {
     Integer rownum;
     List<Integer> dependencyIdList;
 
-    public TimelineEntry(){
+    public TimelineEntry() {
         this.setVolatileFlag(false);
     }
 

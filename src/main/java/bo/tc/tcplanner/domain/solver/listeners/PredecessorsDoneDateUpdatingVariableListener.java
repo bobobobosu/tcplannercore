@@ -17,12 +17,12 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePlanningDuration;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
 public class PredecessorsDoneDateUpdatingVariableListener implements VariableListener<Allocation> {
 
@@ -70,17 +70,22 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
         if (originalAllocation.getJob() == dummyJob) {
             originalAllocation.setPredecessorsDoneDate(null);
         }
-        NonDummyAllocationIterator nonDummyAllocationIterator;
-        while (originalAllocation.getPredecessorsDoneDate() == null){
+
+        // Start from prev to update this
+        originalAllocation =
+                NonDummyAllocationIterator.getPrev(originalAllocation) != null ?
+                        NonDummyAllocationIterator.getPrev(originalAllocation) :
+                        originalAllocation;
+
+        while (originalAllocation.getPredecessorsDoneDate() == null) {
             originalAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
         }
-        nonDummyAllocationIterator = new NonDummyAllocationIterator(originalAllocation);
-        Allocation prevAllocation = nonDummyAllocationIterator.next();
-        while (nonDummyAllocationIterator.hasNext()) {
-            Allocation thisAllocation = nonDummyAllocationIterator.next();
-            scoreDirector.beforeVariableChanged(thisAllocation, "resourceElementMap");
+        Allocation prevAllocation = originalAllocation;
+        Allocation thisAllocation;
+        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
+            scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-            scoreDirector.afterVariableChanged(thisAllocation, "resourceElementMap");
+            scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
             prevAllocation = thisAllocation;
         }
 

@@ -66,11 +66,6 @@ public class Allocation extends AbstractPersistable {
 
     }
 
-    @Override
-    public String toString() {
-        return this.getId() + "-" + job.getName();
-    }
-
     public Allocation(ExecutionMode executionMode, List<Allocation> listOfAllocation, Integer progressdelta) {
         // Set Basic Information
         this.setJob(executionMode.getJob());
@@ -118,6 +113,11 @@ public class Allocation extends AbstractPersistable {
         this.previousStandstill = other.previousStandstill;
         this.forceStartTime = other.forceStartTime;
         this.plannedDuration = other.getPlannedDuration();
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + "-" + job.getName();
     }
 
     public Integer getIndex() {
@@ -259,7 +259,6 @@ public class Allocation extends AbstractPersistable {
     public void setPlannedDuration(Integer plannedDuration) {
         this.plannedDuration = plannedDuration;
     }
-
 
 
     // ************************************************************************

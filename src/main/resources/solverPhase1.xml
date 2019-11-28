@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
+    <environmentMode>NON_REPRODUCIBLE</environmentMode>
     <moveThreadCount>AUTO</moveThreadCount>
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
@@ -7,7 +8,7 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>

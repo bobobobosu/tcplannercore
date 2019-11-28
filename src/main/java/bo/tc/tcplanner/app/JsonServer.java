@@ -112,6 +112,54 @@ public class JsonServer {
         }
     }
 
+    public TimelineBlock getLatestTimelineBlock() {
+        return latestTimelineBlock;
+    }
+
+    public void setLatestTimelineBlock(TimelineBlock latestTimelineBlock) {
+        this.latestTimelineBlock = latestTimelineBlock;
+    }
+
+    public Schedule getLatestBestSolutions() {
+        return latestBestSolutions;
+    }
+
+    public void setLatestBestSolutions(Schedule latestBestSolutions) {
+        this.latestBestSolutions = latestBestSolutions;
+    }
+
+    public Object getResumeSolvingLock() {
+        return resumeSolvingLock;
+    }
+
+    public void setResumeSolvingLock(Object resumeSolvingLock) {
+        this.resumeSolvingLock = resumeSolvingLock;
+    }
+
+    public SolverThread getSolverThread() {
+        return solverThread;
+    }
+
+    public void setSolverThread(SolverThread solverThread) {
+        this.solverThread = solverThread;
+    }
+
+    public Object getNewTimelineBlockLock() {
+        return newTimelineBlockLock;
+    }
+
+    public void setNewTimelineBlockLock(Object newTimelineBlockLock) {
+        this.newTimelineBlockLock = newTimelineBlockLock;
+    }
+
+    public TimelineBlock getProblemTimelineBlock() {
+        return problemTimelineBlock;
+    }
+
+    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
+        this.problemTimelineBlock = problemTimelineBlock;
+    }
+
     public enum StatusCode {
         OK(200), CREATED(201), ACCEPTED(202),
 
@@ -127,7 +175,6 @@ public class JsonServer {
             return code;
         }
     }
-
 
     public class NewTimelineBlockNotifier implements HttpHandler {
         @Override
@@ -205,58 +252,8 @@ public class JsonServer {
         }
     }
 
-
     public class Constants {
         public static final String CONTENT_TYPE = "Content-Type";
         public static final String APPLICATION_JSON = "application/json";
-    }
-
-
-    public TimelineBlock getLatestTimelineBlock() {
-        return latestTimelineBlock;
-    }
-
-    public void setLatestTimelineBlock(TimelineBlock latestTimelineBlock) {
-        this.latestTimelineBlock = latestTimelineBlock;
-    }
-
-    public Schedule getLatestBestSolutions() {
-        return latestBestSolutions;
-    }
-
-    public void setLatestBestSolutions(Schedule latestBestSolutions) {
-        this.latestBestSolutions = latestBestSolutions;
-    }
-
-    public Object getResumeSolvingLock() {
-        return resumeSolvingLock;
-    }
-
-    public void setResumeSolvingLock(Object resumeSolvingLock) {
-        this.resumeSolvingLock = resumeSolvingLock;
-    }
-
-    public SolverThread getSolverThread() {
-        return solverThread;
-    }
-
-    public void setSolverThread(SolverThread solverThread) {
-        this.solverThread = solverThread;
-    }
-
-    public Object getNewTimelineBlockLock() {
-        return newTimelineBlockLock;
-    }
-
-    public void setNewTimelineBlockLock(Object newTimelineBlockLock) {
-        this.newTimelineBlockLock = newTimelineBlockLock;
-    }
-
-    public TimelineBlock getProblemTimelineBlock() {
-        return problemTimelineBlock;
-    }
-
-    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
-        this.problemTimelineBlock = problemTimelineBlock;
     }
 }

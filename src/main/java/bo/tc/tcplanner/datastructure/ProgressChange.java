@@ -8,9 +8,11 @@ public class ProgressChange extends AbstractPersistable {
 
     public ProgressChange(double progressDelta) {
         this.progressDelta = progressDelta;
-     }
+    }
+
     public ProgressChange() {
     }
+
     public double getProgressDelta() {
         return progressDelta;
     }

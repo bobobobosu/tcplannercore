@@ -26,24 +26,14 @@ import java.util.List;
 
 @XStreamAlias("PjsExecutionMode")
 public class ExecutionMode extends AbstractPersistable {
-    @Override
-    public String toString() {
-        return getJob().getName();
-    }
-
     private Job job;
     private int ExecutionModeIndex;
-
-
     //resourceStateChange
     private ResourceStateChange resourceStateChange;
-
     //humanStateChange
     private HumanStateChange humanStateChange;
-
     //processChange
     private ProgressChange progressChange;
-
 
     public ExecutionMode(List<ExecutionMode> listOfExecutionMode, Job job) {
         //Set Basic Information
@@ -57,9 +47,15 @@ public class ExecutionMode extends AbstractPersistable {
         listOfExecutionMode.add(this);
     }
 
+
     public ExecutionMode(Job job, List<ExecutionMode> listOfExecutionMode) {
         this.setJob(job);
         this.setId(listOfExecutionMode.size());
+    }
+
+    @Override
+    public String toString() {
+        return getJob().getName();
     }
 
     public Job getJob() {

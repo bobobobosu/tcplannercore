@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
+<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>80000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -34,12 +34,13 @@
 <#--    numbers-->
     <#list [240] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
-    <#list [1, 2] as lateAcceptanceSize>
+    <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
+    <#list ['REPRODUCIBLE', 'NON_REPRODUCIBLE'] as envmode>
     <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
@@ -106,11 +107,12 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>a${acceptedCountLimit?index}d${scoreDrl?index}l${lateAcceptanceSize?index}t${tabu?index}s${solution?index}</name>
+        <name>a${envmode?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
         <solver>
+            <environmentMode>${envmode}</environmentMode>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
             </scoreDirectorFactory>
@@ -136,6 +138,7 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>
