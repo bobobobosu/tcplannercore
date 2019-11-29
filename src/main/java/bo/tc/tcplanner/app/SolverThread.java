@@ -45,10 +45,10 @@ public class SolverThread extends Thread {
     public static DataStructureBuilder initializeData(TimelineBlock latestTimelineBlock) throws IOException {
         // Build DataStructure
         DataStructureBuilder DSB = new DataStructureBuilder();
+        DSB.setValueEntryMap(new ValueEntryMap(valueEntryMap));
         DSB.setGlobalProperties(latestTimelineBlock);
-        DSB.addResourcesFromValueEntryMap(valueEntryMap, DSB.getDefaultProject());
-        DSB.addJobsFromValueEntryDict(valueEntryMap, DSB.getDefaultProject());
-        DSB.addJobsFromTimelineBlock(latestTimelineBlock, DSB.getDefaultProject());
+        DSB.addJobsFromValueEntryDict();
+        DSB.addJobsFromTimelineBlock(latestTimelineBlock);
         DSB.initializeAllocationList(20);
         DSB.initializeSchedule();
         DataStructureBuilder.constructChainProperty(DSB.getListOfAllocations());

@@ -37,6 +37,9 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 @PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
 @XStreamAlias("PjsAllocation")
@@ -371,7 +374,7 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
-        if (job.getSplittable() == 0) return ValueRangeFactory.createIntValueRange(100, 110, 10);
+        if (job == dummyJob) return ValueRangeFactory.createIntValueRange(100, 110, 10);
         return ValueRangeFactory.createIntValueRange(0, 110, 10);
     }
 

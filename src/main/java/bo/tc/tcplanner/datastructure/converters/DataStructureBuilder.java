@@ -34,6 +34,15 @@ public class DataStructureBuilder {
     List<Project> listOfProjects;
     List<Job> listOfJobs;
     List<ExecutionMode> listOfExecutionMode;
+
+    public ValueEntryMap getValueEntryMap() {
+        return valueEntryMap;
+    }
+
+    public void setValueEntryMap(ValueEntryMap valueEntryMap) {
+        this.valueEntryMap = valueEntryMap;
+    }
+
     ValueEntryMap valueEntryMap;
     // Planning Entity
     List<Allocation> listOfAllocations;
@@ -171,16 +180,11 @@ public class DataStructureBuilder {
         defaultSchedule.setGlobalEndRow(timelineBlock.getBlockEndRow());
     }
 
-    public void addResourcesFromValueEntryMap(ValueEntryMap valueEntryMap, Project project) {
-        this.valueEntryMap = valueEntryMap;
-    }
-
-    public void addJobsFromValueEntryDict(ValueEntryMap ValueEntryMap, Project project) {
-        this.valueEntryMap = ValueEntryMap;
+    public void addJobsFromValueEntryDict() {
         //Add standard jobs
-        for (Map.Entry<String, ValueEntry> valueEntry : ValueEntryMap.entrySet()) {
+        for (Map.Entry<String, ValueEntry> valueEntry : valueEntryMap.entrySet()) {
             if (valueEntry.getValue().getType().equals("工作")) {
-                Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, project)
+                Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, defaultProject)
                         .setSplittable(valueEntry.getValue().getSplittable())
                         .setMovable(valueEntry.getValue().getMovable())
                         .setChangeable(valueEntry.getValue().getChangeable());
@@ -199,7 +203,7 @@ public class DataStructureBuilder {
         int g = 0;
     }
 
-    public void addJobsFromTimelineBlock(TimelineBlock timelineBlock, Project project) {
+    public void addJobsFromTimelineBlock(TimelineBlock timelineBlock) {
         this.timelineBlock = timelineBlock;
 
         for (TimelineEntry timelineEntry : timelineBlock.getTimelineEntryList()) {
@@ -210,7 +214,7 @@ public class DataStructureBuilder {
             resourceElement.setVolatileFlag(true);
 
             // Add timeline jobs SCHEDULED
-            Job mandJob = new Job(timelineEntry.getTitle(), JobType.SCHEDULED, listOfJobs, project)
+            Job mandJob = new Job(timelineEntry.getTitle(), JobType.SCHEDULED, listOfJobs, defaultProject)
                     .setDescription(timelineEntry.getDescription())
                     .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
                     .setRownum(timelineEntry.getRownum())
@@ -230,7 +234,7 @@ public class DataStructureBuilder {
             thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
 
             // Add timeline jobs STANDARD
-            Job stdJob = new Job(timelineEntry.getTitle(), JobType.STANDARD, listOfJobs, project)
+            Job stdJob = new Job(timelineEntry.getTitle(), JobType.STANDARD, listOfJobs, defaultProject)
                     .setDescription(timelineEntry.getDescription())
                     .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
                     .setGravity(timelineEntry.getGravity())

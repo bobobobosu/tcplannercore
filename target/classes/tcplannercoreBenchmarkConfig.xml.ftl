@@ -26,8 +26,8 @@
             </termination>
         </solver>
 
-    {</inheritedSolverBenchmark>
-    }
+    </inheritedSolverBenchmark>
+
 
 <#--    files-->
     <#list ['TimelineBlockHard'] as solution>
@@ -40,7 +40,7 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['REPRODUCIBLE', 'NON_REPRODUCIBLE'] as envmode>
+    <#list ['NON_REPRODUCIBLE'] as envmode>
     <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
@@ -107,7 +107,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>a${envmode?index}</name>
+        <name>c${cartesian?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
