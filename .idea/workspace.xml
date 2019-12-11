@@ -12,25 +12,15 @@
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Benchmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Benchmark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ValueEntryMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ValueEntryMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Benchmark.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Benchmark.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$Constants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$NewTimelineBlockNotifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$NewTimelineBlockNotifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$StatusCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$StatusCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$UpdateOptaFilesHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$UpdateOptaFilesHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntryMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntryMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Schedule.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +58,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="a33bc2c156c7af175b5972b52dc5170394caff92" />
+        <entry key="$PROJECT_DIR$" value="9c6d9b7c3a049fd4370172752f1d3944983c9c7f" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -104,15 +94,15 @@
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="bo.tc.tcplanner.domain.solver.filters" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
-      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -133,7 +123,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Benchmark">
+  <component name="RunManager" selected="Application.TCSchedulingApp">
     <configuration name="Benchmark" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Benchmark" />
       <module name="tcplanner-core" />
@@ -210,8 +200,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.Logging" />
         <item itemvalue="Application.SocketServer" />
         <item itemvalue="Application.Test" />
@@ -352,11 +342,14 @@
       <workItem from="1574727754660" duration="4319000" />
       <workItem from="1574767478940" duration="2959000" />
       <workItem from="1574770486241" duration="33000" />
-      <workItem from="1574770733417" duration="43956000" />
-      <workItem from="1574836371991" duration="31524000" />
-      <workItem from="1574898068709" duration="4986000" />
-      <workItem from="1574976204980" duration="653000" />
-      <workItem from="1574977943956" duration="7948000" />
+      <workItem from="1574770733417" duration="34553000" />
+      <workItem from="1575196831289" duration="599000" />
+      <workItem from="1575315636565" duration="1113000" />
+      <workItem from="1575668968081" duration="598000" />
+      <workItem from="1576057707248" duration="563000" />
+      <workItem from="1576058957201" duration="2254000" />
+      <workItem from="1576093322677" duration="2303000" />
+      <workItem from="1576095789470" duration="18000" />
     </task>
     <task id="LOCAL-00001" summary="Add benchmark">
       <created>1573965651431</created>
@@ -407,42 +400,7 @@
       <option name="project" value="LOCAL" />
       <updated>1574798230912</updated>
     </task>
-    <task id="LOCAL-00008" summary="Allow shadow variables skip through dummy entities">
-      <created>1574835360851</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1574835360851</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Optimized drl and solver config">
-      <created>1574882790943</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1574882790943</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Optimized acceptedCountLimit">
-      <created>1574886663349</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1574886663349</updated>
-    </task>
-    <task id="LOCAL-00011" summary="v2">
-      <created>1574976385974</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1574976385974</updated>
-    </task>
-    <task id="LOCAL-00012" summary="remove initializing with local file feature">
-      <created>1574976819153</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1574976819153</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,12 +428,7 @@
     <MESSAGE value="fix acceptedCountLimit" />
     <MESSAGE value="fix console" />
     <MESSAGE value="Updated Benchmark" />
-    <MESSAGE value="Allow shadow variables skip through dummy entities" />
-    <MESSAGE value="Optimized drl and solver config" />
-    <MESSAGE value="Optimized acceptedCountLimit" />
-    <MESSAGE value="v2" />
-    <MESSAGE value="remove initializing with local file feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove initializing with local file feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Benchmark" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -506,23 +459,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java</url>
-          <line>300</line>
+          <line>302</line>
           <option name="timeStamp" value="227" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="260" />
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
+          <line>161</line>
+          <option name="timeStamp" value="285" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/DroolsTools.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="290" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="322" />
+          <line>163</line>
+          <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="326" />
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="296" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="297" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="299" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="300" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -554,22 +527,11 @@
         <watch expression="((java.util.ArrayList)((DataStructureBuilder)this).listOfAllocations).get(862)" custom="java.util.ArrayList,bo.tc.tcplanner.datastructure.converters.DataStructureBuilder" />
         <watch expression="allocationList.get(862)" />
         <watch expression="result.allocationList.get(116)" />
-        <watch expression="result.allocationList.get(99)" />
-        <watch expression="allocationList.get(18)" />
-        <watch expression="allocationList.get(203)" />
-        <watch expression="allocationList.get(306)" />
-        <watch expression="allocationList.get(105)" />
-        <watch expression="result.allocationList.get(115)" />
-        <watch expression="result.allocationList.get(204)" />
-        <watch expression="result.allocationList.get(103)" />
-        <watch expression="allocationList" />
-        <watch expression="allocationList" language="JAVA" />
-        <watch expression="prevAllocation" />
       </configuration>
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/tcplannercore$TCSchedulingApp.ic" NAME="TCSchedulingApp Coverage Results" MODIFIED="1569606658515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/tcplannercore$TCSchedulingApp.ic" NAME="TCSchedulingApp Coverage Results" MODIFIED="1576060270567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>bo.tc.tcplanner.app.*</FILTER>
     </SUITE>
   </component>

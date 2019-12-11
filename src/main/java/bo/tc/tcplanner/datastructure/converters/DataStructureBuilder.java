@@ -121,7 +121,7 @@ public class DataStructureBuilder {
         sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
         for (Allocation allocation : allocationList) {
             if (allocation.getJob().getJobType() == JobType.SCHEDULED && allocation.getJob().getChangeable() == 0) {
-                if (allocation.getJob().getTimelineid() > 0) {
+                if (allocation.getJob().getRownum() != null) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
                             allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation, dummyLocation));
                 }
@@ -237,6 +237,7 @@ public class DataStructureBuilder {
             Job stdJob = new Job(timelineEntry.getTitle(), JobType.STANDARD, listOfJobs, defaultProject)
                     .setDescription(timelineEntry.getDescription())
                     .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
+                    .setTimelineid(timelineEntry.getId())
                     .setGravity(timelineEntry.getGravity())
                     .setDeadline(ZonedDatetime2OffsetMinutes(this.defaultSchedule.getGlobalStartTime(),
                             timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()))
@@ -269,7 +270,8 @@ public class DataStructureBuilder {
         //Add Scheduled Jobs: Fixed Length Chain Mode
         HashMap<Integer, ExecutionMode> timelineid2executionModeMap = new HashMap<>();
         for (ExecutionMode executionMode : listOfExecutionMode)
-            timelineid2executionModeMap.put(executionMode.getJob().getTimelineid(), executionMode);
+            if (executionMode.getJob().getRownum() != null)
+                timelineid2executionModeMap.put(executionMode.getJob().getTimelineid(), executionMode);
         for (int i = 0; i < timelineBlock.getTimelineEntryList().size(); i++) {
             TimelineEntry timelineEntry = timelineBlock.getTimelineEntryList().get(i);
             AllocationType lockStatus = (timelineEntry.getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
@@ -324,6 +326,7 @@ public class DataStructureBuilder {
             allocation.getProject().getSchedule().getAllocationList().add(allocation);
         }
         defaultSchedule.setValueEntryMap(valueEntryMap);
+        defaultSchedule.setProblemTimelineBlock(timelineBlock);
     }
 
     public Schedule getFullSchedule() {

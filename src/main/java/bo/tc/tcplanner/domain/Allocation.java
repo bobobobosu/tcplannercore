@@ -375,7 +375,7 @@ public class Allocation extends AbstractPersistable {
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
         if (job == dummyJob) return ValueRangeFactory.createIntValueRange(100, 110, 10);
-        return ValueRangeFactory.createIntValueRange(0, 110, 10);
+        return ValueRangeFactory.createIntValueRange(0, 110, 1);
     }
 
 

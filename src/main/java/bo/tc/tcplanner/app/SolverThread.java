@@ -33,7 +33,7 @@ public class SolverThread extends Thread {
             = LoggerFactory.getLogger(SolverThread.class);
     JsonServer jsonServer;
     boolean continuetosolve = true;
-    String P1_mode = "incremental";
+    String P1_mode = "global";
     String P2_mode = "global";
     String solvingStatus;
     Solver<Schedule> currentSolver;

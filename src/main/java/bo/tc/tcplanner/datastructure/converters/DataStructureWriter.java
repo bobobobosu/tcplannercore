@@ -3,7 +3,6 @@ package bo.tc.tcplanner.datastructure.converters;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
-import com.google.common.collect.Lists;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -16,8 +15,8 @@ import static bo.tc.tcplanner.app.Toolbox.jacksonDeepCopy;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.deletedRownum;
 
 public class DataStructureWriter {
-    public TimelineBlock generateTimelineBlock(TimelineBlock oldTimelineBlock, Schedule result) {
-        oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(oldTimelineBlock);
+    public TimelineBlock generateTimelineBlock(Schedule result) {
+        TimelineBlock oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(result.getProblemTimelineBlock());
 
 
         TimelineBlock timelineBlock = new TimelineBlock()
@@ -43,7 +42,7 @@ public class DataStructureWriter {
 
             // Initialize
             TimelineEntry TE = new TimelineEntry();
-            if (allocation.getJob().getTimelineid() != null) {
+            if (allocation.getJob().getRownum() != null) {
                 TE.setId(allocation.getJob().getTimelineid());
             } else {
                 TE.setId(newID(TEList));
@@ -74,8 +73,11 @@ public class DataStructureWriter {
                     .setDependencyIdList(allocation.getJob().getDependencyTimelineIdList());
 
             //Progress Change
+            double baseProgress = 1;
+            if (id2timelineEntryMap.containsKey(allocation.getJob().getTimelineid()))
+                baseProgress = id2timelineEntryMap.get(allocation.getJob().getTimelineid()).getProgressChange().getProgressDelta();
             TE.setProgressChange(new ProgressChange());
-            TE.getProgressChange().setProgressDelta((double) allocation.getProgressdelta() / 100);
+            TE.getProgressChange().setProgressDelta((double) baseProgress * allocation.getProgressdelta() / 100);
             if (allocation.getProgressdelta() == 0) TE.setRownum(deletedRownum);
 
             // Resource State Change

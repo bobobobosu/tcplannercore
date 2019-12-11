@@ -16,6 +16,7 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -47,6 +48,17 @@ public class Schedule extends AbstractPersistable {
     private int globalStartRow;
     private int globalEndRow;
     private int globalScheduleAfterIndex;
+
+    public TimelineBlock getProblemTimelineBlock() {
+        return problemTimelineBlock;
+    }
+
+    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
+        this.problemTimelineBlock = problemTimelineBlock;
+    }
+
+    private TimelineBlock problemTimelineBlock;
+
     @XStreamConverter(BendableScoreXStreamConverter.class)
     private BendableScore score;
 
