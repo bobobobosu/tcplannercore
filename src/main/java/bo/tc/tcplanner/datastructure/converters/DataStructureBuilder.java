@@ -276,7 +276,7 @@ public class DataStructureBuilder {
             TimelineEntry timelineEntry = timelineBlock.getTimelineEntryList().get(i);
             AllocationType lockStatus = (timelineEntry.getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
             Allocation mandallocation = new Allocation(timelineid2executionModeMap.get(timelineEntry.getId()), listOfAllocations,
-                    (int)timelineEntry.getProgressChange().getProgressDelta()*100);
+                    (int)(timelineEntry.getProgressChange().getProgressDelta()*100));
             mandallocation.setAllocationType(lockStatus);
             if (timelineEntry.getRownum().equals(timelineBlock.getBlockScheduleAfter()))
                 defaultSchedule.setGlobalScheduleAfterIndex(mandallocation.getIndex());

@@ -139,10 +139,10 @@ rule "dummyJob"
         scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end
 
-rule "punishFragmentation"
-    when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
-            $progressdelta : progressdelta,$progressdelta <100 )
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
-end
+//rule "punishFragmentation"
+//    when
+//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+//            $progressdelta : progressdelta,$progressdelta <100 )
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
+//end
