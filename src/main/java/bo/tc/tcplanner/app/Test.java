@@ -1,6 +1,8 @@
 package bo.tc.tcplanner.app;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
     public static void main(String[] args) throws IOException {
@@ -8,6 +10,8 @@ public class Test {
                 - (1000000 / 60) - (1000000 / (14 * 15)) + (1000000 / (420));
 
         int g = 0;
+        List<Integer> few = new ArrayList<>();
+        Integer de = few.get(0);
 //        SolverFactory<Schedule> solverFactory;
 //        TCSchedulingApp tcSchedulingApp = new TCSchedulingApp();
 //        InputStream inputStream = tcSchedulingApp.getClass().getResourceAsStream("/solverPhase1.xml");

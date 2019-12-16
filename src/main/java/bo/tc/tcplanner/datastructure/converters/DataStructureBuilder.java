@@ -77,7 +77,7 @@ public class DataStructureBuilder {
         // dummy humanStateChange
         dummyHumamStateChange = new HumanStateChange().setCurrentLocation(dummyLocation).setMovetoLocation(dummyLocation).setRequirementTimerange(dummyTime).setDuration(0);
         // dummy dummyProgressChange
-        dummyProgressChange = new ProgressChange().setProgressDelta(100);
+        dummyProgressChange = new ProgressChange().setProgressDelta(1);
         // dummy jobs
         dummyJob = new Job("dummyJob", JobType.STANDARD, listOfJobs, defaultProject);
         dummyJob.setVolatileFlag(true);
@@ -275,7 +275,8 @@ public class DataStructureBuilder {
         for (int i = 0; i < timelineBlock.getTimelineEntryList().size(); i++) {
             TimelineEntry timelineEntry = timelineBlock.getTimelineEntryList().get(i);
             AllocationType lockStatus = (timelineEntry.getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
-            Allocation mandallocation = new Allocation(timelineid2executionModeMap.get(timelineEntry.getId()), listOfAllocations, 100);
+            Allocation mandallocation = new Allocation(timelineid2executionModeMap.get(timelineEntry.getId()), listOfAllocations,
+                    (int)timelineEntry.getProgressChange().getProgressDelta()*100);
             mandallocation.setAllocationType(lockStatus);
             if (timelineEntry.getRownum().equals(timelineBlock.getBlockScheduleAfter()))
                 defaultSchedule.setGlobalScheduleAfterIndex(mandallocation.getIndex());

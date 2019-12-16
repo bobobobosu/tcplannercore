@@ -73,11 +73,8 @@ public class DataStructureWriter {
                     .setDependencyIdList(allocation.getJob().getDependencyTimelineIdList());
 
             //Progress Change
-            double baseProgress = 1;
-            if (id2timelineEntryMap.containsKey(allocation.getJob().getTimelineid()))
-                baseProgress = id2timelineEntryMap.get(allocation.getJob().getTimelineid()).getProgressChange().getProgressDelta();
             TE.setProgressChange(new ProgressChange());
-            TE.getProgressChange().setProgressDelta((double) baseProgress * allocation.getProgressdelta() / 100);
+            TE.getProgressChange().setProgressDelta((double)allocation.getProgressdelta() / 100);
             if (allocation.getProgressdelta() == 0) TE.setRownum(deletedRownum);
 
             // Resource State Change

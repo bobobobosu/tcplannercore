@@ -107,11 +107,15 @@ rule "checkSplittable"
     when
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,
         	$jobType : executionMode.job.jobType,
-            $executionMode : executionMode,job.getSplittable() == 0,$progressdelta : progressdelta,$progressdelta<100 )
+            $executionMode : executionMode,
+            job.getSplittable() == 0,
+            $progressdelta : progressdelta,
+            $jobprogressdelta : executionMode.progressChange.progressDelta,
+            eval($progressdelta != ($jobprogressdelta * 100) ))
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{($progressdelta-100)*100,
-														$jobType == JobType.SCHEDULED ? ($progressdelta-100) : 0,0,0,0},
+											new int[]{(-(int)Math.abs($progressdelta-$jobprogressdelta * 100))*100,
+														$jobType == JobType.SCHEDULED ? (-(int)Math.abs($progressdelta-$jobprogressdelta * 100)) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
