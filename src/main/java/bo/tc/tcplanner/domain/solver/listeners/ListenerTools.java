@@ -1,11 +1,13 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
+import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
 
 public class ListenerTools {
@@ -23,20 +25,21 @@ public class ListenerTools {
     }
 
     public static void updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
-        if (!prevAllocation.getExecutionMode().getMovetoLocation()
-                .equals(dummyLocation)) {
-            allocation.setPreviousStandstill(
-                    prevAllocation.getExecutionMode().getMovetoLocation());
-        } else {
-            if (!prevAllocation.getExecutionMode().getCurrentLocation()
-                    .equals(dummyLocation)) {
-                allocation.setPreviousStandstill(prevAllocation
-                        .getExecutionMode().getCurrentLocation());
-            } else {
-                allocation.setPreviousStandstill(
-                        prevAllocation.getPreviousStandstill());
-            }
+        String PreviousStandStill = prevAllocation.getPreviousStandstill();
+
+        if(!locationHierarchyMap.containsKey(PreviousStandStill) ||
+                !locationHierarchyMap.get(PreviousStandStill).contains(
+                        prevAllocation.getExecutionMode().getCurrentLocation())){
+            PreviousStandStill = prevAllocation.getExecutionMode().getCurrentLocation();
         }
+
+        if(!locationHierarchyMap.containsKey(PreviousStandStill) ||
+                !locationHierarchyMap.get(PreviousStandStill).contains(
+                        prevAllocation.getExecutionMode().getMovetoLocation())){
+            PreviousStandStill = prevAllocation.getExecutionMode().getMovetoLocation();
+        }
+
+        allocation.setPreviousStandstill(PreviousStandStill);
     }
 
     public static void updateAllocationResourceStateChange(Allocation thisallocation, Allocation prevAllocation) {

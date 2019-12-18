@@ -23,6 +23,16 @@ public class TimelineEntry extends AbstractPersistable {
     int changeable;
     Integer rownum;
     List<Integer> dependencyIdList;
+    //validation notes
+    String score;
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
 
     public TimelineEntry() {
         this.setVolatileFlag(false);

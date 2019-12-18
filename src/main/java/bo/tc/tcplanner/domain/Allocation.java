@@ -280,7 +280,7 @@ public class Allocation extends AbstractPersistable {
         if (predecessorsDoneDate == null) {
             return null;
         }
-        return getStartDate() + (delay == null ? 0 : delay) + (plannedDuration == null ? 0 : plannedDuration);
+        return getStartDate() + (plannedDuration == null ? 0 : plannedDuration);
     }
 
     public Integer getNextStart() {
@@ -369,7 +369,7 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
-        return ValueRangeFactory.createIntValueRange(0, 200);
+        return ValueRangeFactory.createIntValueRange(0, 60*24);
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")

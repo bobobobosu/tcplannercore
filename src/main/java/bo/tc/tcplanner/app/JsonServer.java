@@ -201,6 +201,8 @@ public class JsonServer {
             }
             new Thread(() -> {
                 try {
+                    byte[] response = "{\"Updated\":true}".getBytes(StandardCharsets.UTF_8);
+
                     String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
                             StandardCharsets.UTF_8);
                     Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
@@ -222,6 +224,8 @@ public class JsonServer {
                             if (timelineBlock.getOrigin().equals("TCxlsb")) {
                                 setProblemTimelineBlock(timelineBlock);
                                 solverThread.restartSolversWithNewTimelineBlock(timelineBlock);
+                            }else {
+
                             }
                             System.out.println("TimelineBlock Updated");
                         }
@@ -231,7 +235,7 @@ public class JsonServer {
                             set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                     exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                     OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write("{\"Updated\":true}".getBytes(StandardCharsets.UTF_8));
+                    responseBody.write(response);
                     responseBody.close();
                 } catch (Exception e) {
                     e.printStackTrace();

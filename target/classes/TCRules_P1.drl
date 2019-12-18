@@ -92,7 +92,7 @@ rule "checkRequirements"
                                     $resourceChange_delta : executionMode.resourceStateChange.resourceChange,
                                     $resourceChange_abs : resourceElementMap,
                                     $jobType : executionMode.job.jobType)
-        Map.Entry($deltak:key, $deltav:value, $req : value#ResourceElement.amt, $req<0) from $resourceChange_delta.entrySet
+        Map.Entry($deltak:key, $deltav:value, $req : value#ResourceElement.amt) from $resourceChange_delta.entrySet
         Map.Entry(key == $deltak, $net : value#ResourceElement.amt) from $resourceChange_abs.entrySet
 
         eval($net<0)
@@ -117,6 +117,15 @@ rule "checkSplittable"
 											new int[]{(-(int)Math.abs($progressdelta-$jobprogressdelta * 100))*100,
 														$jobType == JobType.SCHEDULED ? (-(int)Math.abs($progressdelta-$jobprogressdelta * 100)) : 0,0,0,0},
 											new int[]{0,0,0,0});
+end
+
+rule "timePreference"
+    when
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+            $executionMode : executionMode, $startDate : startDate, $endDate : endDate, $requirementTimerange : executionMode.requirementTimerange)
+        eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, 4, -100);
 end
 
 
