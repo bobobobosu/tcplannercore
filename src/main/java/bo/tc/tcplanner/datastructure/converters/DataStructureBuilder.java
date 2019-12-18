@@ -123,7 +123,7 @@ public class DataStructureBuilder {
             if (allocation.getJob().getJobType() == JobType.SCHEDULED && allocation.getJob().getChangeable() == 0) {
                 if (allocation.getJob().getRownum() != null) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
-                            allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation, dummyLocation));
+                            allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation));
                 }
             }
         }
@@ -211,7 +211,7 @@ public class DataStructureBuilder {
             if (timelineEntry.getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
-            ResourceElement resourceElement = new ResourceElement().setAmt(100).setRequirementLocation(dummyLocation).setProductionLocation(dummyLocation);
+            ResourceElement resourceElement = new ResourceElement().setAmt(100).setLocation(dummyLocation);
             resourceElement.setVolatileFlag(true);
 
             // Add timeline jobs SCHEDULED
