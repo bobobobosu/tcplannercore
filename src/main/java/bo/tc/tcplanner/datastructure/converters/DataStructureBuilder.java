@@ -156,6 +156,8 @@ public class DataStructureBuilder {
         prevAllocation = sourceAllocation;
         while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
+            if(thisAllocation.getJob().getStartDate() != null)
+                thisAllocation.setDelay(thisAllocation.getJob().getStartDate() - thisAllocation.getPredecessorsDoneDate());
             prevAllocation = thisAllocation;
         }
 
@@ -169,7 +171,6 @@ public class DataStructureBuilder {
             updateAllocationResourceStateChange(thisAllocation, prevAllocation);
             prevAllocation = thisAllocation;
         }
-
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {
@@ -224,7 +225,8 @@ public class DataStructureBuilder {
                             timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()))
                     .setSplittable(timelineEntry.getSplittable())
                     .setMovable(timelineEntry.getMovable())
-                    .setChangeable(timelineEntry.getChangeable());
+                    .setChangeable(timelineEntry.getChangeable())
+                    .setStartDate(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), ZonedDateTime.parse(timelineEntry.getStartTime())));
 
             ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, mandJob)
                     .setHumanStateChange(timelineEntry.getHumanStateChange())
@@ -264,7 +266,7 @@ public class DataStructureBuilder {
     public void initializeAllocationList(int dummyLengthInChain) {
         //Add Source
         Allocation sourceallocation = new Allocation(sourceExecutionMode, listOfAllocations, 100);
-        sourceallocation.setForceStartTime(0);
+        sourceallocation.getJob().setStartDate(0);
         sourceallocation.setAllocationType(AllocationType.Locked);
 
         //Add Scheduled Jobs: Fixed Length Chain Mode
@@ -280,10 +282,6 @@ public class DataStructureBuilder {
             mandallocation.setAllocationType(lockStatus);
             if (timelineEntry.getRownum().equals(timelineBlock.getBlockScheduleAfter()))
                 defaultSchedule.setGlobalScheduleAfterIndex(mandallocation.getIndex());
-            if (timelineEntry.getMovable() == 1) {
-            } else {
-                mandallocation.setForceStartTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), ZonedDateTime.parse(timelineEntry.getStartTime())));
-            }
 
             for (int k = 0; k < dummyLengthInChain; k++) {
                 Allocation allocation = new Allocation(dummyExecutionMode, listOfAllocations, 10);
@@ -293,7 +291,7 @@ public class DataStructureBuilder {
 
         //Add Sink
         Allocation sinkallocation = new Allocation(sinkExecutionMode, listOfAllocations, 100);
-        sinkallocation.setForceStartTime(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), defaultSchedule.getGlobalEndTime()));
+        sinkallocation.getJob().setStartDate(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), defaultSchedule.getGlobalEndTime()));
         sinkallocation.setAllocationType(AllocationType.Locked);
 
 

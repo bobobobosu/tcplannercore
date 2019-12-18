@@ -19,6 +19,7 @@ public class ListenerTools {
         try {
             allocation.setPredecessorsDoneDate(prevAllocation == null ? 0 : prevAllocation.getEndDate());
         } catch (Exception ex) {
+            ex.printStackTrace();
             int i = 0;
         }
 

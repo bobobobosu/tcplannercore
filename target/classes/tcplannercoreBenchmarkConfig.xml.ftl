@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>80000</millisecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+<#--                <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -30,7 +30,7 @@
 
 
 <#--    files-->
-    <#list ['TimelineBlockHard'] as solution>
+    <#list ['TimelineBlockSolution'] as solution>
 <#--    numbers-->
     <#list [240] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
@@ -41,7 +41,7 @@
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['NON_REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl','TCRules_P1_2.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -107,7 +107,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>c${cartesian?index}</name>
+        <name>c${scoreDrl?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>

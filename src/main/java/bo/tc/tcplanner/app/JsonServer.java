@@ -3,6 +3,7 @@ package bo.tc.tcplanner.app;
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
+import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.datastructure.converters.DataStructureWriter;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,7 +13,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -21,9 +21,12 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Time;
 import java.util.*;
 
+import static bo.tc.tcplanner.app.SolverThread.initializeData;
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
+import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 import static bo.tc.tcplanner.app.Toolbox.printTimelineBlock;
 
 public class JsonServer {
@@ -54,9 +57,11 @@ public class JsonServer {
 
     public HttpServer createServer() throws IOException {
         final HttpServer server = HttpServer.create(new InetSocketAddress(HOSTNAME, PORT), BACKLOG);
-        NewTimelineBlockNotifier newTimelineBlockNotifier = new NewTimelineBlockNotifier();
+        var newTimelineBlockNotifier = new NewTimelineBlockNotifier();
         server.createContext("/newTimelineBlock", newTimelineBlockNotifier);
-        UpdateOptaFilesHandler updateOptaFilesHandler = new UpdateOptaFilesHandler();
+        var scoreTimelineBlockHandler = new ScoreTimelineBlockHandler();
+        server.createContext("/scoreTimelineBlock", scoreTimelineBlockHandler);
+        var updateOptaFilesHandler = new UpdateOptaFilesHandler();
         server.createContext("/updateOptaFiles", updateOptaFilesHandler);
         return server;
     }
@@ -193,6 +198,49 @@ public class JsonServer {
         }
     }
 
+    public class ScoreTimelineBlockHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if (!exchange.getRequestMethod().equals("POST")) {
+                throw new UnsupportedOperationException();
+            }
+
+            new Thread(() -> {
+                try {
+                    String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
+                            StandardCharsets.UTF_8);
+                    Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
+                    setFiles(updatedfiles);
+
+                    TimelineBlock timelineBlock = problemTimelineBlock;
+                    if (timelineBlock.getOrigin().equals("TCxlsb")) {
+                        DataStructureBuilder DSB = null;
+                        Schedule result = null;
+                        try {
+                            DSB = initializeData(timelineBlock);
+                            solverThread.initializeSolvers();
+                            result = DSB.getFullSchedule();
+                            printCurrentSolution(result, false, "");
+                            timelineBlock = new DataStructureWriter().generateTimelineBlock(result, solverThread.currentSolver);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    System.out.println("Sending Scored TimelineBlock");
+                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
+                    exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
+                    OutputStream responseBody = exchange.getResponseBody();
+                    responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8));
+                    responseBody.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        }
+    }
+
     public class UpdateOptaFilesHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -206,28 +254,11 @@ public class JsonServer {
                     String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
                             StandardCharsets.UTF_8);
                     Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
-                    for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
-                        if (entry.getKey().equals("TimeHierarchyMap.json")) {
-                            timeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), HashMap.class);
-                            System.out.println("TimeHierarchyMap Updated");
-                        }
-                        if (entry.getKey().equals("LocationHierarchyMap.json")) {
-                            locationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
-                            System.out.println("LocationHierarchyMap Updated");
-                        }
-                        if (entry.getKey().equals("ValueEntryMap.json")) {
-                            valueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
-                            System.out.println("ValueEntryMap Updated");
-                        }
-                        if (entry.getKey().equals("TimelineBlock.json")) {
-                            TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
-                            if (timelineBlock.getOrigin().equals("TCxlsb")) {
-                                setProblemTimelineBlock(timelineBlock);
-                                solverThread.restartSolversWithNewTimelineBlock(timelineBlock);
-                            }else {
+                    setFiles(updatedfiles);
 
-                            }
-                            System.out.println("TimelineBlock Updated");
+                    if (updatedfiles.containsKey("TimelineBlock.json")) {
+                        if (problemTimelineBlock.getOrigin().equals("TCxlsb")) {
+                            solverThread.restartSolversWithNewTimelineBlock(problemTimelineBlock);
                         }
                     }
 
@@ -243,6 +274,28 @@ public class JsonServer {
             }).start();
 
 
+        }
+    }
+
+    private void setFiles(Map<String, Map> updatedfiles) {
+        for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
+            if (entry.getKey().equals("TimeHierarchyMap.json")) {
+                timeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), HashMap.class);
+                System.out.println("TimeHierarchyMap Updated");
+            }
+            if (entry.getKey().equals("LocationHierarchyMap.json")) {
+                locationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
+                System.out.println("LocationHierarchyMap Updated");
+            }
+            if (entry.getKey().equals("ValueEntryMap.json")) {
+                valueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
+                System.out.println("ValueEntryMap Updated");
+            }
+            if (entry.getKey().equals("TimelineBlock.json")) {
+                TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
+                setProblemTimelineBlock(timelineBlock);
+                System.out.println("TimelineBlock Updated");
+            }
         }
     }
 

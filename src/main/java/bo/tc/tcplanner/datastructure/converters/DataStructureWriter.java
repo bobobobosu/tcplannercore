@@ -3,6 +3,10 @@ package bo.tc.tcplanner.datastructure.converters;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.constraint.Indictment;
+import org.optaplanner.core.api.solver.Solver;
+import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -10,11 +14,31 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.dtf_TimelineEntry;
-import static bo.tc.tcplanner.app.Toolbox.OffsetMinutes2ZonedDatetime;
-import static bo.tc.tcplanner.app.Toolbox.jacksonDeepCopy;
+import static bo.tc.tcplanner.app.Toolbox.*;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.deletedRownum;
 
 public class DataStructureWriter {
+    public TimelineBlock generateTimelineBlock(Schedule result, Solver solver) {
+        TimelineBlock timelineBlock = generateTimelineBlock(result);
+        ScoreDirector<Schedule> scoreDirector = createScoreDirector(result);
+
+        Map<Integer, Indictment> breakByTasks = new HashMap<>();
+        for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
+            if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
+                    Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
+                Allocation matchAllocation = (Allocation) indictmentEntry.getValue().getJustification();
+                if (matchAllocation.getJob().getTimelineid() != null)
+                    breakByTasks.put(matchAllocation.getJob().getTimelineid(), indictmentEntry.getValue());
+            }
+        }
+
+        for (TimelineEntry timelineEntry : timelineBlock.getTimelineEntryList()) {
+            timelineEntry.setScore(breakByTasks.containsKey(timelineEntry.getId()) ?
+                    hardConstraintMatchToString(breakByTasks.get(timelineEntry.getId()).getConstraintMatchSet()) : "");
+        }
+        return timelineBlock;
+    }
+
     public TimelineBlock generateTimelineBlock(Schedule result) {
         TimelineBlock oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(result.getProblemTimelineBlock());
 
@@ -74,7 +98,7 @@ public class DataStructureWriter {
 
             //Progress Change
             TE.setProgressChange(new ProgressChange());
-            TE.getProgressChange().setProgressDelta((double)allocation.getProgressdelta() / 100);
+            TE.getProgressChange().setProgressDelta((double) allocation.getProgressdelta() / 100);
             if (allocation.getProgressdelta() == 0) TE.setRownum(deletedRownum);
 
             // Resource State Change

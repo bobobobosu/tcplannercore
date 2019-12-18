@@ -39,6 +39,7 @@ rule "checkDependencyId"
         $dependencyId : Integer() from $dependencyTimelineIdList
         Allocation(job != DataStructureBuilder.dummyJob, $timelineid : job.getTimelineid(), $timelineid == $dependencyId,index > $index)
     then
+//        scoreHolder.addHardConstraintMatch(kcontext, 0, -100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{-(1000),$jobType == JobType.SCHEDULED ? -(1000) : 0,0,0,0},
 											new int[]{0,0,0,0});
@@ -51,6 +52,7 @@ rule "checkTimeOverlapping"
         ExecutionMode(this==$executionMode, $name : job.name)
 
     then
+//        scoreHolder.addHardConstraintMatch(kcontext, 0,-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)));
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration))
 											,$jobType == JobType.SCHEDULED ?
@@ -64,6 +66,7 @@ rule "checkDeadline"
             $executionMode : executionMode,$job : executionMode.getJob(), $endDate : endDate)
        Job(this == $job,$deadline : deadline, $deadline < $endDate)
    then
+//       scoreHolder.addHardConstraintMatch(kcontext, 0, $deadline - $endDate);
        		scoreHolder.addMultiConstraintMatch(kcontext,
        											new int[]{$deadline - $endDate,$jobType == JobType.SCHEDULED ? $deadline - $endDate : 0,0,0,0},
        											new int[]{0,0,0,0});
@@ -76,6 +79,7 @@ rule "checkPreviousStandstill"
             $jobType : jobType)
         ExecutionMode(this == $executionMode, $currentLocation : currentLocation, eval(!locationRestrictionCheck($previousStandstill,$currentLocation)))
     then
+
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{-(100),$jobType == JobType.SCHEDULED ? -(100) : 0,0,0,0},
 											new int[]{0,0,0,0});
@@ -121,7 +125,7 @@ rule "timePreference"
             $executionMode : executionMode, $startDate : startDate, $endDate : endDate, $requirementTimerange : executionMode.requirementTimerange)
         eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 4, -100);
+        scoreHolder.addHardConstraintMatch(kcontext, 0, -100);
 end
 
 

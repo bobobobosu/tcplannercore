@@ -32,6 +32,7 @@ public class Job extends AbstractPersistable {
     private Integer timelineid;
     private List<ExecutionMode> executionModeList;
     private List<Job> successorJobList;
+    private Integer startDate = null;
     private Integer deadline = null;
     private Integer gravity;
     private Integer splittable;
@@ -200,4 +201,12 @@ public class Job extends AbstractPersistable {
         return this;
     }
 
+    public Integer getStartDate() {
+        return startDate;
+    }
+
+    public Job setStartDate(Integer startDate) {
+        this.startDate = startDate;
+        return this;
+    }
 }

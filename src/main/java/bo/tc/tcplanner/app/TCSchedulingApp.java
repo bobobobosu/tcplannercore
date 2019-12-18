@@ -64,7 +64,7 @@ public class TCSchedulingApp {
                     } else if (input.equals("e")) {
                         solverThread.getCurrentSolver().explainBestScore();
                     } else if (input.startsWith("t")) {
-                        printCurrentSolution(solverThread.currentSchedule, solverThread.currentSolver, true, solverThread.solvingStatus);
+                        printCurrentSolution(solverThread.currentSchedule,true, solverThread.solvingStatus);
                     } else if (input.equals("p1i")) {
                         solverThread.P1_mode = "incremental";
                     } else if (input.equals("p1g")) {

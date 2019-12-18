@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.optaplanner</groupId>
         <artifactId>optaplanner</artifactId>
-        <version>7.25.0.Final</version>
+        <version>7.31.0.Final</version>
     </parent>
 
     <properties>
@@ -78,13 +78,11 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jfree</groupId>
+            <groupId>jfree</groupId>
             <artifactId>jcommon</artifactId>
+            <version>1.0.16</version>
         </dependency>
+
         <!-- Common utils -->
         <dependency>
             <groupId>org.apache.commons</groupId>

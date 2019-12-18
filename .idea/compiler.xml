@@ -13,7 +13,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="tcplanner-core" options="-Xlint:unchecked" />
+      <module name="tcplanner-core" options="-Xmaxwarns 100 -Xlint -Xlint:-rawtypes -Xlint:-serial -Xlint:-unchecked" />
       <module name="tcplannercore" options="-Xlint:unchecked" />
     </option>
   </component>

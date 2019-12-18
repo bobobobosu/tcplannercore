@@ -90,21 +90,23 @@ public class SolverThread extends Thread {
         solverList = new ArrayList<>();
 
         // Solve Phase 1 : to met requirements
-        solverFactory = SolverFactory.createFromXmlInputStream(this.getClass().getResourceAsStream("/solverPhase1.xml"));
+        solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
         Solver<Schedule> solver1 = solverFactory.buildSolver();
         setSolverListener(solver1);
         solverList.add(solver1);
 
-        // Solve Phase 2 : to remove dummyjobs
-        solverFactory = SolverFactory.createFromXmlInputStream(this.getClass().getResourceAsStream("/solverPhase2.xml"));
+        // Solve Phase 2 : to optimize
+        solverFactory = SolverFactory.createFromXmlResource("solverPhase2.xml");
         Solver<Schedule> solver2 = solverFactory.buildSolver();
         setSolverListener(solver2);
         solverList.add(solver2);
+
+        currentSolver = solver1;
     }
 
     public void setSolverListener(Solver<Schedule> solver) {
         solver.addEventListener(bestSolutionChangedEvent -> {
-            printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), solver, false, solvingStatus);
+            printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), false, solvingStatus);
             currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
             jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
         });
@@ -160,6 +162,7 @@ public class SolverThread extends Thread {
             e.printStackTrace();
         }
 
+
         //Solve Hard Incremental By AllocationList
         if (P1_mode.equals("incremental")) {
             currentSolver = solverList.get(0);
@@ -174,7 +177,7 @@ public class SolverThread extends Thread {
                 solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
                 if (thisAllocation.getJob().getJobType() == JobType.SCHEDULED && thisAllocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
                     if (continuetosolve && !isSolved(result, currentSolver)) {
-                        printCurrentSolution(result, currentSolver, false, solvingStatus);
+                        printCurrentSolution(result, false, solvingStatus);
                         currentSchedule = result;
                         currentSchedule = result = currentSolver.solve(result);
                         jsonServer.updateTimelineBlock(false, result);
@@ -188,13 +191,13 @@ public class SolverThread extends Thread {
         if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
             DataStructureBuilder.constructChainProperty(result.getAllocationList());
-            printCurrentSolution(result, solverList.get(0), true, solvingStatus);
+            printCurrentSolution(result, true, solvingStatus);
             if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
             jsonServer.updateTimelineBlock(false, result);
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
-        printCurrentSolution(result, solverList.get(0), true, solvingStatus);
+        printCurrentSolution(result,true, solvingStatus);
 
         //Solve Soft
         if (P2_mode.equals("global")) {

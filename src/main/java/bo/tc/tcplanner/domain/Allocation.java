@@ -62,8 +62,6 @@ public class Allocation extends AbstractPersistable {
     private String previousStandstill;
     private Integer plannedDuration;
     private Map<String, ResourceElement> resourceElementMap;
-    // Force Settings
-    private Integer forceStartTime;
 
     public Allocation() {
 
@@ -114,7 +112,6 @@ public class Allocation extends AbstractPersistable {
         this.delay = other.delay;
         this.predecessorsDoneDate = other.predecessorsDoneDate;
         this.previousStandstill = other.previousStandstill;
-        this.forceStartTime = other.forceStartTime;
         this.plannedDuration = other.getPlannedDuration();
     }
 
@@ -144,7 +141,6 @@ public class Allocation extends AbstractPersistable {
         this.delay = other.delay;
         this.predecessorsDoneDate = other.predecessorsDoneDate;
         this.previousStandstill = other.previousStandstill;
-        this.forceStartTime = other.forceStartTime;
         this.plannedDuration = other.getPlannedDuration();
     }
 
@@ -268,11 +264,10 @@ public class Allocation extends AbstractPersistable {
     // Complex methods
     // ************************************************************************
     public Integer getStartDate() {
-        if (this.forceStartTime != null)
-            return this.forceStartTime;
         if (predecessorsDoneDate == null) {
             return null;
         }
+        if(job.getMovable() == 0 && job.getStartDate() != null) return job.getStartDate();
         return predecessorsDoneDate + (delay == null ? 0 : delay);
     }
 
@@ -386,14 +381,5 @@ public class Allocation extends AbstractPersistable {
     public void setAllocationType(AllocationType allocationType) {
         this.allocationType = allocationType;
     }
-
-    public Integer getForceStartTime() {
-        return forceStartTime;
-    }
-
-    public void setForceStartTime(Integer forceStartTime) {
-        this.forceStartTime = forceStartTime;
-    }
-
 
 }

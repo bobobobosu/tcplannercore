@@ -12,6 +12,7 @@ import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.Solver;
+import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.awt.*;
@@ -118,8 +119,20 @@ public class Toolbox {
         }
     }
 
-    public static void printCurrentSolution(Schedule schedule, Solver<Schedule> solver, boolean showTimeline, String solvingStatus) {
+    public static ScoreDirector<Schedule> createScoreDirector(Schedule workingSolution){
+        SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
+        ScoreDirector<Schedule> scoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
+        scoreDirector.setWorkingSolution(workingSolution);
+        return scoreDirector;
+    }
+
+    public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
         try {
+            //Debug
+            List<Allocation> debugAllocationList = new ArrayList<>();
+            for(Allocation allocation: schedule.getAllocationList()){
+                if(allocation.getJob() != dummyJob) debugAllocationList.add(allocation);
+            }
             System.err.print("\033[H\033[2J");
             System.err.flush();
             String[] breakByRulesHeader = {"Break Up By Rule"};
@@ -129,8 +142,7 @@ public class Toolbox {
             List<String[]> timeline = new ArrayList<>();
 
 
-            ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
-            scoreDirector.setWorkingSolution(schedule);
+            ScoreDirector<Schedule> scoreDirector = createScoreDirector(schedule);
             for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
 //                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
                 breakByRules.add(new String[]{constraintMatch.toString()});
@@ -173,7 +185,6 @@ public class Toolbox {
                 }
             }
             timeline.add(timelineHeader);
-            solver.explainBestScore();
             if (showTimeline)
                 System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
             System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
@@ -193,6 +204,7 @@ public class Toolbox {
     public static String genPathFromConstants(String filename, HashMap<String, Object> ConstantsJson) {
         return castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get(castString(castDict(castDict(ConstantsJson.get("Paths")).get("Files")).get(filename)))) + filename;
     }
+
 
     public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet) {
         StringBuilder result = new StringBuilder();
