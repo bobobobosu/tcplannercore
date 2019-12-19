@@ -6,11 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="">
+    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="fixup! Add support for resource exchanging">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,10 +46,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="9c6d9b7c3a049fd4370172752f1d3944983c9c7f" />
+        <entry key="$PROJECT_DIR$" value="b9f9ee911000aa7c390ed7d8075b45853d3dd301" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MavenImportPreferences">
@@ -190,11 +189,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TCSchedulingApp" />
-        <item itemvalue="Application.Benchmark" />
-        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Logging" />
         <item itemvalue="Application.SocketServer" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
       </list>
     </recent_temporary>
   </component>
@@ -427,7 +426,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576648778219</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Add support for resource exchanging">
+      <created>1576743533517</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1576743533517</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -459,7 +465,8 @@
     <MESSAGE value="Remove Percent magic numbers" />
     <MESSAGE value="Add Time Restriction Feature" />
     <MESSAGE value="Fixed Delay" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Delay" />
+    <MESSAGE value="Add support for resource exchanging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add support for resource exchanging" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

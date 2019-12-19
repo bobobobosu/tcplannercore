@@ -156,7 +156,7 @@ public class DataStructureBuilder {
         prevAllocation = sourceAllocation;
         while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-            if(thisAllocation.getJob().getStartDate() != null)
+            if (thisAllocation.getJob().getStartDate() != null)
                 thisAllocation.setDelay(thisAllocation.getJob().getStartDate() - thisAllocation.getPredecessorsDoneDate());
             prevAllocation = thisAllocation;
         }
@@ -184,21 +184,19 @@ public class DataStructureBuilder {
     public void addJobsFromValueEntryDict() {
         //Add standard jobs
         for (Map.Entry<String, ValueEntry> valueEntry : valueEntryMap.entrySet()) {
-            if (valueEntry.getValue().getType().equals("工作")) {
-                Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, defaultProject)
-                        .setSplittable(valueEntry.getValue().getSplittable())
-                        .setMovable(valueEntry.getValue().getMovable())
-                        .setChangeable(valueEntry.getValue().getChangeable());
-                List<ResourceStateChange> resourceStateChangeList = valueEntry.getValue().getResourceStateChangeList();
-                List<HumanStateChange> humanStateChangeList = valueEntry.getValue().getHumanStateChangeList();
-                List<ProgressChange> progressChangeList = valueEntry.getValue().getProgressChangeList();
-                for (int i = 0; i < resourceStateChangeList.size(); i++) {
-                    // humanStateChange
-                    ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, thisjob)
-                            .setHumanStateChange(humanStateChangeList.get(i))
-                            .setResourceStateChange(resourceStateChangeList.get(i))
-                            .setProgressChange(progressChangeList.get(i));
-                }
+            Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, defaultProject)
+                    .setSplittable(valueEntry.getValue().getSplittable())
+                    .setMovable(valueEntry.getValue().getMovable())
+                    .setChangeable(valueEntry.getValue().getChangeable());
+            List<ResourceStateChange> resourceStateChangeList = valueEntry.getValue().getResourceStateChangeList();
+            List<HumanStateChange> humanStateChangeList = valueEntry.getValue().getHumanStateChangeList();
+            List<ProgressChange> progressChangeList = valueEntry.getValue().getProgressChangeList();
+            for (int i = 0; i < resourceStateChangeList.size(); i++) {
+                // humanStateChange
+                ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, thisjob)
+                        .setHumanStateChange(humanStateChangeList.get(i))
+                        .setResourceStateChange(resourceStateChangeList.get(i))
+                        .setProgressChange(progressChangeList.get(i));
             }
         }
         int g = 0;
@@ -278,7 +276,7 @@ public class DataStructureBuilder {
             TimelineEntry timelineEntry = timelineBlock.getTimelineEntryList().get(i);
             AllocationType lockStatus = (timelineEntry.getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
             Allocation mandallocation = new Allocation(timelineid2executionModeMap.get(timelineEntry.getId()), listOfAllocations,
-                    (int)(timelineEntry.getProgressChange().getProgressDelta()*100));
+                    (int) (timelineEntry.getProgressChange().getProgressDelta() * 100));
             mandallocation.setAllocationType(lockStatus);
             if (timelineEntry.getRownum().equals(timelineBlock.getBlockScheduleAfter()))
                 defaultSchedule.setGlobalScheduleAfterIndex(mandallocation.getIndex());
