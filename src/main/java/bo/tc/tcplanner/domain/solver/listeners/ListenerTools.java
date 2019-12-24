@@ -28,15 +28,15 @@ public class ListenerTools {
     public static void updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
         String PreviousStandStill = prevAllocation.getPreviousStandstill();
 
-        if(!locationHierarchyMap.containsKey(PreviousStandStill) ||
+        if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
                 !locationHierarchyMap.get(PreviousStandStill).contains(
-                        prevAllocation.getExecutionMode().getCurrentLocation())){
+                        prevAllocation.getExecutionMode().getCurrentLocation())) {
             PreviousStandStill = prevAllocation.getExecutionMode().getCurrentLocation();
         }
 
-        if(!locationHierarchyMap.containsKey(PreviousStandStill) ||
+        if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
                 !locationHierarchyMap.get(PreviousStandStill).contains(
-                        prevAllocation.getExecutionMode().getMovetoLocation())){
+                        prevAllocation.getExecutionMode().getMovetoLocation())) {
             PreviousStandStill = prevAllocation.getExecutionMode().getMovetoLocation();
         }
 
@@ -53,7 +53,7 @@ public class ListenerTools {
             double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
             double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
-            double capped = resourceDeltaAmt + resourceAbsAmt <= capacity ? resourceDeltaAmt + resourceAbsAmt : capacity - (resourceDeltaAmt + resourceAbsAmt);
+            double capped = Math.min(resourceAbsAmt + resourceDeltaAmt, capacity);
             if (capped == 0) {
                 thisallocation.getResourceElementMap().remove(resource.getKey());
             } else {

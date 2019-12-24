@@ -147,6 +147,7 @@ public class Toolbox {
 //                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
                 breakByRules.add(new String[]{constraintMatch.toString()});
             }
+            var fsd = scoreDirector.getIndictmentMap();
             for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
                 if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
                         Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {

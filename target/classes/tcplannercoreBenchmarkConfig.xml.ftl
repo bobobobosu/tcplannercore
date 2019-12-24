@@ -20,7 +20,7 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
 <#--                <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
 
             </termination>
@@ -41,13 +41,13 @@
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['NON_REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl','TCRules_P1_2.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
-    <#list [2] as ProbabilityWeight>
+    <#list [10,20,30,40] as ProbabilityWeight>
     <#list [2] as ProbabilityWeight2>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
@@ -107,7 +107,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>c${scoreDrl?index}</name>
+        <name>c${ProbabilityWeight?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>

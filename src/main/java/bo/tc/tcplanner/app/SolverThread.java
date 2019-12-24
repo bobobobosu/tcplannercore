@@ -192,6 +192,7 @@ public class SolverThread extends Thread {
             currentSolver = solverList.get(0);
             DataStructureBuilder.constructChainProperty(result.getAllocationList());
             printCurrentSolution(result, true, solvingStatus);
+            currentSchedule = result;
             if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
             jsonServer.updateTimelineBlock(false, result);
         }

@@ -52,9 +52,9 @@ rule "checkTimeOverlapping"
 
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration))
+											new int[]{-(int)(($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration))
 											,$jobType == JobType.SCHEDULED ?
-											 -(int)(1000*($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)): 0,0,0,0},
+											 -(int)(($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)): 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -91,7 +91,7 @@ rule "checkRequirements"
         Map.Entry($deltak:key, $deltav:value, $req : value#ResourceElement.amt) from $resourceChange_delta.entrySet
         Map.Entry(key == $deltak, $net : value#ResourceElement.amt) from $resourceChange_abs.entrySet
 
-        eval($net<0)
+        eval($net<-0.001)
     then
 			scoreHolder.addMultiConstraintMatch(kcontext,
 												new int[]{(int)(100*$net),

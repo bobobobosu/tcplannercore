@@ -83,7 +83,7 @@ public class DataStructureWriter {
                     .setDescription(allocation.getJob().getDescription())
                     .setStartTime(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
                             allocation.getStartDate()).withZoneSameInstant(zoneId).format(dtf_TimelineEntry))
-                    .setTaskMode(allocation.getExecutionMode().getExecutionModeIndex());
+                    .setExecutionMode(allocation.getExecutionMode().getExecutionModeIndex());
 
             if (allocation.getExecutionMode().getJob().getDeadline() != null)
                 TE.setDeadline(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),

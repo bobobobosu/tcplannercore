@@ -9,7 +9,7 @@ public class TimelineEntry extends AbstractPersistable {
     String title;
     String description;
     //state changes
-    int taskMode;
+    int executionMode;
     HumanStateChange humanStateChange;
     ResourceStateChange resourceStateChange;
     //progress changes
@@ -56,12 +56,12 @@ public class TimelineEntry extends AbstractPersistable {
         return this;
     }
 
-    public int getTaskMode() {
-        return taskMode;
+    public int getExecutionMode() {
+        return executionMode;
     }
 
-    public TimelineEntry setTaskMode(int taskMode) {
-        this.taskMode = taskMode;
+    public TimelineEntry setExecutionMode(int executionMode) {
+        this.executionMode = executionMode;
         return this;
     }
 
