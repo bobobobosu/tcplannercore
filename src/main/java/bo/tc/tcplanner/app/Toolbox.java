@@ -119,7 +119,7 @@ public class Toolbox {
         }
     }
 
-    public static ScoreDirector<Schedule> createScoreDirector(Schedule workingSolution){
+    public static ScoreDirector<Schedule> createScoreDirector(Schedule workingSolution) {
         SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
         ScoreDirector<Schedule> scoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
         scoreDirector.setWorkingSolution(workingSolution);
@@ -130,8 +130,8 @@ public class Toolbox {
         try {
             //Debug
             List<Allocation> debugAllocationList = new ArrayList<>();
-            for(Allocation allocation: schedule.getAllocationList()){
-                if(allocation.getJob() != dummyJob) debugAllocationList.add(allocation);
+            for (Allocation allocation : schedule.getAllocationList()) {
+                if (allocation.getJob() != dummyJob) debugAllocationList.add(allocation);
             }
             System.err.print("\033[H\033[2J");
             System.err.flush();
@@ -158,15 +158,15 @@ public class Toolbox {
             for (Allocation allocation : schedule.getAllocationList()) {
                 if (allocation.getJob() != dummyJob) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
-                    String datetime = formatter.format(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                            allocation.getStartDate()).withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
-                            formatter.format(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                                    allocation.getEndDate()).withZoneSameInstant(ZoneId.systemDefault()));
+                    String datetime = formatter.format(
+                            allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
+                            formatter.format(
+                                    allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
                     timeline.add(new String[]{
                             (allocation.getJob().getRownum() == null || allocation.getJob().getRownum() < 0) ? "****" : String.valueOf(allocation.getJob().getRownum()),
                             String.valueOf(allocation.getProgressdelta()),
                             datetime,
-                            LocalTime.MIN.plus(Duration.ofMinutes(allocation.getEndDate() - allocation.getStartDate())).toString(),
+                            LocalTime.MIN.plus(Duration.between(allocation.getStartDate(), allocation.getEndDate())).toString(),
                             "P:" + allocation.getPreviousStandstill() +
                                     "\nC:" + allocation.getExecutionMode().getCurrentLocation() +
                                     "\nM:" + allocation.getExecutionMode().getMovetoLocation()

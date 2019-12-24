@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
+<#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>120000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -47,17 +47,21 @@
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
-    <#list [10,20,30,40] as ProbabilityWeight>
+    <#list [26] as ProbabilityWeight>
     <#list [2] as ProbabilityWeight2>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>'] as IndexFilter>
+
+<#--    Swap Moves-->
     <#list ['<swapMoveSelector>
-                <fixedProbabilityWeight>${ProbabilityWeight2}</fixedProbabilityWeight>
+                <fixedProbabilityWeight>${ProbabilityWeight}</fixedProbabilityWeight>
                 <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
                 <variableNameInclude>executionMode</variableNameInclude>
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>'] as swapMove>
+
+<#--    cartesian Product Moves-->
     <#list ['<cartesianProductMoveSelector>
                 <fixedProbabilityWeight>${50-ProbabilityWeight2-ProbabilityWeight}</fixedProbabilityWeight>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
@@ -73,7 +77,51 @@
                     <entitySelector mimicSelectorRef="entitySelector"/>
                     <valueSelector variableName="progressdelta"/>
                 </changeMoveSelector>
-            </cartesianProductMoveSelector>'] as cartesian>
+            </cartesianProductMoveSelector>',
+            '<cartesianProductMoveSelector>
+                <fixedProbabilityWeight>${50-ProbabilityWeight2-ProbabilityWeight}</fixedProbabilityWeight>
+                <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
+                <changeMoveSelector>
+                    <entitySelector id="entitySelector">
+                        ${IndexFilter}
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                    </entitySelector>
+                    <valueSelector variableName="executionMode"/>
+                </changeMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector mimicSelectorRef="entitySelector"/>
+                    <valueSelector variableName="progressdelta"/>
+                </changeMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector mimicSelectorRef="entitySelector"/>
+                    <valueSelector variableName="delay"/>
+                </changeMoveSelector>
+            </cartesianProductMoveSelector>'] as cartesianexecutionMode>
+    <#list ['<cartesianProductMoveSelector>
+            <fixedProbabilityWeight>${ProbabilityWeight}</fixedProbabilityWeight>
+            <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
+            <changeMoveSelector>
+                <entitySelector>
+                    ${IndexFilter}
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                    ${NotDummyFilter}
+                </entitySelector>
+                <valueSelector variableName="delay"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <entitySelector>
+                    ${IndexFilter}
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                    ${NotDummyFilter}
+                </entitySelector>
+                <valueSelector variableName="delay"/>
+            </changeMoveSelector>
+        </cartesianProductMoveSelector>'] as cartesiandelay>
+
+<#--    fine Moves-->
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${ProbabilityWeight}</fixedProbabilityWeight>
                 <entitySelector>
@@ -94,7 +142,7 @@
                 <valueSelector variableName="executionMode"/>
             </changeMoveSelector>'] as executionMode>
     <#list ['<changeMoveSelector>
-                ${50-ProbabilityWeight2-ProbabilityWeight}
+                <fixedProbabilityWeight>${50-ProbabilityWeight2-ProbabilityWeight}</fixedProbabilityWeight>
                 <entitySelector>
                     ${IndexFilter}
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -107,7 +155,7 @@
             ${delay}'] as fineMoves>
 
     <solverBenchmark>
-        <name>c${ProbabilityWeight?index}</name>
+        <name>c${cartesianexecutionMode?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -119,7 +167,8 @@
             <localSearch>
                 <unionMoveSelector>
                     ${swapMove}
-                    ${cartesian}
+                    ${cartesianexecutionMode}
+                    ${cartesiandelay}
                     ${fineMoves}
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
@@ -160,7 +209,7 @@
     </#list>
     </#list>
     </#list>
-
+    </#list>
 
 
 

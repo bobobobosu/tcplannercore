@@ -24,6 +24,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -84,8 +85,8 @@ public class ExecutionMode extends AbstractPersistable {
         return humanStateChange.getRequirementTimerange();
     }
 
-    public int getTimeduration() {
-        return (int) humanStateChange.getDuration();
+    public Duration getTimeduration() {
+        return Duration.ofMinutes((long) humanStateChange.getDuration());
     }
 
 

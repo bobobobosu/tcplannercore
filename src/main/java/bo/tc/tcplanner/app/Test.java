@@ -4,6 +4,8 @@ import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Range;
+import com.google.common.collect.RangeSet;
+import com.google.common.collect.TreeRangeSet;
 import org.apache.commons.io.IOUtils;
 import org.optaplanner.benchmark.api.PlannerBenchmark;
 import org.optaplanner.benchmark.api.PlannerBenchmarkFactory;
@@ -36,29 +38,33 @@ public class Test {
     public static void main(String[] args) throws IOException {
         setConstants();
         initializeFiles();
-        HashMap<String, Object> gdfr = timeHierarchyMap;
+//        HashMap<String, Object> gdfr = timeHierarchyMap;
+//
+//        Range<ZonedDateTime> allRange = Range.closed(
+//                ZonedDateTime.parse("2019-01-14T00:00:00-07:00"),
+//                ZonedDateTime.parse("2019-12-15T00:00:00-07:00"));
+//
+//
+//        List<ZonedDateTime> totalDates = new ArrayList<>();
+//        ZonedDateTime start = allRange.lowerEndpoint();
+//        ZonedDateTime end = allRange.upperEndpoint();
+//
+//        List<Object> wed = castList(timeHierarchyMap.get("Wednesday"));
+//        Range<ZonedDateTime> thisRange = Range.closed(
+//                ZonedDateTime.parse("2019-12-11T02:00:00-07:00"),
+//                ZonedDateTime.parse("2019-12-11T22:00:00-07:00"));
+//
+//        boolean match = wed.stream().anyMatch(or_intervals ->
+//                ((List<HashMap<String, ArrayList>>) or_intervals).stream().allMatch(in_intervals -> checkConstraintDict(in_intervals, thisRange)));
+//
+//        Range<ZonedDateTime> validGrades2 = Range.closed(
+//                ZonedDateTime.parse("2019-12-13T00:00:00-07:00"),
+//                ZonedDateTime.parse("2019-12-18T00:00:00-07:00"));
 
-        Range<ZonedDateTime> allRange = Range.closed(
-                ZonedDateTime.parse("2019-01-14T00:00:00-07:00"),
-                ZonedDateTime.parse("2019-12-15T00:00:00-07:00"));
-
-
-        List<ZonedDateTime> totalDates = new ArrayList<>();
-        ZonedDateTime start = allRange.lowerEndpoint();
-        ZonedDateTime end = allRange.upperEndpoint();
-
-        List<Object> wed = castList(timeHierarchyMap.get("Wednesday"));
-        Range<ZonedDateTime> thisRange = Range.closed(
-                ZonedDateTime.parse("2019-12-11T02:00:00-07:00"),
-                ZonedDateTime.parse("2019-12-11T22:00:00-07:00"));
-
-        boolean match = wed.stream().anyMatch(or_intervals ->
-                ((List<HashMap<String, ArrayList>>) or_intervals).stream().allMatch(in_intervals -> checkConstraintDict(in_intervals, thisRange)));
-
-        Range<ZonedDateTime> validGrades2 = Range.closed(
-                ZonedDateTime.parse("2019-12-13T00:00:00-07:00"),
-                ZonedDateTime.parse("2019-12-18T00:00:00-07:00"));
-
+        RangeSet<Integer> test1 = TreeRangeSet.create();
+        test1.add(Range.closed(5,10));
+        Range<Integer> tt = Range.closed(2,3);
+        System.out.println(test1.subRangeSet(tt).toString());
         int g = 0;
     }
 

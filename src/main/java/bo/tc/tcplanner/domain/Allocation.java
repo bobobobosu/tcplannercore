@@ -27,7 +27,6 @@ import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListen
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
-import com.google.common.collect.TreeRangeSet;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
@@ -42,10 +41,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
-import static bo.tc.tcplanner.app.Toolbox.OffsetMinutes2ZonedDatetime;
+import static bo.tc.tcplanner.app.TCSchedulingApp.timeEntryMap;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 @PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
@@ -65,9 +63,9 @@ public class Allocation extends AbstractPersistable {
     private Integer delay; // In minutes
     private Integer progressdelta; // out of 100
     // Shadow variables
-    private Integer predecessorsDoneDate;
+    private ZonedDateTime predecessorsDoneDate;
     private String previousStandstill;
-    private Integer plannedDuration;
+    private Duration plannedDuration;
     private Map<String, ResourceElement> resourceElementMap;
 
     public Allocation() {
@@ -81,9 +79,9 @@ public class Allocation extends AbstractPersistable {
         this.setExecutionMode(executionMode);
         this.setId(listOfAllocation.size());
         this.setIndex(listOfAllocation.size());
-        this.setPredecessorsDoneDate(0);
+        this.setPredecessorsDoneDate(getProject().getSchedule().getGlobalStartTime());
         this.setProgressdelta(progressdelta);
-        this.setPlannedDuration(this.getExecutionMode().getTimeduration() * this.getProgressdelta() / 100);
+        this.setPlannedDuration(this.getExecutionMode().getTimeduration().multipliedBy(this.getProgressdelta() / 100));
 
         // Initialize Lists
         this.successorAllocationList = new ArrayList<>();
@@ -100,7 +98,7 @@ public class Allocation extends AbstractPersistable {
         this.setExecutionMode(executionMode);
         this.setId(listOfAllocation.size());
         this.setIndex(listOfAllocation.size());
-        this.setPredecessorsDoneDate(0);
+        this.setPredecessorsDoneDate(getProject().getSchedule().getGlobalStartTime());
         this.plannedDuration = executionMode.getTimeduration();
         // Update Lists
 
@@ -249,20 +247,20 @@ public class Allocation extends AbstractPersistable {
                     @PlanningVariableReference(variableName = "executionMode"),
                     @PlanningVariableReference(variableName = "delay"),
                     @PlanningVariableReference(variableName = "progressdelta")})
-    public Integer getPredecessorsDoneDate() {
+    public ZonedDateTime getPredecessorsDoneDate() {
         return predecessorsDoneDate;
     }
 
-    public void setPredecessorsDoneDate(Integer predecessorsDoneDate) {
+    public void setPredecessorsDoneDate(ZonedDateTime predecessorsDoneDate) {
         this.predecessorsDoneDate = predecessorsDoneDate;
     }
 
     @CustomShadowVariable(variableListenerRef = @PlanningVariableReference(variableName = "predecessorsDoneDate"))
-    public Integer getPlannedDuration() {
+    public Duration getPlannedDuration() {
         return plannedDuration;
     }
 
-    public void setPlannedDuration(Integer plannedDuration) {
+    public void setPlannedDuration(Duration plannedDuration) {
         this.plannedDuration = plannedDuration;
     }
 
@@ -270,33 +268,37 @@ public class Allocation extends AbstractPersistable {
     // ************************************************************************
     // Complex methods
     // ************************************************************************
-    public Integer getStartDate() {
+    public ZonedDateTime getStartDate() {
         if (predecessorsDoneDate == null) {
             return null;
         }
         if (job.getMovable() == 0 && job.getStartDate() != null) return job.getStartDate();
-        return predecessorsDoneDate + (delay == null ? 0 : delay);
+        return delay == null ? predecessorsDoneDate : predecessorsDoneDate.plusMinutes(delay);
     }
 
-    public Integer getEndDate() {
+    public ZonedDateTime getEndDate() {
         if (predecessorsDoneDate == null) {
             return null;
         }
-        return getStartDate() + (plannedDuration == null ? 0 : plannedDuration);
+        return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
     }
 
-    public Integer getNextStart() {
-        if (successorAllocationList.size() > 0) return successorAllocationList.get(0).getStartDate();
-        return null;
-    }
+    public long getTimeRestrictionScore() {
 
-    public Integer getTimeRestrictionScore() {
-        RangeSet<ZonedDateTime> thisRangeset = getConstrintedTimeRange(
-                executionMode.getHumanStateChange().getRequirementTimerange(),
-                OffsetMinutes2ZonedDatetime(getProject().getSchedule().getGlobalStartTime(), getStartDate()),
-                OffsetMinutes2ZonedDatetime(getProject().getSchedule().getGlobalStartTime(), getEndDate()));
-        return thisRangeset.asRanges().stream().mapToInt(i -> (int) Duration.between(i.lowerEndpoint(), i.upperEndpoint()).toMinutes()).sum() -
-                plannedDuration;
+        Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
+        RangeSet<ZonedDateTime> restrictionRangeSet = getProject().getSchedule().getTimeEntryMap()
+                .get(executionMode.getHumanStateChange().getRequirementTimerange());
+        RangeSet<ZonedDateTime> overlapRangeSet = restrictionRangeSet.subRangeSet(thisRange);
+        if (overlapRangeSet.isEmpty()) {
+            Range<ZonedDateTime> containing = restrictionRangeSet.complement().rangeContaining(thisRange.lowerEndpoint());
+            return -Math.min(
+                    containing.hasLowerBound() ? Duration.between(containing.lowerEndpoint(), thisRange.upperEndpoint()).toMinutes() : Integer.MAX_VALUE,
+                    containing.hasUpperBound() ? Duration.between(thisRange.lowerEndpoint(), containing.upperEndpoint()).toMinutes() : Integer.MAX_VALUE);
+        } else {
+            return overlapRangeSet.asRanges().stream().mapToLong(
+                    i -> Duration.between(i.lowerEndpoint(), i.upperEndpoint()).toMinutes()).sum() -
+                    plannedDuration.toMinutes();
+        }
     }
 
     public Job getPrevJob() {
@@ -305,48 +307,6 @@ public class Allocation extends AbstractPersistable {
         } else {
             return job;
         }
-    }
-
-    public Integer getPredecessorGap() {
-        if (predecessorAllocationList.size() == 0)
-            return 0;
-        int realpredecessorsDoneDate = -1;
-        Allocation realpredecessor = predecessorAllocationList.get(0);
-        while (realpredecessorsDoneDate == -1) {
-            if (realpredecessor.getJob().getName() != "dummy" && realpredecessor.getEndDate() != null) {
-                realpredecessorsDoneDate = realpredecessor.getEndDate();
-            }
-            if (realpredecessor.predecessorAllocationList.size() > 0) {
-                realpredecessor = realpredecessor.predecessorAllocationList.get(0);
-            } else {
-                break;
-            }
-
-        }
-        return Math.abs(getStartDate() - realpredecessorsDoneDate);
-    }
-
-    public Integer getSuccessorGap() {
-        if (successorAllocationList.size() == 0)
-            return 0;
-        int realsuccessorStartDate = -1;
-        Allocation realsuccessor = successorAllocationList.get(0);
-        while (realsuccessorStartDate == -1) {
-            if (realsuccessor.getJob().getName() != "dummy" && realsuccessor.getStartDate() != null) {
-                realsuccessorStartDate = realsuccessor.getStartDate();
-            }
-            if (realsuccessor.successorAllocationList.size() > 0) {
-                realsuccessor = realsuccessor.successorAllocationList.get(0);
-            } else {
-                break;
-            }
-
-        }
-        return Math.abs(realsuccessorStartDate - getEndDate());
-    }
-
-    public Integer getDuration() {
-        return getEndDate() - getStartDate();
     }
 
     public Project getProject() {

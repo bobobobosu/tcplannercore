@@ -3,22 +3,23 @@ package bo.tc.tcplanner.datastructure.converters;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
 import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
-import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import com.google.common.collect.TreeRangeSet;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
-import static bo.tc.tcplanner.app.DroolsTools.getDatesOverRange;
+import static bo.tc.tcplanner.app.TCSchedulingApp.timeEntryMap;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
-import static bo.tc.tcplanner.app.Toolbox.ZonedDatetime2OffsetMinutes;
-import static bo.tc.tcplanner.app.Toolbox.castList;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 import static java.lang.Math.round;
+
 
 public class DataStructureBuilder {
     public static Integer deletedRownum = 99999;
@@ -151,19 +152,18 @@ public class DataStructureBuilder {
 
         // set PredecessorsDoneDate
         for (Allocation allocation : allocationList) {
-            allocation.setPredecessorsDoneDate(null);
             if (allocation.getJob() == dummyJob) {
                 allocation.setPlannedDuration(null);
             } else {
                 updatePlanningDuration(allocation);
             }
         }
-        sourceAllocation.setPredecessorsDoneDate(0);
+
         prevAllocation = sourceAllocation;
         while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
             if (thisAllocation.getJob().getStartDate() != null)
-                thisAllocation.setDelay(Math.max(0, thisAllocation.getJob().getStartDate() - thisAllocation.getPredecessorsDoneDate()));
+                thisAllocation.setDelay(Math.max(0, (int) Duration.between(thisAllocation.getPredecessorsDoneDate(), thisAllocation.getJob().getStartDate()).toMinutes()));
             prevAllocation = thisAllocation;
         }
 
@@ -228,12 +228,12 @@ public class DataStructureBuilder {
                     .setRownum(timelineEntry.getRownum())
                     .setTimelineid(timelineEntry.getId())
                     .setGravity(timelineEntry.getGravity())
-                    .setDeadline(ZonedDatetime2OffsetMinutes(this.defaultSchedule.getGlobalStartTime(),
-                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()))
+                    .setDeadline(
+                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime())
                     .setSplittable(timelineEntry.getSplittable())
                     .setMovable(timelineEntry.getMovable())
                     .setChangeable(timelineEntry.getChangeable())
-                    .setStartDate(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), ZonedDateTime.parse(timelineEntry.getStartTime())));
+                    .setStartDate(ZonedDateTime.parse(timelineEntry.getStartTime()));
 
             ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, mandJob)
                     .setExecutionModeIndex(0)
@@ -249,8 +249,8 @@ public class DataStructureBuilder {
                     .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
                     .setTimelineid(timelineEntry.getId())
                     .setGravity(timelineEntry.getGravity())
-                    .setDeadline(ZonedDatetime2OffsetMinutes(this.defaultSchedule.getGlobalStartTime(),
-                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime()))
+                    .setDeadline(
+                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime())
                     .setSplittable(timelineEntry.getSplittable())
                     .setMovable(timelineEntry.getMovable())
                     .setChangeable(1);
@@ -275,7 +275,8 @@ public class DataStructureBuilder {
     public void initializeAllocationList(int dummyLengthInChain) {
         //Add Source
         Allocation sourceallocation = new Allocation(sourceExecutionMode, listOfAllocations, 100);
-        sourceallocation.getJob().setStartDate(0);
+        sourceallocation.setPredecessorsDoneDate(defaultSchedule.getGlobalStartTime());
+        sourceallocation.getJob().setStartDate(defaultSchedule.getGlobalStartTime());
         sourceallocation.setAllocationType(AllocationType.Locked);
 
         //Add Scheduled Jobs: Fixed Length Chain Mode
@@ -300,7 +301,7 @@ public class DataStructureBuilder {
 
         //Add Sink
         Allocation sinkallocation = new Allocation(sinkExecutionMode, listOfAllocations, 100);
-        sinkallocation.getJob().setStartDate(ZonedDatetime2OffsetMinutes(defaultSchedule.getGlobalStartTime(), defaultSchedule.getGlobalEndTime()));
+        sinkallocation.getJob().setStartDate(defaultSchedule.getGlobalEndTime());
         sinkallocation.setAllocationType(AllocationType.Locked);
 
 
@@ -333,6 +334,13 @@ public class DataStructureBuilder {
             allocation.getProject().getSchedule().getAllocationList().add(allocation);
         }
 
+
+        defaultSchedule.setTimeEntryMap(new TimeEntryMap());
+        timeHierarchyMap.forEach((k, v) -> defaultSchedule.getTimeEntryMap().put(
+                k, getConstrintedTimeRange(k,
+                        defaultSchedule.getGlobalStartTime(),
+                        defaultSchedule.getGlobalEndTime())
+        ));
         defaultSchedule.setValueEntryMap(valueEntryMap);
         defaultSchedule.setProblemTimelineBlock(timelineBlock);
     }

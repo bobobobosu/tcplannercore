@@ -16,6 +16,7 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.datastructure.TimeEntryMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
@@ -42,6 +43,7 @@ public class Schedule extends AbstractPersistable {
     private List<Job> jobList;
     private List<ExecutionMode> executionModeList;
     private ValueEntryMap valueEntryMap;
+    private TimeEntryMap timeEntryMap;
     private List<Allocation> allocationList;
     private ZonedDateTime globalStartTime;
     private ZonedDateTime globalEndTime;
@@ -89,6 +91,15 @@ public class Schedule extends AbstractPersistable {
     public Schedule setValueEntryMap(ValueEntryMap valueEntryMap) {
         this.valueEntryMap = valueEntryMap;
         return this;
+    }
+
+    @ProblemFactProperty
+    public TimeEntryMap getTimeEntryMap() {
+        return timeEntryMap;
+    }
+
+    public void setTimeEntryMap(TimeEntryMap timeEntryMap) {
+        this.timeEntryMap = timeEntryMap;
     }
 
     @ProblemFactCollectionProperty

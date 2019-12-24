@@ -869,7 +869,7 @@
       "humanStateChange": {
         "currentLocation": "Undefined",
         "movetoLocation": "Undefined",
-        "duration": 22.999999999999968,
+        "duration": 23.999999999999904,
         "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
@@ -953,7 +953,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -994,32 +994,27 @@
       ]
     },
     {
-      "title": "\u665a\u9910",
-      "description": "",
-      "id": 6520,
+      "title": "t.TC Maintenance",
+      "description": "commercialization",
+      "id": 6496,
       "humanStateChange": {
         "currentLocation": "Undefined",
         "movetoLocation": "Undefined",
-        "duration": 30.99999999999989,
-        "requirementTimerange": "Evening"
+        "duration": 0.0,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
-        "resourceChange": {
-          "r.meal": {
-            "amt": 1.0,
-            "location": ""
-          }
-        },
+        "resourceChange": {},
         "mode": "delta"
       },
       "progressChange": {
-        "progressDelta": 1.0
+        "progressDelta": 0.8300000000000001
       },
-      "startTime": "2019-12-24T18:36:00-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-24T15:39:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
       "movable": 1.0,
-      "changeable": 1.0,
-      "splittable": 0.0,
+      "changeable": 0.0,
+      "splittable": 1.0,
       "gravity": 0.0,
       "rownum": 6321.0,
       "dependencyIdList": []
@@ -1032,7 +1027,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1058,45 +1053,18 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2019-12-24T23:25:47-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-25T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
       "rownum": 6322.0,
       "dependencyIdList": [
-        6520,
         6378,
         1955,
         6438
       ]
-    },
-    {
-      "title": "t.TC Maintenance",
-      "description": "commercialization",
-      "id": 6496,
-      "humanStateChange": {
-        "currentLocation": "Undefined",
-        "movetoLocation": "Undefined",
-        "duration": 7200.0,
-        "requirementTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {},
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 0.8300000000000001
-      },
-      "startTime": "2019-12-25T14:21:22-08:00[America/Los_Angeles]",
-      "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
-      "changeable": 0.0,
-      "splittable": 1.0,
-      "gravity": 0.0,
-      "rownum": 6323.0,
-      "dependencyIdList": []
     },
     {
       "title": "\u7761\u7720",
@@ -1106,7 +1074,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1132,13 +1100,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2019-12-30T22:58:57-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-26T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6324.0,
+      "rownum": 6323.0,
       "dependencyIdList": [
         6378,
         1955,
@@ -1153,7 +1121,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1179,13 +1147,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2019-12-31T13:54:32-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-27T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6325.0,
+      "rownum": 6324.0,
       "dependencyIdList": [
         1955
       ]
@@ -1198,7 +1166,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1224,13 +1192,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-01T04:50:07-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-28T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6326.0,
+      "rownum": 6325.0,
       "dependencyIdList": []
     },
     {
@@ -1241,7 +1209,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1267,13 +1235,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-01T19:45:42-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-29T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6327.0,
+      "rownum": 6326.0,
       "dependencyIdList": []
     },
     {
@@ -1284,7 +1252,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1322,13 +1290,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-02T10:41:17-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-30T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6328.0,
+      "rownum": 6327.0,
       "dependencyIdList": []
     },
     {
@@ -1339,7 +1307,7 @@
         "currentLocation": "Home",
         "movetoLocation": "Home",
         "duration": 378.00000000000006,
-        "requirementTimerange": "Sleep"
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1365,13 +1333,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-03T01:36:52-08:00[America/Los_Angeles]",
+      "startTime": "2019-12-31T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6329.0,
+      "rownum": 6328.0,
       "dependencyIdList": []
     },
     {
@@ -1381,8 +1349,8 @@
       "humanStateChange": {
         "currentLocation": "Home",
         "movetoLocation": "Home",
-        "duration": 378.9999999999993,
-        "requirementTimerange": "Sleep"
+        "duration": 379.99999999999875,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1408,13 +1376,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-03T16:32:27-08:00[America/Los_Angeles]",
+      "startTime": "2020-01-01T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6330.0,
+      "rownum": 6329.0,
       "dependencyIdList": []
     },
     {
@@ -1424,8 +1392,8 @@
       "humanStateChange": {
         "currentLocation": "Home",
         "movetoLocation": "Home",
-        "duration": 378.9999999999993,
-        "requirementTimerange": "Sleep"
+        "duration": 379.99999999999875,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1451,13 +1419,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-04T07:29:02-08:00[America/Los_Angeles]",
+      "startTime": "2020-01-02T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6331.0,
+      "rownum": 6330.0,
       "dependencyIdList": []
     },
     {
@@ -1467,8 +1435,8 @@
       "humanStateChange": {
         "currentLocation": "Home",
         "movetoLocation": "Home",
-        "duration": 378.9999999999993,
-        "requirementTimerange": "Sleep"
+        "duration": 379.99999999999875,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1494,13 +1462,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-04T22:25:37-08:00[America/Los_Angeles]",
+      "startTime": "2020-01-04T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6332.0,
+      "rownum": 6331.0,
       "dependencyIdList": []
     },
     {
@@ -1510,8 +1478,8 @@
       "humanStateChange": {
         "currentLocation": "Home",
         "movetoLocation": "Home",
-        "duration": 378.9999999999993,
-        "requirementTimerange": "Sleep"
+        "duration": 379.99999999999875,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1537,13 +1505,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-05T13:22:12-08:00[America/Los_Angeles]",
+      "startTime": "2020-01-05T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6333.0,
+      "rownum": 6332.0,
       "dependencyIdList": []
     },
     {
@@ -1569,7 +1537,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6334.0,
+      "rownum": 6333.0,
       "dependencyIdList": []
     },
     {
@@ -1595,7 +1563,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6335.0,
+      "rownum": 6334.0,
       "dependencyIdList": []
     },
     {
@@ -1605,8 +1573,8 @@
       "humanStateChange": {
         "currentLocation": "Home",
         "movetoLocation": "Home",
-        "duration": 378.9999999999993,
-        "requirementTimerange": "Sleep"
+        "duration": 379.99999999999875,
+        "requirementTimerange": "Anytime"
       },
       "resourceStateChange": {
         "resourceChange": {
@@ -1632,13 +1600,13 @@
       "progressChange": {
         "progressDelta": 1.0
       },
-      "startTime": "2020-01-15T00:20:30-08:00[America/Los_Angeles]",
+      "startTime": "2020-01-15T01:00:00-08:00[America/Los_Angeles]",
       "deadline": "2023-01-01T00:00:00-08:00[America/Los_Angeles]",
-      "movable": 1.0,
+      "movable": 0.0,
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6336.0,
+      "rownum": 6335.0,
       "dependencyIdList": []
     },
     {
@@ -1664,7 +1632,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6337.0,
+      "rownum": 6336.0,
       "dependencyIdList": []
     },
     {
@@ -1690,7 +1658,7 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6338.0,
+      "rownum": 6337.0,
       "dependencyIdList": []
     },
     {
@@ -1716,14 +1684,14 @@
       "changeable": 0.0,
       "splittable": 0.0,
       "gravity": 0.0,
-      "rownum": 6339.0,
+      "rownum": 6338.0,
       "dependencyIdList": []
     }
   ],
   "blockStartTime": "2019-12-17T21:12:00-08:00[America/Los_Angeles]",
   "blockEndTime": "2021-12-11T00:00:00-08:00[America/Los_Angeles]",
   "blockStartRow": 6291.0,
-  "blockEndRow": 6339.0,
+  "blockEndRow": 6338.0,
   "blockScheduleAfter": 6320.0,
   "score": "",
   "origin": "TCxlsb"

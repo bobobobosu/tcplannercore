@@ -81,14 +81,14 @@ public class DataStructureWriter {
                 TE.setRownum(allocation.getJob().getRownum());
             TE.setTitle(allocation.getJob().getName())
                     .setDescription(allocation.getJob().getDescription())
-                    .setStartTime(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                            allocation.getStartDate()).withZoneSameInstant(zoneId).format(dtf_TimelineEntry))
+                    .setStartTime(
+                            allocation.getStartDate().withZoneSameInstant(zoneId).format(dtf_TimelineEntry))
                     .setExecutionMode(allocation.getExecutionMode().getExecutionModeIndex());
 
             if (allocation.getExecutionMode().getJob().getDeadline() != null)
-                TE.setDeadline(OffsetMinutes2ZonedDatetime(allocation.getProject().getSchedule().getGlobalStartTime(),
-                        allocation.getExecutionMode().getJob().getDeadline()).withZoneSameInstant(zoneId)
-                        .format(dtf_TimelineEntry));
+                TE.setDeadline(
+                        allocation.getExecutionMode().getJob().getDeadline().withZoneSameInstant(zoneId)
+                                .format(dtf_TimelineEntry));
 
             // Chronological Property
             TE.setMovable(allocation.getJob().getMovable())
@@ -114,7 +114,7 @@ public class DataStructureWriter {
             TE.setHumanStateChange(new HumanStateChange()
                     .setCurrentLocation(allocation.getExecutionMode().getCurrentLocation())
                     .setMovetoLocation(allocation.getExecutionMode().getMovetoLocation())
-                    .setDuration(allocation.getPlannedDuration())
+                    .setDuration(allocation.getPlannedDuration().toMinutes())
                     .setRequirementTimerange(allocation.getExecutionMode().getHumanStateChange().getRequirementTimerange()));
 
             TEList.add(TE);

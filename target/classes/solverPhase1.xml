@@ -7,7 +7,7 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>120000</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
@@ -19,7 +19,7 @@
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>
             <cartesianProductMoveSelector>
-                <fixedProbabilityWeight>44.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>22.0</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
@@ -34,6 +34,28 @@
                 </changeMoveSelector>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
             </cartesianProductMoveSelector>
+            <cartesianProductMoveSelector>
+                <fixedProbabilityWeight>26.0</fixedProbabilityWeight>
+                <changeMoveSelector>
+                    <entitySelector>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                    </entitySelector>
+                    <valueSelector variableName="delay"/>
+                </changeMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                    </entitySelector>
+                    <valueSelector variableName="delay"/>
+                </changeMoveSelector>
+                <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
+            </cartesianProductMoveSelector>
             <changeMoveSelector>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
@@ -43,7 +65,7 @@
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>44.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>22.0</fixedProbabilityWeight>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -52,7 +74,7 @@
                 <valueSelector variableName="executionMode"/>
             </changeMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>4.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>26.0</fixedProbabilityWeight>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>

@@ -13,7 +13,8 @@ import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.ValueEntry;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
-import java.util.Map;
+import java.util.Map
+import java.time.Duration;
 
 global BendableScoreHolder scoreHolder;
 
@@ -52,9 +53,9 @@ rule "checkTimeOverlapping"
 
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(int)(($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration))
+											new int[]{-(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes()
 											,$jobType == JobType.SCHEDULED ?
-											 -(int)(($predecessorsDoneDate - $startDate)/($plannedDuration==0 ? 1 : $plannedDuration)): 0,0,0,0},
+											-(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes() : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -65,7 +66,8 @@ rule "checkDeadline"
        Job(this == $job,$deadline : deadline, $deadline < $endDate)
    then
        		scoreHolder.addMultiConstraintMatch(kcontext,
-       											new int[]{$deadline - $endDate,$jobType == JobType.SCHEDULED ? $deadline - $endDate : 0,0,0,0},
+       											new int[]{-(int)Duration.between($deadline, $endDate).toMinutes(),
+       											$jobType == JobType.SCHEDULED ? -(int)Duration.between($deadline, $endDate).toMinutes() : 0,0,0,0},
        											new int[]{0,0,0,0});
 end
 
@@ -115,21 +117,12 @@ rule "checkSplittable"
 											new int[]{0,0,0,0});
 end
 
-//rule "timePreference"
-//    when
-//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
-//            $executionMode : executionMode, $startDate : startDate, $endDate : endDate, $requirementTimerange : executionMode.requirementTimerange)
-//        eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
-//    then
-//        scoreHolder.addHardConstraintMatch(kcontext, 4, -100);
-//end
-
 rule "timePreference"
     when
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,
             $timerestrictionscore : timeRestrictionScore, $timerestrictionscore < -5)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 4, $timerestrictionscore*100);
+        scoreHolder.addHardConstraintMatch(kcontext, 1, (int)($timerestrictionscore*100));
 end
 
 // ############################################################################

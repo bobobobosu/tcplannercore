@@ -4,6 +4,7 @@ import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,15 +13,14 @@ import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dumm
 
 public class ListenerTools {
     public static void updatePlanningDuration(Allocation allocation) {
-        allocation.setPlannedDuration(allocation.getExecutionMode().getTimeduration() * allocation.getProgressdelta() / 100);
+        allocation.setPlannedDuration(allocation.getExecutionMode().getTimeduration().multipliedBy(allocation.getProgressdelta() / 100));
     }
 
     public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
         try {
-            allocation.setPredecessorsDoneDate(prevAllocation == null ? 0 : prevAllocation.getEndDate());
+            allocation.setPredecessorsDoneDate(prevAllocation == null ? allocation.getProject().getSchedule().getGlobalStartTime() : prevAllocation.getEndDate());
         } catch (Exception ex) {
             ex.printStackTrace();
-            int i = 0;
         }
 
     }
@@ -53,7 +53,7 @@ public class ListenerTools {
             double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
             double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
-            double capped = Math.min(resourceAbsAmt + resourceDeltaAmt, capacity);
+            double capped = resourceAbsAmt + resourceDeltaAmt - Math.max(0, resourceAbsAmt + resourceDeltaAmt - capacity );
             if (capped == 0) {
                 thisallocation.getResourceElementMap().remove(resource.getKey());
             } else {

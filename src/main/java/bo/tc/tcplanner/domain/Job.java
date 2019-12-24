@@ -19,6 +19,7 @@ package bo.tc.tcplanner.domain;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class Job extends AbstractPersistable {
     private Integer timelineid;
     private List<ExecutionMode> executionModeList;
     private List<Job> successorJobList;
-    private Integer startDate = null;
-    private Integer deadline = null;
+    private ZonedDateTime startDate = null;
+    private ZonedDateTime deadline = null;
     private Integer gravity;
     private Integer splittable;
     private Integer movable;
@@ -147,11 +148,11 @@ public class Job extends AbstractPersistable {
         return this;
     }
 
-    public Integer getDeadline() {
+    public ZonedDateTime getDeadline() {
         return deadline;
     }
 
-    public Job setDeadline(Integer deadline) {
+    public Job setDeadline(ZonedDateTime deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -201,11 +202,11 @@ public class Job extends AbstractPersistable {
         return this;
     }
 
-    public Integer getStartDate() {
+    public ZonedDateTime getStartDate() {
         return startDate;
     }
 
-    public Job setStartDate(Integer startDate) {
+    public Job setStartDate(ZonedDateTime startDate) {
         this.startDate = startDate;
         return this;
     }
