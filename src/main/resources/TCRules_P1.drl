@@ -115,16 +115,22 @@ rule "checkSplittable"
 											new int[]{0,0,0,0});
 end
 
+//rule "timePreference"
+//    when
+//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+//            $executionMode : executionMode, $startDate : startDate, $endDate : endDate, $requirementTimerange : executionMode.requirementTimerange)
+//        eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
+//    then
+//        scoreHolder.addHardConstraintMatch(kcontext, 4, -100);
+//end
+
 rule "timePreference"
     when
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,
-            $executionMode : executionMode, $startDate : startDate, $endDate : endDate, $requirementTimerange : executionMode.requirementTimerange)
-        eval(!timeRestrictionCheck($allocation.getJob().getProject().getSchedule().getGlobalStartTime(),$startDate, $endDate, $requirementTimerange))
+            $timerestrictionscore : timeRestrictionScore, $timerestrictionscore < -5)
     then
-        scoreHolder.addHardConstraintMatch(kcontext, 4, -100);
+        scoreHolder.addHardConstraintMatch(kcontext, 4, $timerestrictionscore*100);
 end
-
-
 
 // ############################################################################
 // Soft constraints

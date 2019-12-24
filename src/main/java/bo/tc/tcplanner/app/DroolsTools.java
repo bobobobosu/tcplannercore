@@ -1,14 +1,12 @@
 package bo.tc.tcplanner.app;
 
-import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import com.google.common.collect.Range;
-
+import com.google.common.collect.RangeSet;
+import com.google.common.collect.TreeRangeSet;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
@@ -17,18 +15,68 @@ import static bo.tc.tcplanner.app.Toolbox.castString;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
 
 public class DroolsTools {
-    public static boolean timeRestrictionCheck(ZonedDateTime globalStartTime, int startDateMinuteOffset, int endDateMinuteOffset,
-                                               String timeRestriction) {
-        if (!timeHierarchyMap.containsKey(timeRestriction))
-            return true;
 
-        boolean match = castList(timeHierarchyMap.get(timeRestriction)).stream().anyMatch(or_intervals ->
-                ((List<HashMap<String, ArrayList>>) or_intervals).stream().allMatch(in_intervals ->
-                        checkConstraintDict(in_intervals, Range.closed(
-                                globalStartTime.plusMinutes(startDateMinuteOffset),
-                                globalStartTime.plusMinutes(endDateMinuteOffset)
-                        ))));
-        return match;
+    public static RangeSet<ZonedDateTime> getConstrintedTimeRange(String timeRestriction, ZonedDateTime start, ZonedDateTime end) {
+        List<Range<ZonedDateTime>> datesOverRange = getDatesOverRange(Range.closed(start, end));
+        RangeSet<ZonedDateTime> result = TreeRangeSet.create();
+
+        for (Object or_constraint : castList(timeHierarchyMap.get(timeRestriction))) {
+            for (Object constraintDict : castList(or_constraint)) {
+                List<Range<ZonedDateTime>> thisRange = new ArrayList<>(datesOverRange);
+                RangeSet<ZonedDateTime> thisRangeSet = TreeRangeSet.create();
+                thisRangeSet.addAll(thisRange);
+                HashMap<String, ArrayList> thisconstraint = (HashMap<String, ArrayList>) constraintDict;
+
+                // Remove invalid days
+                if (thisconstraint.containsKey("day")) {
+                    RangeSet<ZonedDateTime> toRemove = TreeRangeSet.create();
+                    toRemove.addAll(datesOverRange.stream()
+                            .filter(r -> !thisconstraint.get("day").contains(r.lowerEndpoint().getDayOfMonth()))
+                            .collect(Collectors.toList()));
+                    thisRangeSet.removeAll(toRemove);
+                }
+
+                // Remove invalid weekdays
+                if (thisconstraint.containsKey("weekday")) {
+                    RangeSet<ZonedDateTime> toRemove = TreeRangeSet.create();
+                    toRemove.addAll(datesOverRange.stream()
+                            .filter(r -> !thisconstraint.get("weekday").contains(r.lowerEndpoint().getDayOfWeek()))
+                            .collect(Collectors.toList()));
+                    thisRangeSet.removeAll(toRemove);
+                }
+
+                // Remove invalid time
+                if (thisconstraint.containsKey("time")) {
+                    RangeSet<ZonedDateTime> or_time = TreeRangeSet.create();
+                    for (Object time : thisconstraint.get("time")) {
+                        LocalTime reqstartTime = LocalTime.parse(castString(time).split("/")[0]);
+                        LocalTime reqendTime = LocalTime.parse(castString(time).split("/")[1]);
+                        or_time.addAll(datesOverRange.stream()
+                                .map(x -> Range.closed(x.lowerEndpoint().with(reqstartTime), x.lowerEndpoint().with(reqendTime)))
+                                .collect(Collectors.toList()));
+                    }
+                    thisRangeSet.removeAll(or_time.complement());
+                }
+
+                // Remove invalid iso8601
+                if (thisconstraint.containsKey("iso8601")) {
+                    RangeSet<ZonedDateTime> or_time = TreeRangeSet.create();
+                    for (Object iso8601 : thisconstraint.get("iso8601")) {
+                        ZonedDateTime restrictedStartDate = ZonedDateTime.parse(castString(iso8601).split("/")[0]);
+                        ZonedDateTime restrictedEndDate = ZonedDateTime.parse(castString(iso8601).split("/")[1]);
+                        or_time.addAll(datesOverRange.stream()
+                                .map(x -> Range.closed(restrictedStartDate, restrictedEndDate))
+                                .collect(Collectors.toList()));
+                    }
+                    thisRangeSet.removeAll(or_time.complement());
+                }
+
+
+                result.addAll(thisRangeSet);
+
+            }
+        }
+        return result;
     }
 
     public static boolean locationRestrictionCheck(String available, String requirement) {
@@ -41,6 +89,7 @@ public class DroolsTools {
 
     static boolean checkConstraintDict(HashMap<String, ArrayList> constraintDict, Range<ZonedDateTime> timerange) {
         List<Range<ZonedDateTime>> daysInTimerange = getDatesOverRange(timerange);
+
         for (Map.Entry constraint : constraintDict.entrySet()) {
             if (constraint.getKey().equals("day")) {
                 if (!daysInTimerange.stream().allMatch(thisDay -> castList(constraint.getValue()).contains(thisDay.lowerEndpoint().getDayOfMonth())))
@@ -71,12 +120,11 @@ public class DroolsTools {
         return true;
     }
 
-    private static List<Range<ZonedDateTime>> getDatesOverRange(Range<ZonedDateTime> timerange) {
+    public static List<Range<ZonedDateTime>> getDatesOverRange(Range<ZonedDateTime> timerange) {
         List<ZonedDateTime> dateList = new ArrayList<>();
         List<Range<ZonedDateTime>> dateRangeList = new ArrayList<>();
-        ZonedDateTime start = timerange.lowerEndpoint();
-        while (start.getYear() <= timerange.upperEndpoint().getYear() &&
-                start.getDayOfYear() <= timerange.upperEndpoint().getDayOfYear()) {
+        ZonedDateTime start = timerange.lowerEndpoint().with(LocalTime.of(0,0));
+        while (start.isBefore(timerange.upperEndpoint().with(LocalTime.MAX))) {
             dateList.add(start);
             start = start.plusDays(1);
         }

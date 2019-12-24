@@ -20,8 +20,11 @@ import bo.tc.tcplanner.datastructure.HumanStateChange;
 import bo.tc.tcplanner.datastructure.ProgressChange;
 import bo.tc.tcplanner.datastructure.ResourceStateChange;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.google.common.collect.Range;
+import com.google.common.collect.RangeSet;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @XStreamAlias("PjsExecutionMode")

@@ -19,7 +19,7 @@
                 <variableNameInclude>progressdelta</variableNameInclude>
             </swapMoveSelector>
             <cartesianProductMoveSelector>
-                <fixedProbabilityWeight>28.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>44.0</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
@@ -43,7 +43,7 @@
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>28.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>44.0</fixedProbabilityWeight>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
@@ -52,7 +52,7 @@
                 <valueSelector variableName="executionMode"/>
             </changeMoveSelector>
             <changeMoveSelector>
-                <fixedProbabilityWeight>20.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>4.0</fixedProbabilityWeight>
                 <entitySelector>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>

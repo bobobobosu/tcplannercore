@@ -3,6 +3,8 @@ package bo.tc.tcplanner.datastructure.converters;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
 import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
+import com.google.common.collect.Range;
+import com.google.common.collect.RangeSet;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -10,7 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
+import static bo.tc.tcplanner.app.DroolsTools.getDatesOverRange;
+import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
 import static bo.tc.tcplanner.app.Toolbox.ZonedDatetime2OffsetMinutes;
+import static bo.tc.tcplanner.app.Toolbox.castList;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 import static java.lang.Math.round;
 
@@ -35,15 +41,6 @@ public class DataStructureBuilder {
     List<Project> listOfProjects;
     List<Job> listOfJobs;
     List<ExecutionMode> listOfExecutionMode;
-
-    public ValueEntryMap getValueEntryMap() {
-        return valueEntryMap;
-    }
-
-    public void setValueEntryMap(ValueEntryMap valueEntryMap) {
-        this.valueEntryMap = valueEntryMap;
-    }
-
     ValueEntryMap valueEntryMap;
     // Planning Entity
     List<Allocation> listOfAllocations;
@@ -53,6 +50,14 @@ public class DataStructureBuilder {
     String dummyrequirementTimerange;
     // Save Data
     TimelineBlock timelineBlock;
+
+    public ValueEntryMap getValueEntryMap() {
+        return valueEntryMap;
+    }
+
+    public void setValueEntryMap(ValueEntryMap valueEntryMap) {
+        this.valueEntryMap = valueEntryMap;
+    }
 
     public DataStructureBuilder() {
 
@@ -301,7 +306,6 @@ public class DataStructureBuilder {
 
     }
 
-
     //// Getter Setter
     public Project getDefaultProject() {
         return defaultProject;
@@ -328,6 +332,7 @@ public class DataStructureBuilder {
         for (Allocation allocation : listOfAllocations) {
             allocation.getProject().getSchedule().getAllocationList().add(allocation);
         }
+
         defaultSchedule.setValueEntryMap(valueEntryMap);
         defaultSchedule.setProblemTimelineBlock(timelineBlock);
     }

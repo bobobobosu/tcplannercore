@@ -25,6 +25,9 @@ import bo.tc.tcplanner.domain.solver.listeners.PredecessorsDoneDateUpdatingVaria
 import bo.tc.tcplanner.domain.solver.listeners.PreviousStandstillUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListener;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.google.common.collect.Range;
+import com.google.common.collect.RangeSet;
+import com.google.common.collect.TreeRangeSet;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
@@ -34,11 +37,15 @@ import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
+import static bo.tc.tcplanner.app.Toolbox.OffsetMinutes2ZonedDatetime;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 @PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
@@ -267,7 +274,7 @@ public class Allocation extends AbstractPersistable {
         if (predecessorsDoneDate == null) {
             return null;
         }
-        if(job.getMovable() == 0 && job.getStartDate() != null) return job.getStartDate();
+        if (job.getMovable() == 0 && job.getStartDate() != null) return job.getStartDate();
         return predecessorsDoneDate + (delay == null ? 0 : delay);
     }
 
@@ -281,6 +288,15 @@ public class Allocation extends AbstractPersistable {
     public Integer getNextStart() {
         if (successorAllocationList.size() > 0) return successorAllocationList.get(0).getStartDate();
         return null;
+    }
+
+    public Integer getTimeRestrictionScore() {
+        RangeSet<ZonedDateTime> thisRangeset = getConstrintedTimeRange(
+                executionMode.getHumanStateChange().getRequirementTimerange(),
+                OffsetMinutes2ZonedDatetime(getProject().getSchedule().getGlobalStartTime(), getStartDate()),
+                OffsetMinutes2ZonedDatetime(getProject().getSchedule().getGlobalStartTime(), getEndDate()));
+        return thisRangeset.asRanges().stream().mapToInt(i -> (int) Duration.between(i.lowerEndpoint(), i.upperEndpoint()).toMinutes()).sum() -
+                plannedDuration;
     }
 
     public Job getPrevJob() {
@@ -364,7 +380,7 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
-        return ValueRangeFactory.createIntValueRange(0, 60*24);
+        return ValueRangeFactory.createIntValueRange(0, 60 * 24);
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")
