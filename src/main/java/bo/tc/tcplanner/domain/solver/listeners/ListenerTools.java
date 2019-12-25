@@ -52,8 +52,9 @@ public class ListenerTools {
             }
             double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
             double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
+            double appliedAmt = resourceAbsAmt + resourceDeltaAmt;
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
-            double capped = resourceAbsAmt + resourceDeltaAmt - Math.max(0, resourceAbsAmt + resourceDeltaAmt - capacity );
+            double capped = appliedAmt > capacity ? resourceAbsAmt : appliedAmt;
             if (capped == 0) {
                 thisallocation.getResourceElementMap().remove(resource.getKey());
             } else {

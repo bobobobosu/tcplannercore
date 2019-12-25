@@ -8,7 +8,7 @@ import java.util.List;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 
 public class FilterTools {
-    static boolean isNotInIndex(Allocation allocation) {
+    public static boolean isNotInIndex(Allocation allocation) {
 //        return allocation.getIndex() <= allocation.getProject().getSchedule().getGlobalScheduleAfterIndex();
         List<Allocation> allocationList = allocation.getProject().getSchedule().getAllocationList();
 //        return (allocationList.get(allocationList.size() - 2).getStartDate() - allocation.getStartDate()) > 60 * 24 * 3;
@@ -16,11 +16,11 @@ public class FilterTools {
         return false;
     }
 
-    static boolean isLocked(Allocation allocation) {
+    public static boolean isLocked(Allocation allocation) {
         return allocation.getAllocationType() == AllocationType.Locked;
     }
 
-    static boolean isDummy(Allocation allocation) {
+    public static boolean isDummy(Allocation allocation) {
         return allocation.getExecutionMode().getJob() == dummyJob;
     }
 
