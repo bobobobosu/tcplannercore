@@ -336,16 +336,12 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "executionModeRange")
     public List<ExecutionMode> getExecutionModeRange() {
-        if(executionModeList == null) executionModeList = getJob().getProject().getExecutionModeList()
-                .stream()
-                .filter(x -> x.getExecutionModeTypes().contains(ExecutionModeType.USABLE))
-                .collect(Collectors.toList());
-        if(job==dummyJob) return executionModeList;
-        return dummyJob.getExecutionModeList();
+        return getProject().getSchedule().getExecutionModeList();
     }
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
+        if (job == dummyJob) return ValueRangeFactory.createIntValueRange(0, 1, 1);
         return ValueRangeFactory.createIntValueRange(0, 60 * 24);
     }
 

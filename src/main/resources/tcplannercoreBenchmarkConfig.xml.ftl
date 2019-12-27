@@ -21,7 +21,7 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>30000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -48,15 +48,17 @@
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
 
-    <#list [0.10] as delayWeight>
+    <#list [0.08] as delayWeight>
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
     <#list ['${(1-delayWeight)/2}'?number] as executionWeight>
 
     <#list [0.10] as swapWeight>
     <#list [0.10] as fineWeightRest>
+    <#list [0.80] as cartesianWeightRest>
+
     <#list ['${(1-swapWeight)*fineWeightRest}'?number] as fineWeight>
-    <#list ['${(1-swapWeight)*(1-fineWeightRest)/2}'?number] as cartesianWeight>
-    <#list ['${(1-swapWeight)*(1-fineWeightRest)/2}'?number] as mergesplitWeight>
+    <#list ['${(1-swapWeight)*(1-fineWeightRest)*cartesianWeightRest}'?number] as cartesianWeight>
+    <#list ['${(1-swapWeight)*(1-fineWeightRest)*(1-cartesianWeightRest)}'?number] as mergesplitWeight>
 
 
 <#--    Moves-->
@@ -87,31 +89,40 @@
                     <valueSelector variableName="progressdelta"/>
                 </changeMoveSelector>
             </cartesianProductMoveSelector>'] as cartesianexecutionMode>
-
     <#list ['<cartesianProductMoveSelector>
-            <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>
-            <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
-            <changeMoveSelector>
-                <entitySelector>
-                    ${IndexFilter}
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                    ${NotDummyFilter}
-                </entitySelector>
-                <valueSelector variableName="delay"/>
-            </changeMoveSelector>
-            <changeMoveSelector>
-                <entitySelector>
-                    ${IndexFilter}
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                    ${NotDummyFilter}
-                </entitySelector>
-                <valueSelector variableName="delay"/>
-            </changeMoveSelector>
-        </cartesianProductMoveSelector>'] as cartesiandelay>
+                <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>
+                <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
+                <changeMoveSelector>
+                    <entitySelector>
+                        ${IndexFilter}
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                        ${NotDummyFilter}
+                    </entitySelector>
+                    <valueSelector variableName="delay"/>
+                </changeMoveSelector>
+                <changeMoveSelector>
+                    <entitySelector>
+                        ${IndexFilter}
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                        ${NotDummyFilter}
+                    </entitySelector>
+                    <valueSelector variableName="delay"/>
+                </changeMoveSelector>
+            </cartesianProductMoveSelector>'] as cartesiandelay>
+
 
 <#--    fine Moves-->
+    <#list ['<changeMoveSelector>
+                    <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
+                    <entitySelector>
+                        ${IndexFilter}
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                    </entitySelector>
+                    <valueSelector variableName="executionMode"/>
+                </changeMoveSelector>'] as executionMode>
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
                 <entitySelector>
@@ -121,10 +132,7 @@
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>'] as progressdelta>
-    <#list ['<moveListFactory>
-                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as executionMode>
+
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${delayWeight*fineWeight/2}</fixedProbabilityWeight>
                 <entitySelector>
@@ -154,12 +162,13 @@
             ${executionMode}
             ${delay}
             ${precisedelay}'] as fineMoves>
-    <#list ['${cartesianexecutionMode}'] as cartesianMoves>
+    <#list ['${cartesianexecutionMode}
+             ${cartesiandelay}'] as cartesianMoves>
     <#list ['${mergeMove}
             ${splitMove}'] as mergesplitMoves>
 
     <solverBenchmark>
-        <name>a${acceptedCountLimit}s${fineWeightRest?index}</name>
+        <name>a${delayWeight?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -225,4 +234,44 @@
     </#list>
     </#list>
     </#list>
+    </#list>
 </plannerBenchmark>
+
+
+<#--'<moveListFactory>-->
+<#--    <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--    <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>-->
+<#--</moveListFactory>'-->
+
+<#--<#list ['<changeMoveSelector>-->
+<#--                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--                <entitySelector>-->
+<#--                    ${IndexFilter}-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>-->
+<#--                </entitySelector>-->
+<#--                <valueSelector variableName="executionMode"/>-->
+<#--            </changeMoveSelector>'] as executionMode>-->
+
+<#--<#list ['<cartesianProductMoveSelector>-->
+<#--            <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>-->
+<#--            <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>-->
+<#--            <changeMoveSelector>-->
+<#--                <entitySelector>-->
+<#--                    ${IndexFilter}-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>-->
+<#--                    ${NotDummyFilter}-->
+<#--                </entitySelector>-->
+<#--                <valueSelector variableName="delay"/>-->
+<#--            </changeMoveSelector>-->
+<#--            <changeMoveSelector>-->
+<#--                <entitySelector>-->
+<#--                    ${IndexFilter}-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>-->
+<#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>-->
+<#--                    ${NotDummyFilter}-->
+<#--                </entitySelector>-->
+<#--                <valueSelector variableName="delay"/>-->
+<#--            </changeMoveSelector>-->
+<#--        </cartesianProductMoveSelector>'] as cartesiandelay>-->
