@@ -10,6 +10,15 @@ public class HumanStateChange extends AbstractPersistable {
     double duration;
     String requirementTimerange;
 
+    public HumanStateChange(){}
+
+    public HumanStateChange(HumanStateChange other){
+        this.setCurrentLocation(other.currentLocation);
+        this.setDuration(other.duration);
+        this.setMovetoLocation(other.movetoLocation);
+        this.setRequirementTimerange(other.requirementTimerange);
+    }
+
     public String getCurrentLocation() {
         return currentLocation;
     }

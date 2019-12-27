@@ -6,8 +6,12 @@ public class ProgressChange extends AbstractPersistable {
     //percentage change
     double progressDelta;
 
+    public ProgressChange(ProgressChange other){
+        this.setProgressDelta(other.progressDelta);
+    }
+
     public ProgressChange(double progressDelta) {
-        this.progressDelta = progressDelta;
+        this.setProgressDelta(progressDelta);
     }
 
     public ProgressChange() {

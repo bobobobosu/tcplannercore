@@ -9,10 +9,9 @@ public class ValueEntry extends AbstractPersistable {
     long wbs;
     String type; // 'task' or 'project' or 'resource'...
     String classification;
-    int splittable;
-    int movable;
-    int changeable;
     Double capacity;
+    //chronological property
+    ChronoProperty chronoProperty;
     //state changes
     List<HumanStateChange> humanStateChangeList;
     List<ResourceStateChange> resourceStateChangeList;
@@ -63,33 +62,6 @@ public class ValueEntry extends AbstractPersistable {
         return this;
     }
 
-    public int getSplittable() {
-        return splittable;
-    }
-
-    public ValueEntry setSplittable(int splittable) {
-        this.splittable = splittable;
-        return this;
-    }
-
-    public int getMovable() {
-        return movable;
-    }
-
-    public ValueEntry setMovable(int movable) {
-        this.movable = movable;
-        return this;
-    }
-
-    public int getChangeable() {
-        return changeable;
-    }
-
-    public ValueEntry setChangeable(int changeable) {
-        this.changeable = changeable;
-        return this;
-    }
-
     public Double getCapacity() {
         return capacity;
     }
@@ -105,6 +77,15 @@ public class ValueEntry extends AbstractPersistable {
 
     public ValueEntry setProgressChangeList(List<ProgressChange> progressChangeList) {
         this.progressChangeList = progressChangeList;
+        return this;
+    }
+
+    public ChronoProperty getChronoProperty() {
+        return chronoProperty;
+    }
+
+    public ValueEntry setChronoProperty(ChronoProperty chronoProperty) {
+        this.chronoProperty = chronoProperty;
         return this;
     }
 }

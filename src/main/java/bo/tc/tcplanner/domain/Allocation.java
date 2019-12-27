@@ -38,9 +38,8 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeEntryMap;
@@ -54,7 +53,8 @@ public class Allocation extends AbstractPersistable {
     private Integer index = 0;
     private Allocation sourceAllocation;
     private Allocation sinkAllocation;
-    private AllocationType allocationType;
+    private Set<AllocationType> allocationTypeSet = new HashSet<>();
+
     // Planning Fact
     private List<Allocation> predecessorAllocationList;
     private List<Allocation> successorAllocationList;
@@ -67,6 +67,8 @@ public class Allocation extends AbstractPersistable {
     private String previousStandstill;
     private Duration plannedDuration;
     private Map<String, ResourceElement> resourceElementMap;
+    // Ranges
+    private List<ExecutionMode> executionModeList = null;
 
     public Allocation() {
 
@@ -81,7 +83,7 @@ public class Allocation extends AbstractPersistable {
         this.setIndex(listOfAllocation.size());
         this.setPredecessorsDoneDate(getProject().getSchedule().getGlobalStartTime());
         this.setProgressdelta(progressdelta);
-        this.setPlannedDuration(this.getExecutionMode().getTimeduration().multipliedBy(this.getProgressdelta() / 100));
+        this.setPlannedDuration(this.getExecutionMode().getTimeduration().multipliedBy(this.getProgressdelta()).dividedBy(100));
 
         // Initialize Lists
         this.successorAllocationList = new ArrayList<>();
@@ -110,7 +112,6 @@ public class Allocation extends AbstractPersistable {
         this.index = other.index;
         this.sourceAllocation = other.sourceAllocation;
         this.sinkAllocation = other.sinkAllocation;
-        this.allocationType = other.allocationType;
         this.predecessorAllocationList = other.predecessorAllocationList;
         this.successorAllocationList = other.successorAllocationList;
         this.executionMode = other.executionMode;
@@ -139,7 +140,6 @@ public class Allocation extends AbstractPersistable {
         this.index = other.index;
         this.sourceAllocation = other.sourceAllocation;
         this.sinkAllocation = other.sinkAllocation;
-        this.allocationType = other.allocationType;
         this.predecessorAllocationList = other.predecessorAllocationList;
         this.successorAllocationList = other.successorAllocationList;
         this.executionMode = other.executionMode;
@@ -272,7 +272,11 @@ public class Allocation extends AbstractPersistable {
         if (predecessorsDoneDate == null) {
             return null;
         }
-        if (job.getMovable() == 0 && job.getStartDate() != null) return job.getStartDate();
+
+        if (executionMode.getChronoProperty().getMovable() == 0 &&
+                executionMode.getStartDate() != null) {
+            return executionMode.getStartDate();
+        }
         return delay == null ? predecessorsDoneDate : predecessorsDoneDate.plusMinutes(delay);
     }
 
@@ -289,6 +293,7 @@ public class Allocation extends AbstractPersistable {
         RangeSet<ZonedDateTime> restrictionRangeSet = getProject().getSchedule().getTimeEntryMap()
                 .get(executionMode.getHumanStateChange().getRequirementTimerange());
         RangeSet<ZonedDateTime> overlapRangeSet = restrictionRangeSet.subRangeSet(thisRange);
+        if (restrictionRangeSet.isEmpty()) return plannedDuration.toMinutes();
         if (overlapRangeSet.isEmpty()) {
             Range<ZonedDateTime> containing = restrictionRangeSet.complement().rangeContaining(thisRange.lowerEndpoint());
             return -Math.min(
@@ -331,11 +336,12 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "executionModeRange")
     public List<ExecutionMode> getExecutionModeRange() {
-        List<ExecutionMode> executionModes = new ArrayList<>();
-        for (ExecutionMode executionMode : executionMode.getJob().getProject().getExecutionModeList()) {
-            if (executionMode.getJob().getJobType() == JobType.STANDARD) executionModes.add(executionMode);
-        }
-        return executionModes;
+        if(executionModeList == null) executionModeList = getJob().getProject().getExecutionModeList()
+                .stream()
+                .filter(x -> x.getExecutionModeTypes().contains(ExecutionModeType.USABLE))
+                .collect(Collectors.toList());
+        if(job==dummyJob) return executionModeList;
+        return dummyJob.getExecutionModeList();
     }
 
     @ValueRangeProvider(id = "delayRange")
@@ -346,16 +352,16 @@ public class Allocation extends AbstractPersistable {
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
         if (job == dummyJob) return ValueRangeFactory.createIntValueRange(100, 110, 10);
-        return ValueRangeFactory.createIntValueRange(0, 110, 1);
+        return ValueRangeFactory.createIntValueRange(0, 101, 1);
     }
 
 
-    public AllocationType getAllocationType() {
-        return allocationType;
+    public Set<AllocationType> getAllocationTypeSet() {
+        return allocationTypeSet;
     }
 
-    public void setAllocationType(AllocationType allocationType) {
-        this.allocationType = allocationType;
+    public Allocation setAllocationTypeSet(Set<AllocationType> allocationTypeSet) {
+        this.allocationTypeSet = allocationTypeSet;
+        return this;
     }
-
 }

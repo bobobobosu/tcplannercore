@@ -17,7 +17,7 @@ public class FilterTools {
     }
 
     public static boolean isLocked(Allocation allocation) {
-        return allocation.getAllocationType() == AllocationType.Locked;
+        return allocation.getAllocationTypeSet().contains(AllocationType.Locked);
     }
 
     public static boolean isDummy(Allocation allocation) {
@@ -25,14 +25,14 @@ public class FilterTools {
     }
 
     public static boolean isNotMovable(Allocation allocation) {
-        return !(allocation.getJob().getMovable() == 1);
+        return !(allocation.getExecutionMode().getChronoProperty().getMovable() == 1);
     }
 
-    static boolean isNotChangeable(Allocation allocation) {
-        return !(allocation.getJob().getChangeable() == 1);
+    public static boolean isNotChangeable(Allocation allocation) {
+        return !(allocation.getExecutionMode().getChronoProperty().getChangeable() == 1);
     }
 
-    static boolean isNotSplittable(Allocation allocation) {
-        return !(allocation.getJob().getSplittable() == 1);
+    public static boolean isNotSplittable(Allocation allocation) {
+        return !(allocation.getExecutionMode().getChronoProperty().getSplittable() == 1);
     }
 }

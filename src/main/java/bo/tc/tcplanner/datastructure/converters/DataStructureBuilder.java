@@ -3,7 +3,9 @@ package bo.tc.tcplanner.datastructure.converters;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
 import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.RangeSet;
+import com.google.common.collect.Sets;
 import com.google.common.collect.TreeRangeSet;
 
 import java.time.Duration;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeEntryMap;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isNotChangeable;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 import static java.lang.Math.round;
 
@@ -51,6 +54,8 @@ public class DataStructureBuilder {
     String dummyrequirementTimerange;
     // Save Data
     TimelineBlock timelineBlock;
+    // Easy Access
+    Map<TimelineEntry, ExecutionMode> timelineEntryExecutionModeMap;
 
     public ValueEntryMap getValueEntryMap() {
         return valueEntryMap;
@@ -86,18 +91,21 @@ public class DataStructureBuilder {
         // dummy dummyProgressChange
         dummyProgressChange = new ProgressChange().setProgressDelta(1);
         // dummy jobs
-        dummyJob = new Job("dummyJob", JobType.STANDARD, listOfJobs, defaultProject);
+        dummyJob = new Job("dummyJob", JobType.STANDARD, listOfJobs, defaultProject).setTimelineProperty(new TimelineProperty());
         dummyJob.setVolatileFlag(true);
-        sourceJob = new Job("sourceJob", JobType.SOURCE, listOfJobs, defaultProject).setMovable(0).setSplittable(0).setChangeable(0);
+        sourceJob = new Job("sourceJob", JobType.SOURCE, listOfJobs, defaultProject).setTimelineProperty(new TimelineProperty());
         sourceJob.setVolatileFlag(true);
-        sinkJob = new Job("sinkJob", JobType.SINK, listOfJobs, defaultProject).setMovable(0).setSplittable(0).setChangeable(0);
+        sinkJob = new Job("sinkJob", JobType.SINK, listOfJobs, defaultProject).setTimelineProperty(new TimelineProperty());
         sinkJob.setVolatileFlag(true);
         // dummy executionModes
-        dummyExecutionMode = new ExecutionMode(listOfExecutionMode, dummyJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange);
+        dummyExecutionMode = new ExecutionMode(listOfExecutionMode, dummyJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange)
+                .setChronoProperty(new ChronoProperty().setChangeable(1).setMovable(1).setSplittable(1));
         dummyExecutionMode.setVolatileFlag(true);
-        sourceExecutionMode = new ExecutionMode(listOfExecutionMode, sourceJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange);
+        sourceExecutionMode = new ExecutionMode(listOfExecutionMode, sourceJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange)
+                .setChronoProperty(new ChronoProperty().setChangeable(0).setMovable(0).setSplittable(0));
         sourceExecutionMode.setVolatileFlag(true);
-        sinkExecutionMode = new ExecutionMode(listOfExecutionMode, sinkJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange);
+        sinkExecutionMode = new ExecutionMode(listOfExecutionMode, sinkJob).setHumanStateChange(dummyHumamStateChange).setProgressChange(dummyProgressChange)
+                .setChronoProperty(new ChronoProperty().setChangeable(0).setMovable(0).setSplittable(0));
         sinkExecutionMode.setVolatileFlag(true);
     }
 
@@ -127,8 +135,8 @@ public class DataStructureBuilder {
         Allocation sinkAllocation = allocationList.get(allocationList.size() - 1);
         sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
         for (Allocation allocation : allocationList) {
-            if (allocation.getJob().getJobType() == JobType.SCHEDULED && allocation.getJob().getChangeable() == 0) {
-                if (allocation.getJob().getRownum() != null) {
+            if (allocation.getJob().getJobType() == JobType.SCHEDULED && isNotChangeable(allocation)) {
+                if (allocation.getJob().getTimelineProperty().getRownum() != null) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
                             allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation));
                 }
@@ -152,6 +160,7 @@ public class DataStructureBuilder {
 
         // set PredecessorsDoneDate
         for (Allocation allocation : allocationList) {
+            allocation.setPredecessorsDoneDate(null);
             if (allocation.getJob() == dummyJob) {
                 allocation.setPlannedDuration(null);
             } else {
@@ -159,13 +168,14 @@ public class DataStructureBuilder {
             }
         }
 
-        prevAllocation = sourceAllocation;
-        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
+        thisAllocation = sourceAllocation;
+        prevAllocation = null;
+        do {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-            if (thisAllocation.getJob().getStartDate() != null)
-                thisAllocation.setDelay(Math.max(0, (int) Duration.between(thisAllocation.getPredecessorsDoneDate(), thisAllocation.getJob().getStartDate()).toMinutes()));
+            if (thisAllocation.getExecutionMode().getStartDate() != null)
+                thisAllocation.setDelay(Math.max(0, (int) Duration.between(thisAllocation.getPredecessorsDoneDate(), thisAllocation.getExecutionMode().getStartDate()).toMinutes()));
             prevAllocation = thisAllocation;
-        }
+        } while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null);
 
         // set ResourceElementMap
         for (Allocation allocation : allocationList) {
@@ -192,19 +202,16 @@ public class DataStructureBuilder {
         for (Map.Entry<String, ValueEntry> valueEntry : valueEntryMap.entrySet()) {
             if (valueEntry.getValue().getType().equals("工作") || valueEntry.getValue().getType().equals("存取權")) {
                 Job thisjob = new Job(valueEntry.getKey(), JobType.STANDARD, listOfJobs, defaultProject)
-                        .setSplittable(valueEntry.getValue().getSplittable())
-                        .setMovable(valueEntry.getValue().getMovable())
-                        .setChangeable(valueEntry.getValue().getChangeable());
-                List<ResourceStateChange> resourceStateChangeList = valueEntry.getValue().getResourceStateChangeList();
-                List<HumanStateChange> humanStateChangeList = valueEntry.getValue().getHumanStateChangeList();
-                List<ProgressChange> progressChangeList = valueEntry.getValue().getProgressChangeList();
-                for (int i = 0; i < resourceStateChangeList.size(); i++) {
+                        .setTimelineProperty(new TimelineProperty());
+                for (int i = 0; i < valueEntry.getValue().getHumanStateChangeList().size(); i++) {
                     // humanStateChange
                     ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, thisjob)
                             .setExecutionModeIndex(i)
-                            .setHumanStateChange(humanStateChangeList.get(i))
-                            .setResourceStateChange(resourceStateChangeList.get(i))
-                            .setProgressChange(progressChangeList.get(i));
+                            .setHumanStateChange(valueEntry.getValue().getHumanStateChangeList().get(i))
+                            .setResourceStateChange(valueEntry.getValue().getResourceStateChangeList().get(i))
+                            .setProgressChange(valueEntry.getValue().getProgressChangeList().get(i))
+                            .setChronoProperty(valueEntry.getValue().getChronoProperty())
+                            .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE));
                 }
             }
         }
@@ -213,9 +220,10 @@ public class DataStructureBuilder {
 
     public void addJobsFromTimelineBlock(TimelineBlock timelineBlock) {
         this.timelineBlock = timelineBlock;
+        timelineEntryExecutionModeMap = new HashMap<>();
 
         for (TimelineEntry timelineEntry : timelineBlock.getTimelineEntryList()) {
-            if (timelineEntry.getRownum().equals(deletedRownum)) continue;
+            if (timelineEntry.getTimelineProperty().getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
             ResourceElement resourceElement = new ResourceElement().setAmt(100).setLocation(dummyLocation);
@@ -224,42 +232,26 @@ public class DataStructureBuilder {
             // Add timeline jobs SCHEDULED
             Job mandJob = new Job(timelineEntry.getTitle(), JobType.SCHEDULED, listOfJobs, defaultProject)
                     .setDescription(timelineEntry.getDescription())
-                    .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
-                    .setRownum(timelineEntry.getRownum())
-                    .setTimelineid(timelineEntry.getId())
-                    .setGravity(timelineEntry.getGravity())
-                    .setDeadline(
-                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime())
-                    .setSplittable(timelineEntry.getSplittable())
-                    .setMovable(timelineEntry.getMovable())
-                    .setChangeable(timelineEntry.getChangeable())
-                    .setStartDate(ZonedDateTime.parse(timelineEntry.getStartTime()));
+                    .setTimelineProperty(new TimelineProperty(timelineEntry.getTimelineProperty()));
 
             ExecutionMode thisExecutionMode = new ExecutionMode(listOfExecutionMode, mandJob)
-                    .setExecutionModeIndex(0)
                     .setHumanStateChange(timelineEntry.getHumanStateChange())
                     .setResourceStateChange(timelineEntry.getResourceStateChange())
-                    .setProgressChange(timelineEntry.getProgressChange());
+                    .setProgressChange(timelineEntry.getProgressChange())
+                    .setChronoProperty(new ChronoProperty(timelineEntry.getChronoProperty()))
+                    .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.OLD, ExecutionModeType.UNUSABLE));
 
             thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
+            timelineEntryExecutionModeMap.put(timelineEntry, thisExecutionMode);
 
-            // Add timeline jobs STANDARD
-            Job stdJob = new Job(timelineEntry.getTitle(), JobType.STANDARD, listOfJobs, defaultProject)
-                    .setDescription(timelineEntry.getDescription())
-                    .setDependencyTimelineIdList(timelineEntry.getDependencyIdList())
-                    .setTimelineid(timelineEntry.getId())
-                    .setGravity(timelineEntry.getGravity())
-                    .setDeadline(
-                            timelineEntry.getDeadline() != null ? ZonedDateTime.parse(timelineEntry.getDeadline()) : this.defaultSchedule.getGlobalEndTime())
-                    .setSplittable(timelineEntry.getSplittable())
-                    .setMovable(timelineEntry.getMovable())
-                    .setChangeable(1);
-
-            ExecutionMode stdExecutionMode = new ExecutionMode(listOfExecutionMode, stdJob)
-                    .setExecutionModeIndex(0)
+            ExecutionMode stdExecutionMode = new ExecutionMode(listOfExecutionMode, mandJob)
                     .setHumanStateChange(timelineEntry.getHumanStateChange())
                     .setResourceStateChange(timelineEntry.getResourceStateChange())
-                    .setProgressChange(timelineEntry.getProgressChange());
+                    .setProgressChange(timelineEntry.getProgressChange())
+                    .setChronoProperty(new ChronoProperty(timelineEntry.getChronoProperty())
+                            .setMovable(1)
+                            .setChangeable(1))
+                    .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE));
 
             stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
 
@@ -276,33 +268,27 @@ public class DataStructureBuilder {
         //Add Source
         Allocation sourceallocation = new Allocation(sourceExecutionMode, listOfAllocations, 100);
         sourceallocation.setPredecessorsDoneDate(defaultSchedule.getGlobalStartTime());
-        sourceallocation.getJob().setStartDate(defaultSchedule.getGlobalStartTime());
-        sourceallocation.setAllocationType(AllocationType.Locked);
+        sourceallocation.setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SOURCE));
 
         //Add Scheduled Jobs: Fixed Length Chain Mode
-        HashMap<Integer, ExecutionMode> timelineid2executionModeMap = new HashMap<>();
-        for (ExecutionMode executionMode : listOfExecutionMode)
-            if (executionMode.getJob().getRownum() != null)
-                timelineid2executionModeMap.put(executionMode.getJob().getTimelineid(), executionMode);
         for (int i = 0; i < timelineBlock.getTimelineEntryList().size(); i++) {
             TimelineEntry timelineEntry = timelineBlock.getTimelineEntryList().get(i);
-            AllocationType lockStatus = (timelineEntry.getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
-            Allocation mandallocation = new Allocation(timelineid2executionModeMap.get(timelineEntry.getId()), listOfAllocations,
+            AllocationType lockStatus = (timelineEntry.getTimelineProperty().getRownum() >= timelineBlock.getBlockScheduleAfter()) ? AllocationType.Unlocked : AllocationType.Locked;
+            Allocation mandallocation = new Allocation(timelineEntryExecutionModeMap.get(timelineEntry), listOfAllocations,
                     Math.toIntExact(round(timelineEntry.getProgressChange().getProgressDelta() * 100)));
-            mandallocation.setAllocationType(lockStatus);
-            if (timelineEntry.getRownum().equals(timelineBlock.getBlockScheduleAfter()))
+            mandallocation.setAllocationTypeSet(Sets.newHashSet(lockStatus, AllocationType.NORMAL));
+            if (timelineEntry.getTimelineProperty().getRownum().equals(timelineBlock.getBlockScheduleAfter()))
                 defaultSchedule.setGlobalScheduleAfterIndex(mandallocation.getIndex());
 
             for (int k = 0; k < dummyLengthInChain; k++) {
                 Allocation allocation = new Allocation(dummyExecutionMode, listOfAllocations, 10);
-                allocation.setAllocationType(lockStatus);
+                allocation.setAllocationTypeSet(Sets.newHashSet(lockStatus, AllocationType.NORMAL));
             }
         }
 
         //Add Sink
         Allocation sinkallocation = new Allocation(sinkExecutionMode, listOfAllocations, 100);
-        sinkallocation.getJob().setStartDate(defaultSchedule.getGlobalEndTime());
-        sinkallocation.setAllocationType(AllocationType.Locked);
+        sourceallocation.setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SINK));
 
 
     }

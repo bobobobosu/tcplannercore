@@ -15,16 +15,12 @@ public class TimelineEntry extends AbstractPersistable {
     //progress changes
     ProgressChange progressChange;
     //chronological property
-    String startTime;
-    String deadline;
-    int movable;
-    int gravity;
-    int splittable;
-    int changeable;
-    Integer rownum;
-    List<Integer> dependencyIdList;
+    ChronoProperty chronoProperty;
+    //timeline property
+    TimelineProperty timelineProperty;
     //validation notes
     String score;
+
 
     public String getScore() {
         return score;
@@ -36,6 +32,8 @@ public class TimelineEntry extends AbstractPersistable {
 
     public TimelineEntry() {
         this.setVolatileFlag(false);
+        chronoProperty = new ChronoProperty();
+        timelineProperty = new TimelineProperty();
     }
 
     public String getTitle() {
@@ -92,75 +90,21 @@ public class TimelineEntry extends AbstractPersistable {
         return this;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public ChronoProperty getChronoProperty() {
+        return chronoProperty;
     }
 
-    public TimelineEntry setStartTime(String startTime) {
-        this.startTime = startTime;
+    public TimelineEntry setChronoProperty(ChronoProperty chronoProperty) {
+        this.chronoProperty = chronoProperty;
         return this;
     }
 
-    public String getDeadline() {
-        return deadline;
+    public TimelineProperty getTimelineProperty() {
+        return timelineProperty;
     }
 
-    public TimelineEntry setDeadline(String deadline) {
-        this.deadline = deadline;
-        return this;
-    }
-
-    public int getMovable() {
-        return movable;
-    }
-
-    public TimelineEntry setMovable(int movable) {
-        this.movable = movable;
-        return this;
-    }
-
-    public int getGravity() {
-        return gravity;
-    }
-
-    public TimelineEntry setGravity(int gravity) {
-        this.gravity = gravity;
-        return this;
-    }
-
-    public Integer getRownum() {
-        return rownum;
-    }
-
-    public TimelineEntry setRownum(Integer rownum) {
-        this.rownum = rownum;
-        return this;
-    }
-
-    public List<Integer> getDependencyIdList() {
-        return dependencyIdList;
-    }
-
-    public TimelineEntry setDependencyIdList(List<Integer> dependencyIdList) {
-        this.dependencyIdList = dependencyIdList;
-        return this;
-    }
-
-    public int getSplittable() {
-        return splittable;
-    }
-
-    public TimelineEntry setSplittable(int splittable) {
-        this.splittable = splittable;
-        return this;
-    }
-
-    public int getChangeable() {
-        return changeable;
-    }
-
-    public TimelineEntry setChangeable(int changeable) {
-        this.changeable = changeable;
+    public TimelineEntry setTimelineProperty(TimelineProperty timelineProperty) {
+        this.timelineProperty = timelineProperty;
         return this;
     }
 }

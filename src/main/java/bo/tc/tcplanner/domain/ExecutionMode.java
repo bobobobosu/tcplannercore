@@ -16,6 +16,7 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.datastructure.ChronoProperty;
 import bo.tc.tcplanner.datastructure.HumanStateChange;
 import bo.tc.tcplanner.datastructure.ProgressChange;
 import bo.tc.tcplanner.datastructure.ResourceStateChange;
@@ -26,23 +27,33 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @XStreamAlias("PjsExecutionMode")
 public class ExecutionMode extends AbstractPersistable {
     private Job job;
     private int ExecutionModeIndex;
+    private Set<ExecutionModeType> executionModeTypes = new HashSet<>();
     //resourceStateChange
     private ResourceStateChange resourceStateChange;
     //humanStateChange
     private HumanStateChange humanStateChange;
     //processChange
     private ProgressChange progressChange;
+    //chronological property
+    private ChronoProperty chronoProperty;
+
+    //easy access
+    private ZonedDateTime startDate = null;
+    private ZonedDateTime deadline = null;
 
     public ExecutionMode(List<ExecutionMode> listOfExecutionMode, Job job) {
         //Set Basic Information
         this.setJob(job);
         this.setId(listOfExecutionMode.size());
+        this.setExecutionModeIndex(job.getExecutionModeList().size());
 
         //Initialize
         resourceStateChange = new ResourceStateChange();
@@ -124,6 +135,36 @@ public class ExecutionMode extends AbstractPersistable {
 
     public ExecutionMode setProgressChange(ProgressChange progressChange) {
         this.progressChange = progressChange;
+        return this;
+    }
+
+    public ChronoProperty getChronoProperty() {
+        return chronoProperty;
+    }
+
+    public ExecutionMode setChronoProperty(ChronoProperty chronoProperty) {
+        this.chronoProperty = chronoProperty;
+        return this;
+    }
+
+    public ZonedDateTime getStartDate() {
+        if (chronoProperty.getStartTime() == null) return null;
+        if (startDate == null) startDate = ZonedDateTime.parse(chronoProperty.getStartTime());
+        return startDate;
+    }
+
+    public ZonedDateTime getDeadline() {
+        if (chronoProperty.getDeadline() == null) return null;
+        if (deadline == null) deadline = ZonedDateTime.parse(chronoProperty.getDeadline());
+        return deadline;
+    }
+
+    public Set<ExecutionModeType> getExecutionModeTypes() {
+        return executionModeTypes;
+    }
+
+    public ExecutionMode setExecutionModeTypes(Set<ExecutionModeType> executionModeTypes) {
+        this.executionModeTypes = executionModeTypes;
         return this;
     }
 }

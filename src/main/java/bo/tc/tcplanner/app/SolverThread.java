@@ -25,8 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
-import static bo.tc.tcplanner.app.Toolbox.displayTray;
-import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
+import static bo.tc.tcplanner.app.Toolbox.*;
 
 public class SolverThread extends Thread {
     public static final Logger logger
@@ -254,7 +253,7 @@ public class SolverThread extends Thread {
     }
 
     private boolean isSolved(Schedule schedule, Solver<Schedule> solver) {
-        ScoreDirector<Schedule> scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
+        ScoreDirector<Schedule> scoreDirector = createScoreDirector(schedule);
         scoreDirector.setWorkingSolution(schedule);
         for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
             if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))

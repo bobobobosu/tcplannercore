@@ -17,6 +17,11 @@ public class ResourceStateChange extends AbstractPersistable {
         mode = "absolute";
     }
 
+    public ResourceStateChange(ResourceStateChange other){
+        this.setResourceChange(new HashMap<>(other.resourceChange));
+        this.setMode(other.mode);
+    }
+
     public ResourceStateChange(LinkedHashMap<String, ResourceElement> resourceChange, String mode) {
         this.resourceChange = resourceChange;
         this.mode = mode;

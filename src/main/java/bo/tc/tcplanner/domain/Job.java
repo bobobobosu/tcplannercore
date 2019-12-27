@@ -16,6 +16,7 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.datastructure.TimelineProperty;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -29,17 +30,9 @@ public class Job extends AbstractPersistable {
     private String description = "";
     private Project project;
     private JobType jobType;
-    private Integer rownum; //negative if new, positive if exist, 0 if to delete
-    private Integer timelineid;
+
+    private TimelineProperty timelineProperty;
     private List<ExecutionMode> executionModeList;
-    private List<Job> successorJobList;
-    private ZonedDateTime startDate = null;
-    private ZonedDateTime deadline = null;
-    private Integer gravity;
-    private Integer splittable;
-    private Integer movable;
-    private Integer changeable;
-    private List<Integer> dependencyTimelineIdList;
 
     public Job() {
     }
@@ -57,15 +50,8 @@ public class Job extends AbstractPersistable {
         this.setId(jobList.size());
         this.setProject(project);
         this.setJobType(jobType);
-        this.setRownum(null);
-        this.setTimelineid(null);
-        this.setGravity(0);
-        this.setSplittable(1);
-        this.setMovable(1);
-        this.setChangeable(1);
 
         //Initialize
-        this.setSuccessorJobList(new ArrayList<>());
         this.executionModeList = new ArrayList<>();
         //Update List
         jobList.add(this);
@@ -112,23 +98,6 @@ public class Job extends AbstractPersistable {
         return this;
     }
 
-    public Integer getRownum() {
-        return rownum;
-    }
-
-    public Job setRownum(Integer rownum) {
-        this.rownum = rownum;
-        return this;
-    }
-
-    public Integer getTimelineid() {
-        return timelineid;
-    }
-
-    public Job setTimelineid(Integer timelineid) {
-        this.timelineid = timelineid;
-        return this;
-    }
 
     public List<ExecutionMode> getExecutionModeList() {
         return executionModeList;
@@ -139,75 +108,12 @@ public class Job extends AbstractPersistable {
         return this;
     }
 
-    public List<Job> getSuccessorJobList() {
-        return successorJobList;
+    public TimelineProperty getTimelineProperty() {
+        return timelineProperty;
     }
 
-    public Job setSuccessorJobList(List<Job> successorJobList) {
-        this.successorJobList = successorJobList;
-        return this;
-    }
-
-    public ZonedDateTime getDeadline() {
-        return deadline;
-    }
-
-    public Job setDeadline(ZonedDateTime deadline) {
-        this.deadline = deadline;
-        return this;
-    }
-
-    public List<Integer> getDependencyTimelineIdList() {
-        return dependencyTimelineIdList;
-    }
-
-    public Job setDependencyTimelineIdList(List<Integer> dependencyTimelineIdList) {
-        this.dependencyTimelineIdList = dependencyTimelineIdList;
-        return this;
-    }
-
-    public Integer getGravity() {
-        return gravity;
-    }
-
-    public Job setGravity(Integer gravity) {
-        this.gravity = gravity;
-        return this;
-    }
-
-    public Integer getSplittable() {
-        return splittable;
-    }
-
-    public Job setSplittable(Integer splittable) {
-        this.splittable = splittable;
-        return this;
-    }
-
-    public Integer getMovable() {
-        return movable;
-    }
-
-    public Job setMovable(Integer movable) {
-        this.movable = movable;
-        return this;
-    }
-
-    public Integer getChangeable() {
-        return changeable;
-    }
-
-    public Job setChangeable(Integer changeable) {
-        this.changeable = changeable;
-        return this;
-    }
-
-    public ZonedDateTime getStartDate() {
-        return startDate;
-    }
-
-    public Job setStartDate(ZonedDateTime startDate) {
-        this.startDate = startDate;
+    public Job setTimelineProperty(TimelineProperty timelineProperty) {
+        this.timelineProperty = timelineProperty;
         return this;
     }
 }

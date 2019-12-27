@@ -4,6 +4,7 @@ import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.AllocationType;
+import bo.tc.tcplanner.domain.ExecutionModeType;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.fliptables.FlipTable;
@@ -109,9 +110,9 @@ public class Toolbox {
     public static void printTimelineBlock(TimelineBlock newTimelineBlock) {
         // Print Results
         for (TimelineEntry timelineEntry : newTimelineBlock.getTimelineEntryList()) {
-            String mandNote = (timelineEntry.getId() > 0) ? String.valueOf(timelineEntry.getRownum()) : "****";
-            System.err.println(mandNote + " " + timelineEntry.getStartTime() + "~"
-                    + ZonedDateTime.parse(timelineEntry.getStartTime())
+            String mandNote = (timelineEntry.getTimelineProperty().getTimelineid() > 0) ? String.valueOf(timelineEntry.getTimelineProperty().getRownum()) : "****";
+            System.err.println(mandNote + " " + timelineEntry.getChronoProperty().getStartTime() + "~"
+                    + ZonedDateTime.parse(timelineEntry.getChronoProperty().getStartTime())
                     .plusMinutes((long) timelineEntry.getHumanStateChange().getDuration())
                     + " : [" + timelineEntry.getTitle() + " ] "
                     + timelineEntry.getHumanStateChange().getCurrentLocation() + "->"
@@ -163,7 +164,9 @@ public class Toolbox {
                             formatter.format(
                                     allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
                     timeline.add(new String[]{
-                            (allocation.getJob().getRownum() == null || allocation.getJob().getRownum() < 0) ? "****" : String.valueOf(allocation.getJob().getRownum()),
+                            (allocation.getJob().getTimelineProperty().getRownum() == null ||
+                                    allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) ? "****" :
+                                    String.valueOf(allocation.getJob().getTimelineProperty().getRownum()),
                             String.valueOf(allocation.getProgressdelta()),
                             datetime,
                             LocalTime.MIN.plus(Duration.between(allocation.getStartDate(), allocation.getEndDate())).toString(),
@@ -171,10 +174,10 @@ public class Toolbox {
                                     "\nC:" + allocation.getExecutionMode().getCurrentLocation() +
                                     "\nM:" + allocation.getExecutionMode().getMovetoLocation()
                             ,
-                            allocation.getJob().getChangeable() + "C/" +
-                                    allocation.getJob().getMovable() + "M/" +
-                                    allocation.getJob().getSplittable() + "S/" +
-                                    ((allocation.getAllocationType() == AllocationType.Locked) ? 1 : 0) + "L",
+                            allocation.getExecutionMode().getChronoProperty().getChangeable() + "C/" +
+                                    allocation.getExecutionMode().getChronoProperty().getMovable() + "M/" +
+                                    allocation.getExecutionMode().getChronoProperty().getSplittable() + "S/" +
+                                    (allocation.getAllocationTypeSet().contains(AllocationType.Locked) ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ?
                                     hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()) : ""),
                             allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +

@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+<#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -30,7 +30,7 @@
 
 
 <#--    files-->
-    <#list ['TimelineBlockSolution'] as solution>
+    <#list ['TimelineBlockSolutionMixed'] as solution>
 <#--    numbers-->
     <#list [240] as acceptedCountLimit>
 <#--    <#list ['0.3'] as etabuRatio>-->
@@ -52,9 +52,11 @@
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
     <#list ['${(1-delayWeight)/2}'?number] as executionWeight>
 
-    <#list [0.15] as swapWeight>
-    <#list ['${(1-swapWeight)/2}'?number] as fineWeight>
-    <#list ['${(1-swapWeight)/2}'?number] as cartesianWeight>
+    <#list [0.10] as swapWeight>
+    <#list [0.10] as fineWeightRest>
+    <#list ['${(1-swapWeight)*fineWeightRest}'?number] as fineWeight>
+    <#list ['${(1-swapWeight)*(1-fineWeightRest)/2}'?number] as cartesianWeight>
+    <#list ['${(1-swapWeight)*(1-fineWeightRest)/2}'?number] as mergesplitWeight>
 
 
 <#--    Moves-->
@@ -62,12 +64,11 @@
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>'] as IndexFilter>
 
 <#--    Swap Moves-->
-    <#list ['<swapMoveSelector>
-                <fixedProbabilityWeight>${(progressWeight+executionWeight)*swapWeight}</fixedProbabilityWeight>
-                <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
-                <variableNameInclude>executionMode</variableNameInclude>
-                <variableNameInclude>progressdelta</variableNameInclude>
-            </swapMoveSelector>'] as swapMove>
+    <#list [
+            '<moveListFactory>
+                <fixedProbabilityWeight>${swapWeight}</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
+            </moveListFactory>'] as swapMove>
 
 <#--    cartesian Product Moves-->
     <#list ['<cartesianProductMoveSelector>
@@ -86,6 +87,7 @@
                     <valueSelector variableName="progressdelta"/>
                 </changeMoveSelector>
             </cartesianProductMoveSelector>'] as cartesianexecutionMode>
+
     <#list ['<cartesianProductMoveSelector>
             <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>
             <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
@@ -119,15 +121,10 @@
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>'] as progressdelta>
-    <#list ['<changeMoveSelector>
+    <#list ['<moveListFactory>
                 <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
-                <entitySelector>
-                    ${IndexFilter}
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
-                </entitySelector>
-                <valueSelector variableName="executionMode"/>
-            </changeMoveSelector>'] as executionMode>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>
+            </moveListFactory>'] as executionMode>
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${delayWeight*fineWeight/2}</fixedProbabilityWeight>
                 <entitySelector>
@@ -143,13 +140,26 @@
                 <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveFactory</moveListFactoryClass>
             </moveListFactory>'] as precisedelay>
 
+<#--        mergesplit-->
+    <#list ['<moveListFactory>
+            <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
+            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitExecutionMoveFactory</moveListFactoryClass>
+        </moveListFactory>'] as mergeMove>
+    <#list ['<moveListFactory>
+            <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
+            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeExecutionMoveFactory</moveListFactoryClass>
+        </moveListFactory>'] as splitMove>
+
     <#list ['${progressdelta}
             ${executionMode}
             ${delay}
             ${precisedelay}'] as fineMoves>
+    <#list ['${cartesianexecutionMode}'] as cartesianMoves>
+    <#list ['${mergeMove}
+            ${splitMove}'] as mergesplitMoves>
 
     <solverBenchmark>
-        <name>c${cartesiandelay?index}</name>
+        <name>a${acceptedCountLimit}s${fineWeightRest?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -161,9 +171,9 @@
             <localSearch>
                 <unionMoveSelector>
                     ${swapMove}
-                    ${cartesianexecutionMode}
-                    ${cartesiandelay}
                     ${fineMoves}
+                    ${cartesianMoves}
+                    ${mergesplitMoves}
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>
@@ -181,6 +191,12 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
+    </#list>
+    </#list>
+    </#list>
+    </#list>
+    </#list>
     </#list>
     </#list>
     </#list>

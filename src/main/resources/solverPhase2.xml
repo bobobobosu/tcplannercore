@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <solver>
     <environmentMode>NON_REPRODUCIBLE</environmentMode>
     <moveThreadCount>AUTO</moveThreadCount>
@@ -8,20 +7,45 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-        <unimprovedSecondsSpentLimit>60</unimprovedSecondsSpentLimit>
-<!--        <millisecondsSpentLimit>80000</millisecondsSpentLimit>-->
+        <!--        <millisecondsSpentLimit>600</millisecondsSpentLimit>-->
+        <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>
 <!--        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
     </termination>
     <localSearch>
         <unionMoveSelector>
-            <swapMoveSelector>
-                <filterClass>bo.tc.tcplanner.domain.solver.filters.DummySwapMoveFilter</filterClass>
-                <fixedProbabilityWeight>2.0</fixedProbabilityWeight>
-                <variableNameInclude>executionMode</variableNameInclude>
-                <variableNameInclude>progressdelta</variableNameInclude>
-            </swapMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.1</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
+            </moveListFactory>
+            <changeMoveSelector>
+                <fixedProbabilityWeight>0.0405</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="progressdelta"/>
+            </changeMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.0405</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>
+            </moveListFactory>
+            <changeMoveSelector>
+                <fixedProbabilityWeight>0.0045</fixedProbabilityWeight>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="delay"/>
+            </changeMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.0045</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveFactory</moveListFactoryClass>
+            </moveListFactory>
             <cartesianProductMoveSelector>
-                <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
+                <fixedProbabilityWeight>0.3645</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
@@ -36,33 +60,14 @@
                 </changeMoveSelector>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
             </cartesianProductMoveSelector>
-            <changeMoveSelector>
-                <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
-                </entitySelector>
-                <valueSelector variableName="progressdelta"/>
-            </changeMoveSelector>
-            <changeMoveSelector>
-                <fixedProbabilityWeight>46.0</fixedProbabilityWeight>
-                <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
-                </entitySelector>
-                <valueSelector variableName="executionMode"/>
-            </changeMoveSelector>
-            <changeMoveSelector>
-                <fixedProbabilityWeight>2.0</fixedProbabilityWeight>
-                <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>
-                </entitySelector>
-                <valueSelector variableName="delay"/>
-            </changeMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.2025</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitExecutionMoveFactory</moveListFactoryClass>
+            </moveListFactory>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.2025</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeExecutionMoveFactory</moveListFactoryClass>
+            </moveListFactory>
         </unionMoveSelector>
         <acceptor>
             <moveTabuSize>1</moveTabuSize>

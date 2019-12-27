@@ -13,7 +13,7 @@ import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dumm
 
 public class ListenerTools {
     public static void updatePlanningDuration(Allocation allocation) {
-        allocation.setPlannedDuration(allocation.getExecutionMode().getTimeduration().multipliedBy(allocation.getProgressdelta() / 100));
+        allocation.setPlannedDuration(allocation.getExecutionMode().getTimeduration().multipliedBy(allocation.getProgressdelta()).dividedBy(100));
     }
 
     public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
@@ -51,7 +51,7 @@ public class ListenerTools {
                 thisallocation.getResourceElementMap().put(resource.getKey(), new ResourceElement().setAmt(0));
             }
             double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
-            double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
+            double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta().doubleValue() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
             double appliedAmt = resourceAbsAmt + resourceDeltaAmt;
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
             double capped = appliedAmt > capacity ? resourceAbsAmt : appliedAmt;
