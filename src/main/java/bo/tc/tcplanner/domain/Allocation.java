@@ -287,14 +287,21 @@ public class Allocation extends AbstractPersistable {
         return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
     }
 
-    public Map<String, Double> getResourceElementMapSimple() {
-        Map<String, Double> result =  executionMode.getResourceStateChange().getResourceChange().entrySet()
-                .stream()
-                .collect(Collectors.toMap(
+    public Map<String, Double> getResourceElementMapDeficit() {
+        return resourceElementMap.entrySet().stream().collect(
+                Collectors.toMap(
                         Map.Entry::getKey,
-                        x -> resourceElementMap.get(x.getKey()).stream().mapToDouble(ResourceElement::getAmt).sum()
-                ));
-        return result;
+                        x -> x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()));
+    }
+
+    public Map<String, Double> getResourceElementMapExcess() {
+        return resourceElementMap.entrySet().stream().collect(
+                Collectors.toMap(
+                        Map.Entry::getKey,
+                        x -> Math.min(0,
+                                job.getProject().getSchedule().getValueEntryMap().get(x.getKey()).getCapacity() -
+                                        x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()
+                        )));
     }
 
     public long getTimeRestrictionScore() {

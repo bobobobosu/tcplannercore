@@ -2,6 +2,9 @@ package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.domain.Allocation;
+import org.kie.api.definition.rule.All;
+
+import java.util.*;
 
 public class NonDummyAllocationIterator {
     public static Allocation getNext(Allocation allocation) {
@@ -21,6 +24,26 @@ public class NonDummyAllocationIterator {
             }
         }
         return nextAllocation;
+    }
+
+
+    static List<Allocation> getAllNext(Allocation allocation) {
+        Allocation thisAllocation = allocation;
+        List<Allocation> allocationList = new LinkedList<>();
+        while ((thisAllocation = getNext(thisAllocation)) != null) {
+            allocationList.add(thisAllocation);
+        }
+        return allocationList;
+    }
+
+    public static List<Allocation> getAllNextIncludeThis(Allocation allocation) {
+        List<Allocation> allocationList = getAllNext(allocation);
+        allocationList.add(0, allocation);
+        return allocationList;
+    }
+
+    public static List<Allocation> getAllFocused(Allocation allocation){
+        return getAllNextIncludeThis(allocation.getSourceAllocation());
     }
 
     static Allocation getPrev(Allocation allocation) {

@@ -178,12 +178,15 @@ public class DataStructureBuilder {
         for (Allocation allocation : allocationList) {
             allocation.setResourceElementMap(null);
         }
-        sourceAllocation.setResourceElementMap(new HashMap<>());
-        prevAllocation = sourceAllocation;
-        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
-            updateAllocationResourceStateChange(thisAllocation, prevAllocation);
-            prevAllocation = thisAllocation;
-        }
+
+        updateAllocationResourceStateChange(NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation));
+        List<Allocation> hgfv= NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation);
+//        sourceAllocation.setResourceElementMap(new HashMap<>());
+//        prevAllocation = sourceAllocation;
+//        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
+//            updateAllocationResourceStateChange(thisAllocation, prevAllocation);
+//            prevAllocation = thisAllocation;
+//        }
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {

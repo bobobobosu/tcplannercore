@@ -3,6 +3,7 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class ResourceElement extends AbstractPersistable {
     //if amt<0, location is requirement
     //if amt>0, location is availability
     String location;
+    List<Integer> priorityTimelineIdList = new ArrayList<>();
 
     public ResourceElement() {
     }
@@ -68,5 +70,13 @@ public class ResourceElement extends AbstractPersistable {
     @Override
     public int hashCode() {
         return 0;
+    }
+
+    public List<Integer> getPriorityTimelineIdList() {
+        return priorityTimelineIdList;
+    }
+
+    public void setPriorityTimelineIdList(List<Integer> priorityTimelineIdList) {
+        this.priorityTimelineIdList = priorityTimelineIdList;
     }
 }
