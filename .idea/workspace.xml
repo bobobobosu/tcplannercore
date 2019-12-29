@@ -8,22 +8,13 @@
   <component name="ChangeListManager">
     <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Columns.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Data.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PlanningDurationVariableListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseExecutionMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseExecutionMoveFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Columns.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Data.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/AcceptableExecutionModeFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/ExecutionMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/ExecutionMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/ExecutionMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/ExecutionMode.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -365,7 +356,8 @@
       <workItem from="1576647001829" duration="4293000" />
       <workItem from="1576748780888" duration="1120000" />
       <workItem from="1577139917411" duration="64996000" />
-      <workItem from="1577311695729" duration="84411000" />
+      <workItem from="1577311695729" duration="86193000" />
+      <workItem from="1577570304223" duration="599000" />
     </task>
     <task id="LOCAL-00001" summary="Add benchmark">
       <created>1573965651431</created>
@@ -493,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577420668765</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Optimized Parameters">
+      <created>1577431244570</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1577431244570</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +541,8 @@
     <MESSAGE value="Optimized Delay probability weight, add cartesian delay move" />
     <MESSAGE value="Add Precise Delay Move and optimized solver config" />
     <MESSAGE value="Add Merge, Split, Swap, Set Value and custom ExecutionModeChange Moves&#10;Benchmarked and Tweaked solver config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Merge, Split, Swap, Set Value and custom ExecutionModeChange Moves&#10;Benchmarked and Tweaked solver config" />
+    <MESSAGE value="Optimized Parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimized Parameters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

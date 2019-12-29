@@ -53,7 +53,6 @@ public class ExecutionMode extends AbstractPersistable {
         //Set Basic Information
         this.setJob(job);
         this.setId(listOfExecutionMode.size());
-        this.setExecutionModeIndex(job.getExecutionModeList().size());
 
         //Initialize
         resourceStateChange = new ResourceStateChange();

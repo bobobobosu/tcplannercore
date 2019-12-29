@@ -211,6 +211,7 @@ public class DataStructureBuilder {
                             .setResourceStateChange(valueEntry.getValue().getResourceStateChangeList().get(i))
                             .setProgressChange(valueEntry.getValue().getProgressChangeList().get(i))
                             .setChronoProperty(valueEntry.getValue().getChronoProperty())
+                            .setExecutionModeIndex(i)
                             .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE));
                 }
             }
@@ -239,6 +240,7 @@ public class DataStructureBuilder {
                     .setResourceStateChange(timelineEntry.getResourceStateChange())
                     .setProgressChange(timelineEntry.getProgressChange())
                     .setChronoProperty(new ChronoProperty(timelineEntry.getChronoProperty()))
+                    .setExecutionModeIndex(0)
                     .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.OLD, ExecutionModeType.UNUSABLE));
 
             thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
@@ -251,6 +253,7 @@ public class DataStructureBuilder {
                     .setChronoProperty(new ChronoProperty(timelineEntry.getChronoProperty())
                             .setMovable(1)
                             .setChangeable(1))
+                    .setExecutionModeIndex(0)
                     .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE));
 
             stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
