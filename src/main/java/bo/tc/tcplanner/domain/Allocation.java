@@ -66,7 +66,7 @@ public class Allocation extends AbstractPersistable {
     private ZonedDateTime predecessorsDoneDate;
     private String previousStandstill;
     private Duration plannedDuration;
-    private Map<String, ResourceElement> resourceElementMap;
+    private Map<String, List<ResourceElement>> resourceElementMap;
     // Ranges
     private List<ExecutionMode> executionModeList = null;
 
@@ -234,11 +234,11 @@ public class Allocation extends AbstractPersistable {
             @PlanningVariableReference(variableName = "executionMode"),
             @PlanningVariableReference(variableName = "delay"),
             @PlanningVariableReference(variableName = "progressdelta")})
-    public Map<String, ResourceElement> getResourceElementMap() {
+    public Map<String, List<ResourceElement>> getResourceElementMap() {
         return resourceElementMap;
     }
 
-    public void setResourceElementMap(Map<String, ResourceElement> resourceElementMap) {
+    public void setResourceElementMap(Map<String, List<ResourceElement>> resourceElementMap) {
         this.resourceElementMap = resourceElementMap;
     }
 
@@ -285,6 +285,16 @@ public class Allocation extends AbstractPersistable {
             return null;
         }
         return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
+    }
+
+    public Map<String, Double> getResourceElementMapSimple() {
+        Map<String, Double> result =  executionMode.getResourceStateChange().getResourceChange().entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        x -> resourceElementMap.get(x.getKey()).stream().mapToDouble(ResourceElement::getAmt).sum()
+                ));
+        return result;
     }
 
     public long getTimeRestrictionScore() {

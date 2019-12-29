@@ -11,36 +11,26 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u7f8e\u91d1USD": [
-            {
-              "amt": 100000.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": 1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": 2.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": 10.0,
-              "location": ""
-            }
-          ],
-          "r.Calories Consumption": [
-            {
-              "amt": 300.0,
-              "location": ""
-            }
-          ]
+          "r.\u7f8e\u91d1USD": {
+            "amt": 100000.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": 1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 2.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": 10.0,
+            "location": ""
+          },
+          "r.Calories Consumption": {
+            "amt": 300.0,
+            "location": ""
+          }
         },
         "mode": "absolute"
       },
@@ -72,12 +62,10 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.meal": [
-            {
-              "amt": 1.0,
-              "location": ""
-            }
-          ]
+          "r.meal": {
+            "amt": 1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -139,12 +127,10 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": 7.0,
-              "location": ""
-            }
-          ]
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": 7.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -176,30 +162,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -233,12 +211,10 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.meal": [
-            {
-              "amt": 1.0,
-              "location": ""
-            }
-          ]
+          "r.meal": {
+            "amt": 1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -270,30 +246,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -358,30 +326,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -417,30 +377,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -475,30 +427,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -533,48 +477,34 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Verizon Sean Payment": [
-            {
-              "amt": -1.0,
-              "location": "[Home]"
-            }
-          ],
-          "r.Rent Payment": [
-            {
-              "amt": -1.0,
-              "location": "[Home]"
-            }
-          ],
-          "r.BOA Credit Card Payment": [
-            {
-              "amt": -1.0,
-              "location": "[Home]"
-            }
-          ],
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Verizon Sean Payment": {
+            "amt": -1.0,
+            "location": "[Home]"
+          },
+          "r.Rent Payment": {
+            "amt": -1.0,
+            "location": "[Home]"
+          },
+          "r.BOA Credit Card Payment": {
+            "amt": -1.0,
+            "location": "[Home]"
+          },
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -609,30 +539,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -667,30 +589,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -725,30 +639,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -783,30 +689,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -840,30 +738,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },
@@ -895,30 +785,22 @@
       },
       "resourceStateChange": {
         "resourceChange": {
-          "r.Calories Consumption": [
-            {
-              "amt": -100.0,
-              "location": ""
-            }
-          ],
-          "r.meal": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.Clean Room": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ],
-          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": [
-            {
-              "amt": -1.0,
-              "location": ""
-            }
-          ]
+          "r.Calories Consumption": {
+            "amt": -100.0,
+            "location": ""
+          },
+          "r.meal": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.Clean Room": {
+            "amt": -1.0,
+            "location": ""
+          },
+          "r.\u4e00\u5957\u4e7e\u6de8\u8863\u8932": {
+            "amt": -1.0,
+            "location": ""
+          }
         },
         "mode": "delta"
       },

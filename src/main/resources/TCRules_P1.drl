@@ -76,11 +76,9 @@ rule "checkRequirements"
     when
         $allocation : Allocation(job != DataStructureBuilder.dummyJob,$executionMode : executionMode,
                                     $index : index,
-                                    $resourceChange_delta : executionMode.resourceStateChange.resourceChange,
-                                    $resourceChange_abs : resourceElementMap,
+                                    $resourceChange_abs : resourceElementMapSimple,
                                     $jobType : executionMode.job.jobType)
-        Map.Entry($deltak:key, $deltav:value, $req : value#ResourceElement.amt) from $resourceChange_delta.entrySet
-        Map.Entry(key == $deltak, $net : value#ResourceElement.amt) from $resourceChange_abs.entrySet
+        Map.Entry($net : value#Double) from $resourceChange_abs.entrySet
 
         eval($net<-0.001)
     then

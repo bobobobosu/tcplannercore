@@ -5,8 +5,8 @@ import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
@@ -46,30 +46,55 @@ public class ListenerTools {
     public static void updateAllocationResourceStateChange(Allocation thisallocation, Allocation prevAllocation) {
         thisallocation.setResourceElementMap(deepCloneResourceMap(prevAllocation.getResourceElementMap()));
 
-        for (Map.Entry<String, ResourceElement> resource : thisallocation.getExecutionMode().getResourceStateChange().getResourceChange().entrySet()) {
+        for (Map.Entry<String, List<ResourceElement>> resource : thisallocation.getExecutionMode().getResourceStateChange().getResourceChange().entrySet()) {
             if (!thisallocation.getResourceElementMap().containsKey(resource.getKey())) {
-                thisallocation.getResourceElementMap().put(resource.getKey(), new ResourceElement().setAmt(0));
+                thisallocation.getResourceElementMap().put(resource.getKey(), new ArrayList<>());
             }
-            double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey()).getAmt();
-            double resourceDeltaAmt = resource.getValue().getAmt() * (thisallocation.getProgressdelta().doubleValue() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
+            double resourceAbsAmt = thisallocation.getResourceElementMap().get(resource.getKey())
+                    .stream()
+                    .mapToDouble(ResourceElement::getAmt)
+                    .sum();
+            double resourceDeltaAmt = resource.getValue()
+                    .stream()
+                    .mapToDouble(ResourceElement::getAmt)
+                    .sum() * (thisallocation.getProgressdelta().doubleValue() / (100 * thisallocation.getExecutionMode().getProgressChange().getProgressDelta()));
             double appliedAmt = resourceAbsAmt + resourceDeltaAmt;
             double capacity = thisallocation.getProject().getSchedule().getValueEntryMap().get(resource.getKey()).getCapacity();
             double capped = appliedAmt > capacity ? resourceAbsAmt : appliedAmt;
-            if (capped == 0) {
-                thisallocation.getResourceElementMap().remove(resource.getKey());
-            } else {
-                thisallocation.getResourceElementMap().get(resource.getKey()).setAmt(capped);
-            }
+            thisallocation.getResourceElementMap().put(resource.getKey(),
+                    capacity != 0 ?
+                            Arrays.asList(new ResourceElement().setAmt(capped)) :
+                            new ArrayList<>());
 
         }
 
     }
 
 
-    private static Map<String, ResourceElement> deepCloneResourceMap(Map<String, ResourceElement> resourceElementMap) {
-        Map<String, ResourceElement> newMap = new HashMap<>();
-        for (Map.Entry<String, ResourceElement> resource : resourceElementMap.entrySet()) {
-            newMap.put(resource.getKey(), new ResourceElement(resource.getValue()));
+
+    public static void resourcePullFromList(
+            ResourceElement resourceElement,
+            List<ResourceElement> resourceElementList) {
+
+
+
+    }
+
+    public static boolean isPullable(ResourceElement resourceReq, ResourceElement resourceElementPro) {
+        return true;
+    }
+
+
+    private static Map<String, List<ResourceElement>> deepCloneResourceMap(Map<String, List<ResourceElement>> resourceElementMap) {
+        Map<String, List<ResourceElement>> newMap = new HashMap<>();
+        for (Map.Entry<String, List<ResourceElement>> resource : resourceElementMap.entrySet()) {
+            newMap.put(resource.getKey(), resource.getValue()
+                    .stream().map(x -> new ResourceElement()
+                            .setAmt(x.getAmt())
+                            .setLocation(x.getLocation())
+                            .setVolatileFlag(x.isVolatileFlag()))
+                    .collect(Collectors.toList())
+            );
         }
         return newMap;
     }

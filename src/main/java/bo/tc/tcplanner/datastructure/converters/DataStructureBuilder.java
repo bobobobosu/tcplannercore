@@ -10,10 +10,7 @@ import com.google.common.collect.TreeRangeSet;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
@@ -138,7 +135,7 @@ public class DataStructureBuilder {
             if (allocation.getJob().getJobType() == JobType.SCHEDULED && isNotChangeable(allocation)) {
                 if (allocation.getJob().getTimelineProperty().getRownum() != null) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
-                            allocation.getJob().getId().toString(), new ResourceElement(-100, dummyLocation));
+                            allocation.getJob().getId().toString(), Arrays.asList(new ResourceElement(-100, dummyLocation)));
                 }
             }
         }
@@ -227,8 +224,12 @@ public class DataStructureBuilder {
             if (timelineEntry.getTimelineProperty().getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
-            ResourceElement resourceElement = new ResourceElement().setAmt(100).setLocation(dummyLocation);
-            resourceElement.setVolatileFlag(true);
+            List<ResourceElement> resourceElements = Arrays.asList(
+                    new ResourceElement()
+                            .setAmt(100)
+                            .setLocation(dummyLocation)
+                            .setVolatileFlag(true));
+
 
             // Add timeline jobs SCHEDULED
             Job mandJob = new Job(timelineEntry.getTitle(), JobType.SCHEDULED, listOfJobs, defaultProject)
@@ -243,7 +244,7 @@ public class DataStructureBuilder {
                     .setExecutionModeIndex(0)
                     .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.OLD, ExecutionModeType.UNUSABLE));
 
-            thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
+            thisExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElements);
             timelineEntryExecutionModeMap.put(timelineEntry, thisExecutionMode);
 
             ExecutionMode stdExecutionMode = new ExecutionMode(listOfExecutionMode, mandJob)
@@ -256,7 +257,7 @@ public class DataStructureBuilder {
                     .setExecutionModeIndex(0)
                     .setExecutionModeTypes(Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE));
 
-            stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElement);
+            stdExecutionMode.getResourceStateChange().getResourceChange().put(mandJob.getId().toString(), resourceElements);
 
             // Add ValueEntry to Map
             ValueEntry timelineValueEntry = new ValueEntry().setCapacity(100d).setClassification("task");

@@ -3069,3 +3069,680 @@ Status: null 26-12 23:55 [0/-1800/0/0/0]hard/[-200/-5200/0/0]soft
 
 23:55:35.979 [Thread-1] INFO  
 Status: null 26-12 23:55 [0/-1800/0/0/0]hard/[-200/-5200/0/0]soft
+21:06:13.903 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:06:13.905 [main] INFO  ================================================================================
+21:06:13.905 [main] INFO  Warm up started
+21:06:13.905 [main] INFO  ================================================================================
+21:06:15.297 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalArgumentException: The problem (null) must not be null.
+	at org.optaplanner.core.impl.solver.DefaultSolver.solve(DefaultSolver.java:182)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:109)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:06:15.298 [main] INFO  ================================================================================
+21:06:15.298 [main] INFO  Warm up ended
+21:06:15.298 [main] INFO  ================================================================================
+21:06:15.437 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalArgumentException: The problem (null) must not be null.
+	at org.optaplanner.core.impl.solver.DefaultSolver.solve(DefaultSolver.java:182)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:109)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:06:15.471 [main] INFO  Generating benchmark report...
+21:15:22.855 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:15:22.857 [main] INFO  ================================================================================
+21:15:22.857 [main] INFO  Warm up started
+21:15:22.857 [main] INFO  ================================================================================
+21:15:22.886 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.NullPointerException: null
+	at java.base/java.util.HashMap.putMapEntries(HashMap.java:496)
+	at java.base/java.util.HashMap.putAll(HashMap.java:785)
+	at bo.tc.tcplanner.datastructure.ValueEntryMap.<init>(ValueEntryMap.java:8)
+	at bo.tc.tcplanner.app.SolverThread.initializeData(SolverThread.java:47)
+	at bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO.read(ScheduleFileIO.java:28)
+	at org.optaplanner.benchmark.impl.loader.FileProblemProvider.readProblem(FileProblemProvider.java:55)
+	at org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult.readProblem(ProblemBenchmarkResult.java:302)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:86)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:15:22.900 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.NullPointerException: null
+	at java.base/java.util.HashMap.putMapEntries(HashMap.java:496)
+	at java.base/java.util.HashMap.putAll(HashMap.java:785)
+	at bo.tc.tcplanner.datastructure.ValueEntryMap.<init>(ValueEntryMap.java:8)
+	at bo.tc.tcplanner.app.SolverThread.initializeData(SolverThread.java:47)
+	at bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO.read(ScheduleFileIO.java:28)
+	at org.optaplanner.benchmark.impl.loader.FileProblemProvider.readProblem(FileProblemProvider.java:55)
+	at org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult.readProblem(ProblemBenchmarkResult.java:302)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:86)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:15:22.901 [main] INFO  ================================================================================
+21:15:22.901 [main] INFO  Warm up ended
+21:15:22.901 [main] INFO  ================================================================================
+21:15:22.911 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.NullPointerException: null
+	at java.base/java.util.HashMap.putMapEntries(HashMap.java:496)
+	at java.base/java.util.HashMap.putAll(HashMap.java:785)
+	at bo.tc.tcplanner.datastructure.ValueEntryMap.<init>(ValueEntryMap.java:8)
+	at bo.tc.tcplanner.app.SolverThread.initializeData(SolverThread.java:47)
+	at bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO.read(ScheduleFileIO.java:28)
+	at org.optaplanner.benchmark.impl.loader.FileProblemProvider.readProblem(FileProblemProvider.java:55)
+	at org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult.readProblem(ProblemBenchmarkResult.java:302)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:86)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:15:22.940 [main] INFO  Generating benchmark report...
+21:15:23.779 [main] INFO  Benchmarking failed: time spent (59), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_211522\index.html).
+21:20:31.549 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:20:31.552 [main] INFO  ================================================================================
+21:20:31.552 [main] INFO  Warm up started
+21:20:31.552 [main] INFO  ================================================================================
+21:20:31.877 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.NullPointerException: null
+	at bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange(ListenerTools.java:71)
+	at bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.constructChainProperty(DataStructureBuilder.java:184)
+	at bo.tc.tcplanner.app.SolverThread.initializeData(SolverThread.java:53)
+	at bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO.read(ScheduleFileIO.java:28)
+	at org.optaplanner.benchmark.impl.loader.FileProblemProvider.readProblem(FileProblemProvider.java:55)
+	at org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult.readProblem(ProblemBenchmarkResult.java:302)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:86)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:20:31.877 [main] INFO  ================================================================================
+21:20:31.877 [main] INFO  Warm up ended
+21:20:31.877 [main] INFO  ================================================================================
+21:20:32.051 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.NullPointerException: null
+	at bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange(ListenerTools.java:71)
+	at bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.constructChainProperty(DataStructureBuilder.java:184)
+	at bo.tc.tcplanner.app.SolverThread.initializeData(SolverThread.java:53)
+	at bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO.read(ScheduleFileIO.java:28)
+	at org.optaplanner.benchmark.impl.loader.FileProblemProvider.readProblem(FileProblemProvider.java:55)
+	at org.optaplanner.benchmark.impl.result.ProblemBenchmarkResult.readProblem(ProblemBenchmarkResult.java:302)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:86)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:20:32.069 [main] INFO  Generating benchmark report...
+21:20:32.935 [main] INFO  Benchmarking failed: time spent (505), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_212031\index.html).
+21:22:09.738 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:22:09.740 [main] INFO  ================================================================================
+21:22:09.740 [main] INFO  Warm up started
+21:22:09.740 [main] INFO  ================================================================================
+21:22:11.185 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (149), best score ([-3168/-3168/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:22:11.187 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (151), best score ([-3168/-3168/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (6/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:22:11.192 [main] INFO  ================================================================================
+21:22:11.193 [main] INFO  Warm up ended
+21:22:11.193 [main] INFO  ================================================================================
+21:22:11.546 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (26), best score ([-3168/-3168/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:22:11.585 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:11.587 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:11.589 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:11.590 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:11.591 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:11.592 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.381 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (2861), score ([-30/-30/0/0/0]hard/[-200/-2900/0/0]soft), new best score ([-30/-30/0/0/0]hard/[-200/-2900/0/0]soft), accepted/selected move count (240/12563), picked move (148-t.TC Maintenance {100 -> 12}).
+21:22:14.387 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.388 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.388 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.389 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.389 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:14.390 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:22:16.759 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (5239), score ([0/0/0/0/0]hard/[-200/-2900/0/0]soft), new best score ([0/0/0/0/0]hard/[-200/-2900/0/0]soft), accepted/selected move count (240/16715), picked move (463-t.瑣事 {100 -> 13}).
+21:22:16.760 [OptaPool-2-BenchmarkThread-1] INFO  Local Search phase (0) ended: time spent (5240), best score ([0/0/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (5623/sec), step total (2).
+21:22:16.760 [OptaPool-2-BenchmarkThread-1] INFO  Solving ended: time spent (5240), best score ([0/0/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (5594/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:22:16.780 [main] INFO  Generating benchmark report...
+21:22:20.033 [main] INFO  Benchmarking ended: time spent (7033), favoriteSolverBenchmark (a0), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_212209\index.html).
+21:28:55.971 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:28:55.973 [main] INFO  ================================================================================
+21:28:55.973 [main] INFO  Warm up started
+21:28:55.973 [main] INFO  ================================================================================
+21:28:56.932 [OptaPool-1-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Unable to Analyse Expression $timerestrictionscore < -0.01:
+[Error: unable to resolve method using strict-mode: bo.tc.tcplanner.domain.Allocation.$timerestrictionscore()]
+[Near : {... $timerestrictionscore < -0.01 ....}]
+             ^
+[Line: 95, Column: 8] : [Rule name='resourceRestriction']
+
+
+21:28:56.934 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=95, column=0
+   text=Unable to Analyse Expression $timerestrictionscore < -0.01:
+[Error: unable to resolve method using strict-mode: bo.tc.tcplanner.domain.Allocation.$timerestrictionscore()]
+[Near : {... $timerestrictionscore < -0.01 ....}]
+             ^
+[Line: 95, Column: 8]]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:28:56.935 [main] INFO  ================================================================================
+21:28:56.935 [main] INFO  Warm up ended
+21:28:56.935 [main] INFO  ================================================================================
+21:28:57.245 [OptaPool-2-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Unable to Analyse Expression $timerestrictionscore < -0.01:
+[Error: unable to resolve method using strict-mode: bo.tc.tcplanner.domain.Allocation.$timerestrictionscore()]
+[Near : {... $timerestrictionscore < -0.01 ....}]
+             ^
+[Line: 95, Column: 8] : [Rule name='resourceRestriction']
+
+
+21:28:57.246 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=95, column=0
+   text=Unable to Analyse Expression $timerestrictionscore < -0.01:
+[Error: unable to resolve method using strict-mode: bo.tc.tcplanner.domain.Allocation.$timerestrictionscore()]
+[Near : {... $timerestrictionscore < -0.01 ....}]
+             ^
+[Line: 95, Column: 8]]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:28:57.267 [main] INFO  Generating benchmark report...
+21:28:58.089 [main] INFO  Benchmarking failed: time spent (1278), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_212855\index.html).
+21:29:11.698 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:29:11.701 [main] INFO  ================================================================================
+21:29:11.701 [main] INFO  Warm up started
+21:29:11.701 [main] INFO  ================================================================================
+21:29:13.187 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (129), best score ([-3168/-1379668/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:29:13.189 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (131), best score ([-3168/-1379668/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (7/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:29:13.197 [main] INFO  ================================================================================
+21:29:13.198 [main] INFO  Warm up ended
+21:29:13.198 [main] INFO  ================================================================================
+21:29:13.566 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (30), best score ([-3168/-1379668/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:29:13.622 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:13.624 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:13.627 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:13.629 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:13.632 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:13.634 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.294 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (3758), score ([-30/-1384130/0/0/0]hard/[-200/-2900/0/0]soft), new best score ([-30/-1384130/0/0/0]hard/[-200/-2900/0/0]soft), accepted/selected move count (240/10323), picked move (148-t.TC Maintenance {100 -> 24}).
+21:29:17.301 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.302 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.302 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.303 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.303 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:17.303 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:29:20.427 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (6891), score ([0/-1384100/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([0/-1384100/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/12160), picked move ({463-t.瑣事} ->  {463-t.瑣事 + 159-dummyJob}).
+21:30:08.952 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:30:08.955 [main] INFO  ================================================================================
+21:30:08.956 [main] INFO  Warm up started
+21:30:08.956 [main] INFO  ================================================================================
+21:30:10.427 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (122), best score ([-1379668/-2664368/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:30:10.429 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (124), best score ([-1379668/-2664368/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (8/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:30:10.436 [main] INFO  ================================================================================
+21:30:10.436 [main] INFO  Warm up ended
+21:30:10.437 [main] INFO  ================================================================================
+21:30:10.786 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+org.kie.api.runtime.rule.ConsequenceException: Exception executing consequence for rule "resourceRestriction" in defaultpkg: java.lang.IllegalStateException: The constraintMatchTotal (defaultpkg/resourceRestriction=[-91800/-91800/0/0/0]hard/[0/0/0/0]soft) could not add constraintMatch (defaultpkg/resourceRestriction/[568-sinkJob]=[-91800/0/0/0/0]hard/[0/0/0/0]soft) to its constraintMatchSet ([defaultpkg/resourceRestriction/[568-sinkJob]=[0/-91800/0/0/0]hard/[0/0/0/0]soft]).
+	at org.drools.core.runtime.rule.impl.DefaultConsequenceExceptionHandler.handleException(DefaultConsequenceExceptionHandler.java:39)
+	at org.drools.core.common.DefaultAgenda.handleException(DefaultAgenda.java:1291)
+	at org.drools.core.phreak.RuleExecutor.innerFireActivation(RuleExecutor.java:438)
+	at org.drools.core.phreak.RuleExecutor.fireActivation(RuleExecutor.java:380)
+	at org.drools.core.phreak.RuleExecutor.fire(RuleExecutor.java:136)
+	at org.drools.core.phreak.RuleExecutor.evaluateNetworkAndFire(RuleExecutor.java:89)
+	at org.drools.core.concurrent.AbstractRuleEvaluator.internalEvaluateAndFire(AbstractRuleEvaluator.java:33)
+	at org.drools.core.concurrent.SequentialRuleEvaluator.evaluateAndFire(SequentialRuleEvaluator.java:43)
+	at org.drools.core.common.DefaultAgenda.fireLoop(DefaultAgenda.java:1101)
+	at org.drools.core.common.DefaultAgenda.internalFireAllRules(DefaultAgenda.java:1048)
+	at org.drools.core.common.DefaultAgenda.fireAllRules(DefaultAgenda.java:1040)
+	at org.drools.core.impl.StatefulKnowledgeSessionImpl.internalFireAllRules(StatefulKnowledgeSessionImpl.java:1337)
+	at org.drools.core.impl.StatefulKnowledgeSessionImpl.fireAllRules(StatefulKnowledgeSessionImpl.java:1328)
+	at org.drools.core.impl.StatefulKnowledgeSessionImpl.fireAllRules(StatefulKnowledgeSessionImpl.java:1312)
+	at org.optaplanner.core.impl.score.director.drools.DroolsScoreDirector.calculateScore(DroolsScoreDirector.java:102)
+	at org.optaplanner.core.impl.solver.recaller.BestSolutionRecaller.solvingStarted(BestSolutionRecaller.java:69)
+	at org.optaplanner.core.impl.solver.AbstractSolver.solvingStarted(AbstractSolver.java:80)
+	at org.optaplanner.core.impl.solver.DefaultSolver.solvingStarted(DefaultSolver.java:208)
+	at org.optaplanner.core.impl.solver.DefaultSolver.solve(DefaultSolver.java:188)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:109)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+Caused by: java.lang.IllegalStateException: The constraintMatchTotal (defaultpkg/resourceRestriction=[-91800/-91800/0/0/0]hard/[0/0/0/0]soft) could not add constraintMatch (defaultpkg/resourceRestriction/[568-sinkJob]=[-91800/0/0/0/0]hard/[0/0/0/0]soft) to its constraintMatchSet ([defaultpkg/resourceRestriction/[568-sinkJob]=[0/-91800/0/0/0]hard/[0/0/0/0]soft]).
+	at org.optaplanner.core.api.score.constraint.ConstraintMatchTotal.addConstraintMatch(ConstraintMatchTotal.java:141)
+	at org.optaplanner.core.api.score.holder.AbstractScoreHolder.registerConstraintMatch(AbstractScoreHolder.java:132)
+	at org.optaplanner.core.api.score.buildin.bendable.BendableScoreHolder.addMultiConstraintMatch(BendableScoreHolder.java:297)
+	at defaultpkg.Rule_resourceRestriction619925186.defaultConsequence(Rule_resourceRestriction619925186.java:8)
+	at defaultpkg.Rule_resourceRestriction619925186DefaultConsequenceInvokerGenerated.evaluate(Unknown Source)
+	at defaultpkg.Rule_resourceRestriction619925186DefaultConsequenceInvoker.evaluate(Unknown Source)
+	at org.drools.core.phreak.RuleExecutor.innerFireActivation(RuleExecutor.java:431)
+	... 22 common frames omitted
+21:30:10.801 [main] INFO  Generating benchmark report...
+21:30:11.362 [main] INFO  Benchmarking failed: time spent (1840), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_213008\index.html).
+21:30:25.475 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:30:25.477 [main] INFO  ================================================================================
+21:30:25.477 [main] INFO  Warm up started
+21:30:25.477 [main] INFO  ================================================================================
+21:30:26.959 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (128), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:30:26.961 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (130), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (7/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:30:26.967 [main] INFO  ================================================================================
+21:30:26.968 [main] INFO  Warm up ended
+21:30:26.968 [main] INFO  ================================================================================
+21:30:27.346 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (29), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:30:27.393 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:27.394 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:27.395 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:27.396 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:27.397 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:27.398 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:30:28.954 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (1637), score ([-838268/-776768/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([-838268/-776768/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/2965), picked move ([184-dummyJob {dummyJob -> 存取權歸零}, 184-dummyJob {10 -> 100}]).
+21:30:29.683 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (2366), score ([-389068/-356868/0/0/0]hard/[-200/-3100/0/0]soft), new best score ([-389068/-356868/0/0/0]hard/[-200/-3100/0/0]soft), accepted/selected move count (240/2155), picked move ([235-dummyJob {dummyJob -> t.Gym Workout}, 235-dummyJob {10 -> 100}]).
+21:30:30.382 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (2), time spent (3065), score ([-29968/-26968/0/0/0]hard/[-200/-3200/0/0]soft), new best score ([-29968/-26968/0/0/0]hard/[-200/-3200/0/0]soft), accepted/selected move count (240/2222), picked move ([256-dummyJob {dummyJob -> t.Gym Workout}, 256-dummyJob {10 -> 100}]).
+21:30:31.365 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (3), time spent (4048), score ([-24368/-22168/0/0/0]hard/[-200/-3300/0/0]soft), new best score ([-24368/-22168/0/0/0]hard/[-200/-3300/0/0]soft), accepted/selected move count (240/3021), picked move ([171-dummyJob {dummyJob -> t.Billing Cycle}, 171-dummyJob {10 -> 100}]).
+21:30:32.506 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (4), time spent (5189), score ([-22093/-20293/0/0/0]hard/[-200/-3400/0/0]soft), new best score ([-22093/-20293/0/0/0]hard/[-200/-3400/0/0]soft), accepted/selected move count (240/3591), picked move ([167-dummyJob {dummyJob -> 晚餐}, 167-dummyJob {10 -> 100}]).
+21:30:34.004 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (5), time spent (6687), score ([-20093/-18093/0/0/0]hard/[-200/-3500/0/0]soft), new best score ([-20093/-18093/0/0/0]hard/[-200/-3500/0/0]soft), accepted/selected move count (240/4590), picked move ([267-dummyJob {dummyJob -> 環境清理_真實環境}, 267-dummyJob {10 -> 100}]).
+21:30:35.593 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (6), time spent (8276), score ([-17993/-74593/0/0/0]hard/[-200/-3600/0/0]soft), new best score ([-17993/-74593/0/0/0]hard/[-200/-3600/0/0]soft), accepted/selected move count (240/4930), picked move ([205-dummyJob {dummyJob -> 晚餐}, 205-dummyJob {10 -> 100}]).
+21:30:36.983 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (7), time spent (9666), score ([-15993/-131193/0/0/0]hard/[-200/-3700/0/0]soft), new best score ([-15993/-131193/0/0/0]hard/[-200/-3700/0/0]soft), accepted/selected move count (240/4193), picked move ([222-dummyJob {dummyJob -> 晚餐}, 222-dummyJob {10 -> 100}]).
+21:30:38.189 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (8), time spent (10872), score ([-14193/-181393/0/0/0]hard/[-200/-3800/0/0]soft), new best score ([-14193/-181393/0/0/0]hard/[-200/-3800/0/0]soft), accepted/selected move count (240/3579), picked move ([246-dummyJob {dummyJob -> 晚餐}, 246-dummyJob {10 -> 100}]).
+21:30:39.305 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (9), time spent (11988), score ([-12693/-599893/0/0/0]hard/[-200/-3900/0/0]soft), new best score ([-12693/-599893/0/0/0]hard/[-200/-3900/0/0]soft), accepted/selected move count (240/3264), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 558-dummyJob}).
+21:30:40.536 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (10), time spent (13219), score ([-11093/-647893/0/0/0]hard/[-200/-4000/0/0]soft), new best score ([-11093/-647893/0/0/0]hard/[-200/-4000/0/0]soft), accepted/selected move count (240/3407), picked move ([270-dummyJob {dummyJob -> 晚餐}, 270-dummyJob {10 -> 100}]).
+21:30:41.943 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (11), time spent (14626), score ([-9593/-704693/0/0/0]hard/[-200/-4100/0/0]soft), new best score ([-9593/-704693/0/0/0]hard/[-200/-4100/0/0]soft), accepted/selected move count (240/3800), picked move ([278-dummyJob {dummyJob -> 晚餐}, 278-dummyJob {10 -> 100}]).
+21:30:43.327 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (12), time spent (16010), score ([-8193/-761493/0/0/0]hard/[-200/-4200/0/0]soft), new best score ([-8193/-761493/0/0/0]hard/[-200/-4200/0/0]soft), accepted/selected move count (240/3621), picked move ([301-dummyJob {dummyJob -> 晚餐}, 301-dummyJob {10 -> 100}]).
+21:30:44.649 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (13), time spent (17332), score ([-6893/-818493/0/0/0]hard/[-200/-4300/0/0]soft), new best score ([-6893/-818493/0/0/0]hard/[-200/-4300/0/0]soft), accepted/selected move count (240/3368), picked move ([319-dummyJob {dummyJob -> 晚餐}, 319-dummyJob {10 -> 100}]).
+21:30:45.897 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (14), time spent (18580), score ([-5693/-817293/0/0/0]hard/[-200/-4400/0/0]soft), new best score ([-5693/-817293/0/0/0]hard/[-200/-4400/0/0]soft), accepted/selected move count (240/3285), picked move ([238-dummyJob {dummyJob -> 洗衣}, 238-dummyJob {10 -> 100}]).
+21:30:47.502 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (15), time spent (20185), score ([-4493/-874393/0/0/0]hard/[-200/-4500/0/0]soft), new best score ([-4493/-874393/0/0/0]hard/[-200/-4500/0/0]soft), accepted/selected move count (240/3851), picked move ([346-dummyJob {dummyJob -> 晚餐}, 346-dummyJob {10 -> 100}]).
+21:30:49.264 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (16), time spent (21947), score ([-3443/-873343/0/0/0]hard/[-200/-4600/0/0]soft), new best score ([-3443/-873343/0/0/0]hard/[-200/-4600/0/0]soft), accepted/selected move count (240/4393), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 411-dummyJob}).
+21:30:50.892 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (17), time spent (23575), score ([-3413/-868813/0/0/0]hard/[-200/-4700/0/0]soft), new best score ([-3413/-868813/0/0/0]hard/[-200/-4700/0/0]soft), accepted/selected move count (240/3911), picked move ({463-t.瑣事} ->  {463-t.瑣事 + 298-dummyJob}).
+21:30:52.625 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (18), time spent (25308), score ([-3400/-818400/0/0/0]hard/[-200/-4800/0/0]soft), new best score ([-3400/-818400/0/0/0]hard/[-200/-4800/0/0]soft), accepted/selected move count (240/4114), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 198-dummyJob}).
+21:30:54.264 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (19), time spent (26947), score ([-3400/-398400/0/0/0]hard/[-200/-4700/0/0]soft), new best score ([-3400/-398400/0/0/0]hard/[-200/-4700/0/0]soft), accepted/selected move count (240/3802), picked move ({558-t.TC Maintenance + 411-t.TC Maintenance} ->  {411-t.TC Maintenance}).
+21:30:55.953 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (20), time spent (28636), score ([-3400/-292000/0/0/0]hard/[-200/-4700/0/0]soft), new best score ([-3400/-292000/0/0/0]hard/[-200/-4700/0/0]soft), accepted/selected move count (240/4073), picked move ([298-t.瑣事 {0 -> 675}, 278-晚餐 {0 -> 528}]).
+21:30:57.321 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (21), time spent (30004), score ([-3300/-290000/0/0/0]hard/[-300/-4800/0/0]soft), new best score ([-3300/-290000/0/0/0]hard/[-300/-4800/0/0]soft), accepted/selected move count (194/3423), picked move ([234-dummyJob {dummyJob -> Go School}, 234-dummyJob {10 -> 100}]).
+21:30:57.324 [OptaPool-2-BenchmarkThread-1] INFO  Local Search phase (0) ended: time spent (30007), best score ([-3300/-290000/0/0/0]hard/[-300/-4800/0/0]soft), score calculation speed (2669/sec), step total (22).
+21:30:57.324 [OptaPool-2-BenchmarkThread-1] INFO  Solving ended: time spent (30007), best score ([-3300/-290000/0/0/0]hard/[-300/-4800/0/0]soft), score calculation speed (2666/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:30:57.325 [OptaPool-2-BenchmarkThread-1] WARN  The problemBenchmarkResult (TimelineBlockSolutionMixed) has different problemScale values ([421830000,698164100]).
+This is normally impossible for 1 inputSolutionFile.
+21:30:57.349 [main] INFO  Generating benchmark report...
+21:31:00.574 [main] INFO  Benchmarking ended: time spent (31863), favoriteSolverBenchmark (a0), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_213025\index.html).
+21:32:03.973 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:32:03.975 [main] INFO  ================================================================================
+21:32:03.975 [main] INFO  Warm up started
+21:32:03.975 [main] INFO  ================================================================================
+21:32:05.632 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (152), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:32:05.634 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (153), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (6/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:32:05.639 [main] INFO  ================================================================================
+21:32:05.640 [main] INFO  Warm up ended
+21:32:05.640 [main] INFO  ================================================================================
+21:32:06.037 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (35), best score ([-1379668/-1287868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:32:06.091 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:06.092 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:06.093 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:06.094 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:06.095 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:06.096 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:07.931 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (1929), score ([-837168/-775668/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([-837168/-775668/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/3469), picked move ([158-dummyJob {dummyJob -> 存取權歸零}, 158-dummyJob {10 -> 100}]).
+21:32:08.472 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:32:09.141 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (3139), score ([-387968/-355768/0/0/0]hard/[-200/-3100/0/0]soft), new best score ([-387968/-355768/0/0/0]hard/[-200/-3100/0/0]soft), accepted/selected move count (240/3536), picked move ([236-dummyJob {dummyJob -> t.Gym Workout}, 236-dummyJob {10 -> 100}]).
+21:41:26.065 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:41:26.067 [main] INFO  ================================================================================
+21:41:26.068 [main] INFO  Warm up started
+21:41:26.068 [main] INFO  ================================================================================
+21:41:27.053 [OptaPool-1-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Rule Compilation error : [Rule name='checkRequirements']
+	defaultpkg/Rule_checkRequirements1695679835.java (8:1041) : The operator < is undefined for the argument type(s) Object, double
+	defaultpkg/Rule_checkRequirements1695679835.java (15:1621) : The operator * is undefined for the argument type(s) int, Object
+	defaultpkg/Rule_checkRequirements1695679835.java (16:1686) : The operator * is undefined for the argument type(s) int, Object
+
+
+21:41:27.055 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=75, column=0
+   text=Rule Compilation error The operator < is undefined for the argument type(s) Object, double
+The operator * is undefined for the argument type(s) int, Object
+The operator * is undefined for the argument type(s) int, Object]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:41:27.055 [main] INFO  ================================================================================
+21:41:27.055 [main] INFO  Warm up ended
+21:41:27.056 [main] INFO  ================================================================================
+21:41:27.364 [OptaPool-2-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Rule Compilation error : [Rule name='checkRequirements']
+	defaultpkg/Rule_checkRequirements1695679835.java (8:1041) : The operator < is undefined for the argument type(s) Object, double
+	defaultpkg/Rule_checkRequirements1695679835.java (15:1621) : The operator * is undefined for the argument type(s) int, Object
+	defaultpkg/Rule_checkRequirements1695679835.java (16:1686) : The operator * is undefined for the argument type(s) int, Object
+
+
+21:41:27.364 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=75, column=0
+   text=Rule Compilation error The operator < is undefined for the argument type(s) Object, double
+The operator * is undefined for the argument type(s) int, Object
+The operator * is undefined for the argument type(s) int, Object]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:41:27.382 [main] INFO  Generating benchmark report...
+21:41:28.204 [main] INFO  Benchmarking failed: time spent (1303), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_214126\index.html).
+21:42:33.728 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:42:33.732 [main] INFO  ================================================================================
+21:42:33.732 [main] INFO  Warm up started
+21:42:33.732 [main] INFO  ================================================================================
+21:42:34.896 [OptaPool-1-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Rule Compilation error : [Rule name='checkRequirements']
+	defaultpkg/Rule_checkRequirements1695679835.java (8:1041) : The operator < is undefined for the argument type(s) Object, double
+	defaultpkg/Rule_checkRequirements1695679835.java (15:1621) : The operator * is undefined for the argument type(s) int, Object
+	defaultpkg/Rule_checkRequirements1695679835.java (16:1686) : The operator * is undefined for the argument type(s) int, Object
+
+
+21:42:34.898 [main] WARN  The warm up singleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=75, column=0
+   text=Rule Compilation error The operator < is undefined for the argument type(s) Object, double
+The operator * is undefined for the argument type(s) int, Object
+The operator * is undefined for the argument type(s) int, Object]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:42:34.899 [main] INFO  ================================================================================
+21:42:34.899 [main] INFO  Warm up ended
+21:42:34.899 [main] INFO  ================================================================================
+21:42:35.281 [OptaPool-2-BenchmarkThread-1] ERROR Unable to build KieBaseModel:defaultKieBase
+Rule Compilation error : [Rule name='checkRequirements']
+	defaultpkg/Rule_checkRequirements1695679835.java (8:1041) : The operator < is undefined for the argument type(s) Object, double
+	defaultpkg/Rule_checkRequirements1695679835.java (15:1621) : The operator * is undefined for the argument type(s) int, Object
+	defaultpkg/Rule_checkRequirements1695679835.java (16:1686) : The operator * is undefined for the argument type(s) int, Object
+
+
+21:42:35.282 [main] WARN  The subSingleBenchmarkRunner (TimelineBlockSolutionMixed_a0_0) failed.
+java.lang.IllegalStateException: There are errors in a score DRL:
+Error Messages:
+Message [id=1, kieBase=defaultKieBase, level=ERROR, path=TCRules_P1.drl, line=75, column=0
+   text=Rule Compilation error The operator < is undefined for the argument type(s) Object, double
+The operator * is undefined for the argument type(s) int, Object
+The operator * is undefined for the argument type(s) int, Object]
+---
+Warning Messages:
+---
+Info Messages:
+
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildDroolsScoreDirectorFactory(ScoreDirectorFactoryConfig.java:686)
+	at org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig.buildScoreDirectorFactory(ScoreDirectorFactoryConfig.java:463)
+	at org.optaplanner.core.config.solver.SolverConfig.buildScoreDirectorFactory(SolverConfig.java:606)
+	at org.optaplanner.core.config.solver.SolverConfig.buildSolver(SolverConfig.java:514)
+	at org.optaplanner.core.impl.solver.DefaultSolverFactory.buildSolver(DefaultSolverFactory.java:49)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:102)
+	at org.optaplanner.benchmark.impl.SubSingleBenchmarkRunner.call(SubSingleBenchmarkRunner.java:35)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+21:42:35.302 [main] INFO  Generating benchmark report...
+21:42:36.222 [main] INFO  Benchmarking failed: time spent (1559), failureCount (1), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_214233\index.html).
+21:44:27.880 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:44:27.883 [main] INFO  ================================================================================
+21:44:27.883 [main] INFO  Warm up started
+21:44:27.883 [main] INFO  ================================================================================
+21:44:54.576 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (25171), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:44:54.578 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (25173), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (0/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:44:54.583 [main] INFO  ================================================================================
+21:44:54.584 [main] INFO  Warm up ended
+21:44:54.584 [main] INFO  ================================================================================
+21:44:54.992 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (37), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:44:55.043 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:55.044 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:55.045 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:55.046 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:55.047 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:55.048 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:44:56.342 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (1387), score ([-220068/-219968/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([-220068/-219968/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/3113), picked move ([183-dummyJob {dummyJob -> t.Gym Workout}, 183-dummyJob {10 -> 100}]).
+21:44:57.037 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (2082), score ([-70268/-70068/0/0/0]hard/[-200/-3100/0/0]soft), new best score ([-70268/-70068/0/0/0]hard/[-200/-3100/0/0]soft), accepted/selected move count (240/2076), picked move ([207-dummyJob {dummyJob -> t.Gym Workout}, 207-dummyJob {10 -> 100}]).
+21:44:57.676 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (2), time spent (2721), score ([-10468/-10168/0/0/0]hard/[-200/-3200/0/0]soft), new best score ([-10468/-10168/0/0/0]hard/[-200/-3200/0/0]soft), accepted/selected move count (240/2460), picked move ([299-dummyJob {dummyJob -> t.Gym Workout}, 299-dummyJob {10 -> 100}]).
+21:44:58.365 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (3), time spent (3410), score ([-8368/-8068/0/0/0]hard/[-200/-3300/0/0]soft), new best score ([-8368/-8068/0/0/0]hard/[-200/-3300/0/0]soft), accepted/selected move count (240/3351), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 411-dummyJob}).
+21:44:58.961 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (4), time spent (4006), score ([-7330/-7030/0/0/0]hard/[-200/-3400/0/0]soft), new best score ([-7330/-7030/0/0/0]hard/[-200/-3400/0/0]soft), accepted/selected move count (240/2793), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 348-dummyJob}).
+21:44:59.764 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (5), time spent (4809), score ([-6343/-6043/0/0/0]hard/[-300/-3500/0/0]soft), new best score ([-6343/-6043/0/0/0]hard/[-300/-3500/0/0]soft), accepted/selected move count (240/3903), picked move ([168-dummyJob {dummyJob -> 晚餐}, 168-dummyJob {10 -> 100}]).
+21:45:00.672 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (6), time spent (5717), score ([-5443/-56843/0/0/0]hard/[-400/-3600/0/0]soft), new best score ([-5443/-56843/0/0/0]hard/[-400/-3600/0/0]soft), accepted/selected move count (240/4395), picked move ([189-dummyJob {dummyJob -> 晚餐}, 189-dummyJob {10 -> 100}]).
+21:45:01.565 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (7), time spent (6610), score ([-4643/-114243/0/0/0]hard/[-400/-3700/0/0]soft), new best score ([-4643/-114243/0/0/0]hard/[-400/-3700/0/0]soft), accepted/selected move count (240/3988), picked move ([205-dummyJob {dummyJob -> 晚餐}, 205-dummyJob {10 -> 100}]).
+21:45:02.306 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (8), time spent (7351), score ([-3943/-171743/0/0/0]hard/[-400/-3800/0/0]soft), new best score ([-3943/-171743/0/0/0]hard/[-400/-3800/0/0]soft), accepted/selected move count (240/3488), picked move ([220-dummyJob {dummyJob -> 晚餐}, 220-dummyJob {10 -> 100}]).
+21:45:03.205 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (9), time spent (8250), score ([-3343/-171043/0/0/0]hard/[-400/-3900/0/0]soft), new best score ([-3343/-171043/0/0/0]hard/[-400/-3900/0/0]soft), accepted/selected move count (240/4012), picked move ([305-dummyJob {dummyJob -> 洗衣}, 305-dummyJob {10 -> 100}]).
+21:45:04.106 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (10), time spent (9151), score ([-2743/-228643/0/0/0]hard/[-400/-4000/0/0]soft), new best score ([-2743/-228643/0/0/0]hard/[-400/-4000/0/0]soft), accepted/selected move count (240/4175), picked move ([246-dummyJob {dummyJob -> 晚餐}, 246-dummyJob {10 -> 100}]).
+21:45:04.974 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (11), time spent (10019), score ([-2243/-286343/0/0/0]hard/[-400/-4100/0/0]soft), new best score ([-2243/-286343/0/0/0]hard/[-400/-4100/0/0]soft), accepted/selected move count (240/3813), picked move ([271-dummyJob {dummyJob -> 晚餐}, 271-dummyJob {10 -> 100}]).
+21:45:05.894 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (12), time spent (10939), score ([-1943/-283843/0/0/0]hard/[-400/-4200/0/0]soft), new best score ([-1943/-283843/0/0/0]hard/[-400/-4200/0/0]soft), accepted/selected move count (240/4043), picked move ([267-dummyJob {dummyJob -> 環境清理_真實環境}, 267-dummyJob {10 -> 100}]).
+21:45:06.813 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (13), time spent (11858), score ([-1643/-281043/0/0/0]hard/[-400/-4300/0/0]soft), new best score ([-1643/-281043/0/0/0]hard/[-400/-4300/0/0]soft), accepted/selected move count (240/3947), picked move ([202-dummyJob {dummyJob -> t.Billing Cycle}, 202-dummyJob {10 -> 100}]).
+21:45:07.722 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (14), time spent (12767), score ([-1343/-332343/0/0/0]hard/[-400/-4400/0/0]soft), new best score ([-1343/-332343/0/0/0]hard/[-400/-4400/0/0]soft), accepted/selected move count (240/3862), picked move ([303-dummyJob {dummyJob -> 晚餐}, 303-dummyJob {10 -> 100}]).
+21:45:08.595 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (15), time spent (13640), score ([-943/-390143/0/0/0]hard/[-400/-4500/0/0]soft), new best score ([-943/-390143/0/0/0]hard/[-400/-4500/0/0]soft), accepted/selected move count (240/3633), picked move ([291-dummyJob {dummyJob -> 晚餐}, 291-dummyJob {10 -> 100}]).
+21:45:09.460 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (16), time spent (14505), score ([-843/-388143/0/0/0]hard/[-400/-4600/0/0]soft), new best score ([-843/-388143/0/0/0]hard/[-400/-4600/0/0]soft), accepted/selected move count (240/3559), picked move ([172-dummyJob {dummyJob -> Go School}, 172-dummyJob {10 -> 100}]).
+21:45:10.376 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (17), time spent (15421), score ([-643/-446143/0/0/0]hard/[-400/-4700/0/0]soft), new best score ([-643/-446143/0/0/0]hard/[-400/-4700/0/0]soft), accepted/selected move count (240/3665), picked move ([332-dummyJob {dummyJob -> 晚餐}, 332-dummyJob {10 -> 100}]).
+21:45:11.219 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (18), time spent (16264), score ([-562/-471962/0/0/0]hard/[-400/-4800/0/0]soft), new best score ([-562/-471962/0/0/0]hard/[-400/-4800/0/0]soft), accepted/selected move count (240/3412), picked move ([352-dummyJob {dummyJob -> 晚餐}, 352-dummyJob {10 -> 100}]).
+21:45:12.266 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (19), time spent (17310), score ([-532/-467432/0/0/0]hard/[-400/-4900/0/0]soft), new best score ([-532/-467432/0/0/0]hard/[-400/-4900/0/0]soft), accepted/selected move count (240/3974), picked move ({463-t.瑣事} ->  {463-t.瑣事 + 324-dummyJob}).
+21:45:13.236 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (20), time spent (18281), score ([-513/-394713/0/0/0]hard/[-400/-5000/0/0]soft), new best score ([-513/-394713/0/0/0]hard/[-400/-5000/0/0]soft), accepted/selected move count (240/3706), picked move ({348-t.TC Maintenance} ->  {348-t.TC Maintenance + 239-dummyJob}).
+21:45:14.197 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (21), time spent (19242), score ([-500/-344300/0/0/0]hard/[-400/-5100/0/0]soft), new best score ([-500/-344300/0/0/0]hard/[-400/-5100/0/0]soft), accepted/selected move count (240/3556), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 283-dummyJob}).
+21:45:15.306 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (22), time spent (20351), score ([-500/-237400/0/0/0]hard/[-400/-5100/0/0]soft), new best score ([-500/-237400/0/0/0]hard/[-400/-5100/0/0]soft), accepted/selected move count (240/4046), picked move ([205-晚餐 {0 -> 791}, 332-晚餐 {0 -> 585}]).
+21:45:16.823 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (23), time spent (21868), score ([-500/-131700/0/0/0]hard/[-400/-5100/0/0]soft), new best score ([-500/-131700/0/0/0]hard/[-400/-5100/0/0]soft), accepted/selected move count (240/5417), picked move ([183-t.Gym Workout {0 -> 681}, 267-環境清理_真實環境 {0 -> 645}]).
+21:45:18.746 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (24), time spent (23791), score ([-400/-131600/0/0/0]hard/[-400/-5200/0/0]soft), new best score ([-400/-131600/0/0/0]hard/[-400/-5200/0/0]soft), accepted/selected move count (240/6977), picked move ([185-dummyJob {dummyJob -> Back Home}, 185-dummyJob {10 -> 100}]).
+21:45:20.947 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (25), time spent (25992), score ([-300/-133600/0/0/0]hard/[-400/-5300/0/0]soft), new best score ([-300/-133600/0/0/0]hard/[-400/-5300/0/0]soft), accepted/selected move count (240/8007), picked move ([195-dummyJob {dummyJob -> Go School}, 195-dummyJob {10 -> 100}]).
+21:45:23.197 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (26), time spent (28242), score ([-300/-53800/0/0/0]hard/[-400/-5300/0/0]soft), new best score ([-300/-53800/0/0/0]hard/[-400/-5300/0/0]soft), accepted/selected move count (240/8116), picked move ([303-晚餐 {0 -> 916}, 220-晚餐 {0 -> 900}]).
+21:45:24.958 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (27), time spent (30003), score ([-300/-39800/0/0/0]hard/[-400/-5300/0/0]soft), new best score ([-300/-39800/0/0/0]hard/[-400/-5300/0/0]soft), accepted/selected move count (190/6367), picked move ([291-晚餐 {0 -> 255}, 246-晚餐 {0 -> 303}]).
+21:45:24.964 [OptaPool-2-BenchmarkThread-1] INFO  Local Search phase (0) ended: time spent (30009), best score ([-300/-39800/0/0/0]hard/[-400/-5300/0/0]soft), score calculation speed (3950/sec), step total (28).
+21:45:24.964 [OptaPool-2-BenchmarkThread-1] INFO  Solving ended: time spent (30009), best score ([-300/-39800/0/0/0]hard/[-400/-5300/0/0]soft), score calculation speed (3945/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:45:24.965 [OptaPool-2-BenchmarkThread-1] WARN  The problemBenchmarkResult (TimelineBlockSolutionMixed) has different problemScale values ([421830000,770883600]).
+This is normally impossible for 1 inputSolutionFile.
+21:45:24.990 [main] INFO  Generating benchmark report...
+21:45:28.735 [main] INFO  Benchmarking ended: time spent (57098), favoriteSolverBenchmark (a0), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_214427\index.html).
+21:45:58.402 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:45:58.404 [main] INFO  ================================================================================
+21:45:58.404 [main] INFO  Warm up started
+21:45:58.404 [main] INFO  ================================================================================
+21:45:59.878 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (128), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:45:59.880 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (129), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (7/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:45:59.884 [main] INFO  ================================================================================
+21:45:59.885 [main] INFO  Warm up ended
+21:45:59.885 [main] INFO  ================================================================================
+21:46:00.239 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (34), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:46:00.318 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:00.319 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:00.322 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:00.323 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:00.325 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:00.326 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:46:01.653 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (1448), score ([-220068/-219968/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([-220068/-219968/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/3531), picked move ([181-dummyJob {dummyJob -> t.Gym Workout}, 181-dummyJob {10 -> 100}]).
+21:46:02.217 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (2012), score ([-70268/-70068/0/0/0]hard/[-200/-3100/0/0]soft), new best score ([-70268/-70068/0/0/0]hard/[-200/-3100/0/0]soft), accepted/selected move count (240/2106), picked move ([223-dummyJob {dummyJob -> t.Gym Workout}, 223-dummyJob {10 -> 100}]).
+21:46:02.806 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (2), time spent (2601), score ([-10468/-10168/0/0/0]hard/[-300/-3200/0/0]soft), new best score ([-10468/-10168/0/0/0]hard/[-300/-3200/0/0]soft), accepted/selected move count (240/2431), picked move ([294-dummyJob {dummyJob -> t.Gym Workout}, 294-dummyJob {10 -> 100}]).
+21:46:03.579 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (3), time spent (3374), score ([-8368/-428068/0/0/0]hard/[-300/-3300/0/0]soft), new best score ([-8368/-428068/0/0/0]hard/[-300/-3300/0/0]soft), accepted/selected move count (240/3496), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 558-dummyJob}).
+21:46:04.522 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (4), time spent (4317), score ([-7330/-427030/0/0/0]hard/[-300/-3400/0/0]soft), new best score ([-7330/-427030/0/0/0]hard/[-300/-3400/0/0]soft), accepted/selected move count (240/4582), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 264-dummyJob}).
+21:46:05.574 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (5), time spent (5369), score ([-6343/-426043/0/0/0]hard/[-300/-3500/0/0]soft), new best score ([-6343/-426043/0/0/0]hard/[-300/-3500/0/0]soft), accepted/selected move count (240/4707), picked move ([154-dummyJob {dummyJob -> 晚餐}, 154-dummyJob {10 -> 100}]).
+21:46:06.630 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (6), time spent (6425), score ([-5443/-476843/0/0/0]hard/[-300/-3600/0/0]soft), new best score ([-5443/-476843/0/0/0]hard/[-300/-3600/0/0]soft), accepted/selected move count (240/5525), picked move ([183-dummyJob {dummyJob -> 晚餐}, 183-dummyJob {10 -> 100}]).
+21:46:07.776 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (7), time spent (7571), score ([-4643/-534243/0/0/0]hard/[-300/-3700/0/0]soft), new best score ([-4643/-534243/0/0/0]hard/[-300/-3700/0/0]soft), accepted/selected move count (240/5417), picked move ([208-dummyJob {dummyJob -> 晚餐}, 208-dummyJob {10 -> 100}]).
+21:46:08.920 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (8), time spent (8715), score ([-3943/-585243/0/0/0]hard/[-300/-3800/0/0]soft), new best score ([-3943/-585243/0/0/0]hard/[-300/-3800/0/0]soft), accepted/selected move count (240/5403), picked move ([226-dummyJob {dummyJob -> 晚餐}, 226-dummyJob {10 -> 100}]).
+21:46:09.902 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (9), time spent (9697), score ([-3343/-584643/0/0/0]hard/[-300/-3900/0/0]soft), new best score ([-3343/-584643/0/0/0]hard/[-300/-3900/0/0]soft), accepted/selected move count (240/4871), picked move ([136-dummyJob {dummyJob -> 洗衣}, 136-dummyJob {10 -> 100}]).
+21:46:10.878 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (10), time spent (10673), score ([-2743/-642243/0/0/0]hard/[-300/-4000/0/0]soft), new best score ([-2743/-642243/0/0/0]hard/[-300/-4000/0/0]soft), accepted/selected move count (240/4720), picked move ([240-dummyJob {dummyJob -> 晚餐}, 240-dummyJob {10 -> 100}]).
+21:46:11.930 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (11), time spent (11725), score ([-2262/-667662/0/0/0]hard/[-300/-4100/0/0]soft), new best score ([-2262/-667662/0/0/0]hard/[-300/-4100/0/0]soft), accepted/selected move count (240/4996), picked move ([268-dummyJob {dummyJob -> 晚餐}, 268-dummyJob {10 -> 100}]).
+21:46:12.910 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (12), time spent (12705), score ([-1862/-725462/0/0/0]hard/[-300/-4200/0/0]soft), new best score ([-1862/-725462/0/0/0]hard/[-300/-4200/0/0]soft), accepted/selected move count (240/4552), picked move ([276-dummyJob {dummyJob -> 晚餐}, 276-dummyJob {10 -> 100}]).
+21:46:14.038 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (13), time spent (13832), score ([-1562/-722662/0/0/0]hard/[-300/-4300/0/0]soft), new best score ([-1562/-722662/0/0/0]hard/[-300/-4300/0/0]soft), accepted/selected move count (240/5130), picked move ([179-dummyJob {dummyJob -> t.Billing Cycle}, 179-dummyJob {10 -> 100}]).
+21:46:15.212 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (14), time spent (15007), score ([-1262/-722362/0/0/0]hard/[-300/-4400/0/0]soft), new best score ([-1262/-722362/0/0/0]hard/[-300/-4400/0/0]soft), accepted/selected move count (240/5394), picked move ([281-dummyJob {dummyJob -> 環境清理_真實環境}, 281-dummyJob {10 -> 100}]).
+21:46:16.535 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (15), time spent (16330), score ([-962/-780162/0/0/0]hard/[-300/-4500/0/0]soft), new best score ([-962/-780162/0/0/0]hard/[-300/-4500/0/0]soft), accepted/selected move count (240/5625), picked move ([303-dummyJob {dummyJob -> 晚餐}, 303-dummyJob {10 -> 100}]).
+21:46:17.889 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (16), time spent (17684), score ([-762/-838162/0/0/0]hard/[-300/-4600/0/0]soft), new best score ([-762/-838162/0/0/0]hard/[-300/-4600/0/0]soft), accepted/selected move count (240/5476), picked move ([327-dummyJob {dummyJob -> 晚餐}, 327-dummyJob {10 -> 100}]).
+21:46:19.051 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (17), time spent (18846), score ([-732/-833632/0/0/0]hard/[-300/-4700/0/0]soft), new best score ([-732/-833632/0/0/0]hard/[-300/-4700/0/0]soft), accepted/selected move count (240/4466), picked move ({463-t.瑣事} ->  {463-t.瑣事 + 174-dummyJob}).
+21:46:20.164 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (18), time spent (19959), score ([-632/-831632/0/0/0]hard/[-300/-4800/0/0]soft), new best score ([-632/-831632/0/0/0]hard/[-300/-4800/0/0]soft), accepted/selected move count (240/4411), picked move ([176-dummyJob {dummyJob -> Go School}, 176-dummyJob {10 -> 100}]).
+21:46:21.457 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (19), time spent (21252), score ([-532/-889732/0/0/0]hard/[-300/-4900/0/0]soft), new best score ([-532/-889732/0/0/0]hard/[-300/-4900/0/0]soft), accepted/selected move count (240/5015), picked move ([351-dummyJob {dummyJob -> 晚餐}, 351-dummyJob {10 -> 100}]).
+21:46:22.626 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (20), time spent (22421), score ([-513/-817013/0/0/0]hard/[-300/-5000/0/0]soft), new best score ([-513/-817013/0/0/0]hard/[-300/-5000/0/0]soft), accepted/selected move count (240/4367), picked move ({264-t.TC Maintenance} ->  {264-t.TC Maintenance + 322-dummyJob}).
+21:46:23.818 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (21), time spent (23613), score ([-500/-766600/0/0/0]hard/[-300/-5100/0/0]soft), new best score ([-500/-766600/0/0/0]hard/[-300/-5100/0/0]soft), accepted/selected move count (240/4268), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 199-dummyJob}).
+21:46:25.249 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (22), time spent (25044), score ([-400/-764500/0/0/0]hard/[-500/-5200/0/0]soft), new best score ([-400/-764500/0/0/0]hard/[-500/-5200/0/0]soft), accepted/selected move count (240/5208), picked move ([182-dummyJob {dummyJob -> Back Home}, 182-dummyJob {10 -> 100}]).
+21:46:26.668 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (23), time spent (26463), score ([-300/-762500/0/0/0]hard/[-500/-5300/0/0]soft), new best score ([-300/-762500/0/0/0]hard/[-500/-5300/0/0]soft), accepted/selected move count (240/5166), picked move ([215-dummyJob {dummyJob -> Go School}, 215-dummyJob {10 -> 100}]).
+21:46:28.180 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (24), time spent (27975), score ([-200/-760400/0/0/0]hard/[-600/-5400/0/0]soft), new best score ([-200/-760400/0/0/0]hard/[-600/-5400/0/0]soft), accepted/selected move count (240/5448), picked move ([225-dummyJob {dummyJob -> Back Home}, 225-dummyJob {10 -> 100}]).
+21:46:29.679 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (25), time spent (29474), score ([-100/-760400/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-760400/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/4950), picked move ([283-dummyJob {dummyJob -> Go School}, 283-dummyJob {10 -> 100}]).
+21:46:31.165 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (26), time spent (30960), score ([-100/-340400/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-340400/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/5362), picked move ({558-t.TC Maintenance <-> 516-dummyJob}).
+21:46:32.325 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (27), time spent (32120), score ([-100/-225300/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-225300/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/4241), picked move ([351-晚餐 {0 -> 804}, 276-晚餐 {0 -> 687}]).
+21:46:33.848 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (28), time spent (33643), score ([-100/-135100/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-135100/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/5583), picked move ([303-晚餐 {0 -> 363}, 240-晚餐 {0 -> 539}]).
+21:46:35.669 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (29), time spent (35464), score ([-100/-59000/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-59000/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/6520), picked move ([215-Go School {0 -> 593}, 183-晚餐 {0 -> 284}]).
+21:46:37.793 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (30), time spent (37588), score ([-100/-33100/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-33100/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/7986), picked move ([176-Go School {0 -> 81}, 303-晚餐 {363 -> 541}]).
+21:46:40.116 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (31), time spent (39911), score ([-100/-21100/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-21100/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/8531), picked move ([199-t.TC Maintenance {0 -> 146}, 183-晚餐 {284 -> 425}]).
+21:46:43.374 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (32), time spent (43169), score ([-100/-10500/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-10500/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/12082), picked move ([268-晚餐 {0 -> 253}, 327-晚餐 {0 -> 171}]).
+21:46:46.754 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (33), time spent (46549), score ([-100/-6200/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-6200/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/12479), picked move ([516-t.TC Maintenance {0 -> 371}, 240-晚餐 {539 -> 667}]).
+21:46:51.130 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (34), time spent (50925), score ([-100/-2200/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-2200/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/16019), picked move ([303-晚餐 {541 -> 710}, 226-晚餐 {0 -> 74}]).
+21:46:56.121 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (35), time spent (55916), score ([-100/-900/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-900/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (240/18544), picked move ([215-Go School {593 -> 514}, 351-晚餐 {804 -> 704}]).
+21:47:00.208 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (36), time spent (60003), score ([-100/-100/0/0/0]hard/[-600/-5500/0/0]soft), new best score ([-100/-100/0/0/0]hard/[-600/-5500/0/0]soft), accepted/selected move count (212/15224), picked move ([268-晚餐 {253 -> 193}, 516-t.TC Maintenance {371 -> 757}]).
+21:47:00.211 [OptaPool-2-BenchmarkThread-1] INFO  Local Search phase (0) ended: time spent (60006), best score ([-100/-100/0/0/0]hard/[-600/-5500/0/0]soft), score calculation speed (3912/sec), step total (37).
+21:47:00.212 [OptaPool-2-BenchmarkThread-1] INFO  Solving ended: time spent (60007), best score ([-100/-100/0/0/0]hard/[-600/-5500/0/0]soft), score calculation speed (3910/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:47:00.212 [OptaPool-2-BenchmarkThread-1] WARN  The problemBenchmarkResult (TimelineBlockSolutionMixed) has different problemScale values ([421830000,799971400]).
+This is normally impossible for 1 inputSolutionFile.
+21:47:00.236 [main] INFO  Generating benchmark report...
+21:47:03.456 [main] INFO  Benchmarking ended: time spent (61824), favoriteSolverBenchmark (a0), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_214558\index.html).
+21:48:18.366 [main] INFO  Benchmarking started: parallelBenchmarkCount (1) for problemCount (1), solverCount (1), totalSubSingleCount (1).
+21:48:18.369 [main] INFO  ================================================================================
+21:48:18.369 [main] INFO  Warm up started
+21:48:18.369 [main] INFO  ================================================================================
+21:48:19.858 [OptaPool-1-BenchmarkThread-1] INFO  Solving started: time spent (117), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:48:19.860 [OptaPool-1-BenchmarkThread-1] INFO  Solving ended: time spent (119), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), score calculation speed (8/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:48:19.865 [main] INFO  ================================================================================
+21:48:19.866 [main] INFO  Warm up ended
+21:48:19.866 [main] INFO  ================================================================================
+21:48:20.202 [OptaPool-2-BenchmarkThread-1] INFO  Solving started: time spent (28), best score ([-459868/-459868/0/0/0]hard/[-200/-2900/0/0]soft), environment mode (NON_REPRODUCIBLE), random (JDK).
+21:48:20.257 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:20.258 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:20.259 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:20.260 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:20.261 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:20.262 [OptaPool-2-BenchmarkThread-1] WARN  Bailing out of neverEnding selector (Filtering(FromSolutionEntitySelector(Allocation))) to avoid infinite loop.
+21:48:21.741 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (0), time spent (1567), score ([-220133/-220033/0/0/0]hard/[-200/-3000/0/0]soft), new best score ([-220133/-220033/0/0/0]hard/[-200/-3000/0/0]soft), accepted/selected move count (240/3472), picked move ([154-dummyJob {dummyJob -> t.Gym Workout}, 154-dummyJob {10 -> 100}]).
+21:48:22.633 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (1), time spent (2459), score ([-70333/-70133/0/0/0]hard/[-200/-3100/0/0]soft), new best score ([-70333/-70133/0/0/0]hard/[-200/-3100/0/0]soft), accepted/selected move count (240/3892), picked move ([249-dummyJob {dummyJob -> t.Gym Workout}, 249-dummyJob {10 -> 100}]).
+21:48:23.342 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (2), time spent (3168), score ([-10533/-10233/0/0/0]hard/[-200/-3200/0/0]soft), new best score ([-10533/-10233/0/0/0]hard/[-200/-3200/0/0]soft), accepted/selected move count (240/3513), picked move ([309-dummyJob {dummyJob -> t.Gym Workout}, 309-dummyJob {10 -> 100}]).
+21:48:24.225 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (3), time spent (4051), score ([-8433/-8133/0/0/0]hard/[-200/-3300/0/0]soft), new best score ([-8433/-8133/0/0/0]hard/[-200/-3300/0/0]soft), accepted/selected move count (240/4975), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 516-dummyJob}).
+21:48:24.911 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (4), time spent (4737), score ([-7383/-7083/0/0/0]hard/[-200/-3400/0/0]soft), new best score ([-7383/-7083/0/0/0]hard/[-200/-3400/0/0]soft), accepted/selected move count (240/3823), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 411-dummyJob}).
+21:48:25.492 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (5), time spent (5318), score ([-6408/-6108/0/0/0]hard/[-200/-3500/0/0]soft), new best score ([-6408/-6108/0/0/0]hard/[-200/-3500/0/0]soft), accepted/selected move count (240/3043), picked move ([136-dummyJob {dummyJob -> 晚餐}, 136-dummyJob {10 -> 100}]).
+21:48:26.319 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (6), time spent (6145), score ([-5508/-63408/0/0/0]hard/[-200/-3600/0/0]soft), new best score ([-5508/-63408/0/0/0]hard/[-200/-3600/0/0]soft), accepted/selected move count (240/4211), picked move ([183-dummyJob {dummyJob -> 晚餐}, 183-dummyJob {10 -> 100}]).
+21:48:27.092 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (7), time spent (6918), score ([-4708/-120808/0/0/0]hard/[-200/-3700/0/0]soft), new best score ([-4708/-120808/0/0/0]hard/[-200/-3700/0/0]soft), accepted/selected move count (240/3730), picked move ([208-dummyJob {dummyJob -> 晚餐}, 208-dummyJob {10 -> 100}]).
+21:48:27.882 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (8), time spent (7708), score ([-4008/-178308/0/0/0]hard/[-200/-3800/0/0]soft), new best score ([-4008/-178308/0/0/0]hard/[-200/-3800/0/0]soft), accepted/selected move count (240/3632), picked move ([213-dummyJob {dummyJob -> 晚餐}, 213-dummyJob {10 -> 100}]).
+21:48:28.621 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (9), time spent (8447), score ([-3408/-177708/0/0/0]hard/[-200/-3900/0/0]soft), new best score ([-3408/-177708/0/0/0]hard/[-200/-3900/0/0]soft), accepted/selected move count (240/3530), picked move ([140-dummyJob {dummyJob -> 洗衣}, 140-dummyJob {10 -> 100}]).
+21:48:29.398 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (10), time spent (9224), score ([-2808/-235308/0/0/0]hard/[-200/-4000/0/0]soft), new best score ([-2808/-235308/0/0/0]hard/[-200/-4000/0/0]soft), accepted/selected move count (240/3782), picked move ([243-dummyJob {dummyJob -> 晚餐}, 243-dummyJob {10 -> 100}]).
+21:48:30.272 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (11), time spent (10098), score ([-2408/-293108/0/0/0]hard/[-200/-4100/0/0]soft), new best score ([-2408/-293108/0/0/0]hard/[-200/-4100/0/0]soft), accepted/selected move count (240/4301), picked move ([293-dummyJob {dummyJob -> 晚餐}, 293-dummyJob {10 -> 100}]).
+21:48:31.061 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (12), time spent (10887), score ([-1908/-350808/0/0/0]hard/[-200/-4200/0/0]soft), new best score ([-1908/-350808/0/0/0]hard/[-200/-4200/0/0]soft), accepted/selected move count (240/3710), picked move ([259-dummyJob {dummyJob -> 晚餐}, 259-dummyJob {10 -> 100}]).
+21:48:31.830 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (13), time spent (11656), score ([-1608/-348008/0/0/0]hard/[-200/-4300/0/0]soft), new best score ([-1608/-348008/0/0/0]hard/[-200/-4300/0/0]soft), accepted/selected move count (240/3653), picked move ([195-dummyJob {dummyJob -> t.Billing Cycle}, 195-dummyJob {10 -> 100}]).
+21:48:32.695 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (14), time spent (12521), score ([-1308/-345508/0/0/0]hard/[-200/-4400/0/0]soft), new best score ([-1308/-345508/0/0/0]hard/[-200/-4400/0/0]soft), accepted/selected move count (240/3898), picked move ([257-dummyJob {dummyJob -> 環境清理_真實環境}, 257-dummyJob {10 -> 100}]).
+21:48:33.616 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (15), time spent (13442), score ([-1008/-403308/0/0/0]hard/[-200/-4500/0/0]soft), new best score ([-1008/-403308/0/0/0]hard/[-200/-4500/0/0]soft), accepted/selected move count (240/3860), picked move ([305-dummyJob {dummyJob -> 晚餐}, 305-dummyJob {10 -> 100}]).
+21:48:34.377 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (16), time spent (14203), score ([-908/-461408/0/0/0]hard/[-300/-4600/0/0]soft), new best score ([-908/-461408/0/0/0]hard/[-300/-4600/0/0]soft), accepted/selected move count (240/3317), picked move ([338-dummyJob {dummyJob -> 晚餐}, 338-dummyJob {10 -> 100}]).
+21:48:35.325 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (17), time spent (15151), score ([-808/-461308/0/0/0]hard/[-200/-4600/0/0]soft), new best score ([-808/-461308/0/0/0]hard/[-200/-4600/0/0]soft), accepted/selected move count (240/3989), picked move ({338-晚餐 <-> 327-dummyJob}).
+21:48:36.293 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (18), time spent (16119), score ([-728/-461328/0/0/0]hard/[-200/-4700/0/0]soft), new best score ([-728/-461328/0/0/0]hard/[-200/-4700/0/0]soft), accepted/selected move count (240/3877), picked move ([150-dummyJob {dummyJob -> Go School}, 150-dummyJob {10 -> 100}]).
+21:48:37.263 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (19), time spent (17089), score ([-628/-519428/0/0/0]hard/[-200/-4800/0/0]soft), new best score ([-628/-519428/0/0/0]hard/[-200/-4800/0/0]soft), accepted/selected move count (240/3860), picked move ([351-dummyJob {dummyJob -> 晚餐}, 351-dummyJob {10 -> 100}]).
+21:48:38.291 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (20), time spent (18117), score ([-548/-519348/0/0/0]hard/[-200/-4900/0/0]soft), new best score ([-548/-519348/0/0/0]hard/[-200/-4900/0/0]soft), accepted/selected move count (240/3978), picked move ([164-dummyJob {dummyJob -> Back Home}, 164-dummyJob {10 -> 100}]).
+21:48:39.246 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (21), time spent (19072), score ([-448/-517348/0/0/0]hard/[-300/-5000/0/0]soft), new best score ([-448/-517348/0/0/0]hard/[-300/-5000/0/0]soft), accepted/selected move count (240/3506), picked move ([233-dummyJob {dummyJob -> Go School}, 233-dummyJob {10 -> 100}]).
+21:48:40.238 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (22), time spent (20064), score ([-355/-466855/0/0/0]hard/[-300/-5100/0/0]soft), new best score ([-355/-466855/0/0/0]hard/[-300/-5100/0/0]soft), accepted/selected move count (240/3829), picked move ({148-t.TC Maintenance} ->  {148-t.TC Maintenance + 193-dummyJob}).
+21:48:41.470 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (23), time spent (21296), score ([-325/-462325/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-325/-462325/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/4514), picked move ({463-t.瑣事} ->  {463-t.瑣事 + 238-dummyJob}).
+21:48:42.550 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (24), time spent (22376), score ([-300/-462300/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-300/-462300/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/4059), picked move ({136-晚餐 <-> 167-dummyJob}).
+21:48:43.797 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (25), time spent (23623), score ([-300/-348100/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-300/-348100/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/4420), picked move ([257-環境清理_真實環境 {0 -> 612}, 327-晚餐 {0 -> 723}]).
+21:48:45.168 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (26), time spent (24994), score ([-300/-237700/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-300/-237700/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/5138), picked move ([293-晚餐 {0 -> 528}, 351-晚餐 {0 -> 797}]).
+21:48:46.922 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (27), time spent (26748), score ([-300/-126700/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-300/-126700/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/6414), picked move ([183-晚餐 {0 -> 844}, 305-晚餐 {0 -> 613}]).
+21:48:49.107 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (28), time spent (28933), score ([-300/-35400/0/0/0]hard/[-300/-5200/0/0]soft), new best score ([-300/-35400/0/0/0]hard/[-300/-5200/0/0]soft), accepted/selected move count (240/7854), picked move ([243-晚餐 {0 -> 772}, 213-晚餐 {0 -> 931}]).
+21:48:51.456 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (29), time spent (31282), score ([-200/-35300/0/0/0]hard/[-300/-5300/0/0]soft), new best score ([-200/-35300/0/0/0]hard/[-300/-5300/0/0]soft), accepted/selected move count (240/8694), picked move ([251-dummyJob {dummyJob -> Back Home}, 251-dummyJob {10 -> 100}]).
+21:48:53.745 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (30), time spent (33571), score ([-100/-35300/0/0/0]hard/[-300/-5400/0/0]soft), new best score ([-100/-35300/0/0/0]hard/[-300/-5400/0/0]soft), accepted/selected move count (240/8820), picked move ([300-dummyJob {dummyJob -> Go School}, 300-dummyJob {10 -> 100}]).
+21:48:56.303 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (31), time spent (36129), score ([-100/-21300/0/0/0]hard/[-300/-5400/0/0]soft), new best score ([-100/-21300/0/0/0]hard/[-300/-5400/0/0]soft), accepted/selected move count (240/9548), picked move (213-晚餐 {931 -> 745}).
+21:48:58.783 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (32), time spent (38609), score ([0/-21200/0/0/0]hard/[-300/-5500/0/0]soft), new best score ([0/-21200/0/0/0]hard/[-300/-5500/0/0]soft), accepted/selected move count (240/9423), picked move ([314-dummyJob {dummyJob -> Back Home}, 314-dummyJob {10 -> 100}]).
+21:49:01.444 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (33), time spent (41270), score ([0/-10500/0/0/0]hard/[-300/-5500/0/0]soft), new best score ([0/-10500/0/0/0]hard/[-300/-5500/0/0]soft), accepted/selected move count (240/9760), picked move ([293-晚餐 {528 -> 796}, 195-t.Billing Cycle {0 -> 61}]).
+21:49:04.720 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (34), time spent (44546), score ([0/-5200/0/0/0]hard/[-300/-5500/0/0]soft), new best score ([0/-5200/0/0/0]hard/[-300/-5500/0/0]soft), accepted/selected move count (240/12158), picked move ([183-晚餐 {844 -> 1173}, 183-晚餐 {844 -> 730}]).
+21:49:08.138 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (35), time spent (47964), score ([0/-600/0/0/0]hard/[-300/-5500/0/0]soft), new best score ([0/-600/0/0/0]hard/[-300/-5500/0/0]soft), accepted/selected move count (240/12720), picked move (243-晚餐 {772 -> 678}).
+21:49:11.917 [OptaPool-2-BenchmarkThread-1] DEBUG     LS step (36), time spent (51743), score ([0/0/0/0/0]hard/[-300/-5500/0/0]soft), new best score ([0/0/0/0/0]hard/[-300/-5500/0/0]soft), accepted/selected move count (240/14063), picked move ([309-t.Gym Workout {0 -> 85}, 351-晚餐 {797 -> 784}]).
+21:49:11.920 [OptaPool-2-BenchmarkThread-1] INFO  Local Search phase (0) ended: time spent (51746), best score ([0/0/0/0/0]hard/[-300/-5500/0/0]soft), score calculation speed (3977/sec), step total (37).
+21:49:11.920 [OptaPool-2-BenchmarkThread-1] INFO  Solving ended: time spent (51746), best score ([0/0/0/0/0]hard/[-300/-5500/0/0]soft), score calculation speed (3974/sec), phase total (1), environment mode (NON_REPRODUCIBLE).
+21:49:11.921 [OptaPool-2-BenchmarkThread-1] WARN  The problemBenchmarkResult (TimelineBlockSolutionMixed) has different problemScale values ([421830000,799971400]).
+This is normally impossible for 1 inputSolutionFile.
+21:49:11.946 [main] INFO  Generating benchmark report...
+21:49:15.274 [main] INFO  Benchmarking ended: time spent (53570), favoriteSolverBenchmark (a0), statistic html overview (C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\benchmark\tcplannercore\2019-12-28_214818\index.html).

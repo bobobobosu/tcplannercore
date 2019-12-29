@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.app;
 
+import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
@@ -183,7 +184,10 @@ public class Toolbox {
                             allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +
                                     allocation.getResourceElementMap().entrySet()
                                             .stream()
-                                            .filter(entry -> entry.getValue().getAmt() < 0)
+                                            .filter(entry -> entry.getValue()
+                                                    .stream()
+                                                    .mapToDouble(ResourceElement::getAmt)
+                                                    .sum() < 0)
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).toString().replaceAll("(.{60})", "$1\n")
                     });
                 }

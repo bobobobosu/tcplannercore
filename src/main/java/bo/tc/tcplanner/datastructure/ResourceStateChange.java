@@ -4,34 +4,35 @@ import bo.tc.tcplanner.persistable.AbstractPersistable;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ResourceStateChange extends AbstractPersistable {
     //resource change
-    Map<String, ResourceElement> resourceChange;
+    Map<String, List<ResourceElement>> resourceChange;
     //change mode
     String mode; // "delta" or "absolute"
 
     public ResourceStateChange() {
-        resourceChange = new HashMap<>();
+        resourceChange = new HashMap<String, List<ResourceElement>>();
         mode = "absolute";
     }
 
     public ResourceStateChange(ResourceStateChange other){
-        this.setResourceChange(new HashMap<>(other.resourceChange));
+        this.setResourceChange(new HashMap<String, List<ResourceElement>>(other.resourceChange));
         this.setMode(other.mode);
     }
 
-    public ResourceStateChange(LinkedHashMap<String, ResourceElement> resourceChange, String mode) {
+    public ResourceStateChange(LinkedHashMap<String, List<ResourceElement>> resourceChange, String mode) {
         this.resourceChange = resourceChange;
         this.mode = mode;
     }
 
-    public Map<String, ResourceElement> getResourceChange() {
+    public Map<String, List<ResourceElement>> getResourceChange() {
         return resourceChange;
     }
 
-    public ResourceStateChange setResourceChange(Map<String, ResourceElement> resourceChange) {
+    public ResourceStateChange setResourceChange(Map<String, List<ResourceElement>> resourceChange) {
         this.resourceChange = resourceChange;
         return this;
     }

@@ -3,6 +3,7 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -47,6 +48,12 @@ public class ResourceElement extends AbstractPersistable {
     @Override
     public String toString() {
         return String.valueOf(amt);
+    }
+
+    @Override
+    public ResourceElement setVolatileFlag(boolean volatileFlag) {
+        super.setVolatileFlag(volatileFlag);
+        return this;
     }
 
     @Override
