@@ -27,6 +27,7 @@ public class ResourceElement extends AbstractPersistable {
     public ResourceElement(ResourceElement resourceElement) {
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
+        this.setPriorityTimelineIdList(new ArrayList<>(resourceElement.priorityTimelineIdList));
     }
 
     public double getAmt() {
@@ -76,7 +77,8 @@ public class ResourceElement extends AbstractPersistable {
         return priorityTimelineIdList;
     }
 
-    public void setPriorityTimelineIdList(List<Integer> priorityTimelineIdList) {
+    public ResourceElement setPriorityTimelineIdList(List<Integer> priorityTimelineIdList) {
         this.priorityTimelineIdList = priorityTimelineIdList;
+        return this;
     }
 }

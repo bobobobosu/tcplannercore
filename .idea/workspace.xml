@@ -7,53 +7,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockEasy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockFormalPaperTest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockFull.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockGoSchoolTest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockGoSchoolTest2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockHard.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockLarge.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockRestriction.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockSolution.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockSolution1.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockSolutionFreeHard.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockSolutionMixed.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/old/TimelineBlockSolutionRestrictedHard.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceStateChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceStateChange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockEasy.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockFormalPaperTest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockFull.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockGoSchoolTest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockGoSchoolTest2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockHard.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockLarge.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockRestriction.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolution.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolution1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionFreeHard.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionMixed.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionMixed.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionRestrictedHard.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Solutions/TimelineBlockFormalPaperTest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Solutions/TimelineBlockFull.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Solutions/TimelineBlockGoSchoolTest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Solutions/TimelineBlockGoSchoolTest2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Solutions/TimelineBlockLarge.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Toolbox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Toolbox.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceStateChange.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceStateChange.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,11 +63,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="b9f9ee911000aa7c390ed7d8075b45853d3dd301" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="MIXED" />
+    <option name="RESET_MODE" value="KEEP" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MavenImportPreferences">
@@ -157,7 +129,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Benchmark">
+  <component name="RunManager" selected="Application.TCSchedulingApp">
     <configuration name="Benchmark" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Benchmark" />
       <module name="tcplanner-core" />
@@ -234,8 +206,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.Logging" />
         <item itemvalue="Application.SocketServer" />
@@ -539,7 +511,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577594931923</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Non-accumulative Resource State Change">
+      <created>1577656283434</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1577656283435</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,6 +549,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
     <MESSAGE value="Add benchmark" />
     <MESSAGE value="Added selected count limit for delay change move" />
     <MESSAGE value="Fix Delay Move Weight" />
@@ -590,7 +570,8 @@
     <MESSAGE value="Add Merge, Split, Swap, Set Value and custom ExecutionModeChange Moves&#10;Benchmarked and Tweaked solver config" />
     <MESSAGE value="Optimized Parameters" />
     <MESSAGE value="v19.12.28" />
-    <option name="LAST_COMMIT_MESSAGE" value="v19.12.28" />
+    <MESSAGE value="Non-accumulative Resource State Change" />
+    <option name="LAST_COMMIT_MESSAGE" value="Non-accumulative Resource State Change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -651,18 +632,16 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
-          <line>46</line>
-          <option name="timeStamp" value="559" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
           <line>113</line>
           <option name="timeStamp" value="561" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java</url>
-          <line>296</line>
-          <option name="timeStamp" value="563" />
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java</url>
+          <line>169</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="659" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -702,6 +681,8 @@
         <watch expression="result.allocationList.get(22).progressdelta" language="JAVA" />
         <watch expression="result.allocationList.get(16)" />
         <watch expression="result.allocationList" language="JAVA" />
+        <watch expression="focusedAllocationList.get(5).job" />
+        <watch expression="resourceChangeChain" />
       </configuration>
     </watches-manager>
   </component>

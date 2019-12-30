@@ -1,3 +1,4 @@
 /benchmark/
 local/log/optaplanner.log
 /local/
+/target/

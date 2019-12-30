@@ -72,11 +72,11 @@ rule "checkPreviousStandstill"
 											new int[]{0,0,0,0});
 end
 
-rule "checkRequirements"
+
+rule "checkRequirementsDeficit"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$executionMode : executionMode,
-                                    $index : index,
-                                    $resourceChange_abs : resourceElementMapSimple,
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+                                    $resourceChange_abs : resourceElementMapDeficit,
                                     $jobType : executionMode.job.jobType)
         Map.Entry($net : value#Double) from $resourceChange_abs.entrySet
 
@@ -87,6 +87,53 @@ rule "checkRequirements"
 															$jobType == JobType.SCHEDULED ? (int)(100*$net) : 0,0,0,0},
 												new int[]{0,0,0,0});
 end
+
+rule "checkRequirementsExcess"
+    when
+        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+                                    $resourceChange_abs : resourceElementMapExcess,
+                                    $jobType : executionMode.job.jobType)
+        Map.Entry($net : value#Double) from $resourceChange_abs.entrySet
+
+        eval($net<-0.001)
+    then
+			scoreHolder.addMultiConstraintMatch(kcontext,
+												new int[]{(int)(100*$net),
+															$jobType == JobType.SCHEDULED ? (int)(100*$net) : 0,0,0,0},
+												new int[]{0,0,0,0});
+end
+//rule "checkRequirements"
+//    when
+//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$executionMode : executionMode,
+//                                    $index : index,
+//                                    $resourceChange_abs : resourceElementMapDeficit,
+//                                    $jobType : executionMode.job.jobType)
+//        Map.Entry($net : value#Double) from $resourceChange_abs.entrySet
+//
+//        eval($net<-0.001)
+//    then
+//			scoreHolder.addMultiConstraintMatch(kcontext,
+//												new int[]{(int)(100*$net),
+//															$jobType == JobType.SCHEDULED ? (int)(100*$net) : 0,0,0,0},
+//												new int[]{0,0,0,0});
+//end
+
+
+//rule "checkCapacityRequirements"
+//    when
+//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$executionMode : executionMode,
+//                                    $index : index,
+//                                    $resourceChange_abs : resourceElementMapExcess,
+//                                    $jobType : executionMode.job.jobType)
+//        Map.Entry($net : value#Double) from $resourceChange_abs.entrySet
+//
+//        eval($net<-0.001)
+//    then
+//			scoreHolder.addMultiConstraintMatch(kcontext,
+//												new int[]{(int)(100*$net),
+//															$jobType == JobType.SCHEDULED ? (int)(100*$net) : 0,0,0,0},
+//												new int[]{0,0,0,0});
+//end
 
 rule "checkSplittable"
     when

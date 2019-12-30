@@ -21,7 +21,7 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>30000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>20000</millisecondsSpentLimit>
 
             </termination>
         </solver>

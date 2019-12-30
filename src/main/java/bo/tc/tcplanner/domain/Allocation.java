@@ -27,6 +27,7 @@ import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListen
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import com.google.common.collect.Sets;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
@@ -288,10 +289,14 @@ public class Allocation extends AbstractPersistable {
     }
 
     public Map<String, Double> getResourceElementMapDeficit() {
-        return resourceElementMap.entrySet().stream().collect(
-                Collectors.toMap(
-                        Map.Entry::getKey,
-                        x -> x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()));
+        return resourceElementMap.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                x -> resourceElementMap.get(x.getKey()).stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()
+        ));
+//        return resourceElementMap.entrySet().stream().collect(
+//                Collectors.toMap(
+//                        Map.Entry::getKey,
+//                        x -> x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()));
     }
 
     public Map<String, Double> getResourceElementMapExcess() {
@@ -300,7 +305,7 @@ public class Allocation extends AbstractPersistable {
                         Map.Entry::getKey,
                         x -> Math.min(0,
                                 job.getProject().getSchedule().getValueEntryMap().get(x.getKey()).getCapacity() -
-                                        x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()
+                                        x.getValue().stream().mapToDouble(y -> y.getAmt() > 0 ? y.getAmt() : 0).sum()
                         )));
     }
 

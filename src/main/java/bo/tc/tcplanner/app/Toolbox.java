@@ -184,10 +184,10 @@ public class Toolbox {
                             allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +
                                     allocation.getResourceElementMap().entrySet()
                                             .stream()
-                                            .filter(entry -> entry.getValue()
-                                                    .stream()
-                                                    .mapToDouble(ResourceElement::getAmt)
-                                                    .sum() < 0)
+//                                            .filter(entry -> entry.getValue()
+//                                                    .stream()
+//                                                    .mapToDouble(ResourceElement::getAmt)
+//                                                    .sum() < 0)
                                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).toString().replaceAll("(.{60})", "$1\n")
                     });
                 }
