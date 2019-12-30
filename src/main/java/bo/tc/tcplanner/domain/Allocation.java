@@ -293,20 +293,26 @@ public class Allocation extends AbstractPersistable {
                 Map.Entry::getKey,
                 x -> resourceElementMap.get(x.getKey()).stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()
         ));
-//        return resourceElementMap.entrySet().stream().collect(
-//                Collectors.toMap(
-//                        Map.Entry::getKey,
-//                        x -> x.getValue().stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()));
     }
 
     public Map<String, Double> getResourceElementMapExcess() {
         return resourceElementMap.entrySet().stream().collect(
                 Collectors.toMap(
                         Map.Entry::getKey,
-                        x -> Math.min(0,
-                                job.getProject().getSchedule().getValueEntryMap().get(x.getKey()).getCapacity() -
-                                        x.getValue().stream().mapToDouble(y -> y.getAmt() > 0 ? y.getAmt() : 0).sum()
-                        )));
+                        x -> {
+                            double alive = x.getValue().stream().mapToDouble(y -> y.getAmt() > 0 ? y.getAmt() : 0).sum();
+                            double capacity = job.getProject().getSchedule().getValueEntryMap().get(x.getKey()).getCapacity();
+                            return (alive > capacity) ? -alive : 0;
+                        }
+                ));
+    }
+
+    public Double getResourceElementMapDeficitScore() {
+        return getResourceElementMapDeficit().values().stream().mapToDouble(v -> v).sum();
+    }
+
+    public Double getResourceElementMapExcessScore() {
+        return getResourceElementMapExcess().values().stream().mapToDouble(v -> v).sum();
     }
 
     public long getTimeRestrictionScore() {

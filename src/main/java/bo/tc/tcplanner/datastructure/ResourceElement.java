@@ -16,6 +16,7 @@ public class ResourceElement extends AbstractPersistable {
     String location;
     List<Integer> priorityTimelineIdList = new ArrayList<>();
 
+
     public ResourceElement() {
     }
 

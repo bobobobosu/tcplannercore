@@ -1,5 +1,5 @@
 <solver>
-    <environmentMode>NON_REPRODUCIBLE</environmentMode>
+    <environmentMode>REPRODUCIBLE</environmentMode>
     <moveThreadCount>AUTO</moveThreadCount>
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
