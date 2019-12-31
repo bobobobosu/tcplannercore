@@ -62,6 +62,13 @@ public class Job extends AbstractPersistable {
         return name;
     }
 
+    @Override
+    public Job removeVolatile() {
+        executionModeList.removeIf(AbstractPersistable::isVolatileFlag);
+        timelineProperty.removeVolatile();
+        return this;
+    }
+
     public String getName() {
         return name;
     }

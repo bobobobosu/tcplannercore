@@ -2,7 +2,6 @@ package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
-import com.google.common.collect.Range;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.util.*;
@@ -67,8 +66,11 @@ public class ListenerTools {
                     resourceChange.get(k).forEach(x -> {
                         // create resourceElement
                         ResourceElement resourceElement = new ResourceElement(x)
-                                .setAmt(x.getAmt())
-                                .setSourceAllocation(allocation)
+                                // TODO this line breaks full assert
+                                .setAmt(x.getAmt() *
+                                        (allocation.getProgressdelta().doubleValue() /
+                                                (100 * allocation.getExecutionMode().getProgressChange().getProgressDelta())))
+                                .setType(x.getAmt() > 0 ? "production" : "requirement")
                                 .setPriorityTimelineIdList(
                                         allocation.getJob().getTimelineProperty().getDependencyIdList());
 
@@ -81,17 +83,17 @@ public class ListenerTools {
                                     .getResourceChange().containsKey(k)) continue;
 
                             if (j <= finalI) {
-                                if (resourceElement.getAmt() < 0)
+                                if (resourceElement.getType().equals("requirement"))
                                     addResourceElement(pushpullMap.get(j), k, resourceElement);
                             }
 
                             if (j == finalI) {
-                                if (resourceElement.getAmt() < 0)
+                                if (resourceElement.getType().equals("requirement"))
                                     addResourceElement(resultChain.get(j), k, resourceElement);
                             }
 
                             if (j >= finalI) {
-                                if (resourceElement.getAmt() > 0) {
+                                if (resourceElement.getType().equals("production")) {
                                     addResourceElement(resultChain.get(j), k, resourceElement);
                                     addResourceElement(pushpullMap.get(j), k, resourceElement);
                                 }
@@ -104,13 +106,9 @@ public class ListenerTools {
 
     }
 
-    public static void updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
+    public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
         if (dirty == null)
-            dirty = focusedAllocationList.stream().flatMap(x -> x.getExecutionMode().getResourceStateChange().getResourceChange().keySet().stream()).collect(Collectors.toSet());
-
-        focusedAllocationList.forEach(x -> {
-            if (x.getResourceElementMap() == null) x.setResourceElementMap(new HashMap<>());
-        });
+            dirty = focusedAllocationList.get(0).getJob().getProject().getSchedule().getAllocationList().stream().flatMap(x -> x.getExecutionMode().getResourceStateChange().getResourceChange().keySet().stream()).collect(Collectors.toSet());
 
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
 
@@ -140,12 +138,17 @@ public class ListenerTools {
                         double delta;
                         ResourceElement nextResourceElement = v.get(negIdx);
 
-                        // TODO
+                        // TODO locationRestrictionCheck
                         if ((locationRestrictionCheck(thisResourceElement.getLocation(), "") || true) &&
                                 (delta = Math.min(thisResourceElement.getAmt(), -nextResourceElement.getAmt())) > 0) {
                             // valid push
                             thisResourceElement.setAmt(thisResourceElement.getAmt() - delta);
                             nextResourceElement.setAmt(nextResourceElement.getAmt() + delta);
+
+                            // update applied timelineid
+                            nextResourceElement.getAppliedTimelineIdList().add(
+                                    focusedAllocationList.get(resourceSourceMap.get(thisResourceElement))
+                            );
 
                             // save annihilated resource for checking capacity violations
                             IntStream.rangeClosed(
@@ -168,13 +171,17 @@ public class ListenerTools {
         }
         // Apply
         for (int i = 0; i < focusedAllocationList.size(); i++) {
-            for (var entry : focusedAllocationList.get(i).getResourceElementMap().entrySet()) {
-                if (!dirty.contains(entry.getKey())) {
-                    resourceChangeChain.resultChain.get(i).put(entry.getKey(), entry.getValue());
+            if (focusedAllocationList.get(i).getResourceElementMap() != null) {
+                for (var entry : focusedAllocationList.get(i).getResourceElementMap().entrySet()) {
+                    if (!dirty.contains(entry.getKey())) {
+                        resourceChangeChain.resultChain.get(i).put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
-            focusedAllocationList.get(i).setResourceElementMap(resourceChangeChain.resultChain.get(i));
+
         }
+
+        return resourceChangeChain.resultChain;
     }
 
     private static int pullOrderCompareToBuilder(ResourceElement o1, ResourceElement o2,

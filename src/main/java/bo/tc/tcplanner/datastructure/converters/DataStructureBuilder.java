@@ -180,7 +180,9 @@ public class DataStructureBuilder {
             allocation.setResourceElementMap(null);
         }
         List<Allocation> focusedAllocationList = NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation);
-        updateAllocationResourceStateChange(focusedAllocationList, null);
+        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, null);
+        for (int i = 0; i < focusedAllocationList.size(); i++)
+            focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {

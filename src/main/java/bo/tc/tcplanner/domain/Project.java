@@ -36,6 +36,13 @@ public class Project extends AbstractPersistable {
 
     }
 
+    @Override
+    public Project removeVolatile() {
+        jobList.forEach(AbstractPersistable::removeVolatile);
+        executionModeList.forEach(AbstractPersistable::removeVolatile);
+        return this;
+    }
+
     public Project(Schedule schedule, List<Project> projectList) {
         //Set Basic Information
         this.schedule = schedule;

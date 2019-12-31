@@ -36,6 +36,16 @@ public class TimelineEntry extends AbstractPersistable {
         timelineProperty = new TimelineProperty();
     }
 
+    @Override
+    public TimelineEntry removeVolatile() {
+        humanStateChange.removeVolatile();
+        resourceStateChange.removeVolatile();
+        progressChange.removeVolatile();
+        chronoProperty.removeVolatile();
+        timelineProperty.removeVolatile();
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }

@@ -1,17 +1,12 @@
 package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.datastructure.*;
-import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.AllocationType;
-import bo.tc.tcplanner.domain.ExecutionModeType;
-import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.*;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.Indictment;
-import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,14 +47,27 @@ public class DataStructureWriter {
                 .setBlockScheduleAfter(oldTimelineBlock.getBlockScheduleAfter())
                 .setOrigin("tcplannercore");
 
+        result.removeVolatile();
+
+        // generate ids
+        Map<Allocation, Integer> allocationRealidMap = new IdentityHashMap<>();
+        Map<ExecutionMode, List<Allocation>> executionModeListMap = result
+                .getAllocationList()
+                .stream()
+                .collect(Collectors.groupingBy(Allocation::getExecutionMode));
+        for (Allocation allocation : result.getAllocationList()) {
+            if (allocation.getJob().getTimelineProperty().getTimelineid() == null ||
+                    allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
+                allocationRealidMap.put(allocation, newID(allocationRealidMap.values()));
+            } else {
+                allocationRealidMap.put(allocation, allocation.getJob().getTimelineProperty().getTimelineid());
+            }
+
+        }
+
         // create result TimelineEntry
         List<TimelineEntry> TEList = new ArrayList<>();
         for (Allocation allocation : result.getAllocationList()) {
-            if (allocation.getJob().isVolatileFlag() ||
-                    allocation.getExecutionMode().isVolatileFlag() ||
-                    allocation.isVolatileFlag())
-                continue;
-
             // Initialize
             TimelineEntry TE = new TimelineEntry();
 
@@ -72,27 +80,35 @@ public class DataStructureWriter {
             TE.setChronoProperty(new ChronoProperty(allocation.getExecutionMode().getChronoProperty())
                     .setStartTime(allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault()).format(dtf_TimelineEntry)));
 
+
             // Timeline Property Reset timelineid
-            TE.setTimelineProperty(new TimelineProperty(allocation.getJob().getTimelineProperty()));
-            TE.getTimelineProperty().getDependencyIdList().addAll(
-                    allocation.getResourceElementMap().values().stream()
-                            .flatMap(x -> x.stream()
-                                    .filter(y -> y.getSourceAllocation().getJob().getTimelineProperty().getTimelineid() != null)
-                                    .map(y -> y.getSourceAllocation().getJob().getTimelineProperty().getTimelineid()))
-                            .collect(Collectors.toList()));
-            TE.getTimelineProperty().setDependencyIdList(new TreeSet<>(TE.getTimelineProperty().getDependencyIdList()));
-            if (TE.getTimelineProperty().getTimelineid() == null ||
-                    allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
-                TE.getTimelineProperty().setTimelineid(newID(TEList));
-            }
+            TE.setTimelineProperty(new TimelineProperty(allocation.getJob().getTimelineProperty())
+                    .setTimelineid(allocationRealidMap.get(allocation)));
+            TE.getTimelineProperty().getDependencyIdList().addAll(allocation.getExecutionMode().getResourceStateChange()
+                    .getResourceChange().entrySet().stream().flatMap(
+                            x -> allocation.getResourceElementMap().get(x.getKey()).stream()
+                                    .filter(y -> y.getType().equals("requirement"))
+                                    .flatMap(z -> z.getAppliedTimelineIdList().stream()
+                                            .filter(allocationRealidMap::containsKey)
+                                            .map(allocationRealidMap::get))
+                    ).collect(Collectors.toSet()));
+            TE.getTimelineProperty().getDependencyIdList().addAll(executionModeListMap
+                    .get(allocation.getExecutionMode())
+                    .stream()
+                    .filter(x -> x.getIndex() > allocation.getIndex())
+                    .map(x -> allocationRealidMap.get(x))
+                    .collect(Collectors.toList())
+            );
 
             // Progress Change
             TE.setProgressChange(new ProgressChange((double) allocation.getProgressdelta() / 100));
 
             // Resource State Change
-            TE.setResourceStateChange(new ResourceStateChange(allocation.getExecutionMode().getResourceStateChange()));
-            TE.getResourceStateChange().getResourceChange().values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
-            TE.getResourceStateChange().getResourceChange().entrySet().removeIf(x -> x.getValue().size() == 0);
+            TE.setResourceStateChange(new ResourceStateChange(allocation.getExecutionMode().getResourceStateChange())
+                    .setResourceStatus(allocation.getResourceElementMap()));
+            TE.getResourceStateChange().getResourceStatus().forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
+            TE.getResourceStateChange().getResourceStatus().entrySet().removeIf(x -> x.getValue().size() == 0);
+
 
             // Human State Change
             TE.setHumanStateChange(new HumanStateChange(allocation.getExecutionMode().getHumanStateChange())
@@ -120,7 +136,7 @@ public class DataStructureWriter {
         }
 
         // Add deleted
-        Set<Integer> remainingIdSet = TEList
+        Set<Object> remainingIdSet = TEList
                 .stream()
                 .map(x -> x.getTimelineProperty().getTimelineid())
                 .collect(Collectors.toSet());
@@ -140,6 +156,18 @@ public class DataStructureWriter {
                 (result.getScore() != null ? result.getScore().toShortString() : ""));
 
         return timelineBlock;
+    }
+
+    public Integer newID(Collection<Integer> oldIds) {
+        Integer tmpId = -1;
+        while (true) {
+            if (!oldIds.contains(tmpId)) {
+                break;
+            } else {
+                tmpId--;
+            }
+        }
+        return tmpId;
     }
 
     public Integer newID(List<TimelineEntry> timelineEntryList) {

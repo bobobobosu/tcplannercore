@@ -61,6 +61,21 @@ public class Schedule extends AbstractPersistable {
 
     private TimelineBlock problemTimelineBlock;
 
+    @Override
+    public Schedule removeVolatile() {
+        projectList.removeIf(AbstractPersistable::isVolatileFlag);
+        projectList.forEach(Project::removeVolatile);
+        jobList.removeIf(AbstractPersistable::isVolatileFlag);
+        jobList.forEach(Job::removeVolatile);
+        executionModeList.removeIf(AbstractPersistable::isVolatileFlag);
+        executionModeList.forEach(ExecutionMode::removeVolatile);
+        valueEntryMap.forEach((k, v) -> v.removeVolatile());
+        valueEntryMap.entrySet().removeIf(x -> x.getValue().isVolatileFlag());
+        allocationList.removeIf(AbstractPersistable::isVolatileFlag);
+        allocationList.forEach(Allocation::removeVolatile);
+        return this;
+    }
+
     @XStreamConverter(BendableScoreXStreamConverter.class)
     private BendableScore score;
 
@@ -72,6 +87,7 @@ public class Schedule extends AbstractPersistable {
         executionModeList = new ArrayList<>();
         allocationList = new ArrayList<>();
     }
+
 
     public Schedule(Schedule other) {
         this.projectList = new ArrayList<>(other.projectList);

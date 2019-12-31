@@ -72,6 +72,15 @@ public class ExecutionMode extends AbstractPersistable {
         return getJob().getName();
     }
 
+    @Override
+    public ExecutionMode removeVolatile() {
+        resourceStateChange.removeVolatile();
+        humanStateChange.removeVolatile();
+        progressChange.removeVolatile();
+        chronoProperty.removeVolatile();
+        return this;
+    }
+
     public Job getJob() {
         return job;
     }

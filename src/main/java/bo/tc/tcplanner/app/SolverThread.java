@@ -162,30 +162,28 @@ public class SolverThread extends Thread {
         }
 
 
-        //Solve Hard Incremental By AllocationList
-        if (P1_mode.equals("incremental")) {
-            currentSolver = solverList.get(0);
-            List<Allocation> fullAllocationList = new ArrayList<>(result.getAllocationList());
-            result.setAllocationList(new ArrayList<>(Arrays.asList(fullAllocationList.get(0), fullAllocationList.get(fullAllocationList.size() - 1))));
-            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
-                Allocation thisAllocation = fullAllocationList.get(i);
-                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
-                result.getAllocationList().set(0, fullAllocationList.get(0));
-                result.getAllocationList().set(result.getAllocationList().size() - 1, fullAllocationList.get(fullAllocationList.size() - 1));
-                DataStructureBuilder.constructChainProperty(result.getAllocationList());
-                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
-                if (thisAllocation.getJob().getJobType() == JobType.SCHEDULED && thisAllocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
-                    if (continuetosolve && !isSolved(result, currentSolver)) {
-                        printCurrentSolution(result, false, solvingStatus);
-                        currentSchedule = result;
-                        currentSchedule = result = currentSolver.solve(result);
-                        jsonServer.updateTimelineBlock(false, result);
-                    }
-                }
-            }
-        }
+//        //Solve Hard Incremental By AllocationList
+//        if (P1_mode.equals("incremental")) {
+//            currentSolver = solverList.get(0);
+//            List<Allocation> fullAllocationList = new ArrayList<>(result.getAllocationList());
+//            result.setAllocationList(new ArrayList<>(Arrays.asList(fullAllocationList.get(0), fullAllocationList.get(fullAllocationList.size() - 1))));
+//            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
+//                Allocation thisAllocation = fullAllocationList.get(i);
+//                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
+//                result.getAllocationList().set(0, fullAllocationList.get(0));
+//                result.getAllocationList().set(result.getAllocationList().size() - 1, fullAllocationList.get(fullAllocationList.size() - 1));
+//                DataStructureBuilder.constructChainProperty(result.getAllocationList());
+//                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
+//                if (thisAllocation.getJob().getJobType() == JobType.SCHEDULED && thisAllocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
+//                    if (continuetosolve && !isSolved(result, currentSolver)) {
+//                        printCurrentSolution(result, false, solvingStatus);
+//                        currentSchedule = result;
+//                        currentSchedule = result = currentSolver.solve(result);
+//                    }
+//                }
+//            }
+//        }
 
-        DataStructureBuilder.constructChainProperty(result.getAllocationList());
         //Solve Hard Full
         if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
@@ -193,7 +191,6 @@ public class SolverThread extends Thread {
             printCurrentSolution(result, true, solvingStatus);
             currentSchedule = result;
             if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
-            jsonServer.updateTimelineBlock(false, result);
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));

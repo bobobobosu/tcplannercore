@@ -11,12 +11,28 @@ import java.util.stream.Collectors;
 public class ResourceStateChange extends AbstractPersistable {
     //resource change
     Map<String, List<ResourceElement>> resourceChange;
+    //resource status
+    Map<String, List<ResourceElement>> resourceStatus;
     //change mode
     String mode; // "delta" or "absolute"
 
     public ResourceStateChange() {
         resourceChange = new HashMap<String, List<ResourceElement>>();
         mode = "absolute";
+    }
+
+    @Override
+    public ResourceStateChange removeVolatile() {
+        if (resourceChange != null){
+            resourceChange.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
+            resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
+        }
+        if (resourceStatus != null){
+            resourceStatus.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
+            resourceStatus.entrySet().removeIf(x -> x.getValue().size() == 0);
+        }
+
+        return this;
     }
 
     public ResourceStateChange(ResourceStateChange other) {
@@ -26,6 +42,7 @@ public class ResourceStateChange extends AbstractPersistable {
                         x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))));
         this.setMode(other.mode);
     }
+
 
     public ResourceStateChange(LinkedHashMap<String, List<ResourceElement>> resourceChange, String mode) {
         this.resourceChange = resourceChange;
@@ -50,4 +67,12 @@ public class ResourceStateChange extends AbstractPersistable {
         return this;
     }
 
+    public Map<String, List<ResourceElement>> getResourceStatus() {
+        return resourceStatus;
+    }
+
+    public ResourceStateChange setResourceStatus(Map<String, List<ResourceElement>> resourceStatus) {
+        this.resourceStatus = resourceStatus;
+        return this;
+    }
 }

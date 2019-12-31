@@ -88,4 +88,24 @@ public class ValueEntry extends AbstractPersistable {
         this.chronoProperty = chronoProperty;
         return this;
     }
+
+    @Override
+    public ValueEntry removeVolatile() {
+        if(humanStateChangeList!=null){
+            humanStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
+            humanStateChangeList.forEach(HumanStateChange::removeVolatile);
+        }
+        if(progressChangeList!=null){
+            progressChangeList.removeIf(AbstractPersistable::isVolatileFlag);
+            progressChangeList.forEach(ProgressChange::removeVolatile);
+        }
+        if(resourceStateChangeList!=null){
+            resourceStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
+            resourceStateChangeList.forEach(ResourceStateChange::removeVolatile);
+        }
+
+
+
+        return this;
+    }
 }

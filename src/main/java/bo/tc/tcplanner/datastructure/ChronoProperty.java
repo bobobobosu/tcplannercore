@@ -1,6 +1,8 @@
 package bo.tc.tcplanner.datastructure;
 
-public class ChronoProperty {
+import bo.tc.tcplanner.persistable.AbstractPersistable;
+
+public class ChronoProperty extends AbstractPersistable {
     private String startTime = null;
     private String deadline = null;
     private Integer movable = null;
@@ -10,6 +12,11 @@ public class ChronoProperty {
 
 
     public ChronoProperty(){}
+
+    @Override
+    public ChronoProperty removeVolatile() {
+        return this;
+    }
 
     public ChronoProperty(ChronoProperty other){
         this.setStartTime(other.startTime);

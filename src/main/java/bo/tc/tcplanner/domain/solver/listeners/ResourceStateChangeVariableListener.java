@@ -53,14 +53,17 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
         List<Allocation> focusedAllocationList = NonDummyAllocationIterator.getAllNextIncludeThis(originalAllocation.getSourceAllocation());
 
-        focusedAllocationList.forEach(x -> scoreDirector.beforeVariableChanged(x, "resourceElementMap"));
-
         scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
-        if (originalAllocation.getJob() == null) originalAllocation.setResourceElementMap(null);
+        if (originalAllocation.getJob() == dummyJob) originalAllocation.setResourceElementMap(null);
         scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
 
-        updateAllocationResourceStateChange(focusedAllocationList, dirty);
-        focusedAllocationList.forEach(x -> scoreDirector.afterVariableChanged(x, "resourceElementMap"));
+        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, null);
+        for (int i = 0; i < focusedAllocationList.size(); i++) {
+            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
+            focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
+            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
+        }
+
     }
 
 }

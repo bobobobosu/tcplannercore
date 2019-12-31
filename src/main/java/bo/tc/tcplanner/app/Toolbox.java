@@ -187,8 +187,12 @@ public class Toolbox {
                                             .filter(entry -> entry.getValue()
                                                     .stream()
                                                     .mapToDouble(ResourceElement::getAmt)
-                                                    .sum() < 0)
-                                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)).toString().replaceAll("(.{60})", "$1\n")
+                                                    .sum() != 0)
+                                            .collect(Collectors.toMap(Map.Entry::getKey,
+                                                    x -> x.getValue().stream()
+                                                            .mapToDouble(ResourceElement::getAmt)
+                                                            .sum()
+                                            )).toString().replaceAll("(.{60})", "$1\n")
                     });
                 }
             }

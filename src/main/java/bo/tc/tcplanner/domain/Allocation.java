@@ -75,6 +75,16 @@ public class Allocation extends AbstractPersistable {
 
     }
 
+    @Override
+    public Allocation removeVolatile() {
+        executionMode.removeVolatile();
+        if (resourceElementMap != null) {
+            resourceElementMap.forEach((k, v) -> v.forEach(ResourceElement::removeVolatile));
+            resourceElementMap.entrySet().removeIf(x -> x.getValue().size() == 0);
+        }
+        return this;
+    }
+
     public Allocation(ExecutionMode executionMode, List<Allocation> listOfAllocation, Integer progressdelta) {
         // Set Basic Information
         this.setJob(executionMode.getJob());
@@ -126,6 +136,12 @@ public class Allocation extends AbstractPersistable {
     public String toString() {
         return this.getId() + "-" + job.getName();
     }
+
+    @Override
+    public boolean isVolatileFlag() {
+        return job.isVolatileFlag() || executionMode.isVolatileFlag();
+    }
+
 
     public Integer getIndex() {
         return index;
@@ -313,9 +329,9 @@ public class Allocation extends AbstractPersistable {
             int alive = 0;
             double capacity = job.getProject().getSchedule().getValueEntryMap().get(entry.getKey()).getCapacity();
             for (ResourceElement resourceElement : entry.getValue()) {
-                alive += (resourceElement.getAmt() > 0) ? resourceElement.getAmt() : 0;
+                alive += (resourceElement.getType().equals("production")) ? resourceElement.getAmt() : 0;
             }
-            score += (alive > capacity) ? -alive : 0;
+            score += (alive > capacity) ? capacity - alive : 0;
         }
         return score;
     }

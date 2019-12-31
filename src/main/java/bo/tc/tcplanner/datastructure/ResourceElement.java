@@ -14,9 +14,12 @@ public class ResourceElement extends AbstractPersistable {
     //if amt<0, location is requirement
     //if amt>0, location is availability
     String location;
+    @JsonIgnore
     Set<Integer> priorityTimelineIdList = new TreeSet<>();
     @JsonIgnore
-    Allocation sourceAllocation;
+    Set<Allocation> appliedTimelineIdList = new TreeSet<Allocation>();
+    @JsonIgnore
+    String type;
 
 
     public ResourceElement() {
@@ -31,7 +34,7 @@ public class ResourceElement extends AbstractPersistable {
         super(resourceElement);
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
-        this.setSourceAllocation(resourceElement.sourceAllocation);
+        this.type = resourceElement.getType();
         this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
     }
 
@@ -65,6 +68,11 @@ public class ResourceElement extends AbstractPersistable {
     }
 
     @Override
+    public ResourceElement removeVolatile() {
+        return this;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -87,12 +95,20 @@ public class ResourceElement extends AbstractPersistable {
         return this;
     }
 
-    public Allocation getSourceAllocation() {
-        return sourceAllocation;
+    public Set<Allocation> getAppliedTimelineIdList() {
+        return appliedTimelineIdList;
     }
 
-    public ResourceElement setSourceAllocation(Allocation sourceAllocation) {
-        this.sourceAllocation = sourceAllocation;
+    public void setAppliedTimelineIdList(Set<Allocation> appliedTimelineIdList) {
+        this.appliedTimelineIdList = appliedTimelineIdList;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public ResourceElement setType(String type) {
+        this.type = type;
         return this;
     }
 }

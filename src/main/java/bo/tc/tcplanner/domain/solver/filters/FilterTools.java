@@ -17,7 +17,7 @@ public class FilterTools {
     }
 
     public static boolean isLocked(Allocation allocation) {
-        return allocation.getAllocationTypeSet().contains(AllocationType.Locked);
+        return allocation.getAllocationTypeSet().contains(AllocationType.Locked) || !(allocation.getAllocationTypeSet().contains(AllocationType.Unlocked));
     }
 
     public static boolean isDummy(Allocation allocation) {

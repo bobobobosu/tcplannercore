@@ -88,4 +88,10 @@ public class TimelineBlock extends AbstractPersistable {
         this.blockScheduleAfter = blockScheduleAfter;
         return this;
     }
+
+    @Override
+    public TimelineBlock removeVolatile() {
+        timelineEntryList.forEach(AbstractPersistable::removeVolatile);
+        return this;
+    }
 }

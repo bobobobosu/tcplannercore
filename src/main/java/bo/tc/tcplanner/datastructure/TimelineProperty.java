@@ -1,17 +1,22 @@
 package bo.tc.tcplanner.datastructure;
 
-import java.util.ArrayList;
-import java.util.List;
+import bo.tc.tcplanner.persistable.AbstractPersistable;
+
 import java.util.Set;
 import java.util.TreeSet;
 
-public class TimelineProperty {
+public class TimelineProperty extends AbstractPersistable {
     private Integer rownum = null;
     private Set<Integer> dependencyIdList = new TreeSet<>();
     private Integer timelineid = null;
 
 
     public TimelineProperty(){
+    }
+
+    @Override
+    public TimelineProperty removeVolatile() {
+        return this;
     }
 
     public TimelineProperty(TimelineProperty other){

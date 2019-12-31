@@ -22,9 +22,14 @@ public class PreciseExecutionMoveFactory implements MoveListFactory<Schedule> {
         Allocation prevAllocation;
         while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation = thisAllocation)) != null) {
             allocationList.add(thisAllocation);
-            allocationList.add(schedule.getAllocationList().get((
-                    thisAllocation.getIndex() + prevAllocation.getIndex()
-            ) / 2));
+            try{
+                allocationList.add(schedule.getAllocationList().get((
+                        thisAllocation.getIndex() + prevAllocation.getIndex()
+                ) / 2));
+            }catch (Exception ex){
+                int g=0;
+            }
+
         }
 
         List<SetValueMove> moveList = new ArrayList<>();
