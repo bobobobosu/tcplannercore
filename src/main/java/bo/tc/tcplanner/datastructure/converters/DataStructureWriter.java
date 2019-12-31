@@ -20,7 +20,7 @@ import static bo.tc.tcplanner.app.Toolbox.*;
 import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.deletedRownum;
 
 public class DataStructureWriter {
-    public TimelineBlock generateTimelineBlock(Schedule result, Solver solver) {
+    public TimelineBlock generateTimelineBlockScore(Schedule result) {
         TimelineBlock timelineBlock = generateTimelineBlock(result);
         ScoreDirector<Schedule> scoreDirector = createScoreDirector(result);
 
@@ -57,7 +57,7 @@ public class DataStructureWriter {
         for (Allocation allocation : result.getAllocationList()) {
             if (allocation.getJob().isVolatileFlag() ||
                     allocation.getExecutionMode().isVolatileFlag() ||
-                    allocation.isVolatileFlag() )
+                    allocation.isVolatileFlag())
                 continue;
 
             // Initialize
@@ -74,6 +74,13 @@ public class DataStructureWriter {
 
             // Timeline Property Reset timelineid
             TE.setTimelineProperty(new TimelineProperty(allocation.getJob().getTimelineProperty()));
+            TE.getTimelineProperty().getDependencyIdList().addAll(
+                    allocation.getResourceElementMap().values().stream()
+                            .flatMap(x -> x.stream()
+                                    .filter(y -> y.getSourceAllocation().getJob().getTimelineProperty().getTimelineid() != null)
+                                    .map(y -> y.getSourceAllocation().getJob().getTimelineProperty().getTimelineid()))
+                            .collect(Collectors.toList()));
+            TE.getTimelineProperty().setDependencyIdList(new TreeSet<>(TE.getTimelineProperty().getDependencyIdList()));
             if (TE.getTimelineProperty().getTimelineid() == null ||
                     allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
                 TE.getTimelineProperty().setTimelineid(newID(TEList));
@@ -84,6 +91,8 @@ public class DataStructureWriter {
 
             // Resource State Change
             TE.setResourceStateChange(new ResourceStateChange(allocation.getExecutionMode().getResourceStateChange()));
+            TE.getResourceStateChange().getResourceChange().values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
+            TE.getResourceStateChange().getResourceChange().entrySet().removeIf(x -> x.getValue().size() == 0);
 
             // Human State Change
             TE.setHumanStateChange(new HumanStateChange(allocation.getExecutionMode().getHumanStateChange())

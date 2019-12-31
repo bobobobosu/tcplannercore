@@ -218,10 +218,10 @@ public class JsonServer {
                         Schedule result = null;
                         try {
                             DSB = initializeData(timelineBlock);
-                            solverThread.initializeSolvers();
                             result = DSB.getFullSchedule();
+                            DataStructureBuilder.constructChainProperty(result.getAllocationList());
                             printCurrentSolution(result, false, "");
-                            timelineBlock = new DataStructureWriter().generateTimelineBlock(result, solverThread.currentSolver);
+                            timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

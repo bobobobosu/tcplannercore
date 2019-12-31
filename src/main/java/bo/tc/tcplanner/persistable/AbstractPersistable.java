@@ -16,6 +16,8 @@
 
 package bo.tc.tcplanner.persistable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
@@ -24,12 +26,18 @@ import java.io.Serializable;
 
 public abstract class AbstractPersistable implements Serializable, Comparable<AbstractPersistable> {
 
+    @JsonIgnore
     protected Integer id;
 
+    @JsonIgnore
     protected boolean volatileFlag;
 
     protected AbstractPersistable() {
         this.volatileFlag = false;
+    }
+
+    protected AbstractPersistable(AbstractPersistable abstractPersistable) {
+        this.volatileFlag = abstractPersistable.volatileFlag;
     }
 
     protected AbstractPersistable(Integer id) {

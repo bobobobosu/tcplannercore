@@ -1,5 +1,5 @@
 <solver>
-    <environmentMode>REPRODUCIBLE</environmentMode>
+    <environmentMode>FULL_ASSERT</environmentMode>
     <moveThreadCount>AUTO</moveThreadCount>
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>

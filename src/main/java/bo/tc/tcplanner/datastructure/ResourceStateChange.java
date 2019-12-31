@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ResourceStateChange extends AbstractPersistable {
     //resource change
@@ -18,8 +19,11 @@ public class ResourceStateChange extends AbstractPersistable {
         mode = "absolute";
     }
 
-    public ResourceStateChange(ResourceStateChange other){
-        this.setResourceChange(new HashMap<String, List<ResourceElement>>(other.resourceChange));
+    public ResourceStateChange(ResourceStateChange other) {
+        this.setResourceChange(other.resourceChange.entrySet().stream().collect(
+                Collectors.toMap(
+                        Map.Entry::getKey,
+                        x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))));
         this.setMode(other.mode);
     }
 

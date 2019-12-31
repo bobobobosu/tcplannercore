@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -73,12 +74,12 @@ public class MergeExecutionMove extends AbstractMove<Schedule> {
 
     @Override
     public Collection<? extends Object> getPlanningEntities() {
-        return Arrays.asList(toAllocation, allocation);
+        return new ArrayList<>(Arrays.asList(toAllocation, allocation));
     }
 
     @Override
     public Collection<? extends Object> getPlanningValues() {
-        return Arrays.asList(toAllocation.getProgressdelta(), allocation.getProgressdelta(), allocation.getExecutionMode());
+        return new ArrayList<>(Arrays.asList(toAllocation.getProgressdelta(), allocation.getProgressdelta(), allocation.getExecutionMode()));
     }
 
     @Override

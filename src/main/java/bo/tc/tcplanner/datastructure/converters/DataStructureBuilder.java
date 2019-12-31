@@ -11,6 +11,7 @@ import com.google.common.collect.TreeRangeSet;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
@@ -135,7 +136,7 @@ public class DataStructureBuilder {
             if (allocation.getJob().getJobType() == JobType.SCHEDULED && isNotChangeable(allocation)) {
                 if (allocation.getJob().getTimelineProperty().getRownum() != null) {
                     sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange().put(
-                            allocation.getJob().getId().toString(), Arrays.asList(new ResourceElement(-100, dummyLocation)));
+                            allocation.getJob().getId().toString(), new LinkedList<>(Arrays.asList(new ResourceElement(-100, dummyLocation))));
                 }
             }
         }
@@ -178,15 +179,8 @@ public class DataStructureBuilder {
         for (Allocation allocation : allocationList) {
             allocation.setResourceElementMap(null);
         }
-
-        updateAllocationResourceStateChange(NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation));
-        List<Allocation> hgfv= NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation);
-//        sourceAllocation.setResourceElementMap(new HashMap<>());
-//        prevAllocation = sourceAllocation;
-//        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
-//            updateAllocationResourceStateChange(thisAllocation, prevAllocation);
-//            prevAllocation = thisAllocation;
-//        }
+        List<Allocation> focusedAllocationList = NonDummyAllocationIterator.getAllNextIncludeThis(sourceAllocation);
+        updateAllocationResourceStateChange(focusedAllocationList, null);
     }
 
     public void setGlobalProperties(TimelineBlock timelineBlock) {
@@ -227,11 +221,11 @@ public class DataStructureBuilder {
             if (timelineEntry.getTimelineProperty().getRownum().equals(deletedRownum)) continue;
 
             // Builtin constraints
-            List<ResourceElement> resourceElements = Arrays.asList(
+            List<ResourceElement> resourceElements = new LinkedList<>(Arrays.asList(
                     new ResourceElement()
                             .setAmt(100)
                             .setLocation(dummyLocation)
-                            .setVolatileFlag(true));
+                            .setVolatileFlag(true)));
 
 
             // Add timeline jobs SCHEDULED

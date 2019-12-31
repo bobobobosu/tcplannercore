@@ -1,12 +1,13 @@
 package bo.tc.tcplanner.datastructure;
 
-import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class ProgressChange extends AbstractPersistable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProgressChange {
     //percentage change
     double progressDelta;
 
-    public ProgressChange(ProgressChange other){
+    public ProgressChange(ProgressChange other) {
         this.setProgressDelta(other.progressDelta);
     }
 

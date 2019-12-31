@@ -15,6 +15,8 @@ import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.deepCloneRes
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
 
 public class ResourceStateChangeVariableListener implements VariableListener<Allocation> {
+    Set<String> dirty;
+
     @Override
     public void beforeEntityAdded(ScoreDirector scoreDirector, Allocation allocation) {
 
@@ -27,12 +29,15 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
 
     @Override
     public void beforeVariableChanged(ScoreDirector scoreDirector, Allocation allocation) {
-
+        dirty = new TreeSet<>();
+        dirty.addAll(allocation.getExecutionMode().getResourceStateChange().getResourceChange().keySet());
     }
 
     @Override
     public void afterVariableChanged(ScoreDirector scoreDirector, Allocation allocation) {
+        dirty.addAll(allocation.getExecutionMode().getResourceStateChange().getResourceChange().keySet());
         updateAllocation(scoreDirector, allocation);
+        dirty = new TreeSet<>();
     }
 
     @Override
@@ -50,8 +55,11 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
 
         focusedAllocationList.forEach(x -> scoreDirector.beforeVariableChanged(x, "resourceElementMap"));
 
-        updateAllocationResourceStateChange(focusedAllocationList);
+        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
+        if (originalAllocation.getJob() == null) originalAllocation.setResourceElementMap(null);
+        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
 
+        updateAllocationResourceStateChange(focusedAllocationList, dirty);
         focusedAllocationList.forEach(x -> scoreDirector.afterVariableChanged(x, "resourceElementMap"));
     }
 

@@ -1,11 +1,11 @@
 package bo.tc.tcplanner.datastructure;
 
+import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceElement extends AbstractPersistable {
@@ -14,7 +14,9 @@ public class ResourceElement extends AbstractPersistable {
     //if amt<0, location is requirement
     //if amt>0, location is availability
     String location;
-    List<Integer> priorityTimelineIdList = new ArrayList<>();
+    Set<Integer> priorityTimelineIdList = new TreeSet<>();
+    @JsonIgnore
+    Allocation sourceAllocation;
 
 
     public ResourceElement() {
@@ -26,9 +28,11 @@ public class ResourceElement extends AbstractPersistable {
     }
 
     public ResourceElement(ResourceElement resourceElement) {
+        super(resourceElement);
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
-        this.setPriorityTimelineIdList(new ArrayList<>(resourceElement.priorityTimelineIdList));
+        this.setSourceAllocation(resourceElement.sourceAllocation);
+        this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
     }
 
     public double getAmt() {
@@ -74,12 +78,21 @@ public class ResourceElement extends AbstractPersistable {
         return 0;
     }
 
-    public List<Integer> getPriorityTimelineIdList() {
+    public Set<Integer> getPriorityTimelineIdList() {
         return priorityTimelineIdList;
     }
 
-    public ResourceElement setPriorityTimelineIdList(List<Integer> priorityTimelineIdList) {
+    public ResourceElement setPriorityTimelineIdList(Set<Integer> priorityTimelineIdList) {
         this.priorityTimelineIdList = priorityTimelineIdList;
+        return this;
+    }
+
+    public Allocation getSourceAllocation() {
+        return sourceAllocation;
+    }
+
+    public ResourceElement setSourceAllocation(Allocation sourceAllocation) {
+        this.sourceAllocation = sourceAllocation;
         return this;
     }
 }

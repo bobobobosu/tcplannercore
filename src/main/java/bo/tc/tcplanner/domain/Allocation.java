@@ -291,7 +291,7 @@ public class Allocation extends AbstractPersistable {
     public Map<String, Double> getResourceElementMapDeficit() {
         return resourceElementMap.entrySet().stream().collect(Collectors.toMap(
                 Map.Entry::getKey,
-                x -> resourceElementMap.get(x.getKey()).stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum()
+                x -> resourceElementMap.containsKey(x.getKey()) ? resourceElementMap.get(x.getKey()).stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum() : 0
         ));
     }
 
@@ -307,12 +307,27 @@ public class Allocation extends AbstractPersistable {
                 ));
     }
 
-    public Double getResourceElementMapDeficitScore() {
-        return getResourceElementMapDeficit().values().stream().mapToDouble(v -> v).sum();
+    public Double getResourceElementMapExcessScore() {
+        double score = 0;
+        for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
+            int alive = 0;
+            double capacity = job.getProject().getSchedule().getValueEntryMap().get(entry.getKey()).getCapacity();
+            for (ResourceElement resourceElement : entry.getValue()) {
+                alive += (resourceElement.getAmt() > 0) ? resourceElement.getAmt() : 0;
+            }
+            score += (alive > capacity) ? -alive : 0;
+        }
+        return score;
     }
 
-    public Double getResourceElementMapExcessScore() {
-        return getResourceElementMapExcess().values().stream().mapToDouble(v -> v).sum();
+    public Double getResourceElementMapDeficitScore() {
+        double score = 0;
+        for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
+            for (ResourceElement resourceElement : entry.getValue()) {
+                score += (resourceElement.getAmt() < 0) ? resourceElement.getAmt() : 0;
+            }
+        }
+        return score;
     }
 
     public long getTimeRestrictionScore() {

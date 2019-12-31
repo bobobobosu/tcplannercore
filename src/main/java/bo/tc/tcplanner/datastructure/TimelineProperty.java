@@ -2,19 +2,22 @@ package bo.tc.tcplanner.datastructure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class TimelineProperty {
     private Integer rownum = null;
-    private List<Integer> dependencyIdList = new ArrayList<>();
+    private Set<Integer> dependencyIdList = new TreeSet<>();
     private Integer timelineid = null;
 
 
-    public TimelineProperty(){}
+    public TimelineProperty(){
+    }
 
     public TimelineProperty(TimelineProperty other){
         this.setRownum(other.rownum);
         this.setTimelineid(other.timelineid);
-        this.setDependencyIdList(new ArrayList<>(other.dependencyIdList));
+        this.setDependencyIdList(new TreeSet<>(other.dependencyIdList));
     }
 
     public Integer getRownum() {
@@ -26,11 +29,11 @@ public class TimelineProperty {
         return this;
     }
 
-    public List<Integer> getDependencyIdList() {
+    public Set<Integer> getDependencyIdList() {
         return dependencyIdList;
     }
 
-    public TimelineProperty setDependencyIdList(List<Integer> dependencyIdList) {
+    public TimelineProperty setDependencyIdList(Set<Integer> dependencyIdList) {
         this.dependencyIdList = dependencyIdList;
         return this;
     }
