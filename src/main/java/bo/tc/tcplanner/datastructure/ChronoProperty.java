@@ -27,6 +27,11 @@ public class ChronoProperty extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public ChronoProperty removeEmpty() {
+        return this;
+    }
+
     public ChronoProperty(ChronoProperty other) {
         super(other);
         this.setStartTime(other.startTime);

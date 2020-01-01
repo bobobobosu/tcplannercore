@@ -3,6 +3,8 @@ package bo.tc.tcplanner.app;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
+import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.Schedule;
 import com.google.common.collect.Lists;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
@@ -131,31 +133,30 @@ public class SolverThread extends Thread {
 
     public Schedule runSolve() throws IOException {
         continuetosolve = true;
-        Schedule result = new DataStructureBuilder(valueEntryMap, jsonServer.getLatestTimelineBlock(), timeHierarchyMap)
-                .constructChainProperty().getSchedule();
+        DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getLatestTimelineBlock(), timeHierarchyMap)
+                .constructChainProperty();
+        Schedule result = DSB.getSchedule();
 
 
-//        //Solve Hard Incremental By AllocationList
-//        if (P1_mode.equals("incremental")) {
-//            currentSolver = solverList.get(0);
-//            List<Allocation> fullAllocationList = new ArrayList<>(result.getAllocationList());
-//            result.setAllocationList(new ArrayList<>(Arrays.asList(fullAllocationList.get(0), fullAllocationList.get(fullAllocationList.size() - 1))));
-//            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
-//                Allocation thisAllocation = fullAllocationList.get(i);
-//                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
-//                result.getAllocationList().set(0, fullAllocationList.get(0));
-//                result.getAllocationList().set(result.getAllocationList().size() - 1, fullAllocationList.get(fullAllocationList.size() - 1));
-//                DataStructureBuilder.constructChainProperty(result.getAllocationList());
-//                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
-//                if (thisAllocation.getJob().getJobType() == JobType.SCHEDULED && thisAllocation.getIndex() > result.getGlobalScheduleAfterIndex()) {
-//                    if (continuetosolve && !isSolved(result, currentSolver)) {
-//                        printCurrentSolution(result, false, solvingStatus);
-//                        currentSchedule = result;
-//                        currentSchedule = result = currentSolver.solve(result);
-//                    }
-//                }
-//            }
-//        }
+//        Solve Hard Incremental By AllocationList
+        if (P1_mode.equals("incremental")) {
+            currentSolver = solverList.get(0);
+            List<Allocation> fullAllocationList = DSB.getFullAllocationList();
+            result.setAllocationList(new ArrayList<>(Arrays.asList(result.special.sourceAllocation, result.special.sinkAllocation)));
+            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
+                Allocation thisAllocation = fullAllocationList.get(i);
+                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
+                DSB.constructChainProperty();
+                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
+                if (thisAllocation.isFocused() && thisAllocation.getAllocationTypeSet().contains(AllocationType.Unlocked)) {
+                    if (continuetosolve && !isSolved(result, currentSolver)) {
+                        printCurrentSolution(result, false, solvingStatus);
+                        currentSchedule = result;
+                        currentSchedule = result = currentSolver.solve(result);
+                    }
+                }
+            }
+        }
 
         //Solve Hard Full
         if (P1_mode.equals("global")) {

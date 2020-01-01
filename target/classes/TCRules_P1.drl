@@ -38,9 +38,9 @@ rule "checkTimeOverlapping"
             $predecessorsDoneDate : predecessorsDoneDate,$startDate : startDate,$predecessorsDoneDate > $startDate)
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-10*(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes()
+											new int[]{-100*(int)(Duration.between($startDate, $predecessorsDoneDate).toMinutes())
 											,$isOld ?
-											-10*(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes() : 0,0,0,0},
+											-100*(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes() : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -131,7 +131,7 @@ end
 
 rule "dummyJob"
     when
-        $allocation : Allocation(!isFocused())
+        $allocation : Allocation(isFocused())
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end

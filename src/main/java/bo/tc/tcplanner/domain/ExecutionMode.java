@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class ExecutionMode extends AbstractPersistable {
     // Belongs-to relationship
-    private Schedule schedule;
+    private transient Schedule schedule;
 
     // Properties
     private Set<ExecutionModeType> executionModeTypes = new HashSet<>();
@@ -48,25 +48,6 @@ public class ExecutionMode extends AbstractPersistable {
         super();
     }
 
-    public ExecutionMode(ExecutionMode other) {
-        if (other == null) return;
-        if (other.schedule != null) this.schedule = other.schedule;
-        if (other.executionModeTypes != null) this.executionModeTypes = new HashSet<>(other.executionModeTypes);
-        this.title = other.title;
-        this.description = other.description;
-        this.ExecutionModeIndex = other.ExecutionModeIndex;
-        if (other.resourceStateChange != null)
-            this.resourceStateChange = new ResourceStateChange(other.resourceStateChange);
-        if (other.humanStateChange != null)
-            this.humanStateChange = new HumanStateChange(other.humanStateChange);
-        if (other.progressChange != null)
-            this.progressChange = new ProgressChange(other.progressChange);
-        if (other.chronoProperty != null)
-            this.chronoProperty = new ChronoProperty(other.chronoProperty);
-        if (other.timelineProperty != null)
-            this.timelineProperty = new TimelineProperty(other.timelineProperty);
-    }
-
     @Override
     public String toString() {
         return title;
@@ -84,6 +65,11 @@ public class ExecutionMode extends AbstractPersistable {
         if (humanStateChange != null) humanStateChange.removeVolatile();
         if (progressChange != null) progressChange.removeVolatile();
         if (chronoProperty != null) chronoProperty.removeVolatile();
+        return this;
+    }
+
+    @Override
+    public ExecutionMode removeEmpty() {
         return this;
     }
 

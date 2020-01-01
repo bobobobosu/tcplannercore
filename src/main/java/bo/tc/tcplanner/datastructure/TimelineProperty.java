@@ -21,6 +21,11 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public TimelineProperty removeEmpty() {
+        return this;
+    }
+
     public TimelineProperty(TimelineProperty other) {
         super(other);
         this.setDeleted(other.deleted);

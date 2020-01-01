@@ -22,6 +22,11 @@ public class ProgressChange extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public ProgressChange removeEmpty() {
+        return this;
+    }
+
     public double getProgressDelta() {
         return progressDelta;
     }

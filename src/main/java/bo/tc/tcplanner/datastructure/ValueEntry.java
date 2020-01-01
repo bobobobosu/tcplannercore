@@ -117,6 +117,21 @@ public class ValueEntry extends AbstractPersistable {
     }
 
     @Override
+    public ValueEntry removeEmpty() {
+        if (humanStateChangeList != null) {
+            humanStateChangeList.forEach(AbstractPersistable::removeEmpty);
+        }
+        if (progressChangeList != null) {
+            progressChangeList.forEach(AbstractPersistable::removeEmpty);
+        }
+        if (resourceStateChangeList != null) {
+            resourceStateChangeList.forEach(AbstractPersistable::removeEmpty);
+        }
+
+        return this;
+    }
+
+    @Override
     public ValueEntry removeVolatile() {
         if (humanStateChangeList != null) {
             humanStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
@@ -130,8 +145,7 @@ public class ValueEntry extends AbstractPersistable {
             resourceStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
             resourceStateChangeList.forEach(ResourceStateChange::removeVolatile);
         }
-
-
         return this;
     }
+
 }

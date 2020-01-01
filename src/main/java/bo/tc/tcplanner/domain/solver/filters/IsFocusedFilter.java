@@ -5,9 +5,9 @@ import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-public class DummyAllocationFilter implements SelectionFilter<Schedule, Allocation> {
+public class IsFocusedFilter implements SelectionFilter<Schedule, Allocation> {
     @Override
     public boolean accept(ScoreDirector<Schedule> scoreDirector, Allocation allocation) {
-        return !allocation.isFocused();
+        return FilterTools.IsFocused(allocation);
     }
 }

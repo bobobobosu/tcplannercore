@@ -67,6 +67,13 @@ public class ResourceElement extends AbstractPersistable {
 
     @Override
     public ResourceElement removeVolatile() {
+        if (appliedTimelineIdList != null) appliedTimelineIdList.removeIf(Allocation::isVolatileFlag);
+        return this;
+    }
+
+    @Override
+    public ResourceElement removeEmpty() {
+        if (appliedTimelineIdList != null) appliedTimelineIdList.forEach(Allocation::removeEmpty);
         return this;
     }
 

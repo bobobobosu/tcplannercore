@@ -6,27 +6,26 @@ import bo.tc.tcplanner.domain.AllocationType;
 import java.util.List;
 
 public class FilterTools {
-    public static boolean isNotInIndex(Allocation allocation) {
-//        return allocation.getIndex() <= allocation.getProject().getSchedule().getGlobalScheduleAfterIndex();
-//        List<Allocation> allocationList = allocation.getProject().getSchedule().getAllocationList();
-//        return (allocationList.get(allocationList.size() - 2).getStartDate() - allocation.getStartDate()) > 60 * 24 * 3;
-//        return allocationList.get(allocationList.size() - 2).getIndex() - allocation.getIndex() > 200;
-        return false;
+    public static boolean DelayCanChange(Allocation allocation) {
+        if (allocation.getAllocationTypeSet().contains(AllocationType.Locked)) return false;
+        if (allocation.getExecutionMode().getChronoProperty().getMovable() != 1) return false;
+        return true;
     }
 
-    public static boolean isLocked(Allocation allocation) {
-        return allocation.getAllocationTypeSet().contains(AllocationType.Locked) || !(allocation.getAllocationTypeSet().contains(AllocationType.Unlocked));
+    public static boolean ExecutionModeCanChange(Allocation allocation) {
+        if (allocation.getAllocationTypeSet().contains(AllocationType.Locked)) return false;
+        if (allocation.getExecutionMode().getChronoProperty().getChangeable() != 1) return false;
+        return true;
     }
 
-    public static boolean isNotMovable(Allocation allocation) {
-        return !(allocation.getExecutionMode().getChronoProperty().getMovable() == 1);
+    public static boolean ProgressDeltaCanChange(Allocation allocation) {
+        if (allocation.getAllocationTypeSet().contains(AllocationType.Locked)) return false;
+        if (allocation.getExecutionMode().getChronoProperty().getSplittable() != 1) return false;
+        return true;
     }
 
-    public static boolean isNotChangeable(Allocation allocation) {
-        return !(allocation.getExecutionMode().getChronoProperty().getChangeable() == 1);
-    }
-
-    public static boolean isNotSplittable(Allocation allocation) {
-        return !(allocation.getExecutionMode().getChronoProperty().getSplittable() == 1);
+    public static boolean IsFocused(Allocation allocation) {
+        if (!allocation.isFocused()) return false;
+        return true;
     }
 }

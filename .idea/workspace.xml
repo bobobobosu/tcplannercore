@@ -6,19 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="v2019.12.30">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DelayCanChangeFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ExecutionModeCanChangeFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressDeltaCanChangeFilter.java" afterDir="false" />
+    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/IsFocusedFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/DroolsTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/DroolsTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ChronoProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ChronoProperty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/HumanStateChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/HumanStateChange.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ProgressChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ProgressChange.java" afterDir="false" />
@@ -31,51 +27,40 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ValueEntryMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ValueEntryMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/ExecutionMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/ExecutionMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Job.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/JobType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Project.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/ExecutionModeStrengthWeightFactory.java.x" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/comparators/AllocationDifficultyComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/comparators/AllocationDifficultyComparator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilterIgnoreIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilterIgnoreIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ChangeableAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DelayCanChangeFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DelayCanChangeFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilterIgnoreIndex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ExecutionModeCanChangeFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ExecutionModeCanChangeFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/FilterTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/FilterTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressSwapMoveFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressSwapMoveFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/DummyAllocationIterator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/NonDummyAllocationIterator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PreviousStandstillUpdatingVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PreviousStandstillUpdatingVariableListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/IndexAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/MovableAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressDeltaCanChangeFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressDeltaCanChangeFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/ProgressSwapMoveFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/SplittableAllocationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/filters/UnlockedAllocationFilter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/MergeExecutionMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/MergeExecutionMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/MergeExecutionMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/MergeExecutionMoveFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseDelayMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseDelayMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseExecutionMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseExecutionMoveFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SkippedSwapMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SkippedSwapMoveFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SkippedSwapMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SkippedSwapMove.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitExecutionMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitExecutionMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitExecutionMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitExecutionMoveFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/partitioners/SchedulePartitioner.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistable/AbstractPersistable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistable/AbstractPersistable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionMixed.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockSolutionMixed.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P1_2.drl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P2.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P2.drl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/DroolsTools.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/DroolsTools.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$Constants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$NewTimelineBlockNotifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$NewTimelineBlockNotifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$StatusCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$StatusCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$UpdateOptaFilesHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$UpdateOptaFilesHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P2.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TCRules_P2.drl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Toolbox.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Toolbox.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/HumanStateChange.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/HumanStateChange.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ProgressChange.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ProgressChange.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" afterDir="false" />
@@ -84,28 +69,23 @@
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/TimelineEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/TimelineEntry.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntry.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntryMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntryMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/persistence/ScheduleFileIO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/ExecutionMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/ExecutionMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Job.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/JobType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Project.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Schedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Schedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/comparators/AllocationDifficultyComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilterIgnoreIndex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/ChangeableAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummyExecutionModeFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/DummySwapMoveFilter.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/FilterTools.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/FilterTools.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/ProgressSwapMoveFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PreviousStandstillUpdatingVariableListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PreviousStandstillUpdatingVariableListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/partitioners/SchedulePartitioner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/IndexAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/MovableAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/NotDummyAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/SameJobSwapMoveFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/SplittableAllocationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/UnlockedAllocationFilter.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/persistable/AbstractPersistable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/persistable/AbstractPersistable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/solverPhase2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -192,6 +172,7 @@
       <recent name="bo.tc.tcplanner.domain.solver.filters" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner\domain\solver\filters\delete" />
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
     </key>
   </component>
@@ -213,7 +194,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Benchmark">
+  <component name="RunManager" selected="Application.TCSchedulingApp">
     <configuration name="Benchmark" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Benchmark" />
       <module name="tcplanner-core" />
@@ -290,8 +271,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.Logging" />
         <item itemvalue="Application.SocketServer" />
         <item itemvalue="Application.Test" />
@@ -617,7 +598,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577783619041</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="v2019.12.31">
+      <created>1577856029648</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1577856029648</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -705,54 +693,29 @@
           <option name="timeStamp" value="501" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseExecutionMoveFactory.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="730" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="731" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
-          <line>171</line>
-          <option name="timeStamp" value="732" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
-          <line>52</line>
+          <line>51</line>
           <option name="timeStamp" value="733" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
-          <line>41</line>
+          <line>42</line>
           <option name="timeStamp" value="735" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java</url>
-          <line>160</line>
-          <option name="timeStamp" value="799" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitExecutionMoveFactory.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="818" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java</url>
-          <line>170</line>
+          <line>168</line>
           <option name="timeStamp" value="823" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java</url>
-          <line>254</line>
-          <option name="timeStamp" value="824" />
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="831" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SkippedSwapMoveFactory.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="826" />
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java</url>
+          <line>296</line>
+          <option name="timeStamp" value="835" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

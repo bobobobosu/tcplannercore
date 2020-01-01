@@ -71,6 +71,14 @@ public class ResourceStateChange extends AbstractPersistable {
         return this;
     }
 
+    public ResourceStateChange removeEmpty() {
+        if (!(resourceStatus == null)) resourceStatus.forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
+        if (!(resourceStatus == null)) resourceStatus.entrySet().removeIf(x -> x.getValue().size() == 0);
+        if (!(resourceChange == null)) resourceChange.forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
+        if (!(resourceChange == null)) resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
+        return this;
+    }
+
     public ResourceStateChange addResourceElementToChange(String key, ResourceElement resourceElement) {
         if (resourceChange == null) resourceChange = new TreeMap<>();
         if (!resourceChange.containsKey(key)) resourceChange.put(key, new ArrayList<>());

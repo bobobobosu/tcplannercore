@@ -69,6 +69,11 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public AbstractPersistable removeEmpty() {
+        return this;
+    }
+
     @XStreamConverter(BendableScoreXStreamConverter.class)
     private BendableScore score;
 
@@ -78,13 +83,6 @@ public class Schedule extends AbstractPersistable {
         executionModeList = new ArrayList<>();
         allocationList = new ArrayList<>();
         special = new Special();
-    }
-
-
-    public Schedule(Schedule other) {
-        this.executionModeList = new ArrayList<>(other.executionModeList);
-        this.allocationList = new ArrayList<>(other.allocationList);
-        this.score = null;
     }
 
     @ProblemFactProperty

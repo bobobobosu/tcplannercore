@@ -2,6 +2,7 @@ package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -36,11 +37,9 @@ public class SkippedSwapMove extends AbstractMove<Schedule> {
 
     @Override
     public boolean isMoveDoable(ScoreDirector<Schedule> scoreDirector) {
-        if (allocation.equals(toAllocation)) return false;
-        if (isNotInIndex(allocation) || isNotInIndex(toAllocation)) return false;
-        if (isLocked(allocation) || isLocked(toAllocation)) return false;
-        if (isNotMovable(allocation) || isNotMovable(toAllocation)) return false;
-        return true;
+        if (!ExecutionModeCanChange(allocation)) return false;
+        if (!ExecutionModeCanChange(toAllocation)) return false;
+        return !allocation.equals(toAllocation);
     }
 
     @Override

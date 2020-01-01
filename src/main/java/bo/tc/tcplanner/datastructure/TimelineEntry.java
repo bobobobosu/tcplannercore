@@ -30,11 +30,16 @@ public class TimelineEntry extends AbstractPersistable {
         this.title = timelineEntry.title;
         this.description = timelineEntry.description;
         this.executionMode = timelineEntry.executionMode;
-        if(timelineEntry.humanStateChange != null) this.humanStateChange = new HumanStateChange(timelineEntry.humanStateChange);
-        if(timelineEntry.resourceStateChange != null) this.resourceStateChange = new ResourceStateChange(timelineEntry.resourceStateChange);
-        if(timelineEntry.progressChange != null) this.progressChange = new ProgressChange(timelineEntry.progressChange);
-        if(timelineEntry.chronoProperty != null) this.chronoProperty = new ChronoProperty(timelineEntry.chronoProperty);
-        if(timelineEntry.timelineProperty != null) this.timelineProperty = new TimelineProperty(timelineEntry.timelineProperty);
+        if (timelineEntry.humanStateChange != null)
+            this.humanStateChange = new HumanStateChange(timelineEntry.humanStateChange);
+        if (timelineEntry.resourceStateChange != null)
+            this.resourceStateChange = new ResourceStateChange(timelineEntry.resourceStateChange);
+        if (timelineEntry.progressChange != null)
+            this.progressChange = new ProgressChange(timelineEntry.progressChange);
+        if (timelineEntry.chronoProperty != null)
+            this.chronoProperty = new ChronoProperty(timelineEntry.chronoProperty);
+        if (timelineEntry.timelineProperty != null)
+            this.timelineProperty = new TimelineProperty(timelineEntry.timelineProperty);
         this.score = timelineEntry.score;
     }
 
@@ -49,11 +54,21 @@ public class TimelineEntry extends AbstractPersistable {
 
     @Override
     public TimelineEntry removeVolatile() {
-        humanStateChange.removeVolatile();
-        resourceStateChange.removeVolatile();
-        progressChange.removeVolatile();
-        chronoProperty.removeVolatile();
-        timelineProperty.removeVolatile();
+        if (humanStateChange != null) humanStateChange.removeVolatile();
+        if (resourceStateChange != null) resourceStateChange.removeVolatile();
+        if (progressChange != null) progressChange.removeVolatile();
+        if (chronoProperty != null) chronoProperty.removeVolatile();
+        if (timelineProperty != null) timelineProperty.removeVolatile();
+        return this;
+    }
+
+    @Override
+    public AbstractPersistable removeEmpty() {
+        if (humanStateChange != null) humanStateChange.removeEmpty();
+        if (resourceStateChange != null) resourceStateChange.removeEmpty();
+        if (progressChange != null) progressChange.removeEmpty();
+        if (chronoProperty != null) chronoProperty.removeEmpty();
+        if (timelineProperty != null) timelineProperty.removeEmpty();
         return this;
     }
 

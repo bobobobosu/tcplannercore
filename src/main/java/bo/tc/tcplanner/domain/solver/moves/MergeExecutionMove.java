@@ -3,6 +3,9 @@ package bo.tc.tcplanner.domain.solver.moves;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.ExecutionMode;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter;
+import bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter;
+import bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -42,18 +45,17 @@ public class MergeExecutionMove extends AbstractMove<Schedule> {
                 .setProgressDelta(sum)
                 .apply(toAllocation, scoreDirector);
         new AllocationValues()
-                .setExecutionMode(allocation.getSchedule().getExecutionModeList().get(0))
+                .setExecutionMode(allocation.getSchedule().special.dummyExecutionMode)
                 .apply(allocation, scoreDirector);
     }
 
     @Override
     public boolean isMoveDoable(ScoreDirector<Schedule> scoreDirector) {
-        if (allocation.equals(toAllocation)) return false;
-        if (isNotSplittable(allocation) || isNotSplittable(toAllocation)) return false;
-        if (isNotInIndex(allocation) || isNotInIndex(toAllocation)) return false;
-        if (isLocked(allocation) || isLocked(toAllocation)) return false;
-        if (!allocation.isFocused() || !toAllocation.isFocused()) return false;
-        return true;
+        if (!IsFocused(allocation)) return false;
+        if (!IsFocused(toAllocation)) return false;
+        if (!ExecutionModeCanChange(allocation)) return false;
+        if (!ProgressDeltaCanChange(toAllocation)) return false;
+        return !allocation.equals(toAllocation);
     }
 
     @Override

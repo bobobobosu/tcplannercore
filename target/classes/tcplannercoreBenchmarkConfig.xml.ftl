@@ -19,7 +19,7 @@
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
-<#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
                 <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
@@ -40,7 +40,7 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['NON_REPRODUCIBLE'] as envmode>
+    <#list ['REPRODUCIBLE'] as envmode>
     <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
@@ -62,8 +62,10 @@
 
 
 <#--    Moves-->
-    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.NotDummyAllocationFilter</filterClass>'] as NotDummyFilter>
-    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IndexAllocationFilter</filterClass>'] as IndexFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>'] as IsFocusedFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>'] as DelayCanChangeFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter</filterClass>'] as ExecutionModeCanChangeFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter</filterClass>'] as ProgressDeltaCanChangeFilter>
 
 <#--    Swap Moves-->
     <#list [
@@ -78,9 +80,7 @@
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
-                        ${IndexFilter}
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                        ${ExecutionModeCanChangeFilter}
                     </entitySelector>
                     <valueSelector variableName="executionMode"/>
                 </changeMoveSelector>
@@ -94,19 +94,15 @@
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
                 <changeMoveSelector>
                     <entitySelector>
-                        ${IndexFilter}
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                        ${NotDummyFilter}
+                        ${IsFocusedFilter}
+                        ${DelayCanChangeFilter}
                     </entitySelector>
                     <valueSelector variableName="delay"/>
                 </changeMoveSelector>
                 <changeMoveSelector>
                     <entitySelector>
-                        ${IndexFilter}
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                        ${NotDummyFilter}
+                        ${IsFocusedFilter}
+                        ${DelayCanChangeFilter}
                     </entitySelector>
                     <valueSelector variableName="delay"/>
                 </changeMoveSelector>
@@ -117,18 +113,15 @@
     <#list ['<changeMoveSelector>
                     <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
                     <entitySelector>
-                        ${IndexFilter}
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>
+                        ${ExecutionModeCanChangeFilter}
                     </entitySelector>
                     <valueSelector variableName="executionMode"/>
                 </changeMoveSelector>'] as executionMode>
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
                 <entitySelector>
-                    ${IndexFilter}
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    ${NotDummyFilter}
+                    ${IsFocusedFilter}
+                    ${ProgressDeltaCanChangeFilter}
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>'] as progressdelta>
@@ -136,10 +129,8 @@
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${delayWeight*fineWeight/2}</fixedProbabilityWeight>
                 <entitySelector>
-                    ${IndexFilter}
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.MovableAllocationFilter</filterClass>
-                    ${NotDummyFilter}
+                    ${IsFocusedFilter}
+                    ${DelayCanChangeFilter}
                 </entitySelector>
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>'] as delay>
@@ -235,6 +226,9 @@
     </#list>
     </#list>
     </#list>
+    </#list>
+    </#list>
+
 </plannerBenchmark>
 
 

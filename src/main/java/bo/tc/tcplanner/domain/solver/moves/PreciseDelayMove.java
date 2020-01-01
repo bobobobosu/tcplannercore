@@ -2,6 +2,8 @@ package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter;
+import bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -44,10 +46,8 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
 
     @Override
     public boolean isMoveDoable(ScoreDirector scoreDirector) {
-        if (isNotInIndex(allocation)) return false;
-        if (isLocked(allocation)) return false;
-        if (isNotMovable(allocation)) return false;
-        if (!allocation.isFocused()) return false;
+        if (!IsFocused(allocation)) return false;
+        if (!DelayCanChange(allocation)) return false;
         return (!allocation.getDelay().equals(this.toDelay)) &&
                 (allocation.getNextFocusedAllocation() != null);
     }

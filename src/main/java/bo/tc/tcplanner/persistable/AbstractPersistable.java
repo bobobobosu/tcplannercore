@@ -99,6 +99,8 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
 
     abstract public AbstractPersistable removeVolatile();
 
+    abstract public AbstractPersistable removeEmpty();
+
     private final static AtomicInteger counter = new AtomicInteger();
 
     private synchronized static int genId() {

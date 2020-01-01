@@ -10,13 +10,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isNotChangeable;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 import static java.lang.Math.round;
 
 
 public class DataStructureBuilder {
     Schedule schedule;
+    List<Allocation> fullAllocationList;
 
     public DataStructureBuilder(ValueEntryMap valueEntryMap, TimelineBlock timelineBlock, HashMap<String, Object> timeHierarchyMap) {
         schedule = new Schedule()
@@ -71,25 +71,46 @@ public class DataStructureBuilder {
                 .setVolatileFlag(true)
                 .setSchedule(schedule)
                 .setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SOURCE));
-        schedule.special.sourceAllocation.setExecutionMode(new ExecutionMode(schedule.special.dummyExecutionMode)
-                .setTitle("source").setProgressChange(new ProgressChange().setProgressDelta(1))
+        schedule.special.sourceAllocation.setExecutionMode(new ExecutionMode()
+                .setVolatileFlag(true)
+                .setSchedule(schedule)
+                .setTitle("source")
+                .setDescription("")
+                .setExecutionModeIndex(0)
+                .setHumanStateChange(schedule.special.dummyHumamStateChange)
+                .setProgressChange(schedule.special.dummyProgressChange)
+                .setResourceStateChange(schedule.special.dummyResourceStateChange)
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
-                        .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime()).setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())));
+                        .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
+                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
+                .setTimelineProperty(schedule.special.dummyTimelineProperty));
         schedule.special.sinkAllocation = new Allocation()
                 .setVolatileFlag(true)
                 .setSchedule(schedule)
                 .setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SOURCE));
-        schedule.special.sinkAllocation.setExecutionMode(new ExecutionMode(schedule.special.dummyExecutionMode)
-                .setTitle("sink").setProgressChange(new ProgressChange().setProgressDelta(1)).setChronoProperty(new ChronoProperty()
+        schedule.special.sinkAllocation.setExecutionMode(new ExecutionMode()
+                .setVolatileFlag(true)
+                .setSchedule(schedule)
+                .setTitle("source")
+                .setDescription("")
+                .setExecutionModeIndex(0)
+                .setHumanStateChange(schedule.special.dummyHumamStateChange)
+                .setProgressChange(schedule.special.dummyProgressChange)
+                .setResourceStateChange(schedule.special.dummyResourceStateChange)
+                .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
-                        .setStartTime(schedule.getProblemTimelineBlock().getBlockEndTime()).setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())));
+                        .setStartTime(schedule.getProblemTimelineBlock().getBlockEndTime())
+                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
+                .setTimelineProperty(schedule.special.dummyTimelineProperty));
 
         // Initialize Lists with dummy facts
         schedule.setAllocationList(new ArrayList<>(
                 Arrays.asList(schedule.special.sourceAllocation, schedule.special.sinkAllocation)));
         schedule.setExecutionModeList(new ArrayList<>(
-                Arrays.asList(schedule.special.dummyExecutionMode)));
+                Arrays.asList(schedule.special.dummyExecutionMode,
+                        schedule.special.sourceAllocation.getExecutionMode(),
+                        schedule.special.sinkAllocation.getExecutionMode())));
 
         // Add ExecutionModes from valueEntryMap
         // Add standard jobs
@@ -190,6 +211,8 @@ public class DataStructureBuilder {
                                             .setChangeable(1))
                                     .setTimelineProperty(y.getTimelineProperty()));
                 });
+
+        fullAllocationList = new ArrayList<>(schedule.getAllocationList());
     }
 
     public DataStructureBuilder constructChainProperty() {
@@ -201,7 +224,8 @@ public class DataStructureBuilder {
         schedule.special.sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
         schedule.getAllocationList().stream()
                 .filter(
-                        x -> x.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.OLD) && isNotChangeable(x))
+                        x -> x.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.OLD) &&
+                                x.getExecutionMode().getChronoProperty().getChangeable() == 0)
                 .forEach(x -> {
                     schedule.special.sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange()
                             .put(x.getExecutionMode().getTimelineProperty().getTimelineid().toString(),
@@ -262,5 +286,9 @@ public class DataStructureBuilder {
     public DataStructureBuilder setSchedule(Schedule schedule) {
         this.schedule = schedule;
         return this;
+    }
+
+    public List<Allocation> getFullAllocationList() {
+        return fullAllocationList;
     }
 }

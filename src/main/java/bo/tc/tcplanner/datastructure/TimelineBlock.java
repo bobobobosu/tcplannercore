@@ -128,7 +128,13 @@ public class TimelineBlock extends AbstractPersistable {
 
     @Override
     public TimelineBlock removeVolatile() {
-        timelineEntryList.forEach(AbstractPersistable::removeVolatile);
+        if (timelineEntryList != null) timelineEntryList.forEach(TimelineEntry::removeVolatile);
+        return this;
+    }
+
+    @Override
+    public TimelineBlock removeEmpty() {
+        if (timelineEntryList != null) timelineEntryList.forEach(TimelineEntry::removeEmpty);
         return this;
     }
 }

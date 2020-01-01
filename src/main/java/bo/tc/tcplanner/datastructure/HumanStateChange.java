@@ -19,6 +19,11 @@ public class HumanStateChange extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public HumanStateChange removeEmpty() {
+        return this;
+    }
+
     public HumanStateChange(HumanStateChange other) {
         super(other);
         this.setCurrentLocation(other.currentLocation);

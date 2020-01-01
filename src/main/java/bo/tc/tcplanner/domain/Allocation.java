@@ -41,14 +41,14 @@ import java.util.*;
 @PlanningEntity
 public class Allocation extends AbstractPersistable {
     // Belongs-to relationship
-    private Schedule schedule;
+    private transient Schedule schedule;
 
     // Pre-Solving Properties
     private Integer index;
     private Set<AllocationType> allocationTypeSet = new HashSet<>();
 
     // Planning variables: changes during planning, between score calculations.
-    private ExecutionMode executionMode;
+    private transient ExecutionMode executionMode;
     private Integer delay; // In minutes
     private Integer progressdelta; // out of 100
     // Shadow variables
@@ -64,10 +64,17 @@ public class Allocation extends AbstractPersistable {
     @Override
     public Allocation removeVolatile() {
         executionMode.removeVolatile();
-        if (resourceElementMap != null) {
+        if (resourceElementMap != null)
             resourceElementMap.forEach((k, v) -> v.forEach(ResourceElement::removeVolatile));
+
+        return this;
+    }
+
+    @Override
+    public Allocation removeEmpty() {
+        if (resourceElementMap != null)
             resourceElementMap.entrySet().removeIf(x -> x.getValue().size() == 0);
-        }
+
         return this;
     }
 
@@ -286,6 +293,9 @@ public class Allocation extends AbstractPersistable {
     public Allocation getPrevFocusedAllocation() {
         Allocation result = null;
         for (int i = index - 1; i >= 0; i--) {
+            if (i > schedule.getAllocationList().size() - 2) {
+                int g = 0;
+            }
             if (schedule.getAllocationList().get(i).isFocused()) {
                 result = schedule.getAllocationList().get(i);
                 break;

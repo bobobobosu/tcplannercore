@@ -2,6 +2,7 @@ package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.*;
+import com.google.gson.Gson;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
@@ -35,8 +36,8 @@ public class DataStructureWriter {
         return timelineBlock;
     }
 
-    public TimelineBlock generateTimelineBlock(Schedule oriresult) {
-        Schedule result = new Schedule(oriresult);
+    public TimelineBlock generateTimelineBlock(final Schedule result) {
+
         TimelineBlock oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(result.getProblemTimelineBlock());
 
         TimelineBlock timelineBlock = new TimelineBlock()
@@ -47,27 +48,26 @@ public class DataStructureWriter {
                 .setBlockScheduleAfter(oldTimelineBlock.getBlockScheduleAfter())
                 .setOrigin("tcplannercore");
 
-        result.removeVolatile();
-
         // generate ids
         Map<Allocation, Integer> allocationRealidMap = new IdentityHashMap<>();
-        Map<ExecutionMode, List<Allocation>> executionModeListMap = result
-                .getAllocationList()
-                .stream()
-                .collect(Collectors.groupingBy(Allocation::getExecutionMode));
-        for (Allocation allocation : result.getAllocationList()) {
-            if (allocation.getExecutionMode().getTimelineProperty().getTimelineid() == null ||
-                    allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
-                allocationRealidMap.put(allocation, newID(allocationRealidMap.values()));
+        Map<ExecutionMode, List<Allocation>> executionModeListMap =
+                result.getAllocationList()
+                        .stream()
+                        .filter(x -> !x.isVolatileFlag())
+                        .collect(Collectors.groupingBy(Allocation::getExecutionMode));
+        result.getAllocationList().stream().filter(x -> !x.isVolatileFlag()).forEach(x -> {
+            if (x.getExecutionMode().getTimelineProperty().getTimelineid() == null ||
+                    x.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
+                allocationRealidMap.put(x, newID(allocationRealidMap.values()));
             } else {
-                allocationRealidMap.put(allocation, allocation.getExecutionMode().getTimelineProperty().getTimelineid());
+                allocationRealidMap.put(x, x.getExecutionMode().getTimelineProperty().getTimelineid());
             }
+        });
 
-        }
 
         // create result TimelineEntry
         List<TimelineEntry> TEList = new ArrayList<>();
-        for (Allocation allocation : result.getAllocationList()) {
+        result.getAllocationList().stream().filter(x -> !x.isVolatileFlag()).forEach(allocation -> {
             // Initialize
             TimelineEntry TE = new TimelineEntry();
 
@@ -85,18 +85,19 @@ public class DataStructureWriter {
             TE.setTimelineProperty(new TimelineProperty(allocation.getExecutionMode().getTimelineProperty())
                     .setTimelineid(allocationRealidMap.get(allocation)));
             TE.getTimelineProperty().getDependencyIdList().addAll(allocation.getExecutionMode().getResourceStateChange()
-                    .getResourceChange().entrySet().stream().flatMap(
+                    .getResourceChange().entrySet().stream()
+                    .flatMap(
                             x -> allocation.getResourceElementMap().get(x.getKey()).stream()
-                                    .filter(y -> y.getType().equals("requirement"))
+                                    .filter(y -> y.getType().equals("requirement") && !y.isVolatileFlag())
                                     .flatMap(z -> z.getAppliedTimelineIdList().stream()
-                                            .filter(allocationRealidMap::containsKey)
+                                            .filter(w -> allocationRealidMap.containsKey(w) && !w.isVolatileFlag())
                                             .map(allocationRealidMap::get))
                     ).collect(Collectors.toSet()));
             TE.getTimelineProperty().getDependencyIdList().addAll(executionModeListMap
                     .get(allocation.getExecutionMode())
                     .stream()
-                    .filter(x -> x.getIndex() > allocation.getIndex())
-                    .map(x -> allocationRealidMap.get(x))
+                    .filter(x -> x.getIndex() > allocation.getIndex() && !x.isVolatileFlag())
+                    .map(allocationRealidMap::get)
                     .collect(Collectors.toList())
             );
 
@@ -105,10 +106,10 @@ public class DataStructureWriter {
 
             // Resource State Change
             TE.setResourceStateChange(new ResourceStateChange(allocation.getExecutionMode().getResourceStateChange())
-                    .setResourceStatus(allocation.getResourceElementMap()));
-            TE.getResourceStateChange().getResourceStatus().forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
-            TE.getResourceStateChange().getResourceStatus().entrySet().removeIf(x -> x.getValue().size() == 0);
-
+                    .setResourceStatus(allocation.getResourceElementMap().entrySet().stream().collect(
+                            Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                    .removeVolatile()
+                    .removeEmpty());
 
             // Human State Change
             TE.setHumanStateChange(new HumanStateChange(allocation.getExecutionMode().getHumanStateChange())
@@ -116,7 +117,7 @@ public class DataStructureWriter {
             );
 
             TEList.add(TE);
-        }
+        });
 
         // Build Rownum
         Set<Integer> rownumList = TEList

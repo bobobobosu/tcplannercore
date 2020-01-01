@@ -9,4 +9,9 @@ public class ValueEntryMap extends HashMap<String, ValueEntry> {
     public ValueEntryMap(ValueEntryMap valueEntryMap) {
         valueEntryMap.forEach((k, v) -> this.put(k, new ValueEntry(v)));
     }
+
+    public ValueEntryMap removeVolatile() {
+        this.entrySet().removeIf(x -> x.getValue().isVolatileFlag());
+        return this;
+    }
 }

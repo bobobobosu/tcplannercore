@@ -3,6 +3,8 @@ package bo.tc.tcplanner.domain.solver.moves;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.ExecutionMode;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter;
+import bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -51,12 +53,11 @@ public class SplitExecutionMove extends AbstractMove<Schedule> {
 
     @Override
     public boolean isMoveDoable(ScoreDirector<Schedule> scoreDirector) {
-        if (allocation.equals(dummyAllocation)) return false;
-        if (isNotSplittable(allocation)) return false;
-        if (isNotInIndex(allocation) || isNotInIndex(dummyAllocation)) return false;
-        if (isLocked(allocation) || isLocked(dummyAllocation)) return false;
-        if (!allocation.isFocused()) return false;
-        return true;
+        if (!IsFocused(allocation)) return false;
+        if (!ProgressDeltaCanChange(allocation)) return false;
+        if (!dummyAllocation.getExecutionMode().equals(allocation.getSchedule().special.dummyExecutionMode))
+            return false;
+        return !allocation.equals(dummyAllocation);
     }
 
     @Override
