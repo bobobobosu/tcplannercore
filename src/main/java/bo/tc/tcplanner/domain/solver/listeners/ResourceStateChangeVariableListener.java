@@ -1,21 +1,15 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
-import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.deepCloneResourceMap;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
 
 public class ResourceStateChangeVariableListener implements VariableListener<Allocation> {
-    Set<String> dirty;
+    Set<String> dirty = new TreeSet<>();
 
     @Override
     public void beforeEntityAdded(ScoreDirector scoreDirector, Allocation allocation) {
@@ -24,12 +18,10 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
 
     @Override
     public void afterEntityAdded(ScoreDirector scoreDirector, Allocation allocation) {
-        updateAllocation(scoreDirector, allocation);
     }
 
     @Override
     public void beforeVariableChanged(ScoreDirector scoreDirector, Allocation allocation) {
-        dirty = new TreeSet<>();
         dirty.addAll(allocation.getExecutionMode().getResourceStateChange().getResourceChange().keySet());
     }
 
@@ -51,13 +43,13 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        List<Allocation> focusedAllocationList = NonDummyAllocationIterator.getAllNextIncludeThis(originalAllocation.getSourceAllocation());
+        List<Allocation> focusedAllocationList = originalAllocation.getSchedule().getFocusedAllocationList();
 
         scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
-        if (originalAllocation.getJob() == dummyJob) originalAllocation.setResourceElementMap(null);
+        originalAllocation.setResourceElementMap(null);
         scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
 
-        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, null);
+        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, dirty);
         for (int i = 0; i < focusedAllocationList.size(); i++) {
             scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
             focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));

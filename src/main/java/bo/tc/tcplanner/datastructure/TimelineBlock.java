@@ -1,21 +1,48 @@
 package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimelineBlock extends AbstractPersistable {
-    List<TimelineEntry> timelineEntryList;
-    String blockStartTime;
-    String blockEndTime;
-    Integer blockStartRow;
-    Integer blockEndRow;
-    Integer blockScheduleAfter;
-    String origin;
-    String score;
+    private List<TimelineEntry> timelineEntryList;
+    private String blockStartTime;
+    private String blockEndTime;
+    private Integer blockStartRow;
+    private Integer blockEndRow;
+    private Integer blockScheduleAfter;
+    private String origin;
+    private String score;
 
+    @JsonIgnore
+    private ZonedDateTime zonedBlockStartTime;
+    @JsonIgnore
+    private ZonedDateTime zonedBlockEndTime;
+
+
+    public TimelineBlock() {
+        super();
+    }
+
+    public TimelineBlock(TimelineBlock timelineBlock) {
+        super(timelineBlock);
+        if (timelineBlock.timelineEntryList != null)
+            this.timelineEntryList = timelineBlock.timelineEntryList.stream().map(x -> new TimelineEntry(x))
+                    .collect(Collectors.toList());
+        this.setBlockStartTime(timelineBlock.blockStartTime);
+        this.setBlockEndTime(timelineBlock.blockEndTime);
+        this.blockStartRow = timelineBlock.blockStartRow;
+        this.blockEndRow = timelineBlock.blockEndRow;
+        this.blockScheduleAfter = timelineBlock.blockScheduleAfter;
+        this.origin = timelineBlock.origin;
+        this.score = timelineBlock.score;
+    }
 
     public List<TimelineEntry> getTimelineEntryList() {
         return timelineEntryList;
@@ -32,7 +59,12 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock setBlockStartTime(String blockStartTime) {
         this.blockStartTime = blockStartTime;
+        if (blockStartTime != null) zonedBlockStartTime = ZonedDateTime.parse(blockStartTime);
         return this;
+    }
+
+    public ZonedDateTime getZonedBlockStartTime() {
+        return zonedBlockStartTime;
     }
 
     public String getBlockEndTime() {
@@ -41,7 +73,12 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock setBlockEndTime(String blockEndTime) {
         this.blockEndTime = blockEndTime;
+        if (blockEndTime != null) zonedBlockEndTime = ZonedDateTime.parse(blockEndTime);
         return this;
+    }
+
+    public ZonedDateTime getZonedBlockEndTime() {
+        return zonedBlockEndTime;
     }
 
     public String getOrigin() {

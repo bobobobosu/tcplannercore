@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
-
 public class Toolbox {
     public static Integer ZonedDatetime2OffsetMinutes(ZonedDateTime startDatetime, ZonedDateTime targetedDatetime) {
         Duration duration = Duration.between(startDatetime, targetedDatetime);
@@ -131,10 +129,8 @@ public class Toolbox {
     public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
         try {
             //Debug
-            List<Allocation> debugAllocationList = new ArrayList<>();
-            for (Allocation allocation : schedule.getAllocationList()) {
-                if (allocation.getJob() != dummyJob) debugAllocationList.add(allocation);
-            }
+            List<Allocation> debugAllocationList = schedule.getFocusedAllocationList();
+
             System.err.print("\033[H\033[2J");
             System.err.flush();
             String[] breakByRulesHeader = {"Break Up By Rule"};
@@ -158,16 +154,16 @@ public class Toolbox {
                 }
             }
             for (Allocation allocation : schedule.getAllocationList()) {
-                if (allocation.getJob() != dummyJob) {
+                if (allocation.isFocused()) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
                     String datetime = formatter.format(
                             allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
                             formatter.format(
                                     allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
                     timeline.add(new String[]{
-                            (allocation.getJob().getTimelineProperty().getRownum() == null ||
+                            ((allocation.getExecutionMode().getTimelineProperty().getRownum() == null ||
                                     allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) ? "****" :
-                                    String.valueOf(allocation.getJob().getTimelineProperty().getRownum()),
+                                    String.valueOf(allocation.getExecutionMode().getTimelineProperty().getRownum())) + "\n(" + allocation.getIndex() + ")",
                             String.valueOf(allocation.getProgressdelta()),
                             datetime,
                             LocalTime.MIN.plus(Duration.between(allocation.getStartDate(), allocation.getEndDate())).toString(),
@@ -181,7 +177,7 @@ public class Toolbox {
                                     (allocation.getAllocationTypeSet().contains(AllocationType.Locked) ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ?
                                     hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()) : ""),
-                            allocation.getJob().getName() + " " + allocation.getJob().getId() + "\n" +
+                            allocation.getExecutionMode().getTitle() + " " + "\n" +
                                     allocation.getResourceElementMap().entrySet()
                                             .stream()
                                             .filter(entry -> entry.getValue()

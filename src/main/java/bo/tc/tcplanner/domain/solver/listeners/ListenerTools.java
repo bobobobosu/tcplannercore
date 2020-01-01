@@ -18,15 +18,14 @@ public class ListenerTools {
     }
 
     public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
-        try {
-            allocation.setPredecessorsDoneDate(prevAllocation == null ? allocation.getProject().getSchedule().getGlobalStartTime() : prevAllocation.getEndDate());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+        allocation.setPredecessorsDoneDate(prevAllocation == null ? allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime() : prevAllocation.getEndDate());
     }
 
     public static void updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
+        if (prevAllocation == null) {
+            allocation.setPreviousStandstill(allocation.getSchedule().special.dummyLocation);
+            return;
+        }
         String PreviousStandStill = prevAllocation.getPreviousStandstill();
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
@@ -71,8 +70,9 @@ public class ListenerTools {
                                         (allocation.getProgressdelta().doubleValue() /
                                                 (100 * allocation.getExecutionMode().getProgressChange().getProgressDelta())))
                                 .setType(x.getAmt() > 0 ? "production" : "requirement")
+                                .setAppliedTimelineIdList(new TreeSet<>())
                                 .setPriorityTimelineIdList(
-                                        allocation.getJob().getTimelineProperty().getDependencyIdList());
+                                        allocation.getExecutionMode().getTimelineProperty().getDependencyIdList());
 
                         // populate resource source Map
                         resourceSourceMap.put(resourceElement, finalI);
@@ -108,7 +108,9 @@ public class ListenerTools {
 
     public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
         if (dirty == null)
-            dirty = focusedAllocationList.get(0).getJob().getProject().getSchedule().getAllocationList().stream().flatMap(x -> x.getExecutionMode().getResourceStateChange().getResourceChange().keySet().stream()).collect(Collectors.toSet());
+            dirty = focusedAllocationList.get(0).getSchedule().getAllocationList().stream().flatMap(x ->
+                    x.getExecutionMode().getResourceStateChange().getResourceChange().keySet().stream())
+                    .collect(Collectors.toSet());
 
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
 
@@ -125,7 +127,7 @@ public class ListenerTools {
 
             pushpullList.forEach((k, v) -> {
                 v.sort(
-                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2, resourceSourceMap, allocation.getJob().getTimelineProperty().getTimelineid())
+                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2, resourceSourceMap, allocation.getExecutionMode().getTimelineProperty().getTimelineid())
                 );
 
                 int posIdx = -1;

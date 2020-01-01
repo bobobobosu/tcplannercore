@@ -17,12 +17,12 @@
 package bo.tc.tcplanner.persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
-import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 
 import java.io.Serializable;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractPersistable implements Serializable, Comparable<AbstractPersistable> {
 
@@ -32,11 +32,32 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
     @JsonIgnore
     protected boolean volatileFlag;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractPersistable that = (AbstractPersistable) o;
+
+        return id.equals(that.id);
+    }
+
     protected AbstractPersistable() {
+        this.id = genId();
         this.volatileFlag = false;
     }
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     protected AbstractPersistable(AbstractPersistable abstractPersistable) {
+        if (abstractPersistable == null) {
+            this.id = genId();
+            this.volatileFlag = false;
+        }
+        this.id = genId();
         this.volatileFlag = abstractPersistable.volatileFlag;
     }
 
@@ -54,13 +75,6 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
     }
 
 
-    /**
-     * Used by the GUI to sort the {@link ConstraintMatch} list
-     * by {@link ConstraintMatch#getJustificationList()}.
-     *
-     * @param other never null
-     * @return comparison
-     */
     @Override
     public int compareTo(AbstractPersistable other) {
         return new CompareToBuilder()
@@ -84,4 +98,11 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
     }
 
     abstract public AbstractPersistable removeVolatile();
+
+    private final static AtomicInteger counter = new AtomicInteger();
+
+    private synchronized static int genId() {
+        return counter.incrementAndGet();
+    }
+
 }

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.dtf_TimelineEntry;
 import static bo.tc.tcplanner.app.Toolbox.*;
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.deletedRownum;
 
 public class DataStructureWriter {
     public TimelineBlock generateTimelineBlockScore(Schedule result) {
@@ -24,8 +23,8 @@ public class DataStructureWriter {
             if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
                     Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
                 Allocation matchAllocation = (Allocation) indictmentEntry.getValue().getJustification();
-                if (matchAllocation.getJob().getTimelineProperty().getTimelineid() != null)
-                    breakByTasks.put(matchAllocation.getJob().getTimelineProperty().getTimelineid(), indictmentEntry.getValue());
+                if (matchAllocation.getExecutionMode().getTimelineProperty().getTimelineid() != null)
+                    breakByTasks.put(matchAllocation.getExecutionMode().getTimelineProperty().getTimelineid(), indictmentEntry.getValue());
             }
         }
 
@@ -36,7 +35,8 @@ public class DataStructureWriter {
         return timelineBlock;
     }
 
-    public TimelineBlock generateTimelineBlock(Schedule result) {
+    public TimelineBlock generateTimelineBlock(Schedule oriresult) {
+        Schedule result = new Schedule(oriresult);
         TimelineBlock oldTimelineBlock = (TimelineBlock) jacksonDeepCopy(result.getProblemTimelineBlock());
 
         TimelineBlock timelineBlock = new TimelineBlock()
@@ -56,11 +56,11 @@ public class DataStructureWriter {
                 .stream()
                 .collect(Collectors.groupingBy(Allocation::getExecutionMode));
         for (Allocation allocation : result.getAllocationList()) {
-            if (allocation.getJob().getTimelineProperty().getTimelineid() == null ||
+            if (allocation.getExecutionMode().getTimelineProperty().getTimelineid() == null ||
                     allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) {
                 allocationRealidMap.put(allocation, newID(allocationRealidMap.values()));
             } else {
-                allocationRealidMap.put(allocation, allocation.getJob().getTimelineProperty().getTimelineid());
+                allocationRealidMap.put(allocation, allocation.getExecutionMode().getTimelineProperty().getTimelineid());
             }
 
         }
@@ -72,8 +72,8 @@ public class DataStructureWriter {
             TimelineEntry TE = new TimelineEntry();
 
             // Basic property
-            TE.setTitle(allocation.getJob().getName())
-                    .setDescription(allocation.getJob().getDescription())
+            TE.setTitle(allocation.getExecutionMode().getTitle())
+                    .setDescription(allocation.getExecutionMode().getDescription())
                     .setExecutionMode(allocation.getExecutionMode().getExecutionModeIndex());
 
             // Chronological Property
@@ -82,7 +82,7 @@ public class DataStructureWriter {
 
 
             // Timeline Property Reset timelineid
-            TE.setTimelineProperty(new TimelineProperty(allocation.getJob().getTimelineProperty())
+            TE.setTimelineProperty(new TimelineProperty(allocation.getExecutionMode().getTimelineProperty())
                     .setTimelineid(allocationRealidMap.get(allocation)));
             TE.getTimelineProperty().getDependencyIdList().addAll(allocation.getExecutionMode().getResourceStateChange()
                     .getResourceChange().entrySet().stream().flatMap(
@@ -101,7 +101,7 @@ public class DataStructureWriter {
             );
 
             // Progress Change
-            TE.setProgressChange(new ProgressChange((double) allocation.getProgressdelta() / 100));
+            TE.setProgressChange(new ProgressChange().setProgressDelta((double) allocation.getProgressdelta() / 100));
 
             // Resource State Change
             TE.setResourceStateChange(new ResourceStateChange(allocation.getExecutionMode().getResourceStateChange())
@@ -144,14 +144,14 @@ public class DataStructureWriter {
                 .filter(x -> !remainingIdSet.contains(x.getTimelineProperty().getTimelineid()))
                 .collect(Collectors.toSet())) {
             TEList.add(timelineEntry.setTimelineProperty(
-                    timelineEntry.getTimelineProperty().setRownum(deletedRownum)
+                    timelineEntry.getTimelineProperty().setDeleted(1)
             ));
         }
 
 
         timelineBlock.setTimelineEntryList(TEList);
 
-        int percentComplete = 100 * (TEList.get(TEList.size() - 1).getTimelineProperty().getRownum() - result.getGlobalStartRow()) / (result.getGlobalEndRow() - result.getGlobalStartRow());
+        int percentComplete = 100;//100 * (TEList.get(TEList.size() - 1).getTimelineProperty().getRownum() - result.getGlobalStartRow()) / (result.getGlobalEndRow() - result.getGlobalStartRow());
         timelineBlock.setScore(TEList.get(TEList.size() - 1).getTimelineProperty().getRownum() + "(" + percentComplete + "%)" +
                 (result.getScore() != null ? result.getScore().toShortString() : ""));
 

@@ -1,11 +1,8 @@
 package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.ExecutionMode;
 import bo.tc.tcplanner.domain.Schedule;
-import bo.tc.tcplanner.domain.solver.listeners.DummyAllocationIterator;
-import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
 import org.optaplanner.core.impl.heuristic.selector.move.factory.MoveListFactory;
 
 import java.util.*;
@@ -20,7 +17,7 @@ public class PreciseExecutionMoveFactory implements MoveListFactory<Schedule> {
 
         Allocation thisAllocation = schedule.getAllocationList().get(0);
         Allocation prevAllocation;
-        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation = thisAllocation)) != null) {
+        while ((thisAllocation = (prevAllocation = thisAllocation).getNextFocusedAllocation()) != null) {
             allocationList.add(thisAllocation);
             try{
                 allocationList.add(schedule.getAllocationList().get((

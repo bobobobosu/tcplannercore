@@ -10,17 +10,20 @@ public class HumanStateChange extends AbstractPersistable {
     double duration;
     String requirementTimerange;
 
-    public HumanStateChange(){}
+    public HumanStateChange() {
+        super();
+    }
 
     @Override
     public HumanStateChange removeVolatile() {
         return this;
     }
 
-    public HumanStateChange(HumanStateChange other){
+    public HumanStateChange(HumanStateChange other) {
+        super(other);
         this.setCurrentLocation(other.currentLocation);
-        this.setDuration(other.duration);
         this.setMovetoLocation(other.movetoLocation);
+        this.setDuration(other.duration);
         this.setRequirementTimerange(other.requirementTimerange);
     }
 

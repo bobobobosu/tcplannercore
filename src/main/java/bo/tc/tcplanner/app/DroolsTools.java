@@ -3,20 +3,20 @@ package bo.tc.tcplanner.app;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
+
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
-import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
 import static bo.tc.tcplanner.app.Toolbox.castList;
 import static bo.tc.tcplanner.app.Toolbox.castString;
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyLocation;
+
 
 public class DroolsTools {
 
-    public static RangeSet<ZonedDateTime> getConstrintedTimeRange(String timeRestriction, ZonedDateTime start, ZonedDateTime end) {
+    public static RangeSet<ZonedDateTime> getConstrintedTimeRange(Map<String, Object> timeHierarchyMap, String timeRestriction, ZonedDateTime start, ZonedDateTime end) {
         List<Range<ZonedDateTime>> datesOverRange = getDatesOverRange(Range.closed(start, end));
         RangeSet<ZonedDateTime> result = TreeRangeSet.create();
 
@@ -80,7 +80,6 @@ public class DroolsTools {
     }
 
     public static boolean locationRestrictionCheck(String available, String requirement) {
-        if (requirement.equals(dummyLocation)) return true;
         return locationHierarchyMap.containsKey(available) ?
                 locationHierarchyMap.get(available).contains(requirement) :
                 available.equals(requirement);
@@ -123,7 +122,7 @@ public class DroolsTools {
     public static List<Range<ZonedDateTime>> getDatesOverRange(Range<ZonedDateTime> timerange) {
         List<ZonedDateTime> dateList = new ArrayList<>();
         List<Range<ZonedDateTime>> dateRangeList = new ArrayList<>();
-        ZonedDateTime start = timerange.lowerEndpoint().with(LocalTime.of(0,0));
+        ZonedDateTime start = timerange.lowerEndpoint().with(LocalTime.of(0, 0));
         while (start.isBefore(timerange.upperEndpoint().with(LocalTime.MAX))) {
             dateList.add(start);
             start = start.plusDays(1);

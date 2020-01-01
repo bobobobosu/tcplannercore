@@ -17,7 +17,6 @@
 package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.ResourceElement;
-import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ExecutionModeStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
@@ -27,8 +26,6 @@ import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListen
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
-import com.google.common.collect.Sets;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
@@ -40,25 +37,16 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
-import static bo.tc.tcplanner.app.TCSchedulingApp.timeEntryMap;
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
-
-@PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
-@XStreamAlias("PjsAllocation")
+@PlanningEntity
 public class Allocation extends AbstractPersistable {
+    // Belongs-to relationship
+    private Schedule schedule;
 
-    private Job job;
-    private Integer index = 0;
-    private Allocation sourceAllocation;
-    private Allocation sinkAllocation;
+    // Pre-Solving Properties
+    private Integer index;
     private Set<AllocationType> allocationTypeSet = new HashSet<>();
 
-    // Planning Fact
-    private List<Allocation> predecessorAllocationList;
-    private List<Allocation> successorAllocationList;
     // Planning variables: changes during planning, between score calculations.
     private ExecutionMode executionMode;
     private Integer delay; // In minutes
@@ -68,8 +56,6 @@ public class Allocation extends AbstractPersistable {
     private String previousStandstill;
     private Duration plannedDuration;
     private Map<String, List<ResourceElement>> resourceElementMap;
-    // Ranges
-    private List<ExecutionMode> executionModeList = null;
 
     public Allocation() {
 
@@ -85,125 +71,20 @@ public class Allocation extends AbstractPersistable {
         return this;
     }
 
-    public Allocation(ExecutionMode executionMode, List<Allocation> listOfAllocation, Integer progressdelta) {
-        // Set Basic Information
-        this.setJob(executionMode.getJob());
-        this.setDelay(0);
-        this.setExecutionMode(executionMode);
-        this.setId(listOfAllocation.size());
-        this.setIndex(listOfAllocation.size());
-        this.setPredecessorsDoneDate(getProject().getSchedule().getGlobalStartTime());
-        this.setProgressdelta(progressdelta);
-        this.setPlannedDuration(this.getExecutionMode().getTimeduration().multipliedBy(this.getProgressdelta()).dividedBy(100));
-
-        // Initialize Lists
-        this.successorAllocationList = new ArrayList<>();
-        this.predecessorAllocationList = new ArrayList<>();
-
-        // Update Lists
-        listOfAllocation.add(this);
-    }
-
-    public Allocation(Job job, int delay, ExecutionMode executionMode, List<Allocation> listOfAllocation) {
-        // Set Basic Information
-        this.setJob(job);
-        this.setDelay(delay);
-        this.setExecutionMode(executionMode);
-        this.setId(listOfAllocation.size());
-        this.setIndex(listOfAllocation.size());
-        this.setPredecessorsDoneDate(getProject().getSchedule().getGlobalStartTime());
-        this.plannedDuration = executionMode.getTimeduration();
-        // Update Lists
-
-    }
-
-    public Allocation(Allocation other) {
-        this.job = other.job;
-        this.id = other.id;
-        this.index = other.index;
-        this.sourceAllocation = other.sourceAllocation;
-        this.sinkAllocation = other.sinkAllocation;
-        this.predecessorAllocationList = other.predecessorAllocationList;
-        this.successorAllocationList = other.successorAllocationList;
-        this.executionMode = other.executionMode;
-        this.delay = other.delay;
-        this.predecessorsDoneDate = other.predecessorsDoneDate;
-        this.previousStandstill = other.previousStandstill;
-        this.plannedDuration = other.getPlannedDuration();
-    }
-
     @Override
     public String toString() {
-        return this.getId() + "-" + job.getName();
+        return this.getIndex() + "-" + executionMode;
     }
 
     @Override
     public boolean isVolatileFlag() {
-        return job.isVolatileFlag() || executionMode.isVolatileFlag();
+        return this.volatileFlag || executionMode.isVolatileFlag();
     }
 
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-
-    public void setAllocation(Allocation other) {
-        this.job = other.job;
-        this.id = other.id;
-        this.index = other.index;
-        this.sourceAllocation = other.sourceAllocation;
-        this.sinkAllocation = other.sinkAllocation;
-        this.predecessorAllocationList = other.predecessorAllocationList;
-        this.successorAllocationList = other.successorAllocationList;
-        this.executionMode = other.executionMode;
-        this.delay = other.delay;
-        this.predecessorsDoneDate = other.predecessorsDoneDate;
-        this.previousStandstill = other.previousStandstill;
-        this.plannedDuration = other.getPlannedDuration();
-    }
-
-    public Job getJob() {
-        return job;
-    }
-
-    public void setJob(Job job) {
-        this.job = job;
-    }
-
-    public Allocation getSourceAllocation() {
-        return sourceAllocation;
-    }
-
-    public void setSourceAllocation(Allocation sourceAllocation) {
-        this.sourceAllocation = sourceAllocation;
-    }
-
-    public Allocation getSinkAllocation() {
-        return sinkAllocation;
-    }
-
-    public void setSinkAllocation(Allocation sinkAllocation) {
-        this.sinkAllocation = sinkAllocation;
-    }
-
-    public List<Allocation> getPredecessorAllocationList() {
-        return predecessorAllocationList;
-    }
-
-    public void setPredecessorAllocationList(List<Allocation> predecessorAllocationList) {
-        this.predecessorAllocationList = predecessorAllocationList;
-    }
-
-    public List<Allocation> getSuccessorAllocationList() {
-        return successorAllocationList;
-    }
-
-    public void setSuccessorAllocationList(List<Allocation> successorAllocationList) {
-        this.successorAllocationList = successorAllocationList;
+    @Override
+    public Allocation setVolatileFlag(boolean volatileFlag) {
+        super.setVolatileFlag(volatileFlag);
+        return this;
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
@@ -214,7 +95,6 @@ public class Allocation extends AbstractPersistable {
 
     public void setExecutionMode(ExecutionMode executionMode) {
         this.executionMode = executionMode;
-        this.setJob(executionMode.getJob());
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
@@ -283,51 +163,14 @@ public class Allocation extends AbstractPersistable {
 
 
     // ************************************************************************
-    // Complex methods
+    // Scores
     // ************************************************************************
-    public ZonedDateTime getStartDate() {
-        if (predecessorsDoneDate == null) {
-            return null;
-        }
-
-        if (executionMode.getChronoProperty().getMovable() == 0 &&
-                executionMode.getStartDate() != null) {
-            return executionMode.getStartDate();
-        }
-        return delay == null ? predecessorsDoneDate : predecessorsDoneDate.plusMinutes(delay);
-    }
-
-    public ZonedDateTime getEndDate() {
-        if (predecessorsDoneDate == null) {
-            return null;
-        }
-        return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
-    }
-
-    public Map<String, Double> getResourceElementMapDeficit() {
-        return resourceElementMap.entrySet().stream().collect(Collectors.toMap(
-                Map.Entry::getKey,
-                x -> resourceElementMap.containsKey(x.getKey()) ? resourceElementMap.get(x.getKey()).stream().mapToDouble(y -> y.getAmt() < 0 ? y.getAmt() : 0).sum() : 0
-        ));
-    }
-
-    public Map<String, Double> getResourceElementMapExcess() {
-        return resourceElementMap.entrySet().stream().collect(
-                Collectors.toMap(
-                        Map.Entry::getKey,
-                        x -> {
-                            double alive = x.getValue().stream().mapToDouble(y -> y.getAmt() > 0 ? y.getAmt() : 0).sum();
-                            double capacity = job.getProject().getSchedule().getValueEntryMap().get(x.getKey()).getCapacity();
-                            return (alive > capacity) ? -alive : 0;
-                        }
-                ));
-    }
 
     public Double getResourceElementMapExcessScore() {
         double score = 0;
         for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
             int alive = 0;
-            double capacity = job.getProject().getSchedule().getValueEntryMap().get(entry.getKey()).getCapacity();
+            double capacity = schedule.getValueEntryMap().get(entry.getKey()).getCapacity();
             for (ResourceElement resourceElement : entry.getValue()) {
                 alive += (resourceElement.getType().equals("production")) ? resourceElement.getAmt() : 0;
             }
@@ -347,9 +190,8 @@ public class Allocation extends AbstractPersistable {
     }
 
     public long getTimeRestrictionScore() {
-
         Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
-        RangeSet<ZonedDateTime> restrictionRangeSet = getProject().getSchedule().getTimeEntryMap()
+        RangeSet<ZonedDateTime> restrictionRangeSet = schedule.getTimeEntryMap()
                 .get(executionMode.getHumanStateChange().getRequirementTimerange());
         RangeSet<ZonedDateTime> overlapRangeSet = restrictionRangeSet.subRangeSet(thisRange);
         if (restrictionRangeSet.isEmpty()) return plannedDuration.toMinutes();
@@ -362,31 +204,8 @@ public class Allocation extends AbstractPersistable {
             return overlapRangeSet.asRanges().stream().mapToLong(
                     i -> Duration.between(i.lowerEndpoint(), i.upperEndpoint()).toMinutes()).sum() -
                     plannedDuration.toMinutes();
+
         }
-    }
-
-    public Job getPrevJob() {
-        if (predecessorAllocationList.size() > 0) {
-            return predecessorAllocationList.get(0).getJob();
-        } else {
-            return job;
-        }
-    }
-
-    public Project getProject() {
-        return job.getProject();
-    }
-
-    public int getProjectCriticalPathEndDate() {
-        return job.getProject().getCriticalPathEndDate();
-    }
-
-    public JobType getJobType() {
-        return getExecutionMode().getJob().getJobType();
-    }
-
-    public String getLabel() {
-        return "Job " + job.getId();
     }
 
     // ************************************************************************
@@ -395,21 +214,45 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "executionModeRange")
     public List<ExecutionMode> getExecutionModeRange() {
-        return getProject().getSchedule().getExecutionModeList();
+        return schedule.getExecutionModeList();
     }
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
-        if (job == dummyJob) return ValueRangeFactory.createIntValueRange(0, 1, 1);
+        if (executionMode.equals(schedule.special.dummyExecutionMode))
+            return ValueRangeFactory.createIntValueRange(0, 1, 1);
         return ValueRangeFactory.createIntValueRange(0, 60 * 24);
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
-        if (job == dummyJob) return ValueRangeFactory.createIntValueRange(100, 110, 10);
+        if (executionMode.equals(schedule.special.dummyExecutionMode))
+            return ValueRangeFactory.createIntValueRange(100, 110, 10);
         return ValueRangeFactory.createIntValueRange(0, 101, 1);
     }
 
+
+    // ************************************************************************
+    // Complex methods
+    // ************************************************************************
+    public ZonedDateTime getStartDate() {
+        if (predecessorsDoneDate == null) {
+            return null;
+        }
+
+        if (executionMode.getChronoProperty().getMovable() == 0 &&
+                executionMode.getChronoProperty().getZonedStartTime() != null) {
+            return executionMode.getChronoProperty().getZonedStartTime();
+        }
+        return delay == null ? predecessorsDoneDate : predecessorsDoneDate.plusMinutes(delay);
+    }
+
+    public ZonedDateTime getEndDate() {
+        if (predecessorsDoneDate == null) {
+            return null;
+        }
+        return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
+    }
 
     public Set<AllocationType> getAllocationTypeSet() {
         return allocationTypeSet;
@@ -418,5 +261,91 @@ public class Allocation extends AbstractPersistable {
     public Allocation setAllocationTypeSet(Set<AllocationType> allocationTypeSet) {
         this.allocationTypeSet = allocationTypeSet;
         return this;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public Allocation setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        return this;
+    }
+
+    public Allocation getNextFocusedAllocation() {
+        Allocation result = null;
+        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
+            if (schedule.getAllocationList().get(i).isFocused()) {
+                result = schedule.getAllocationList().get(i);
+                break;
+            }
+        }
+        return result;
+    }
+
+    public Allocation getPrevFocusedAllocation() {
+        Allocation result = null;
+        for (int i = index - 1; i >= 0; i--) {
+            if (schedule.getAllocationList().get(i).isFocused()) {
+                result = schedule.getAllocationList().get(i);
+                break;
+            }
+        }
+        return result;
+    }
+
+    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
+        Allocation allocation = this;
+        Allocation tmpAllocation;
+        // Go back two allocations
+        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+        Allocation finalAllocation = allocation;
+        return new Iterator<Allocation>() {
+            Allocation thisAllocation = finalAllocation;
+
+            @Override
+            public boolean hasNext() {
+                return thisAllocation.getNextFocusedAllocation() != null;
+            }
+
+            @Override
+            public Allocation next() {
+                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
+            }
+        };
+    }
+
+    public List<Allocation> getFocusedAllocationsTillEnd() {
+        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
+        Allocation allocation = this;
+        Allocation tmpAllocation = null;
+        // Go back two allocations
+        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
+            focusedAllocationsTillEnd.add(allocation);
+        }
+        return focusedAllocationsTillEnd;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public Allocation setIndex(Integer index) {
+        this.index = index;
+        return this;
+    }
+
+
+    public boolean isOld() {
+        return executionMode.getExecutionModeTypes().contains(ExecutionModeType.OLD);
+    }
+
+    public boolean isFocused() {
+        return this.equals(schedule.special.sourceAllocation) ||
+                this.equals(schedule.special.sinkAllocation) ||
+                !executionMode.equals(schedule.special.dummyExecutionMode);
     }
 }

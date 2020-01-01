@@ -9,6 +9,6 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 public class DummyExecutionModeFilter implements SelectionFilter<Schedule, ExecutionMode> {
     @Override
     public boolean accept(ScoreDirector<Schedule> scoreDirector, ExecutionMode executionMode) {
-        return executionMode.getJob().equals(DataStructureBuilder.dummyJob);
+        return !executionMode.isFocused();
     }
 }

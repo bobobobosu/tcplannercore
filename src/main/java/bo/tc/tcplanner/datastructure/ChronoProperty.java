@@ -1,6 +1,9 @@
 package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.time.ZonedDateTime;
 
 public class ChronoProperty extends AbstractPersistable {
     private String startTime = null;
@@ -10,15 +13,22 @@ public class ChronoProperty extends AbstractPersistable {
     private Integer splittable = null;
     private Integer changeable = null;
 
+    @JsonIgnore
+    private ZonedDateTime zonedStartTime;
+    @JsonIgnore
+    private ZonedDateTime zonedDeadline;
 
-    public ChronoProperty(){}
+    public ChronoProperty() {
+        super();
+    }
 
     @Override
     public ChronoProperty removeVolatile() {
         return this;
     }
 
-    public ChronoProperty(ChronoProperty other){
+    public ChronoProperty(ChronoProperty other) {
+        super(other);
         this.setStartTime(other.startTime);
         this.setDeadline(other.deadline);
         this.setMovable(other.movable);
@@ -27,12 +37,24 @@ public class ChronoProperty extends AbstractPersistable {
         this.setChangeable(other.changeable);
     }
 
+
+    @JsonIgnore
+    public ZonedDateTime getZonedStartTime() {
+        return zonedStartTime;
+    }
+
+    @JsonIgnore
+    public ZonedDateTime getZonedDeadline() {
+        return zonedDeadline;
+    }
+
     public String getStartTime() {
         return startTime;
     }
 
     public ChronoProperty setStartTime(String startTime) {
         this.startTime = startTime;
+        if (startTime != null) this.zonedStartTime = ZonedDateTime.parse(startTime);
         return this;
     }
 
@@ -42,6 +64,7 @@ public class ChronoProperty extends AbstractPersistable {
 
     public ChronoProperty setDeadline(String deadline) {
         this.deadline = deadline;
+        if (deadline != null) this.zonedDeadline = ZonedDateTime.parse(deadline);
         return this;
     }
 

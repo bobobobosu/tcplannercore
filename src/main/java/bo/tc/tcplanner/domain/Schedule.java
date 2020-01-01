@@ -16,11 +16,8 @@
 
 package bo.tc.tcplanner.domain;
 
-import bo.tc.tcplanner.datastructure.TimeEntryMap;
-import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.datastructure.ValueEntryMap;
+import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
@@ -30,43 +27,39 @@ import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.persistence.xstream.api.score.buildin.bendable.BendableScoreXStreamConverter;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @PlanningSolution
-@XStreamAlias("PjsSchedule")
 public class Schedule extends AbstractPersistable {
 
-    //Domain
-    private List<Project> projectList;
-    private List<Job> jobList;
+    // Domain
+    private List<Allocation> allocationList;
     private List<ExecutionMode> executionModeList;
+
+    // Objects
+    private TimelineBlock problemTimelineBlock;
     private ValueEntryMap valueEntryMap;
     private TimeEntryMap timeEntryMap;
-    private List<Allocation> allocationList;
-    private ZonedDateTime globalStartTime;
-    private ZonedDateTime globalEndTime;
-    private int globalStartRow;
-    private int globalEndRow;
-    private int globalScheduleAfterIndex;
+    public Special special;
 
-    public TimelineBlock getProblemTimelineBlock() {
-        return problemTimelineBlock;
+    public class Special {
+        public Allocation sourceAllocation;
+        public Allocation sinkAllocation;
+        public ExecutionMode dummyExecutionMode;
+        public HumanStateChange dummyHumamStateChange;
+        public ProgressChange dummyProgressChange;
+        public ResourceStateChange dummyResourceStateChange;
+        public ChronoProperty dummyChronoProperty;
+        public TimelineProperty dummyTimelineProperty;
+        public String dummyLocation;
+        public String dummyTime;
     }
 
-    public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
-        this.problemTimelineBlock = problemTimelineBlock;
-    }
-
-    private TimelineBlock problemTimelineBlock;
 
     @Override
     public Schedule removeVolatile() {
-        projectList.removeIf(AbstractPersistable::isVolatileFlag);
-        projectList.forEach(Project::removeVolatile);
-        jobList.removeIf(AbstractPersistable::isVolatileFlag);
-        jobList.forEach(Job::removeVolatile);
         executionModeList.removeIf(AbstractPersistable::isVolatileFlag);
         executionModeList.forEach(ExecutionMode::removeVolatile);
         valueEntryMap.forEach((k, v) -> v.removeVolatile());
@@ -82,20 +75,15 @@ public class Schedule extends AbstractPersistable {
 
     public Schedule() {
         //Initialize
-        projectList = new ArrayList<>();
-        jobList = new ArrayList<>();
         executionModeList = new ArrayList<>();
         allocationList = new ArrayList<>();
+        special = new Special();
     }
 
 
     public Schedule(Schedule other) {
-        this.projectList = new ArrayList<>(other.projectList);
-        this.jobList = new ArrayList<>(other.jobList);
         this.executionModeList = new ArrayList<>(other.executionModeList);
         this.allocationList = new ArrayList<>(other.allocationList);
-        this.globalStartTime = other.globalStartTime;
-        this.globalEndTime = other.globalEndTime;
         this.score = null;
     }
 
@@ -114,27 +102,8 @@ public class Schedule extends AbstractPersistable {
         return timeEntryMap;
     }
 
-    public void setTimeEntryMap(TimeEntryMap timeEntryMap) {
+    public Schedule setTimeEntryMap(TimeEntryMap timeEntryMap) {
         this.timeEntryMap = timeEntryMap;
-    }
-
-    @ProblemFactCollectionProperty
-    public List<Project> getProjectList() {
-        return projectList;
-    }
-
-    public Schedule setProjectList(List<Project> projectList) {
-        this.projectList = projectList;
-        return this;
-    }
-
-    @ProblemFactCollectionProperty
-    public List<Job> getJobList() {
-        return jobList;
-    }
-
-    public Schedule setJobList(List<Job> jobList) {
-        this.jobList = jobList;
         return this;
     }
 
@@ -168,54 +137,42 @@ public class Schedule extends AbstractPersistable {
         this.score = score;
     }
 
-    public ZonedDateTime getGlobalStartTime() {
-        return globalStartTime;
+
+    public TimelineBlock getProblemTimelineBlock() {
+        return problemTimelineBlock;
     }
 
-    public Schedule setGlobalStartTime(ZonedDateTime globalStartTime) {
-        this.globalStartTime = globalStartTime;
+    public Schedule setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
+        this.problemTimelineBlock = problemTimelineBlock;
         return this;
     }
 
-    public ZonedDateTime getGlobalEndTime() {
-        return globalEndTime;
+    public ExecutionMode getDummyExecutionMode() {
+        return special.dummyExecutionMode;
     }
 
-    public Schedule setGlobalEndTime(ZonedDateTime globalEndTime) {
-        this.globalEndTime = globalEndTime;
+    public Schedule setDummyExecutionMode(ExecutionMode dummyExecutionMode) {
+        this.special.dummyExecutionMode = dummyExecutionMode;
         return this;
     }
 
-    public int getGlobalStartRow() {
-        return globalStartRow;
+    public List<Allocation> getFocusedAllocationList() {
+        return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
     }
 
-    public Schedule setGlobalStartRow(int globalStartRow) {
-        this.globalStartRow = globalStartRow;
-        return this;
+    public List<Allocation> getDummyAllocationList() {
+        List<Allocation> dummyAllocationList = new ArrayList<>();
+        Allocation prevAllocation = null;
+        for (Allocation thisAllocaion : allocationList) {
+            if (thisAllocaion.isFocused()) {
+                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
+                    dummyAllocationList.add(
+                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
+                    );
+                prevAllocation = thisAllocaion;
+            }
+        }
+        return dummyAllocationList;
     }
-
-    public int getGlobalEndRow() {
-        return globalEndRow;
-    }
-
-    public Schedule setGlobalEndRow(int globalEndRow) {
-        this.globalEndRow = globalEndRow;
-        return this;
-    }
-
-    public int getGlobalScheduleAfterIndex() {
-        return globalScheduleAfterIndex;
-    }
-
-    public Schedule setGlobalScheduleAfterIndex(int globalScheduleAfterIndex) {
-        this.globalScheduleAfterIndex = globalScheduleAfterIndex;
-        return this;
-    }
-
-
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
 
 }

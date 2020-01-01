@@ -9,14 +9,12 @@ public class ProgressChange extends AbstractPersistable {
     double progressDelta;
 
     public ProgressChange(ProgressChange other) {
-        this.setProgressDelta(other.progressDelta);
-    }
-
-    public ProgressChange(double progressDelta) {
-        this.setProgressDelta(progressDelta);
+        super(other);
+        this.progressDelta = other.progressDelta;
     }
 
     public ProgressChange() {
+        super();
     }
 
     @Override

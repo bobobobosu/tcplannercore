@@ -42,7 +42,7 @@ public class MergeExecutionMove extends AbstractMove<Schedule> {
                 .setProgressDelta(sum)
                 .apply(toAllocation, scoreDirector);
         new AllocationValues()
-                .setExecutionMode(allocation.getProject().getExecutionModeList().get(0))
+                .setExecutionMode(allocation.getSchedule().getExecutionModeList().get(0))
                 .apply(allocation, scoreDirector);
     }
 
@@ -52,7 +52,7 @@ public class MergeExecutionMove extends AbstractMove<Schedule> {
         if (isNotSplittable(allocation) || isNotSplittable(toAllocation)) return false;
         if (isNotInIndex(allocation) || isNotInIndex(toAllocation)) return false;
         if (isLocked(allocation) || isLocked(toAllocation)) return false;
-        if (isDummy(allocation) || isDummy(toAllocation)) return false;
+        if (!allocation.isFocused() || !toAllocation.isFocused()) return false;
         return true;
     }
 

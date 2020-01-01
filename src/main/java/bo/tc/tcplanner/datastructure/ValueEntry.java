@@ -2,7 +2,9 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ValueEntry extends AbstractPersistable {
     //identifier
@@ -16,6 +18,25 @@ public class ValueEntry extends AbstractPersistable {
     List<HumanStateChange> humanStateChangeList;
     List<ResourceStateChange> resourceStateChangeList;
     List<ProgressChange> progressChangeList;
+
+    public ValueEntry() {
+        super();
+    }
+
+    public ValueEntry(ValueEntry valueEntry) {
+        super(valueEntry);
+        this.wbs = valueEntry.wbs;
+        this.type = valueEntry.type;
+        this.classification = valueEntry.classification;
+        this.capacity = valueEntry.capacity;
+        if (valueEntry.chronoProperty != null) this.chronoProperty = new ChronoProperty(valueEntry.chronoProperty);
+        if (valueEntry.humanStateChangeList != null)
+            this.humanStateChangeList = valueEntry.humanStateChangeList.stream().map(HumanStateChange::new).collect(Collectors.toList());
+        if (valueEntry.resourceStateChangeList != null)
+            this.resourceStateChangeList = valueEntry.resourceStateChangeList.stream().map(ResourceStateChange::new).collect(Collectors.toList());
+        if (valueEntry.progressChangeList != null)
+            this.progressChangeList = valueEntry.progressChangeList.stream().map(ProgressChange::new).collect(Collectors.toList());
+    }
 
     public long getWbs() {
         return wbs;
@@ -90,20 +111,25 @@ public class ValueEntry extends AbstractPersistable {
     }
 
     @Override
+    public ValueEntry setVolatileFlag(boolean volatileFlag) {
+        super.setVolatileFlag(volatileFlag);
+        return this;
+    }
+
+    @Override
     public ValueEntry removeVolatile() {
-        if(humanStateChangeList!=null){
+        if (humanStateChangeList != null) {
             humanStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
             humanStateChangeList.forEach(HumanStateChange::removeVolatile);
         }
-        if(progressChangeList!=null){
+        if (progressChangeList != null) {
             progressChangeList.removeIf(AbstractPersistable::isVolatileFlag);
             progressChangeList.forEach(ProgressChange::removeVolatile);
         }
-        if(resourceStateChangeList!=null){
+        if (resourceStateChangeList != null) {
             resourceStateChangeList.removeIf(AbstractPersistable::isVolatileFlag);
             resourceStateChangeList.forEach(ResourceStateChange::removeVolatile);
         }
-
 
 
         return this;

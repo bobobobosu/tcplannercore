@@ -1,6 +1,7 @@
 package bo.tc.tcplanner.datastructure.persistence;
 
 import bo.tc.tcplanner.datastructure.TimelineBlock;
+import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
@@ -10,7 +11,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static bo.tc.tcplanner.app.SolverThread.initializeData;
+import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
+import static bo.tc.tcplanner.app.TCSchedulingApp.valueEntryMap;
 
 public class ScheduleFileIO implements SolutionFileIO {
     private static TimelineBlock oldTimelineBlock;
@@ -25,11 +27,11 @@ public class ScheduleFileIO implements SolutionFileIO {
         try {
             oldTimelineBlock = new ObjectMapper().readValue(
                     IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8), TimelineBlock.class);
-            return initializeData(oldTimelineBlock).getFullSchedule();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new DataStructureBuilder(valueEntryMap, oldTimelineBlock, timeHierarchyMap)
+                .constructChainProperty().getSchedule();
     }
 
     @Override

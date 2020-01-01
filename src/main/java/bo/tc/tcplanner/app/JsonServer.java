@@ -21,10 +21,8 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.Time;
 import java.util.*;
 
-import static bo.tc.tcplanner.app.SolverThread.initializeData;
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 import static bo.tc.tcplanner.app.Toolbox.printTimelineBlock;
@@ -67,7 +65,7 @@ public class JsonServer {
     }
 
     public void updateTimelineBlock(boolean print, Schedule newresult) {
-        latestTimelineBlock = new DataStructureWriter().generateTimelineBlock(newresult);
+//        latestTimelineBlock = new DataStructureWriter().generateTimelineBlock(newresult);
         latestBestSolutions = newresult;
         synchronized (newTimelineBlockLock) {
             newTimelineBlockLock.notify();
@@ -214,17 +212,10 @@ public class JsonServer {
 
                     TimelineBlock timelineBlock = problemTimelineBlock;
                     if (timelineBlock.getOrigin().equals("TCxlsb")) {
-                        DataStructureBuilder DSB = null;
-                        Schedule result = null;
-                        try {
-                            DSB = initializeData(timelineBlock);
-                            result = DSB.getFullSchedule();
-                            DataStructureBuilder.constructChainProperty(result.getAllocationList());
-                            printCurrentSolution(result, false, "");
-                            timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                                .constructChainProperty().getSchedule();
+                        printCurrentSolution(result, false, "");
+                        timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
                     }
 
                     System.out.println("Sending Scored TimelineBlock");

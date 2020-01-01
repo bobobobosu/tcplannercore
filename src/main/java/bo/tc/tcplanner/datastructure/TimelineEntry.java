@@ -21,6 +21,22 @@ public class TimelineEntry extends AbstractPersistable {
     //validation notes
     String score;
 
+    public TimelineEntry() {
+        super();
+    }
+
+    public TimelineEntry(TimelineEntry timelineEntry) {
+        super(timelineEntry);
+        this.title = timelineEntry.title;
+        this.description = timelineEntry.description;
+        this.executionMode = timelineEntry.executionMode;
+        if(timelineEntry.humanStateChange != null) this.humanStateChange = new HumanStateChange(timelineEntry.humanStateChange);
+        if(timelineEntry.resourceStateChange != null) this.resourceStateChange = new ResourceStateChange(timelineEntry.resourceStateChange);
+        if(timelineEntry.progressChange != null) this.progressChange = new ProgressChange(timelineEntry.progressChange);
+        if(timelineEntry.chronoProperty != null) this.chronoProperty = new ChronoProperty(timelineEntry.chronoProperty);
+        if(timelineEntry.timelineProperty != null) this.timelineProperty = new TimelineProperty(timelineEntry.timelineProperty);
+        this.score = timelineEntry.score;
+    }
 
     public String getScore() {
         return score;
@@ -30,11 +46,6 @@ public class TimelineEntry extends AbstractPersistable {
         this.score = score;
     }
 
-    public TimelineEntry() {
-        this.setVolatileFlag(false);
-        chronoProperty = new ChronoProperty();
-        timelineProperty = new TimelineProperty();
-    }
 
     @Override
     public TimelineEntry removeVolatile() {

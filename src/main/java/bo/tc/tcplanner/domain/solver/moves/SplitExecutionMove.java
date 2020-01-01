@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.*;
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isDummy;
 
 public class SplitExecutionMove extends AbstractMove<Schedule> {
     private Allocation allocation;
@@ -56,7 +55,7 @@ public class SplitExecutionMove extends AbstractMove<Schedule> {
         if (isNotSplittable(allocation)) return false;
         if (isNotInIndex(allocation) || isNotInIndex(dummyAllocation)) return false;
         if (isLocked(allocation) || isLocked(dummyAllocation)) return false;
-        if (isDummy(allocation)) return false;
+        if (!allocation.isFocused()) return false;
         return true;
     }
 

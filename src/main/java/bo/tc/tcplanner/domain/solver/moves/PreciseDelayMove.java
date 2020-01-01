@@ -2,7 +2,6 @@ package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
-import bo.tc.tcplanner.domain.solver.listeners.NonDummyAllocationIterator;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -21,7 +20,7 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
     public PreciseDelayMove(Allocation allocation, Integer toDelay) {
         this.toDelay = toDelay;
         this.allocation = allocation;
-        this.nextAllocation = NonDummyAllocationIterator.getNext(allocation);
+        this.nextAllocation = allocation.getNextFocusedAllocation();
 
     }
 
@@ -48,9 +47,9 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
         if (isNotInIndex(allocation)) return false;
         if (isLocked(allocation)) return false;
         if (isNotMovable(allocation)) return false;
-        if (isDummy(allocation)) return false;
+        if (!allocation.isFocused()) return false;
         return (!allocation.getDelay().equals(this.toDelay)) &&
-                (NonDummyAllocationIterator.getNext(allocation) != null);
+                (allocation.getNextFocusedAllocation() != null);
     }
 
     @Override

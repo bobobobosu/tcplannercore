@@ -15,27 +15,25 @@ public class ResourceElement extends AbstractPersistable {
     //if amt>0, location is availability
     String location;
     @JsonIgnore
-    Set<Integer> priorityTimelineIdList = new TreeSet<>();
+    Set<Integer> priorityTimelineIdList;
     @JsonIgnore
-    Set<Allocation> appliedTimelineIdList = new TreeSet<Allocation>();
+    Set<Allocation> appliedTimelineIdList;
     @JsonIgnore
     String type;
 
 
     public ResourceElement() {
+        super();
     }
 
-    public ResourceElement(double amt, String location) {
-        this.amt = amt;
-        this.location = location;
-    }
 
     public ResourceElement(ResourceElement resourceElement) {
         super(resourceElement);
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
         this.type = resourceElement.getType();
-        this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
+        if (resourceElement.priorityTimelineIdList != null)
+            this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
     }
 
     public double getAmt() {
@@ -99,8 +97,9 @@ public class ResourceElement extends AbstractPersistable {
         return appliedTimelineIdList;
     }
 
-    public void setAppliedTimelineIdList(Set<Allocation> appliedTimelineIdList) {
+    public ResourceElement setAppliedTimelineIdList(Set<Allocation> appliedTimelineIdList) {
         this.appliedTimelineIdList = appliedTimelineIdList;
+        return this;
     }
 
     public String getType() {

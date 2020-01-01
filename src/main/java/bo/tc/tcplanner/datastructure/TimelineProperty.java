@@ -6,12 +6,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class TimelineProperty extends AbstractPersistable {
-    private Integer rownum = null;
-    private Set<Integer> dependencyIdList = new TreeSet<>();
-    private Integer timelineid = null;
+    private Integer deleted;
+    private Integer rownum;
+    private Set<Integer> dependencyIdList;
+    private Integer timelineid;
 
 
-    public TimelineProperty(){
+    public TimelineProperty() {
+        super();
     }
 
     @Override
@@ -19,7 +21,9 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
-    public TimelineProperty(TimelineProperty other){
+    public TimelineProperty(TimelineProperty other) {
+        super(other);
+        this.setDeleted(other.deleted);
         this.setRownum(other.rownum);
         this.setTimelineid(other.timelineid);
         this.setDependencyIdList(new TreeSet<>(other.dependencyIdList));
@@ -49,6 +53,15 @@ public class TimelineProperty extends AbstractPersistable {
 
     public TimelineProperty setTimelineid(Integer timelineid) {
         this.timelineid = timelineid;
+        return this;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public TimelineProperty setDeleted(Integer deleted) {
+        this.deleted = deleted;
         return this;
     }
 }

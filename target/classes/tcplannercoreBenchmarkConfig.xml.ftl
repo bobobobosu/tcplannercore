@@ -19,9 +19,9 @@
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>60</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>20000</millisecondsSpentLimit>-->
+<#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
             </termination>
         </solver>

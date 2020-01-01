@@ -16,26 +16,23 @@
 
 package bo.tc.tcplanner.domain;
 
-import bo.tc.tcplanner.datastructure.ChronoProperty;
-import bo.tc.tcplanner.datastructure.HumanStateChange;
-import bo.tc.tcplanner.datastructure.ProgressChange;
-import bo.tc.tcplanner.datastructure.ResourceStateChange;
+import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
-import com.google.common.collect.Range;
-import com.google.common.collect.RangeSet;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@XStreamAlias("PjsExecutionMode")
 public class ExecutionMode extends AbstractPersistable {
-    private Job job;
-    private int ExecutionModeIndex;
+    // Belongs-to relationship
+    private Schedule schedule;
+
+    // Properties
     private Set<ExecutionModeType> executionModeTypes = new HashSet<>();
+    //entries
+    private String title;
+    private String description;
+    private int ExecutionModeIndex;
     //resourceStateChange
     private ResourceStateChange resourceStateChange;
     //humanStateChange
@@ -44,49 +41,49 @@ public class ExecutionMode extends AbstractPersistable {
     private ProgressChange progressChange;
     //chronological property
     private ChronoProperty chronoProperty;
+    //timeline property
+    private TimelineProperty timelineProperty;
 
-    //easy access
-    private ZonedDateTime startDate = null;
-    private ZonedDateTime deadline = null;
-
-    public ExecutionMode(List<ExecutionMode> listOfExecutionMode, Job job) {
-        //Set Basic Information
-        this.setJob(job);
-        this.setId(listOfExecutionMode.size());
-
-        //Initialize
-        resourceStateChange = new ResourceStateChange();
-
-        //Update List
-        listOfExecutionMode.add(this);
+    public ExecutionMode() {
+        super();
     }
 
-
-    public ExecutionMode(Job job, List<ExecutionMode> listOfExecutionMode) {
-        this.setJob(job);
-        this.setId(listOfExecutionMode.size());
+    public ExecutionMode(ExecutionMode other) {
+        if (other == null) return;
+        if (other.schedule != null) this.schedule = other.schedule;
+        if (other.executionModeTypes != null) this.executionModeTypes = new HashSet<>(other.executionModeTypes);
+        this.title = other.title;
+        this.description = other.description;
+        this.ExecutionModeIndex = other.ExecutionModeIndex;
+        if (other.resourceStateChange != null)
+            this.resourceStateChange = new ResourceStateChange(other.resourceStateChange);
+        if (other.humanStateChange != null)
+            this.humanStateChange = new HumanStateChange(other.humanStateChange);
+        if (other.progressChange != null)
+            this.progressChange = new ProgressChange(other.progressChange);
+        if (other.chronoProperty != null)
+            this.chronoProperty = new ChronoProperty(other.chronoProperty);
+        if (other.timelineProperty != null)
+            this.timelineProperty = new TimelineProperty(other.timelineProperty);
     }
 
     @Override
     public String toString() {
-        return getJob().getName();
+        return title;
+    }
+
+    @Override
+    public ExecutionMode setVolatileFlag(boolean volatileFlag) {
+        super.setVolatileFlag(volatileFlag);
+        return this;
     }
 
     @Override
     public ExecutionMode removeVolatile() {
-        resourceStateChange.removeVolatile();
-        humanStateChange.removeVolatile();
-        progressChange.removeVolatile();
-        chronoProperty.removeVolatile();
-        return this;
-    }
-
-    public Job getJob() {
-        return job;
-    }
-
-    public ExecutionMode setJob(Job job) {
-        this.job = job;
+        if (resourceStateChange != null) resourceStateChange.removeVolatile();
+        if (humanStateChange != null) humanStateChange.removeVolatile();
+        if (progressChange != null) progressChange.removeVolatile();
+        if (chronoProperty != null) chronoProperty.removeVolatile();
         return this;
     }
 
@@ -117,7 +114,6 @@ public class ExecutionMode extends AbstractPersistable {
         ExecutionModeIndex = executionModeIndex;
         return this;
     }
-
 
     public ResourceStateChange getResourceStateChange() {
         return resourceStateChange;
@@ -155,18 +151,6 @@ public class ExecutionMode extends AbstractPersistable {
         return this;
     }
 
-    public ZonedDateTime getStartDate() {
-        if (chronoProperty.getStartTime() == null) return null;
-        if (startDate == null) startDate = ZonedDateTime.parse(chronoProperty.getStartTime());
-        return startDate;
-    }
-
-    public ZonedDateTime getDeadline() {
-        if (chronoProperty.getDeadline() == null) return null;
-        if (deadline == null) deadline = ZonedDateTime.parse(chronoProperty.getDeadline());
-        return deadline;
-    }
-
     public Set<ExecutionModeType> getExecutionModeTypes() {
         return executionModeTypes;
     }
@@ -174,5 +158,45 @@ public class ExecutionMode extends AbstractPersistable {
     public ExecutionMode setExecutionModeTypes(Set<ExecutionModeType> executionModeTypes) {
         this.executionModeTypes = executionModeTypes;
         return this;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public ExecutionMode setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ExecutionMode setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ExecutionMode setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public TimelineProperty getTimelineProperty() {
+        return timelineProperty;
+    }
+
+    public ExecutionMode setTimelineProperty(TimelineProperty timelineProperty) {
+        this.timelineProperty = timelineProperty;
+        return this;
+    }
+
+    public boolean isFocused() {
+        return this.equals(schedule.special.dummyExecutionMode);
     }
 }

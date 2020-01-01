@@ -6,7 +6,6 @@ import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFi
 import org.optaplanner.core.impl.heuristic.selector.move.generic.SwapMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isLocked;
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.isNotChangeable;
 
@@ -23,7 +22,7 @@ public class DummySwapMoveFilter implements SelectionFilter<Schedule, SwapMove> 
         if (isLocked(lallocation)) return false;
         if (isLocked(rallocation)) return false;
 
-        return !((lallocation.getJob() == dummyJob && rallocation.getJob() == dummyJob) ||
-                (lallocation.getJob() != dummyJob && rallocation.getJob() != dummyJob));
+        return !((lallocation.isFocused() && rallocation.isFocused()) ||
+                (!lallocation.isFocused() && !rallocation.isFocused()));
     }
 }

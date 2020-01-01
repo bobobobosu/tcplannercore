@@ -1,15 +1,10 @@
 package bo.tc.tcplanner.app;
 
-import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
-import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.JobType;
 import bo.tc.tcplanner.domain.Schedule;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.apache.commons.io.IOUtils;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
@@ -18,10 +13,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
@@ -40,19 +32,6 @@ public class SolverThread extends Thread {
     private List<Solver<Schedule>> solverList;
     private Object resumeSolvingLock;
     private Object newTimelineBlockLock;
-
-    public static DataStructureBuilder initializeData(TimelineBlock latestTimelineBlock) throws IOException {
-        // Build DataStructure
-        DataStructureBuilder DSB = new DataStructureBuilder();
-        DSB.setValueEntryMap(new ValueEntryMap(valueEntryMap));
-        DSB.setGlobalProperties(latestTimelineBlock);
-        DSB.addJobsFromValueEntryDict();
-        DSB.addJobsFromTimelineBlock(latestTimelineBlock);
-        DSB.initializeAllocationList(20);
-        DSB.initializeSchedule();
-        DataStructureBuilder.constructChainProperty(DSB.getListOfAllocations());
-        return DSB;
-    }
 
     public Solver<Schedule> getCurrentSolver() {
         return currentSolver;
@@ -152,14 +131,8 @@ public class SolverThread extends Thread {
 
     public Schedule runSolve() throws IOException {
         continuetosolve = true;
-        DataStructureBuilder DSB = null;
-        Schedule result = null;
-        try {
-            DSB = initializeData(jsonServer.getLatestTimelineBlock());
-            result = DSB.getFullSchedule();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Schedule result = new DataStructureBuilder(valueEntryMap, jsonServer.getLatestTimelineBlock(), timeHierarchyMap)
+                .constructChainProperty().getSchedule();
 
 
 //        //Solve Hard Incremental By AllocationList
@@ -187,14 +160,13 @@ public class SolverThread extends Thread {
         //Solve Hard Full
         if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
-            DataStructureBuilder.constructChainProperty(result.getAllocationList());
             printCurrentSolution(result, true, solvingStatus);
             currentSchedule = result;
             if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
-        printCurrentSolution(result,true, solvingStatus);
+        printCurrentSolution(result, true, solvingStatus);
 
         //Solve Soft
         if (P2_mode.equals("global")) {
@@ -204,8 +176,6 @@ public class SolverThread extends Thread {
                 jsonServer.updateTimelineBlock(false, result);
             }
         }
-
-        DataStructureBuilder.constructChainProperty(result.getAllocationList());
         return result;
     }
 

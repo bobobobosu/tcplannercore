@@ -11,6 +11,6 @@ public class SameJobSwapMoveFilter implements SelectionFilter<Schedule, SwapMove
     public boolean accept(ScoreDirector<Schedule> scoreDirector, SwapMove swapMove) {
         Allocation lallocation = (Allocation) swapMove.getLeftEntity();
         Allocation rallocation = (Allocation) swapMove.getRightEntity();
-        return lallocation.getJob() == rallocation.getJob();
+        return lallocation.getExecutionMode().equals(rallocation.getExecutionMode());
     }
 }

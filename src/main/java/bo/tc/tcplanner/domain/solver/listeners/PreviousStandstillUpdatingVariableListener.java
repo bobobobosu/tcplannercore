@@ -4,8 +4,10 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import static bo.tc.tcplanner.datastructure.converters.DataStructureBuilder.dummyJob;
+import java.util.List;
+
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
 
 public class PreviousStandstillUpdatingVariableListener implements VariableListener<Allocation> {
@@ -40,27 +42,17 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        if (originalAllocation.getJob() == dummyJob) {
+        if (!originalAllocation.isFocused()) {
             originalAllocation.setPreviousStandstill(null);
         }
 
-        // Start from prev to update this
-        originalAllocation =
-                NonDummyAllocationIterator.getPrev(originalAllocation) != null ?
-                        NonDummyAllocationIterator.getPrev(originalAllocation) :
-                        originalAllocation;
+        List<Allocation> focusedAllocation = originalAllocation.getFocusedAllocationsTillEnd();
+        for (int prevIdx = 0, thisIdx = 1; thisIdx < focusedAllocation.size(); prevIdx++, thisIdx++) {
+            scoreDirector.beforeVariableChanged(focusedAllocation.get(thisIdx), "previousStandstill");
+            updateAllocationPreviousStandstill(focusedAllocation.get(thisIdx), focusedAllocation.get(prevIdx));
+            scoreDirector.afterVariableChanged(focusedAllocation.get(thisIdx), "previousStandstill");
+        }
 
-        while (originalAllocation.getPreviousStandstill() == null) {
-            originalAllocation = NonDummyAllocationIterator.getPrev(originalAllocation);
-        }
-        Allocation prevAllocation = originalAllocation;
-        Allocation thisAllocation;
-        while ((thisAllocation = NonDummyAllocationIterator.getNext(prevAllocation)) != null) {
-            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
-            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
-            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
-            prevAllocation = thisAllocation;
-        }
     }
 
 }

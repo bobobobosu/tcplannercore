@@ -6,9 +6,6 @@ import static bo.tc.tcplanner.app.DroolsTools.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import bo.tc.tcplanner.domain.ExecutionMode;
-import bo.tc.tcplanner.domain.Job;
-import bo.tc.tcplanner.domain.JobType;
-import bo.tc.tcplanner.domain.Project;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.ValueEntry;
@@ -25,24 +22,24 @@ global BendableScoreHolder scoreHolder;
 
 rule "checkDependencyId"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
-            $index : index, $dependencyTimelineIdList : job.timelineProperty.dependencyIdList )
+        $allocation : Allocation(isFocused(),$isOld : isOld(),
+            $index : index, $dependencyTimelineIdList : executionMode.timelineProperty.dependencyIdList )
         $dependencyId : Integer() from $dependencyTimelineIdList
-        Allocation(job != DataStructureBuilder.dummyJob, $timelineid : job.timelineProperty.timelineid, $timelineid == $dependencyId,index > $index)
+        Allocation(isFocused(), $timelineid : executionMode.timelineProperty.timelineid, $timelineid == $dependencyId,index > $index)
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(1000),$jobType == JobType.SCHEDULED ? -(1000) : 0,0,0,0},
+											new int[]{-(1000),$isOld ? -(1000) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
 rule "checkTimeOverlapping"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
+        $allocation : Allocation(isFocused(),$isOld : isOld(),
             $predecessorsDoneDate : predecessorsDoneDate,$startDate : startDate,$predecessorsDoneDate > $startDate)
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{-(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes()
-											,$jobType == JobType.SCHEDULED ?
+											,$isOld ?
 											-(int)Duration.between($startDate, $predecessorsDoneDate).toMinutes() : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
@@ -50,58 +47,57 @@ end
 
 rule "checkDeadline"
    when
-       $allocation : Allocation(job != DataStructureBuilder.dummyJob,$jobType : jobType,
-            $executionMode : executionMode, $deadline : executionMode.deadline, $endDate : endDate, $deadline < $endDate)
+       $allocation : Allocation(isFocused(),$isOld : isOld(),
+            $executionMode : executionMode, $deadline : executionMode.chronoProperty.zonedDeadline, $endDate : endDate, $deadline < $endDate)
 
    then
        		scoreHolder.addMultiConstraintMatch(kcontext,
        											new int[]{-(int)Duration.between($deadline, $endDate).toMinutes(),
-       											$jobType == JobType.SCHEDULED ? -(int)Duration.between($deadline, $endDate).toMinutes() : 0,0,0,0},
+       											$isOld ? -(int)Duration.between($deadline, $endDate).toMinutes() : 0,0,0,0},
        											new int[]{0,0,0,0});
 end
 
 rule "checkPreviousStandstill"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
-            $executionMode : executionMode,$job : job, $index : index, $previousStandstill : previousStandstill,$previousStandstill != DataStructureBuilder.dummyLocation,
-            $jobType : jobType)
+        $allocation : Allocation(isFocused(),$isOld : isOld(),
+            $executionMode : executionMode, $index : index, $previousStandstill : previousStandstill)
         ExecutionMode(this == $executionMode, $currentLocation : currentLocation, eval(!locationRestrictionCheck($previousStandstill,$currentLocation)))
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{-(100),$jobType == JobType.SCHEDULED ? -(100) : 0,0,0,0},
+											new int[]{-(100),$isOld ? -(100) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
 rule "checkRequirementsDeficit"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        $allocation : Allocation(isFocused(),
                                     $score : resourceElementMapDeficitScore,
-                                    $jobType : executionMode.job.jobType)
+                                    $isOld : isOld())
         eval($score<-0.001)
     then
 			scoreHolder.addMultiConstraintMatch(kcontext,
 												new int[]{(int)(100*$score),
-															$jobType == JobType.SCHEDULED ? (int)(100*$score) : 0,0,0,0},
+															$isOld ? (int)(100*$score) : 0,0,0,0},
 												new int[]{0,0,0,0});
 end
 
 rule "checkCapacityRequirements"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        $allocation : Allocation(isFocused(),
                                     $score : resourceElementMapExcessScore,
-                                    $jobType : executionMode.job.jobType)
+                                    $isOld : isOld())
         eval($score<-0.001)
     then
 			scoreHolder.addMultiConstraintMatch(kcontext,
 												new int[]{(int)(100*$score),
-															$jobType == JobType.SCHEDULED ? (int)(100*$score) : 0,0,0,0},
+															$isOld ? (int)(100*$score) : 0,0,0,0},
 												new int[]{0,0,0,0});
 end
 
 rule "checkSplittable"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
-        	$jobType : executionMode.job.jobType,
+        $allocation : Allocation(isFocused(),
+        	$isOld : isOld(),
             $executionMode : executionMode,
             executionMode.chronoProperty.splittable == 0,
             $progressdelta : progressdelta,
@@ -110,13 +106,13 @@ rule "checkSplittable"
     then
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{(-(int)Math.abs($progressdelta-$jobprogressdelta * 100))*100,
-														$jobType == JobType.SCHEDULED ? (-(int)Math.abs($progressdelta-$jobprogressdelta * 100)) : 0,0,0,0},
+														$isOld ? (-(int)Math.abs($progressdelta-$jobprogressdelta * 100)) : 0,0,0,0},
 											new int[]{0,0,0,0});
 end
 
 rule "timePreference"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+        $allocation : Allocation(isFocused(),
             $timerestrictionscore : timeRestrictionScore, $timerestrictionscore < -5)
     then
         scoreHolder.addHardConstraintMatch(kcontext, 1, (int)($timerestrictionscore*100));
@@ -128,21 +124,21 @@ end
 
 rule "distributeAllocations"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob, prevJob != DataStructureBuilder.dummyJob)
+        $allocation : Allocation(isFocused(), nextFocusedAllocation != null, eval(nextFocusedAllocation.getIndex() - index < 2))
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 0, -100);
 end
 
 rule "dummyJob"
     when
-        $allocation : Allocation(job != DataStructureBuilder.dummyJob)
+        $allocation : Allocation(!isFocused())
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end
 
 //rule "punishFragmentation"
 //    when
-//        $allocation : Allocation(job != DataStructureBuilder.dummyJob,
+//        $allocation : Allocation(isFocused(),
 //            $progressdelta : progressdelta,$progressdelta <100 )
 //    then
 //        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
