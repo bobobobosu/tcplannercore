@@ -90,7 +90,7 @@ public class DataStructureWriter {
                     .getResourceChange().entrySet().stream()
                     .flatMap(
                             x -> allocation.getResourceElementMap().get(x.getKey()).stream()
-                                    .filter(y -> y.getType().equals("requirement") && !y.isVolatileFlag())
+                                    .filter(y -> y.getAmt() <= 0 && !y.isVolatileFlag())
                                     .flatMap(z -> z.getAppliedTimelineIdList().stream()
                                             .filter(w -> allocationRealidMap.containsKey(w) && !w.isVolatileFlag())
                                             .map(allocationRealidMap::get))

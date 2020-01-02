@@ -21,7 +21,7 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
                 <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+<#--                <millisecondsSpentLimit>6000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -40,7 +40,7 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['FULL_ASSERT'] as envmode>
+    <#list ['REPRODUCIBLE'] as envmode>
     <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>

@@ -47,7 +47,7 @@ public class DataStructureBuilder {
                 .setProgressDelta(0.5);
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
                 .setResourceChange(new HashMap<>())
-                .setMode(PropertyConstants.ResourceStateChangeMode.Delta);
+                .setMode(PropertyConstants.ResourceStateChangeTypes.types.delta.name());
         schedule.special.dummyChronoProperty = new ChronoProperty()
                 .setChangeable(1)
                 .setMovable(1)

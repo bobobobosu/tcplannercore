@@ -148,7 +148,7 @@ end
 // ############################################################################
 // Soft constraints
 // ############################################################################
-//
+
 rule "distributeAllocations"
     when
         $allocation : Allocation(isFocused(),
@@ -157,7 +157,7 @@ rule "distributeAllocations"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
 end
-//
+
 rule "checkExcessResource"
     when
         $allocation : Allocation(isFocused(),
@@ -166,7 +166,7 @@ rule "checkExcessResource"
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)($score*100));
 end
-//
+
 rule "dummyJob"
     when
         $allocation : Allocation(isFocused())

@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -44,69 +45,6 @@ public class ListenerTools {
         }
 
         allocation.setPreviousStandstill(PreviousStandStill);
-    }
-
-    static class ResourceChangeChain {
-        List<Map<String, List<ResourceElement>>> resultChain = new ArrayList<>();
-        Map<Integer, Map<String, List<ResourceElement>>> pushpullMap = new HashMap<>();
-        Map<ResourceElement, Integer> resourceSourceMap = new IdentityHashMap<>();
-
-        ResourceChangeChain(List<Allocation> focusedAllocationList, Set<String> dirty) {
-            // initialization
-            for (int i = 0; i < focusedAllocationList.size(); i++) {
-                pushpullMap.put(i, new HashMap<>());
-                resultChain.add(new ConcurrentHashMap<>());
-            }
-
-            for (int i = 0; i < focusedAllocationList.size(); i++) {
-                Allocation allocation = focusedAllocationList.get(i);
-                int finalI = i;
-                dirty.forEach(k -> {
-                    Map<String, List<ResourceElement>> resourceChange = allocation.getTimelineEntry().getResourceStateChange().getResourceChange();
-                    if (!resourceChange.containsKey(k))
-                        return;
-                    resourceChange.get(k).forEach(x -> {
-                        // create resourceElement
-                        ResourceElement resourceElement = new ResourceElement(x)
-                                // TODO this line breaks full assert
-                                .setAmt(x.getAmt() *
-                                        (allocation.getProgressdelta().doubleValue() /
-                                                (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta())))
-                                .setType(x.getAmt() > 0 ? "production" : "requirement")
-                                .setAppliedTimelineIdList(new TreeSet<>())
-                                .setPriorityTimelineIdList(
-                                        allocation.getTimelineEntry().getTimelineProperty().getDependencyIdList());
-
-                        // populate resource source Map
-                        resourceSourceMap.put(resourceElement, finalI);
-
-                        // populate resultChain and pushpullMap
-                        for (int j = 0; j < focusedAllocationList.size(); j++) {
-                            if (!focusedAllocationList.get(j).getTimelineEntry().getResourceStateChange()
-                                    .getResourceChange().containsKey(k)) continue;
-
-                            if (j <= finalI) {
-                                if (resourceElement.getType().equals("requirement"))
-                                    addResourceElement(pushpullMap.get(j), k, resourceElement);
-                            }
-
-                            if (j == finalI) {
-                                if (resourceElement.getType().equals("requirement"))
-                                    addResourceElement(resultChain.get(j), k, resourceElement);
-                            }
-
-                            if (j >= finalI) {
-                                if (resourceElement.getType().equals("production")) {
-                                    addResourceElement(resultChain.get(j), k, resourceElement);
-                                    addResourceElement(pushpullMap.get(j), k, resourceElement);
-                                }
-                            }
-                        }
-                    });
-                });
-            }
-        }
-
     }
 
     public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
@@ -187,6 +125,68 @@ public class ListenerTools {
         }
 
         return resourceChangeChain.resultChain;
+    }
+
+
+    static class ResourceChangeChain {
+        List<Map<String, List<ResourceElement>>> resultChain = new ArrayList<>();
+        Map<Integer, Map<String, List<ResourceElement>>> pushpullMap = new HashMap<>();
+        Map<ResourceElement, Integer> resourceSourceMap = new IdentityHashMap<>();
+
+        ResourceChangeChain(List<Allocation> focusedAllocationList, Set<String> dirty) {
+            // initialization
+            for (int i = 0; i < focusedAllocationList.size(); i++) {
+                pushpullMap.put(i, new HashMap<>());
+                resultChain.add(new ConcurrentHashMap<>());
+            }
+
+            for (int i = 0; i < focusedAllocationList.size(); i++) {
+                Allocation allocation = focusedAllocationList.get(i);
+                int finalI = i;
+                dirty.forEach(k -> {
+                    Map<String, List<ResourceElement>> resourceChange = allocation.getTimelineEntry().getResourceStateChange().getResourceChange();
+                    if (!resourceChange.containsKey(k))
+                        return;
+                    resourceChange.get(k).forEach(x -> {
+                        // create resourceElement
+                        ResourceElement resourceElement = new ResourceElement(x)
+                                // TODO this line breaks full assert
+                                .setAmt(x.getAmt() *
+                                        (allocation.getProgressdelta().doubleValue() /
+                                                (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta())))
+                                .setAppliedTimelineIdList(new TreeSet<>())
+                                .setPriorityTimelineIdList(
+                                        allocation.getTimelineEntry().getTimelineProperty().getDependencyIdList());
+
+                        // populate resource source Map
+                        resourceSourceMap.put(resourceElement, finalI);
+
+                        // populate resultChain and pushpullMap
+                        List<Integer> applicableList = new ArrayList<>();
+                        for (int j = 0; j < focusedAllocationList.size(); j++) {
+                            Allocation allocation1 = focusedAllocationList.get(j);
+                            if (!focusedAllocationList.get(j).getTimelineEntry().getResourceStateChange()
+                                    .getResourceChange().containsKey(k)) continue;
+                            boolean isAbs = allocation1.getTimelineEntry().getResourceStateChange().getMode()
+                                    .equals(PropertyConstants.ResourceStateChangeTypes.types.absolute.name());
+                            if (j <= finalI && isAbs) applicableList.clear();
+                            if (j > finalI && isAbs) break;
+                            applicableList.add(j);
+                        }
+                        for (int j : applicableList) {
+                            if (j <= finalI && x.getAmt() <= 0)
+                                addResourceElement(pushpullMap.get(j), k, resourceElement);
+                            if (j == finalI && x.getAmt() <= 0)
+                                addResourceElement(resultChain.get(j), k, resourceElement);
+                            if (j >= finalI && x.getAmt() > 0) {
+                                addResourceElement(resultChain.get(j), k, resourceElement);
+                                addResourceElement(pushpullMap.get(j), k, resourceElement);
+                            }
+                        }
+                    });
+                });
+            }
+        }
     }
 
     private static int pullOrderCompareToBuilder(ResourceElement o1, ResourceElement o2,

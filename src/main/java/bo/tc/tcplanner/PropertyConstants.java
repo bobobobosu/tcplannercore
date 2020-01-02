@@ -23,10 +23,16 @@ public class PropertyConstants {
         }
     }
 
-    // dummy property
-    public static class ResourceStateChangeMode {
-        public static String Absolute = "absolute";
-        public static String Delta = "delta";
+    // Resource State Change Type
+    public static class ResourceStateChangeTypes{
+        public enum types{
+            delta,
+            absolute,
+            absolute_full
+        }
+        public static boolean isValid(String s) {
+            return Arrays.stream(ResourceStateChangeTypes.types.values()).map(Enum::name).collect(Collectors.toList()).contains(s);
+        }
     }
 
 }

@@ -217,7 +217,7 @@ public class Allocation extends AbstractPersistable {
             int alive = 0;
             double capacity = schedule.getValueEntryMap().get(entry.getKey()).getCapacity();
             for (ResourceElement resourceElement : entry.getValue()) {
-                alive += (resourceElement.getType().equals("production")) ? resourceElement.getAmt() : 0;
+                alive += (resourceElement.getAmt() > 0) ? resourceElement.getAmt() : 0;
             }
             score += (alive > capacity) ? capacity - alive : 0;
         }

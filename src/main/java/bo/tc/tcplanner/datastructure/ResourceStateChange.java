@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.datastructure;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class ResourceStateChange extends AbstractPersistable {
     public boolean checkValid() {
         checkNotNull(resourceChange);
         checkNotNull(mode);
+        checkArgument(PropertyConstants.ResourceStateChangeTypes.isValid(mode));
         checkArgument(resourceChange.entrySet().stream().allMatch(x -> x.getValue().stream().allMatch(ResourceElement::checkValid)));
         return true;
     }

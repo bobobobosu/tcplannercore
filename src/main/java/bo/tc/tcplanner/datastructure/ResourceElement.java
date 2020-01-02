@@ -26,9 +26,6 @@ public class ResourceElement extends AbstractPersistable {
     @Nullable
     @JsonIgnore
     Set<Allocation> appliedTimelineIdList;
-    @Nullable
-    @JsonIgnore
-    String type;
 
 
     public ResourceElement() {
@@ -40,7 +37,6 @@ public class ResourceElement extends AbstractPersistable {
         super(resourceElement);
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
-        this.type = resourceElement.getType();
         if (resourceElement.priorityTimelineIdList != null)
             this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
     }
@@ -108,15 +104,6 @@ public class ResourceElement extends AbstractPersistable {
 
     public ResourceElement setAppliedTimelineIdList(Set<Allocation> appliedTimelineIdList) {
         this.appliedTimelineIdList = appliedTimelineIdList;
-        return this;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public ResourceElement setType(String type) {
-        this.type = type;
         return this;
     }
 
