@@ -4,8 +4,13 @@ import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceElement extends AbstractPersistable {
@@ -14,10 +19,14 @@ public class ResourceElement extends AbstractPersistable {
     //if amt<0, location is requirement
     //if amt>0, location is availability
     String location;
+
+    @Nullable
     @JsonIgnore
     Set<Integer> priorityTimelineIdList;
+    @Nullable
     @JsonIgnore
     Set<Allocation> appliedTimelineIdList;
+    @Nullable
     @JsonIgnore
     String type;
 
@@ -78,18 +87,11 @@ public class ResourceElement extends AbstractPersistable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ResourceElement that = (ResourceElement) o;
-        return Double.compare(that.amt, amt) == 0 &&
-                Objects.equals(location, that.location);
+    public boolean checkValid() {
+        checkNotNull(location);
+        return true;
     }
 
-    @Override
-    public int hashCode() {
-        return 0;
-    }
 
     public Set<Integer> getPriorityTimelineIdList() {
         return priorityTimelineIdList;
@@ -116,5 +118,27 @@ public class ResourceElement extends AbstractPersistable {
     public ResourceElement setType(String type) {
         this.type = type;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ResourceElement that = (ResourceElement) o;
+
+        if (Double.compare(that.amt, amt) != 0) return false;
+        return location.equals(that.location);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        long temp;
+        temp = Double.doubleToLongBits(amt);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + location.hashCode();
+        return result;
     }
 }

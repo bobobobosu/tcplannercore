@@ -1,10 +1,8 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.Schedule;
 import com.google.common.collect.Lists;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
@@ -16,10 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.*;
+import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
+import static bo.tc.tcplanner.app.TCSchedulingApp.valueEntryMap;
 import static bo.tc.tcplanner.app.Toolbox.*;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class SolverThread extends Thread {
     public static final Logger logger
@@ -107,6 +109,7 @@ public class SolverThread extends Thread {
     }
 
     public void restartSolversWithNewTimelineBlock(TimelineBlock timelineBlock) {
+        checkArgument(timelineBlock.checkValid());
         terminateSolver();
         try {
             Thread.sleep(1000);
@@ -132,6 +135,10 @@ public class SolverThread extends Thread {
     }
 
     public Schedule runSolve() throws IOException {
+        checkArgument(valueEntryMap.checkValid());
+        checkArgument(timeHierarchyMap.checkValid());
+        checkArgument(jsonServer.getLatestTimelineBlock().checkValid());
+
         continuetosolve = true;
         DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getLatestTimelineBlock(), timeHierarchyMap)
                 .constructChainProperty();
@@ -148,11 +155,12 @@ public class SolverThread extends Thread {
                 result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
                 DSB.constructChainProperty();
                 solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
-                if (thisAllocation.isFocused() && thisAllocation.getAllocationTypeSet().contains(AllocationType.Unlocked)) {
+                if (thisAllocation.isFocused() && !thisAllocation.isHistory()) {
                     if (continuetosolve && !isSolved(result, currentSolver)) {
                         printCurrentSolution(result, false, solvingStatus);
                         currentSchedule = result;
                         currentSchedule = result = currentSolver.solve(result);
+                        jsonServer.updateTimelineBlock(false, result);
                     }
                 }
             }
@@ -163,7 +171,10 @@ public class SolverThread extends Thread {
             currentSolver = solverList.get(0);
             printCurrentSolution(result, true, solvingStatus);
             currentSchedule = result;
-            if (continuetosolve) currentSchedule = result = solverList.get(0).solve(result);
+            if (continuetosolve) {
+                currentSchedule = result = solverList.get(0).solve(result);
+                jsonServer.updateTimelineBlock(false, result);
+            }
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));

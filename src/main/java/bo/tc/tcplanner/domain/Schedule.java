@@ -31,12 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @PlanningSolution
 public class Schedule extends AbstractPersistable {
 
     // Domain
     private List<Allocation> allocationList;
-    private List<ExecutionMode> executionModeList;
+    private List<TimelineEntry> timelineEntryList;
 
     // Objects
     private TimelineBlock problemTimelineBlock;
@@ -47,7 +50,7 @@ public class Schedule extends AbstractPersistable {
     public class Special {
         public Allocation sourceAllocation;
         public Allocation sinkAllocation;
-        public ExecutionMode dummyExecutionMode;
+        public TimelineEntry dummyTimelineEntry;
         public HumanStateChange dummyHumamStateChange;
         public ProgressChange dummyProgressChange;
         public ResourceStateChange dummyResourceStateChange;
@@ -59,9 +62,22 @@ public class Schedule extends AbstractPersistable {
 
 
     @Override
+    public boolean checkValid() {
+        checkNotNull(allocationList);
+        checkNotNull(timelineEntryList);
+        checkNotNull(problemTimelineBlock);
+        checkNotNull(valueEntryMap);
+        checkNotNull(timeEntryMap);
+        checkArgument(allocationList.stream().allMatch(Allocation::checkValid));
+        checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
+        checkArgument(valueEntryMap.checkValid());
+        return true;
+    }
+
+    @Override
     public Schedule removeVolatile() {
-        executionModeList.removeIf(AbstractPersistable::isVolatileFlag);
-        executionModeList.forEach(ExecutionMode::removeVolatile);
+        timelineEntryList.removeIf(AbstractPersistable::isVolatileFlag);
+        timelineEntryList.forEach(TimelineEntry::removeVolatile);
         valueEntryMap.forEach((k, v) -> v.removeVolatile());
         valueEntryMap.entrySet().removeIf(x -> x.getValue().isVolatileFlag());
         allocationList.removeIf(AbstractPersistable::isVolatileFlag);
@@ -80,7 +96,7 @@ public class Schedule extends AbstractPersistable {
 
     public Schedule() {
         //Initialize
-        executionModeList = new ArrayList<>();
+        timelineEntryList = new ArrayList<TimelineEntry>();
         allocationList = new ArrayList<>();
         special = new Special();
     }
@@ -106,12 +122,12 @@ public class Schedule extends AbstractPersistable {
     }
 
     @ProblemFactCollectionProperty
-    public List<ExecutionMode> getExecutionModeList() {
-        return executionModeList;
+    public List<TimelineEntry> getTimelineEntryList() {
+        return timelineEntryList;
     }
 
-    public Schedule setExecutionModeList(List<ExecutionMode> executionModeList) {
-        this.executionModeList = executionModeList;
+    public Schedule setTimelineEntryList(List<TimelineEntry> timelineEntryList) {
+        this.timelineEntryList = timelineEntryList;
         return this;
     }
 
@@ -145,12 +161,12 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-    public ExecutionMode getDummyExecutionMode() {
-        return special.dummyExecutionMode;
+    public TimelineEntry getDummyExecutionMode() {
+        return special.dummyTimelineEntry;
     }
 
-    public Schedule setDummyExecutionMode(ExecutionMode dummyExecutionMode) {
-        this.special.dummyExecutionMode = dummyExecutionMode;
+    public Schedule setDummyExecutionMode(TimelineEntry dummyExecutionMode) {
+        this.special.dummyTimelineEntry = dummyExecutionMode;
         return this;
     }
 

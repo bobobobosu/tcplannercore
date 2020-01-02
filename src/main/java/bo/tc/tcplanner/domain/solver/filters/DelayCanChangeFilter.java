@@ -1,7 +1,6 @@
 package bo.tc.tcplanner.domain.solver.filters;
 
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.AllocationType;
 import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;

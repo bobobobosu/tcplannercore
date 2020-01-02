@@ -4,6 +4,7 @@ import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -14,7 +15,9 @@ import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 
 public class ListenerTools {
     public static void updatePlanningDuration(Allocation allocation) {
-        allocation.setPlannedDuration(allocation.getExecutionMode().getTimeduration().multipliedBy(allocation.getProgressdelta()).dividedBy(100));
+        allocation.setPlannedDuration(Duration.ofMinutes(
+                (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration()
+                        * (allocation.getProgressdelta()) / (100))));
     }
 
     public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
@@ -30,14 +33,14 @@ public class ListenerTools {
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
                 !locationHierarchyMap.get(PreviousStandStill).contains(
-                        prevAllocation.getExecutionMode().getCurrentLocation())) {
-            PreviousStandStill = prevAllocation.getExecutionMode().getCurrentLocation();
+                        prevAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
+            PreviousStandStill = prevAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation();
         }
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
                 !locationHierarchyMap.get(PreviousStandStill).contains(
-                        prevAllocation.getExecutionMode().getMovetoLocation())) {
-            PreviousStandStill = prevAllocation.getExecutionMode().getMovetoLocation();
+                        prevAllocation.getTimelineEntry().getHumanStateChange().getMovetoLocation())) {
+            PreviousStandStill = prevAllocation.getTimelineEntry().getHumanStateChange().getMovetoLocation();
         }
 
         allocation.setPreviousStandstill(PreviousStandStill);
@@ -59,7 +62,7 @@ public class ListenerTools {
                 Allocation allocation = focusedAllocationList.get(i);
                 int finalI = i;
                 dirty.forEach(k -> {
-                    Map<String, List<ResourceElement>> resourceChange = allocation.getExecutionMode().getResourceStateChange().getResourceChange();
+                    Map<String, List<ResourceElement>> resourceChange = allocation.getTimelineEntry().getResourceStateChange().getResourceChange();
                     if (!resourceChange.containsKey(k))
                         return;
                     resourceChange.get(k).forEach(x -> {
@@ -68,18 +71,18 @@ public class ListenerTools {
                                 // TODO this line breaks full assert
                                 .setAmt(x.getAmt() *
                                         (allocation.getProgressdelta().doubleValue() /
-                                                (100 * allocation.getExecutionMode().getProgressChange().getProgressDelta())))
+                                                (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta())))
                                 .setType(x.getAmt() > 0 ? "production" : "requirement")
                                 .setAppliedTimelineIdList(new TreeSet<>())
                                 .setPriorityTimelineIdList(
-                                        allocation.getExecutionMode().getTimelineProperty().getDependencyIdList());
+                                        allocation.getTimelineEntry().getTimelineProperty().getDependencyIdList());
 
                         // populate resource source Map
                         resourceSourceMap.put(resourceElement, finalI);
 
                         // populate resultChain and pushpullMap
                         for (int j = 0; j < focusedAllocationList.size(); j++) {
-                            if (!focusedAllocationList.get(j).getExecutionMode().getResourceStateChange()
+                            if (!focusedAllocationList.get(j).getTimelineEntry().getResourceStateChange()
                                     .getResourceChange().containsKey(k)) continue;
 
                             if (j <= finalI) {
@@ -109,7 +112,7 @@ public class ListenerTools {
     public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
         if (dirty == null)
             dirty = focusedAllocationList.get(0).getSchedule().getAllocationList().stream().flatMap(x ->
-                    x.getExecutionMode().getResourceStateChange().getResourceChange().keySet().stream())
+                    x.getTimelineEntry().getResourceStateChange().getResourceChange().keySet().stream())
                     .collect(Collectors.toSet());
 
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
@@ -120,14 +123,14 @@ public class ListenerTools {
             Allocation allocation = focusedAllocationList.get(i);
             Map<ResourceElement, Integer> resourceSourceMap = resourceChangeChain.resourceSourceMap;
             Map<String, List<ResourceElement>> pushpullList = new TreeMap<>();
-            allocation.getExecutionMode().getResourceStateChange().getResourceChange().forEach((k, v) -> {
+            allocation.getTimelineEntry().getResourceStateChange().getResourceChange().forEach((k, v) -> {
                 if (resourceChangeChain.pushpullMap.get(finalI).containsKey(k))
                     pushpullList.put(k, resourceChangeChain.pushpullMap.get(finalI).get(k));
             });
 
             pushpullList.forEach((k, v) -> {
                 v.sort(
-                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2, resourceSourceMap, allocation.getExecutionMode().getTimelineProperty().getTimelineid())
+                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2, resourceSourceMap, allocation.getTimelineEntry().getTimelineProperty().getTimelineid())
                 );
 
                 int posIdx = -1;
@@ -157,7 +160,7 @@ public class ListenerTools {
                                     resourceSourceMap.get(thisResourceElement),
                                     resourceSourceMap.get(nextResourceElement))
                                     .forEach(x -> {
-                                        if (focusedAllocationList.get(x).getExecutionMode().getResourceStateChange().getResourceChange().containsKey(k))
+                                        if (focusedAllocationList.get(x).getTimelineEntry().getResourceStateChange().getResourceChange().containsKey(k))
                                             addResourceElement(
                                                     resourceChangeChain.resultChain.get(x),
                                                     k,

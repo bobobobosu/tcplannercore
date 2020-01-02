@@ -2,6 +2,8 @@ package bo.tc.tcplanner.datastructure;
 
 import java.util.HashMap;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class ValueEntryMap extends HashMap<String, ValueEntry> {
     public ValueEntryMap() {
     }
@@ -19,5 +21,10 @@ public class ValueEntryMap extends HashMap<String, ValueEntry> {
     public ValueEntryMap removeEmpty() {
         this.forEach((k, v) -> v.removeEmpty());
         return this;
+    }
+
+    public boolean checkValid() {
+        checkArgument(this.entrySet().stream().allMatch(x -> x.getValue().checkValid()));
+        return true;
     }
 }

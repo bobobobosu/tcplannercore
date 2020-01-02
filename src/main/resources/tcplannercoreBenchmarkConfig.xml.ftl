@@ -19,9 +19,9 @@
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
+                <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
                 <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>30000</millisecondsSpentLimit>-->
+<#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -40,8 +40,8 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl','TCRules_P1_1.drl'] as scoreDrl>
+    <#list ['FULL_ASSERT'] as envmode>
+    <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -50,7 +50,7 @@
 
     <#list [0.08] as delayWeight>
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
-    <#list ['${(1-delayWeight)/2}'?number] as executionWeight>
+    <#list ['${(1-delayWeight)/2}'?number] as timelineEntryWeight>
 
     <#list [0.10] as swapWeight>
     <#list [0.10] as fineWeightRest>
@@ -64,7 +64,7 @@
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>'] as IsFocusedFilter>
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>'] as DelayCanChangeFilter>
-    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter</filterClass>'] as ExecutionModeCanChangeFilter>
+    <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>'] as TimelineEntryCanChangeFilter>
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter</filterClass>'] as ProgressDeltaCanChangeFilter>
 
 <#--    Swap Moves-->
@@ -76,19 +76,19 @@
 
 <#--    cartesian Product Moves-->
     <#list ['<cartesianProductMoveSelector>
-                <fixedProbabilityWeight>${(progressWeight+executionWeight)*cartesianWeight}</fixedProbabilityWeight>
+                <fixedProbabilityWeight>${(progressWeight+timelineEntryWeight)*cartesianWeight}</fixedProbabilityWeight>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
-                        ${ExecutionModeCanChangeFilter}
+                        ${TimelineEntryCanChangeFilter}
                     </entitySelector>
-                    <valueSelector variableName="executionMode"/>
+                    <valueSelector variableName="timelineEntry"/>
                 </changeMoveSelector>
                 <changeMoveSelector>
                     <entitySelector mimicSelectorRef="entitySelector"/>
                     <valueSelector variableName="progressdelta"/>
                 </changeMoveSelector>
-            </cartesianProductMoveSelector>'] as cartesianexecutionMode>
+            </cartesianProductMoveSelector>'] as cartesiantimelineEntry>
     <#list ['<cartesianProductMoveSelector>
                 <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
@@ -111,16 +111,16 @@
 
 <#--    fine Moves-->
     <#list ['<moveListFactory>
-                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as executionMode>
+                <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
+            </moveListFactory>'] as timelineEntry>
 <#--        ,-->
 <#--        '<changeMoveSelector>-->
-<#--        <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--        <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>-->
 <#--        <entitySelector>-->
-<#--            ${ExecutionModeCanChangeFilter}-->
+<#--            ${TimelineEntryCanChangeFilter}-->
 <#--        </entitySelector>-->
-<#--        <valueSelector variableName="executionMode"/>-->
+<#--        <valueSelector variableName="timelineEntry"/>-->
 <#--    </changeMoveSelector>'-->
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
@@ -147,18 +147,18 @@
 <#--        mergesplit-->
     <#list ['<moveListFactory>
             <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
-            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitExecutionMoveFactory</moveListFactoryClass>
+            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
         </moveListFactory>'] as mergeMove>
     <#list ['<moveListFactory>
             <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
-            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeExecutionMoveFactory</moveListFactoryClass>
+            <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
         </moveListFactory>'] as splitMove>
 
     <#list ['${progressdelta}
-            ${executionMode}
+            ${timelineEntry}
             ${delay}
             ${precisedelay}'] as fineMoves>
-    <#list ['${cartesianexecutionMode}
+    <#list ['${cartesiantimelineEntry}
              ${cartesiandelay}'] as cartesianMoves>
     <#list ['${mergeMove}
             ${splitMove}'] as mergesplitMoves>
@@ -240,14 +240,14 @@
 
 
 <#--<#list ['<changeMoveSelector>-->
-<#--                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--                <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>-->
 <#--                <entitySelector>-->
 <#--                    ${IndexFilter}-->
 <#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.UnlockedAllocationFilter</filterClass>-->
 <#--                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ChangeableAllocationFilter</filterClass>-->
 <#--                </entitySelector>-->
-<#--                <valueSelector variableName="executionMode"/>-->
-<#--            </changeMoveSelector>'] as executionMode>-->
+<#--                <valueSelector variableName="timelineEntry"/>-->
+<#--            </changeMoveSelector>'] as timelineEntry>-->
 
 <#--<#list ['<cartesianProductMoveSelector>-->
 <#--            <fixedProbabilityWeight>${delayWeight*cartesianWeight}</fixedProbabilityWeight>-->

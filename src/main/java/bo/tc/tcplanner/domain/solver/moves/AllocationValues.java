@@ -1,19 +1,19 @@
 package bo.tc.tcplanner.domain.solver.moves;
 
+import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.ExecutionMode;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 public class AllocationValues {
-    private ExecutionMode executionMode = null;
+    private TimelineEntry executionMode = null;
     private Integer progressDelta = null;
     private Integer delay = null;
 
-    public ExecutionMode getExecutionMode() {
+    public TimelineEntry getExecutionMode() {
         return executionMode;
     }
 
-    public AllocationValues setExecutionMode(ExecutionMode executionMode) {
+    public AllocationValues setExecutionMode(TimelineEntry executionMode) {
         this.executionMode = executionMode;
         return this;
     }
@@ -39,7 +39,7 @@ public class AllocationValues {
     public AllocationValues extract(Allocation allocation) {
         return this
                 .setProgressDelta(allocation.getProgressdelta())
-                .setExecutionMode(allocation.getExecutionMode())
+                .setExecutionMode(allocation.getTimelineEntry())
                 .setDelay(allocation.getDelay());
     }
 
@@ -50,9 +50,9 @@ public class AllocationValues {
             scoreDirector.afterVariableChanged(allocation, "progressdelta");
         }
         if (executionMode != null) {
-            scoreDirector.beforeVariableChanged(allocation, "executionMode");
-            allocation.setExecutionMode(executionMode);
-            scoreDirector.afterVariableChanged(allocation, "executionMode");
+            scoreDirector.beforeVariableChanged(allocation, "timelineEntry");
+            allocation.setTimelineEntry(executionMode);
+            scoreDirector.afterVariableChanged(allocation, "timelineEntry");
         }
         if (delay != null) {
             scoreDirector.beforeVariableChanged(allocation, "delay");

@@ -21,7 +21,6 @@ import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePlanningDuration;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;

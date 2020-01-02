@@ -1,22 +1,29 @@
 package bo.tc.tcplanner.datastructure.converters;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.*;
-import bo.tc.tcplanner.domain.*;
+import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.Schedule;
 import bo.tc.tcplanner.domain.solver.listeners.ListenerTools;
-import com.google.common.collect.Sets;
 
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class DataStructureBuilder {
     Schedule schedule;
     List<Allocation> fullAllocationList;
 
-    public DataStructureBuilder(ValueEntryMap valueEntryMap, TimelineBlock timelineBlock, HashMap<String, Object> timeHierarchyMap) {
+    public DataStructureBuilder(ValueEntryMap valueEntryMap, TimelineBlock timelineBlock, TimeHierarchyMap timeHierarchyMap) {
+        checkArgument(valueEntryMap.checkValid());
+        checkArgument(timelineBlock.checkValid());
+        checkArgument(timeHierarchyMap.checkValid());
+
         schedule = new Schedule()
                 .setValueEntryMap(new ValueEntryMap(valueEntryMap))
                 .setTimeEntryMap(new TimeEntryMap())
@@ -29,8 +36,8 @@ public class DataStructureBuilder {
         )));
 
         // Set Constants
-        schedule.special.dummyLocation = "Undefined";
-        schedule.special.dummyTime = "Anytime";
+        schedule.special.dummyLocation = PropertyConstants.dummyLocation;
+        schedule.special.dummyTime = PropertyConstants.dummyTime;
         schedule.special.dummyHumamStateChange = new HumanStateChange()
                 .setDuration(0)
                 .setCurrentLocation(schedule.special.dummyLocation)
@@ -39,27 +46,28 @@ public class DataStructureBuilder {
         schedule.special.dummyProgressChange = new ProgressChange()
                 .setProgressDelta(0.5);
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
-                .setResourceChange(new HashMap<>());
+                .setResourceChange(new HashMap<>())
+                .setMode(PropertyConstants.ResourceStateChangeMode.Delta);
         schedule.special.dummyChronoProperty = new ChronoProperty()
                 .setChangeable(1)
                 .setMovable(1)
                 .setSplittable(1)
                 .setGravity(0)
-                .setStartTime(null)
+                .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
+                .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())
                 .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime());
         schedule.special.dummyTimelineProperty = new TimelineProperty()
-                .setDeleted(0)
-                .setRownum(null)
+                .setRownum(0)
                 .setTimelineid(null)
-                .setDependencyIdList(new HashSet<>());
+                .setDependencyIdList(new HashSet<>())
+                .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name());
 
         // Set Planning Facts
-        schedule.special.dummyExecutionMode = new ExecutionMode()
+        schedule.special.dummyTimelineEntry = new TimelineEntry()
                 .setVolatileFlag(true)
-                .setSchedule(schedule)
                 .setTitle("\"\"")
                 .setDescription("")
-                .setExecutionModeIndex(0)
+                .setExecutionMode(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
                 .setProgressChange(schedule.special.dummyProgressChange)
                 .setResourceStateChange(schedule.special.dummyResourceStateChange)
@@ -67,148 +75,124 @@ public class DataStructureBuilder {
                 .setTimelineProperty(schedule.special.dummyTimelineProperty);
         schedule.special.sourceAllocation = new Allocation()
                 .setVolatileFlag(true)
-                .setSchedule(schedule)
-                .setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SOURCE));
-        schedule.special.sourceAllocation.setExecutionMode(new ExecutionMode()
+                .setSchedule(schedule);
+        schedule.special.sourceAllocation.setTimelineEntry(new TimelineEntry()
                 .setVolatileFlag(true)
-                .setSchedule(schedule)
                 .setTitle("source")
                 .setDescription("")
-                .setExecutionModeIndex(0)
+                .setExecutionMode(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
-                .setProgressChange(schedule.special.dummyProgressChange)
+                .setProgressChange(new ProgressChange().setProgressDelta(1))
                 .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
                         .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
                         .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
-                .setTimelineProperty(schedule.special.dummyTimelineProperty));
+                .setTimelineProperty(new TimelineProperty(schedule.special.dummyTimelineProperty)
+                        .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
         schedule.special.sinkAllocation = new Allocation()
                 .setVolatileFlag(true)
-                .setSchedule(schedule)
-                .setAllocationTypeSet(Sets.newHashSet(AllocationType.Locked, AllocationType.SOURCE));
-        schedule.special.sinkAllocation.setExecutionMode(new ExecutionMode()
+                .setSchedule(schedule);
+        schedule.special.sinkAllocation.setTimelineEntry(new TimelineEntry()
                 .setVolatileFlag(true)
-                .setSchedule(schedule)
                 .setTitle("sink")
                 .setDescription("")
-                .setExecutionModeIndex(0)
+                .setExecutionMode(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
-                .setProgressChange(schedule.special.dummyProgressChange)
+                .setProgressChange(new ProgressChange().setProgressDelta(1))
                 .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
                         .setStartTime(schedule.getProblemTimelineBlock().getBlockEndTime())
                         .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
-                .setTimelineProperty(schedule.special.dummyTimelineProperty));
+                .setTimelineProperty(new TimelineProperty(schedule.special.dummyTimelineProperty)
+                        .setRownum(Integer.MAX_VALUE)
+                        .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
 
         // Initialize Lists with dummy facts
         schedule.setAllocationList(new ArrayList<>(
                 Arrays.asList(schedule.special.sourceAllocation, schedule.special.sinkAllocation)));
-        schedule.setExecutionModeList(new ArrayList<>(
-                Arrays.asList(schedule.special.dummyExecutionMode,
-                        schedule.special.sourceAllocation.getExecutionMode(),
-                        schedule.special.sinkAllocation.getExecutionMode())));
+        schedule.setTimelineEntryList(new ArrayList<TimelineEntry>(
+                Arrays.asList(schedule.special.dummyTimelineEntry,
+                        schedule.special.sourceAllocation.getTimelineEntry(),
+                        schedule.special.sinkAllocation.getTimelineEntry())));
 
-        // Add ExecutionModes from valueEntryMap
-        // Add standard jobs
+        // Add TimelineEntries from valueEntryMap
+        // Add jobs from ValueEntryMap
         schedule.getValueEntryMap().entrySet().stream()
                 .filter(x -> Arrays.asList("工作", "存取權").contains(x.getValue().getType()))
                 .forEach(y -> {
                     for (int i = 0; i < y.getValue().getResourceStateChangeList().size(); i++) {
-                        schedule.getExecutionModeList().add(
-                                new ExecutionMode()
-                                        .setSchedule(schedule)
-                                        .setExecutionModeIndex(i)
-                                        .setExecutionModeTypes(
-                                                Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE))
+                        schedule.getTimelineEntryList().add(
+                                new TimelineEntry()
+                                        .setExecutionMode(i)
                                         .setTitle(y.getKey())
                                         .setDescription("")
                                         .setProgressChange(y.getValue().getProgressChangeList().get(i))
                                         .setHumanStateChange(y.getValue().getHumanStateChangeList().get(i))
                                         .setResourceStateChange(y.getValue().getResourceStateChangeList().get(i))
-                                        .setChronoProperty(y.getValue().getChronoProperty())
+                                        .setChronoProperty(new ChronoProperty(y.getValue().getChronoProperty())
+                                                .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
+                                                .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
                                         .setTimelineProperty(new TimelineProperty()
-                                                .setDeleted(0)
-                                                .setRownum(null)
+                                                .setRownum(0)
                                                 .setTimelineid(null)
-                                                .setDependencyIdList(new HashSet<>())));
+                                                .setDependencyIdList(new HashSet<>())
+                                                .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name())));
                     }
                 });
 
-        // Add timeline jobs
+        // add jobs from ProblemTimelineBlock
         schedule.getProblemTimelineBlock().getTimelineEntryList().stream()
-                .filter(x -> x.getTimelineProperty().getDeleted() != 1)
+                .filter(x -> !x.getTimelineProperty().getPlanningWindowType()
+                        .equals(PropertyConstants.PlanningWindowTypes.types.Deleted.name()))
                 .forEach(y -> {
-                    assert y.getTimelineProperty().getTimelineid() != null;
-                    assert y.getTimelineProperty().getRownum() != null;
                     // timeline job resource
                     ResourceElement jobResourceElement = new ResourceElement()
                             .setVolatileFlag(true)
                             .setAmt(100)
                             .setLocation(schedule.special.dummyLocation)
                             .setPriorityTimelineIdList(new TreeSet<>());
-                    y.getResourceStateChange().addResourceElementToChange(y.getTimelineProperty().getTimelineid().toString(),
-                            jobResourceElement);
-
                     schedule.getValueEntryMap().put(y.getTimelineProperty().getTimelineid().toString(),
                             new ValueEntry().setVolatileFlag(true).setCapacity(100d).setClassification("task"));
 
+                    TimelineEntry timelineEntry;
                     // add real job
-                    ExecutionMode executionMode = new ExecutionMode()
-                            .setSchedule(schedule)
-                            .setExecutionModeIndex(y.getExecutionMode())
-                            .setExecutionModeTypes(
-                                    Sets.newHashSet(ExecutionModeType.OLD, ExecutionModeType.UNUSABLE))
-                            .setTitle(y.getTitle())
-                            .setDescription(y.getDescription())
-                            .setProgressChange(y.getProgressChange())
-                            .setHumanStateChange(y.getHumanStateChange())
-                            .setResourceStateChange(y.getResourceStateChange())
-                            .setChronoProperty(y.getChronoProperty())
-                            .setTimelineProperty(y.getTimelineProperty());
-
-                    Allocation allocation = new Allocation()
-                            .setSchedule(schedule)
-                            .setAllocationTypeSet(Sets.newHashSet(
-                                    (y.getTimelineProperty().getRownum() >=
-                                            schedule.getProblemTimelineBlock().getBlockScheduleAfter()) ?
-                                            AllocationType.Unlocked : AllocationType.Locked,
-                                    AllocationType.NORMAL));
-                    allocation.setExecutionMode(executionMode);
-                    schedule.getExecutionModeList().add(executionMode);
+                    timelineEntry = new TimelineEntry(y);
+                    timelineEntry.getResourceStateChange().addResourceElementToChange(y.getTimelineProperty().getTimelineid().toString(),
+                            jobResourceElement);
+                    Allocation allocation = new Allocation().setSchedule(schedule);
+                    allocation.setTimelineEntry(timelineEntry);
+                    schedule.getTimelineEntryList().add(timelineEntry);
                     schedule.getAllocationList().add(schedule.getAllocationList().size() - 1, allocation);
 
-                    // add dummy jobs between
-                    for (int k = 0; k < 20; k++) {
-                        Allocation allocation1 = new Allocation()
-                                .setVolatileFlag(true)
-                                .setSchedule(schedule)
-                                .setAllocationTypeSet(allocation.getAllocationTypeSet());
-                        allocation1.setExecutionMode(schedule.special.dummyExecutionMode);
-                        schedule.getAllocationList().add(
-                                schedule.getAllocationList().size() - 1,
-                                allocation1
-                        );
-                    }
-
                     // add job clone
-                    schedule.getExecutionModeList().add(
-                            new ExecutionMode()
-                                    .setSchedule(schedule)
-                                    .setExecutionModeIndex(y.getExecutionMode())
-                                    .setExecutionModeTypes(
-                                            Sets.newHashSet(ExecutionModeType.NEW, ExecutionModeType.USABLE))
-                                    .setTitle(y.getTitle())
-                                    .setDescription(y.getDescription())
-                                    .setProgressChange(y.getProgressChange())
-                                    .setHumanStateChange(y.getHumanStateChange())
-                                    .setResourceStateChange(y.getResourceStateChange())
-                                    .setChronoProperty(new ChronoProperty(y.getChronoProperty())
-                                            .setMovable(1)
-                                            .setChangeable(1))
-                                    .setTimelineProperty(y.getTimelineProperty()));
+                    timelineEntry = new TimelineEntry(timelineEntry)
+                            .setChronoProperty(new ChronoProperty(y.getChronoProperty())
+                                    .setMovable(1)
+                                    .setChangeable(1))
+                            .setTimelineProperty(new TimelineProperty(y.getTimelineProperty())
+                                    .setTimelineid(null)
+                                    .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name()));
+                    schedule.getTimelineEntryList().add(timelineEntry);
+
                 });
+
+        // add dummy jobs
+        for (int i = schedule.getAllocationList().size() - 1; i > 0; i--) {
+            if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isAfter(
+                    schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) {
+                // add dummy jobs between
+                int finalI = i;
+                IntStream.rangeClosed(1, 20).forEach(x -> {
+                    Allocation allocation = new Allocation()
+                            .setVolatileFlag(true)
+                            .setSchedule(schedule);
+                    allocation.setTimelineEntry(schedule.special.dummyTimelineEntry);
+                    schedule.getAllocationList().add(finalI, allocation);
+                });
+            }
+        }
 
         fullAllocationList = new ArrayList<>(schedule.getAllocationList());
     }
@@ -219,14 +203,15 @@ public class DataStructureBuilder {
         for (int i = 0; i < schedule.getAllocationList().size(); i++) schedule.getAllocationList().get(i).setIndex(i);
 
         // Set Scheduled Job requirement
-        schedule.special.sinkAllocation.getExecutionMode().getResourceStateChange().setResourceChange(new HashMap<>());
+        schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
         schedule.getAllocationList().stream()
                 .filter(
-                        x -> x.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.OLD) &&
-                                x.getExecutionMode().getChronoProperty().getChangeable() == 0)
+                        x -> x.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
+                                .equals(PropertyConstants.PlanningWindowTypes.types.Published.name()) &&
+                                x.getTimelineEntry().getChronoProperty().getChangeable() == 0)
                 .forEach(x -> {
-                    schedule.special.sinkAllocation.getExecutionMode().getResourceStateChange().getResourceChange()
-                            .put(x.getExecutionMode().getTimelineProperty().getTimelineid().toString(),
+                    schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().getResourceChange()
+                            .put(x.getTimelineEntry().getTimelineProperty().getTimelineid().toString(),
                                     new ArrayList<>(Arrays.asList(
                                             new ResourceElement()
                                                     .setVolatileFlag(true)
@@ -236,7 +221,7 @@ public class DataStructureBuilder {
                 });
 
         // Set ProgressDelta
-        schedule.getAllocationList().forEach(x -> x.setProgressdelta((int) (x.getExecutionMode().getProgressChange().getProgressDelta() * 100)));
+        schedule.getAllocationList().forEach(x -> x.setProgressdelta((int) (x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
 
         // Set Delay
         schedule.getAllocationList().forEach(x -> x.setDelay(0));
@@ -258,11 +243,11 @@ public class DataStructureBuilder {
         prevAllocation = null;
         for (Allocation thisAllocation : schedule.getFocusedAllocationList()) {
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-            if (thisAllocation.getExecutionMode().getChronoProperty().getZonedStartTime() != null)
+            if (thisAllocation.getTimelineEntry().getChronoProperty().getZonedStartTime() != null)
                 thisAllocation.setDelay(Math.max(0,
                         (int) Duration.between(
                                 thisAllocation.getPredecessorsDoneDate(),
-                                thisAllocation.getExecutionMode().getChronoProperty().getZonedStartTime())
+                                thisAllocation.getTimelineEntry().getChronoProperty().getZonedStartTime())
                                 .toMinutes()));
             prevAllocation = thisAllocation;
         }

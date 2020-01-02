@@ -2,8 +2,6 @@ package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
-import bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter;
-import bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -12,7 +10,8 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.*;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.DelayCanChange;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.IsFocused;
 
 public class PreciseDelayMove extends AbstractMove<Schedule> {
     private Integer toDelay;

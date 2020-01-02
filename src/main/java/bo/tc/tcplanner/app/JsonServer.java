@@ -1,6 +1,7 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
+import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
@@ -21,7 +22,10 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
@@ -251,7 +255,16 @@ public class JsonServer {
                         if (problemTimelineBlock.getOrigin().equals("TCxlsb")) {
                             solverThread.restartSolversWithNewTimelineBlock(problemTimelineBlock);
                         }
+
+                        TimelineBlock timelineBlock = problemTimelineBlock;
+                        Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                                .constructChainProperty().getSchedule();
+                        printCurrentSolution(result, false, "");
+                        timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
+                        response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8);
+                        System.out.println("Sending Scored TimelineBlock");
                     }
+
 
                     exchange.getResponseHeaders().
                             set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
@@ -271,21 +284,50 @@ public class JsonServer {
     private void setFiles(Map<String, Map> updatedfiles) {
         for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
             if (entry.getKey().equals("TimeHierarchyMap.json")) {
-                timeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), HashMap.class);
-                System.out.println("TimeHierarchyMap Updated");
+                TimeHierarchyMap tmptimeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), TimeHierarchyMap.class);
+                try {
+                    tmptimeHierarchyMap.checkValid();
+                    timeHierarchyMap = tmptimeHierarchyMap;
+                    System.out.println("TimeHierarchyMap Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad TimeHierarchyMap");
+                }
             }
             if (entry.getKey().equals("LocationHierarchyMap.json")) {
-                locationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
-                System.out.println("LocationHierarchyMap Updated");
+                LocationHierarchyMap tmplocationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
+                try {
+                    tmplocationHierarchyMap.checkValid();
+                    locationHierarchyMap = tmplocationHierarchyMap;
+                    System.out.println("LocationHierarchyMap Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad LocationHierarchyMap");
+                }
+
             }
             if (entry.getKey().equals("ValueEntryMap.json")) {
-                valueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
-                System.out.println("ValueEntryMap Updated");
+                ValueEntryMap tmpvalueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
+                try {
+                    tmpvalueEntryMap.checkValid();
+                    valueEntryMap = tmpvalueEntryMap;
+                    System.out.println("ValueEntryMap Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad ValueEntryMap");
+                }
             }
             if (entry.getKey().equals("TimelineBlock.json")) {
                 TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
-                setProblemTimelineBlock(timelineBlock);
-                System.out.println("TimelineBlock Updated");
+                try {
+                    timelineBlock.checkValid();
+                    setProblemTimelineBlock(timelineBlock);
+                    System.out.println("TimelineBlock Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad TimelineBlock");
+                }
+
             }
         }
     }

@@ -1,11 +1,10 @@
 package bo.tc.tcplanner.app;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.AllocationType;
-import bo.tc.tcplanner.domain.ExecutionModeType;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.fliptables.FlipTable;
@@ -161,23 +160,26 @@ public class Toolbox {
                             formatter.format(
                                     allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
                     timeline.add(new String[]{
-                            ((allocation.getExecutionMode().getTimelineProperty().getRownum() == null ||
-                                    allocation.getExecutionMode().getExecutionModeTypes().contains(ExecutionModeType.NEW)) ? "****" :
-                                    String.valueOf(allocation.getExecutionMode().getTimelineProperty().getRownum())) + "\n(" + allocation.getIndex() + ")",
+                            ((allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
+                                    .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())) ? "****" :
+                                    allocation.getTimelineEntry().getTimelineProperty().getRownum())
+                                    + "\n(" + allocation.getIndex() + ")\n" +
+                                    allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType(),
                             String.valueOf(allocation.getProgressdelta()),
                             datetime,
-                            LocalTime.MIN.plus(Duration.between(allocation.getStartDate(), allocation.getEndDate())).toString(),
+                            LocalTime.MIN.plus(Duration.between(
+                                    allocation.getStartDate(), allocation.getEndDate())).toString(),
                             "P:" + allocation.getPreviousStandstill() +
-                                    "\nC:" + allocation.getExecutionMode().getCurrentLocation() +
-                                    "\nM:" + allocation.getExecutionMode().getMovetoLocation()
+                                    "\nC:" + allocation.getTimelineEntry().getHumanStateChange().getCurrentLocation() +
+                                    "\nM:" + allocation.getTimelineEntry().getHumanStateChange().getMovetoLocation()
                             ,
-                            allocation.getExecutionMode().getChronoProperty().getChangeable() + "C/" +
-                                    allocation.getExecutionMode().getChronoProperty().getMovable() + "M/" +
-                                    allocation.getExecutionMode().getChronoProperty().getSplittable() + "S/" +
-                                    (allocation.getAllocationTypeSet().contains(AllocationType.Locked) ? 1 : 0) + "L",
+                            allocation.getTimelineEntry().getChronoProperty().getChangeable() + "C/" +
+                                    allocation.getTimelineEntry().getChronoProperty().getMovable() + "M/" +
+                                    allocation.getTimelineEntry().getChronoProperty().getSplittable() + "S/" +
+                                    (allocation.isHistory() ? 1 : 0) + "L",
                             (breakByTasks.containsKey(allocation) ?
                                     hardConstraintMatchToString(breakByTasks.get(allocation).getConstraintMatchSet()) : ""),
-                            allocation.getExecutionMode().getTitle() + " " + "\n" +
+                            allocation.getTimelineEntry().getTitle() + " " + "\n" +
                                     allocation.getResourceElementMap().entrySet()
                                             .stream()
                                             .filter(entry -> entry.getValue()

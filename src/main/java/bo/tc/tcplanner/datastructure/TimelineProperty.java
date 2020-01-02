@@ -1,14 +1,20 @@
 package bo.tc.tcplanner.datastructure;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 import java.util.TreeSet;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class TimelineProperty extends AbstractPersistable {
-    private Integer deleted;
-    private Integer rownum;
+    private int rownum;
     private Set<Integer> dependencyIdList;
+    private String planningWindowType; // See PropertyConstants
+    @Nullable
     private Integer timelineid;
 
 
@@ -26,19 +32,29 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
+    @Override
+    public boolean checkValid() {
+        checkArgument(rownum >= 0);
+        checkNotNull(dependencyIdList);
+        checkNotNull(planningWindowType);
+        checkNotNull(timelineid);
+        checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
+        return true;
+    }
+
     public TimelineProperty(TimelineProperty other) {
         super(other);
-        this.setDeleted(other.deleted);
         this.setRownum(other.rownum);
         this.setTimelineid(other.timelineid);
         this.setDependencyIdList(new TreeSet<>(other.dependencyIdList));
+        this.setPlanningWindowType(other.planningWindowType);
     }
 
-    public Integer getRownum() {
+    public int getRownum() {
         return rownum;
     }
 
-    public TimelineProperty setRownum(Integer rownum) {
+    public TimelineProperty setRownum(int rownum) {
         this.rownum = rownum;
         return this;
     }
@@ -61,12 +77,36 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
-    public Integer getDeleted() {
-        return deleted;
+    public String getPlanningWindowType() {
+        return planningWindowType;
     }
 
-    public TimelineProperty setDeleted(Integer deleted) {
-        this.deleted = deleted;
+    public TimelineProperty setPlanningWindowType(String planningWindowType) {
+        this.planningWindowType = planningWindowType;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        TimelineProperty that = (TimelineProperty) o;
+
+        if (rownum != that.rownum) return false;
+        if (!dependencyIdList.equals(that.dependencyIdList)) return false;
+        if (!planningWindowType.equals(that.planningWindowType)) return false;
+        return timelineid != null ? timelineid.equals(that.timelineid) : that.timelineid == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + rownum;
+        result = 31 * result + dependencyIdList.hashCode();
+        result = 31 * result + planningWindowType.hashCode();
+        result = 31 * result + (timelineid != null ? timelineid.hashCode() : 0);
+        return result;
     }
 }

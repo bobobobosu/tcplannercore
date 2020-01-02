@@ -2,27 +2,19 @@ package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.SwiftGui.StartStopGui;
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
+import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.RangeSet;
-import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Scanner;
 
-import static bo.tc.tcplanner.app.Toolbox.*;
+import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 
 public class TCSchedulingApp {
     public static LocationHierarchyMap locationHierarchyMap = null;
-    public static HashMap<String, Object> timeHierarchyMap = null;
+    public static TimeHierarchyMap timeHierarchyMap = null;
     public static ValueEntryMap valueEntryMap = null;
-    public static HashMap<String, RangeSet<ZonedDateTime>> timeEntryMap;
 
     public static DateTimeFormatter dtf_TimelineEntry = DateTimeFormatter.ISO_ZONED_DATE_TIME;
 

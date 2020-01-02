@@ -53,7 +53,7 @@
         "timelineid": 1955,
         "rownum": 6320.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -91,7 +91,7 @@
         "timelineid": 6520,
         "rownum": 6321.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -122,7 +122,7 @@
         "timelineid": 6581,
         "rownum": 6322.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -160,7 +160,7 @@
         "timelineid": 6550,
         "rownum": 6323.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -218,7 +218,7 @@
         "dependencyIdList": [
           1955
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -256,7 +256,7 @@
         "timelineid": 6547,
         "rownum": 6325.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -315,7 +315,7 @@
           6520,
           1955
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -346,7 +346,7 @@
         "timelineid": 6590,
         "rownum": 6327.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -406,7 +406,7 @@
           6547,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -465,7 +465,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -524,7 +524,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -601,7 +601,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -660,7 +660,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -719,7 +719,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -778,7 +778,7 @@
           1955,
           6550
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -836,7 +836,7 @@
         "dependencyIdList": [
           1955
         ],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -892,7 +892,7 @@
         "timelineid": 6493,
         "rownum": 6336.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -948,7 +948,7 @@
         "timelineid": 6494,
         "rownum": 6337.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -979,7 +979,7 @@
         "timelineid": 446,
         "rownum": 6338.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1010,7 +1010,7 @@
         "timelineid": 240,
         "rownum": 6339.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1041,7 +1041,7 @@
         "timelineid": 6920,
         "rownum": 6340.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1072,7 +1072,7 @@
         "timelineid": 6594,
         "rownum": 6341.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1103,7 +1103,7 @@
         "timelineid": 6595,
         "rownum": 6342.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1134,12 +1134,12 @@
         "timelineid": 6596,
         "rownum": 6343.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
       "title": "t.\u7463\u4e8b",
-      "description": null,
+      "description": "",
       "humanStateChange": {
         "currentLocation": "Undefined",
         "movetoLocation": "Undefined",
@@ -1165,7 +1165,7 @@
         "timelineid": 6597,
         "rownum": 6344.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1196,7 +1196,7 @@
         "timelineid": 5333,
         "rownum": 6345.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     },
     {
@@ -1227,7 +1227,7 @@
         "timelineid": 6277,
         "rownum": 6346.0,
         "dependencyIdList": [],
-        "deleted": 0
+        "planningWindowType": "Published"
       }
     }
   ],
@@ -1235,7 +1235,7 @@
   "blockEndTime": "2021-12-11T00:00:00-08:00[America/Los_Angeles]",
   "blockStartRow": 6320.0,
   "blockEndRow": 6346.0,
-  "blockScheduleAfter": 6326.0,
+  "blockScheduleAfter": "2019-12-24T18:36:00-08:00[America/Los_Angeles]",
   "score": "",
   "origin": "TCxlsb"
 }

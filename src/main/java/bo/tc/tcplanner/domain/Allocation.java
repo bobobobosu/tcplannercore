@@ -16,10 +16,12 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
+import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
-import bo.tc.tcplanner.domain.solver.comparators.ExecutionModeStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
+import bo.tc.tcplanner.domain.solver.comparators.TimelineEntryStrengthComparator;
 import bo.tc.tcplanner.domain.solver.listeners.PredecessorsDoneDateUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.PreviousStandstillUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListener;
@@ -27,6 +29,7 @@ import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.entity.PlanningPin;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
@@ -36,7 +39,14 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @PlanningEntity
 public class Allocation extends AbstractPersistable {
@@ -44,11 +54,10 @@ public class Allocation extends AbstractPersistable {
     private transient Schedule schedule;
 
     // Pre-Solving Properties
-    private Integer index;
-    private Set<AllocationType> allocationTypeSet = new HashSet<>();
+    private int index;
 
     // Planning variables: changes during planning, between score calculations.
-    private transient ExecutionMode executionMode;
+    private TimelineEntry timelineEntry;
     private Integer delay; // In minutes
     private Integer progressdelta; // out of 100
     // Shadow variables
@@ -63,7 +72,7 @@ public class Allocation extends AbstractPersistable {
 
     @Override
     public Allocation removeVolatile() {
-        executionMode.removeVolatile();
+        timelineEntry.removeVolatile();
         if (resourceElementMap != null)
             resourceElementMap.forEach((k, v) -> v.forEach(ResourceElement::removeVolatile));
 
@@ -79,13 +88,26 @@ public class Allocation extends AbstractPersistable {
     }
 
     @Override
+    public boolean checkValid() {
+        checkNotNull(schedule);
+        checkNotNull(timelineEntry);
+        checkNotNull(delay);
+        checkArgument(progressdelta >= 0);
+        checkArgument(progressdelta <= 100);
+        checkArgument(schedule.checkValid());
+        checkArgument(timelineEntry.checkValid());
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return this.getIndex() + "-" + executionMode;
+        return this.getIndex() + "-" + timelineEntry;
     }
 
     @Override
     public boolean isVolatileFlag() {
-        return this.volatileFlag || executionMode.isVolatileFlag();
+        if (!timelineEntry.isVolatileFlag()) return false;
+        return this.volatileFlag;
     }
 
     @Override
@@ -95,13 +117,13 @@ public class Allocation extends AbstractPersistable {
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
-            "executionModeRange"}, strengthComparatorClass = ExecutionModeStrengthComparator.class)
-    public ExecutionMode getExecutionMode() {
-        return executionMode;
+            "timelineEntryRange"}, strengthComparatorClass = TimelineEntryStrengthComparator.class)
+    public TimelineEntry getTimelineEntry() {
+        return timelineEntry;
     }
 
-    public void setExecutionMode(ExecutionMode executionMode) {
-        this.executionMode = executionMode;
+    public void setTimelineEntry(TimelineEntry timelineEntry) {
+        this.timelineEntry = timelineEntry;
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
@@ -125,7 +147,7 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = PreviousStandstillUpdatingVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "executionMode")})
+            @PlanningVariableReference(variableName = "timelineEntry")})
     public String getPreviousStandstill() {
         return previousStandstill;
     }
@@ -135,7 +157,7 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "executionMode"),
+            @PlanningVariableReference(variableName = "timelineEntry"),
             @PlanningVariableReference(variableName = "delay"),
             @PlanningVariableReference(variableName = "progressdelta")})
     public Map<String, List<ResourceElement>> getResourceElementMap() {
@@ -148,7 +170,7 @@ public class Allocation extends AbstractPersistable {
 
     @CustomShadowVariable(variableListenerClass = PredecessorsDoneDateUpdatingVariableListener.class,
             sources = {
-                    @PlanningVariableReference(variableName = "executionMode"),
+                    @PlanningVariableReference(variableName = "timelineEntry"),
                     @PlanningVariableReference(variableName = "delay"),
                     @PlanningVariableReference(variableName = "progressdelta")})
     public ZonedDateTime getPredecessorsDoneDate() {
@@ -166,6 +188,12 @@ public class Allocation extends AbstractPersistable {
 
     public void setPlannedDuration(Duration plannedDuration) {
         this.plannedDuration = plannedDuration;
+    }
+
+    @PlanningPin
+    public boolean isPinned() {
+        return timelineEntry.getTimelineProperty().getPlanningWindowType()
+                .equals(PropertyConstants.PlanningWindowTypes.types.History.name());
     }
 
 
@@ -209,7 +237,7 @@ public class Allocation extends AbstractPersistable {
     public long getTimeRestrictionScore() {
         Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
         RangeSet<ZonedDateTime> restrictionRangeSet = schedule.getTimeEntryMap()
-                .get(executionMode.getHumanStateChange().getRequirementTimerange());
+                .get(timelineEntry.getHumanStateChange().getRequirementTimerange());
         RangeSet<ZonedDateTime> overlapRangeSet = restrictionRangeSet.subRangeSet(thisRange);
         if (restrictionRangeSet.isEmpty()) return plannedDuration.toMinutes();
         if (overlapRangeSet.isEmpty()) {
@@ -229,21 +257,23 @@ public class Allocation extends AbstractPersistable {
     // Ranges
     // ************************************************************************
 
-    @ValueRangeProvider(id = "executionModeRange")
-    public List<ExecutionMode> getExecutionModeRange() {
-        return schedule.getExecutionModeList();
+    @ValueRangeProvider(id = "timelineEntryRange")
+    public List<TimelineEntry> getTimelineEntryRange() {
+//        return schedule.getTimelineEntryList();
+        return schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
+                .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
     }
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
-        if (executionMode.equals(schedule.special.dummyExecutionMode))
+        if (timelineEntry.equals(schedule.special.dummyTimelineEntry))
             return ValueRangeFactory.createIntValueRange(0, 1, 1);
         return ValueRangeFactory.createIntValueRange(0, 60 * 24);
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
-        if (executionMode.equals(schedule.special.dummyExecutionMode))
+        if (timelineEntry.equals(schedule.special.dummyTimelineEntry))
             return ValueRangeFactory.createIntValueRange(100, 110, 10);
         return ValueRangeFactory.createIntValueRange(0, 101, 1);
     }
@@ -257,9 +287,9 @@ public class Allocation extends AbstractPersistable {
             return null;
         }
 
-        if (executionMode.getChronoProperty().getMovable() == 0 &&
-                executionMode.getChronoProperty().getZonedStartTime() != null) {
-            return executionMode.getChronoProperty().getZonedStartTime();
+        if (timelineEntry.getChronoProperty().getMovable() == 0 &&
+                timelineEntry.getChronoProperty().getZonedStartTime() != null) {
+            return timelineEntry.getChronoProperty().getZonedStartTime();
         }
         return delay == null ? predecessorsDoneDate : predecessorsDoneDate.plusMinutes(delay);
     }
@@ -269,15 +299,6 @@ public class Allocation extends AbstractPersistable {
             return null;
         }
         return plannedDuration == null ? getStartDate() : getStartDate().plus(plannedDuration);
-    }
-
-    public Set<AllocationType> getAllocationTypeSet() {
-        return allocationTypeSet;
-    }
-
-    public Allocation setAllocationTypeSet(Set<AllocationType> allocationTypeSet) {
-        this.allocationTypeSet = allocationTypeSet;
-        return this;
     }
 
     public Schedule getSchedule() {
@@ -303,9 +324,6 @@ public class Allocation extends AbstractPersistable {
     public Allocation getPrevFocusedAllocation() {
         Allocation result = null;
         for (int i = index - 1; i >= 0; i--) {
-            if (i > schedule.getAllocationList().size() - 2) {
-                int g = 0;
-            }
             if (schedule.getAllocationList().get(i).isFocused()) {
                 result = schedule.getAllocationList().get(i);
                 break;
@@ -360,12 +378,17 @@ public class Allocation extends AbstractPersistable {
 
 
     public boolean isOld() {
-        return executionMode.getExecutionModeTypes().contains(ExecutionModeType.OLD);
+        return timelineEntry.getTimelineProperty().getPlanningWindowType().equals(PropertyConstants.PlanningWindowTypes.types.Published.name()) ||
+                timelineEntry.getTimelineProperty().getPlanningWindowType().equals(PropertyConstants.PlanningWindowTypes.types.History.name());
+    }
+
+    public boolean isHistory() {
+        return timelineEntry.getTimelineProperty().getPlanningWindowType().equals(PropertyConstants.PlanningWindowTypes.types.History.name());
     }
 
     public boolean isFocused() {
         return this.equals(schedule.special.sourceAllocation) ||
                 this.equals(schedule.special.sinkAllocation) ||
-                !executionMode.equals(schedule.special.dummyExecutionMode);
+                !timelineEntry.equals(schedule.special.dummyTimelineEntry);
     }
 }

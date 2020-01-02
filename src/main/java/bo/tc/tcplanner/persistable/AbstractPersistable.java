@@ -21,7 +21,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
 import java.io.Serializable;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractPersistable implements Serializable, Comparable<AbstractPersistable> {
@@ -100,6 +99,8 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
     abstract public AbstractPersistable removeVolatile();
 
     abstract public AbstractPersistable removeEmpty();
+
+    abstract public boolean checkValid();
 
     private final static AtomicInteger counter = new AtomicInteger();
 

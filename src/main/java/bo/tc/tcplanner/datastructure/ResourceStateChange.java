@@ -2,8 +2,14 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ResourceStateChange extends AbstractPersistable {
     //resource change
@@ -19,7 +25,7 @@ public class ResourceStateChange extends AbstractPersistable {
 
     public ResourceStateChange(ResourceStateChange other) {
         super(other);
-        if (other.getResourceChange() != null) this.setResourceChange(other.resourceChange.entrySet().stream().collect(
+        this.setResourceChange(other.resourceChange.entrySet().stream().collect(
                 Collectors.toMap(
                         Map.Entry::getKey,
                         x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))));
@@ -31,11 +37,18 @@ public class ResourceStateChange extends AbstractPersistable {
     }
 
     @Override
+    public boolean checkValid() {
+        checkNotNull(resourceChange);
+        checkNotNull(mode);
+        checkArgument(resourceChange.entrySet().stream().allMatch(x -> x.getValue().stream().allMatch(ResourceElement::checkValid)));
+        return true;
+    }
+
+    @Override
     public ResourceStateChange removeVolatile() {
-        if (resourceChange != null) {
-            resourceChange.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
-            resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
-        }
+        resourceChange.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
+        resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
+
         if (resourceStatus != null) {
             resourceStatus.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
             resourceStatus.entrySet().removeIf(x -> x.getValue().size() == 0);
@@ -79,6 +92,7 @@ public class ResourceStateChange extends AbstractPersistable {
         return this;
     }
 
+
     public ResourceStateChange addResourceElementToChange(String key, ResourceElement resourceElement) {
         if (resourceChange == null) resourceChange = new TreeMap<>();
         if (!resourceChange.containsKey(key)) resourceChange.put(key, new ArrayList<>());
@@ -91,5 +105,25 @@ public class ResourceStateChange extends AbstractPersistable {
         if (!resourceStatus.containsKey(key)) resourceStatus.put(key, new ArrayList<>());
         resourceStatus.get(key).add(resourceElement);
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ResourceStateChange that = (ResourceStateChange) o;
+
+        if (!resourceChange.equals(that.resourceChange)) return false;
+        return mode.equals(that.mode);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + resourceChange.hashCode();
+        result = 31 * result + mode.hashCode();
+        return result;
     }
 }

@@ -1,19 +1,18 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
+import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.optaplanner.benchmark.api.PlannerBenchmark;
 import org.optaplanner.benchmark.api.PlannerBenchmarkFactory;
-import org.optaplanner.benchmark.impl.aggregator.swingui.BenchmarkAggregatorFrame;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Map;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
@@ -55,9 +54,9 @@ public class Benchmark {
             locationHierarchyMap = new ObjectMapper().readValue(
                     IOUtils.toString(new FileInputStream(new File(fpath_LocationHierarchyMap)), StandardCharsets.UTF_8),
                     LocationHierarchyMap.class);
-            timeHierarchyMap = (HashMap<String, Object>) (new ObjectMapper().readValue("{\"root\":"
-                    + IOUtils.toString(new FileInputStream(new File(fpath_TimeHierarchyMap)), StandardCharsets.UTF_8) + "}", Map.class)
-                    .get("root"));
+            timeHierarchyMap = new ObjectMapper().readValue(
+                    IOUtils.toString(new FileInputStream(new File(fpath_TimeHierarchyMap)), StandardCharsets.UTF_8),
+                    TimeHierarchyMap.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

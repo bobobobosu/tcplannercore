@@ -2,7 +2,6 @@ package bo.tc.tcplanner.domain.solver.moves;
 
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
-import bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
@@ -11,7 +10,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.*;
+import static bo.tc.tcplanner.domain.solver.filters.FilterTools.TimelineEntryCanChange;
 
 public class SkippedSwapMove extends AbstractMove<Schedule> {
     private Allocation allocation;
@@ -37,8 +36,8 @@ public class SkippedSwapMove extends AbstractMove<Schedule> {
 
     @Override
     public boolean isMoveDoable(ScoreDirector<Schedule> scoreDirector) {
-        if (!ExecutionModeCanChange(allocation)) return false;
-        if (!ExecutionModeCanChange(toAllocation)) return false;
+        if (!TimelineEntryCanChange(allocation)) return false;
+        if (!TimelineEntryCanChange(toAllocation)) return false;
         return !allocation.equals(toAllocation);
     }
 
@@ -66,8 +65,8 @@ public class SkippedSwapMove extends AbstractMove<Schedule> {
     @Override
     public Collection<? extends Object> getPlanningValues() {
         return Arrays.asList(
-                allocation.getProgressdelta(), allocation.getExecutionMode(), allocation.getDelay(),
-                toAllocation.getProgressdelta(), toAllocation.getExecutionMode(), toAllocation.getDelay());
+                allocation.getProgressdelta(), allocation.getTimelineEntry(), allocation.getDelay(),
+                toAllocation.getProgressdelta(), toAllocation.getTimelineEntry(), toAllocation.getDelay());
     }
 
     @Override

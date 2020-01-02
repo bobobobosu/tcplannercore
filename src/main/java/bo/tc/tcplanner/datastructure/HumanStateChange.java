@@ -2,6 +2,9 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class HumanStateChange extends AbstractPersistable {
     //location change
     String currentLocation;
@@ -22,6 +25,15 @@ public class HumanStateChange extends AbstractPersistable {
     @Override
     public HumanStateChange removeEmpty() {
         return this;
+    }
+
+    @Override
+    public boolean checkValid() {
+        checkNotNull(currentLocation);
+        checkNotNull(movetoLocation);
+        checkArgument(duration >= 0);
+        checkNotNull(requirementTimerange);
+        return true;
     }
 
     public HumanStateChange(HumanStateChange other) {
@@ -66,5 +78,31 @@ public class HumanStateChange extends AbstractPersistable {
     public HumanStateChange setRequirementTimerange(String requirementTimerange) {
         this.requirementTimerange = requirementTimerange;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        HumanStateChange that = (HumanStateChange) o;
+
+        if (Double.compare(that.duration, duration) != 0) return false;
+        if (!currentLocation.equals(that.currentLocation)) return false;
+        if (!movetoLocation.equals(that.movetoLocation)) return false;
+        return requirementTimerange.equals(that.requirementTimerange);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        long temp;
+        result = 31 * result + currentLocation.hashCode();
+        result = 31 * result + movetoLocation.hashCode();
+        temp = Double.doubleToLongBits(duration);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + requirementTimerange.hashCode();
+        return result;
     }
 }

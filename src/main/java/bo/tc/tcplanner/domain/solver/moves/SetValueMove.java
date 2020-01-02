@@ -1,7 +1,7 @@
 package bo.tc.tcplanner.domain.solver.moves;
 
+import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
-import bo.tc.tcplanner.domain.ExecutionMode;
 import bo.tc.tcplanner.domain.Schedule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -19,7 +19,7 @@ public class SetValueMove extends AbstractMove<Schedule> {
     private List<AllocationValues> allocationValuesList;
     private List<AllocationValues> oldallocationValuesList;
 
-    public SetValueMove(Allocation allocation1, Integer progressdelta1, ExecutionMode executionMode1, Integer delay1) {
+    public SetValueMove(Allocation allocation1, Integer progressdelta1, TimelineEntry executionMode1, Integer delay1) {
         this.allocationList = Arrays.asList(allocation1);
         this.allocationValuesList = Arrays.asList(new AllocationValues()
                 .setProgressDelta(progressdelta1)
@@ -27,12 +27,12 @@ public class SetValueMove extends AbstractMove<Schedule> {
                 .setDelay(delay1));
         this.oldallocationValuesList = Arrays.asList(new AllocationValues()
                 .setProgressDelta(allocation1.getProgressdelta())
-                .setExecutionMode(allocation1.getExecutionMode())
+                .setExecutionMode(allocation1.getTimelineEntry())
                 .setDelay(allocation1.getDelay()));
     }
 
-    public SetValueMove(Allocation allocation1, Integer progressdelta1, ExecutionMode executionMode1, Integer delay1,
-                        Allocation allocation2, Integer progressdelta2, ExecutionMode executionMode2, Integer delay2) {
+    public SetValueMove(Allocation allocation1, Integer progressdelta1, TimelineEntry executionMode1, Integer delay1,
+                        Allocation allocation2, Integer progressdelta2, TimelineEntry executionMode2, Integer delay2) {
         this.allocationList = Arrays.asList(allocation1, allocation2);
         this.allocationValuesList = Arrays.asList(
                 new AllocationValues()
@@ -46,11 +46,11 @@ public class SetValueMove extends AbstractMove<Schedule> {
         this.oldallocationValuesList = Arrays.asList(
                 new AllocationValues()
                         .setProgressDelta(allocation1.getProgressdelta())
-                        .setExecutionMode(allocation1.getExecutionMode())
+                        .setExecutionMode(allocation1.getTimelineEntry())
                         .setDelay(allocation1.getDelay()),
                 new AllocationValues()
                         .setProgressDelta(allocation2.getProgressdelta())
-                        .setExecutionMode(allocation2.getExecutionMode())
+                        .setExecutionMode(allocation2.getTimelineEntry())
                         .setDelay(allocation2.getDelay()));
     }
 
@@ -60,7 +60,7 @@ public class SetValueMove extends AbstractMove<Schedule> {
         this.oldallocationValuesList = allocationList.stream()
                 .map(x -> new AllocationValues()
                         .setProgressDelta(x.getProgressdelta())
-                        .setExecutionMode(x.getExecutionMode())
+                        .setExecutionMode(x.getTimelineEntry())
                         .setDelay(x.getDelay())).collect(Collectors.toList());
     }
 
@@ -119,7 +119,7 @@ public class SetValueMove extends AbstractMove<Schedule> {
             if (allocationValues.getProgressDelta() != null)
                 s.append(allocation.getProgressdelta()).append(" -> ").append(allocationValues.getProgressDelta()).append(", ");
             if (allocationValues.getExecutionMode() != null)
-                s.append(allocation.getExecutionMode()).append(" -> ").append(allocationValues.getExecutionMode()).append(", ");
+                s.append(allocation.getTimelineEntry()).append(" -> ").append(allocationValues.getExecutionMode()).append(", ");
             if (allocationValues.getDelay() != null)
                 s.append(allocation.getDelay()).append(" -> ").append(allocationValues.getDelay()).append(", ");
             s.append("} ");

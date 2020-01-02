@@ -7,7 +7,6 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.List;
 
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
 
 public class PreviousStandstillUpdatingVariableListener implements VariableListener<Allocation> {

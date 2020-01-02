@@ -22,12 +22,12 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
 
     @Override
     public void beforeVariableChanged(ScoreDirector scoreDirector, Allocation allocation) {
-        dirty.addAll(allocation.getExecutionMode().getResourceStateChange().getResourceChange().keySet());
+        dirty.addAll(allocation.getTimelineEntry().getResourceStateChange().getResourceChange().keySet());
     }
 
     @Override
     public void afterVariableChanged(ScoreDirector scoreDirector, Allocation allocation) {
-        dirty.addAll(allocation.getExecutionMode().getResourceStateChange().getResourceChange().keySet());
+        dirty.addAll(allocation.getTimelineEntry().getResourceStateChange().getResourceChange().keySet());
         updateAllocation(scoreDirector, allocation);
         dirty = new TreeSet<>();
     }

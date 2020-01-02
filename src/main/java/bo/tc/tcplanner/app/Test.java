@@ -1,23 +1,20 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
+import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
 import org.apache.commons.io.IOUtils;
-import org.optaplanner.benchmark.api.PlannerBenchmark;
-import org.optaplanner.benchmark.api.PlannerBenchmarkFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +22,6 @@ import java.util.Map;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
-import static bo.tc.tcplanner.app.Toolbox.genPathFromConstants;
 
 public class Test {
     public static String fpath_Constants = "C:\\_DATA\\_Storage\\_Sync\\Devices\\root\\Constants.json";
@@ -62,8 +58,8 @@ public class Test {
 //                ZonedDateTime.parse("2019-12-18T00:00:00-07:00"));
 
         RangeSet<Integer> test1 = TreeRangeSet.create();
-        test1.add(Range.closed(5,10));
-        Range<Integer> tt = Range.closed(2,3);
+        test1.add(Range.closed(5, 10));
+        Range<Integer> tt = Range.closed(2, 3);
         System.out.println(test1.subRangeSet(tt).toString());
         int g = 0;
     }
@@ -139,9 +135,9 @@ public class Test {
             locationHierarchyMap = new ObjectMapper().readValue(
                     IOUtils.toString(new FileInputStream(new File(fpath_LocationHierarchyMap)), StandardCharsets.UTF_8),
                     LocationHierarchyMap.class);
-            timeHierarchyMap = (HashMap<String, Object>) (new ObjectMapper().readValue("{\"root\":"
-                    + IOUtils.toString(new FileInputStream(new File(fpath_TimeHierarchyMap)), StandardCharsets.UTF_8) + "}", Map.class)
-                    .get("root"));
+            timeHierarchyMap = new ObjectMapper().readValue(
+                    IOUtils.toString(new FileInputStream(new File(fpath_TimeHierarchyMap)), StandardCharsets.UTF_8),
+                    TimeHierarchyMap.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

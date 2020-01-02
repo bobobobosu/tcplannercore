@@ -1,8 +1,10 @@
 package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TimelineEntry extends AbstractPersistable {
     //names
@@ -19,6 +21,7 @@ public class TimelineEntry extends AbstractPersistable {
     //timeline property
     TimelineProperty timelineProperty;
     //validation notes
+    @Nullable
     String score;
 
     public TimelineEntry() {
@@ -30,27 +33,43 @@ public class TimelineEntry extends AbstractPersistable {
         this.title = timelineEntry.title;
         this.description = timelineEntry.description;
         this.executionMode = timelineEntry.executionMode;
-        if (timelineEntry.humanStateChange != null)
-            this.humanStateChange = new HumanStateChange(timelineEntry.humanStateChange);
-        if (timelineEntry.resourceStateChange != null)
-            this.resourceStateChange = new ResourceStateChange(timelineEntry.resourceStateChange);
-        if (timelineEntry.progressChange != null)
-            this.progressChange = new ProgressChange(timelineEntry.progressChange);
-        if (timelineEntry.chronoProperty != null)
-            this.chronoProperty = new ChronoProperty(timelineEntry.chronoProperty);
-        if (timelineEntry.timelineProperty != null)
-            this.timelineProperty = new TimelineProperty(timelineEntry.timelineProperty);
-        this.score = timelineEntry.score;
+        this.humanStateChange = new HumanStateChange(timelineEntry.humanStateChange);
+        this.resourceStateChange = new ResourceStateChange(timelineEntry.resourceStateChange);
+        this.progressChange = new ProgressChange(timelineEntry.progressChange);
+        this.chronoProperty = new ChronoProperty(timelineEntry.chronoProperty);
+        this.timelineProperty = new TimelineProperty(timelineEntry.timelineProperty);
+        if (timelineEntry.score != null) this.score = timelineEntry.score;
     }
 
-    public String getScore() {
-        return score;
+    @Override
+    public boolean checkValid() {
+        checkNotNull(title);
+        checkNotNull(description);
+        checkArgument(executionMode >= 0);
+        checkNotNull(humanStateChange);
+        checkNotNull(resourceStateChange);
+        checkNotNull(progressChange);
+        checkNotNull(chronoProperty);
+        checkNotNull(timelineProperty);
+        checkArgument(humanStateChange.checkValid());
+        checkArgument(resourceStateChange.checkValid());
+        checkArgument(progressChange.checkValid());
+        checkArgument(chronoProperty.checkValid());
+        checkArgument(timelineProperty.checkValid());
+        return true;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+
+    @Override
+    public TimelineEntry setVolatileFlag(boolean volatileFlag) {
+        super.setVolatileFlag(volatileFlag);
+        return this;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
 
     @Override
     public TimelineEntry removeVolatile() {
@@ -71,6 +90,16 @@ public class TimelineEntry extends AbstractPersistable {
         if (timelineProperty != null) timelineProperty.removeEmpty();
         return this;
     }
+
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
 
     public String getTitle() {
         return title;
@@ -142,6 +171,39 @@ public class TimelineEntry extends AbstractPersistable {
     public TimelineEntry setTimelineProperty(TimelineProperty timelineProperty) {
         this.timelineProperty = timelineProperty;
         return this;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        TimelineEntry that = (TimelineEntry) o;
+
+        if (executionMode != that.executionMode) return false;
+        if (!title.equals(that.title)) return false;
+        if (!description.equals(that.description)) return false;
+        if (!humanStateChange.equals(that.humanStateChange)) return false;
+        if (!resourceStateChange.equals(that.resourceStateChange)) return false;
+        if (!progressChange.equals(that.progressChange)) return false;
+        if (!chronoProperty.equals(that.chronoProperty)) return false;
+        return timelineProperty.equals(that.timelineProperty);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + executionMode;
+        result = 31 * result + humanStateChange.hashCode();
+        result = 31 * result + resourceStateChange.hashCode();
+        result = 31 * result + progressChange.hashCode();
+        result = 31 * result + chronoProperty.hashCode();
+        result = 31 * result + timelineProperty.hashCode();
+        return result;
     }
 }
 

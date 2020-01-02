@@ -3,11 +3,14 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimelineBlock extends AbstractPersistable {
@@ -16,14 +19,18 @@ public class TimelineBlock extends AbstractPersistable {
     private String blockEndTime;
     private Integer blockStartRow;
     private Integer blockEndRow;
-    private Integer blockScheduleAfter;
+    private String blockScheduleAfter;
+    @Nullable
     private String origin;
-    private String score;
+
+    private String score; // nullable
 
     @JsonIgnore
     private ZonedDateTime zonedBlockStartTime;
     @JsonIgnore
     private ZonedDateTime zonedBlockEndTime;
+    @JsonIgnore
+    private ZonedDateTime zonedBlockScheduleAfter;
 
 
     public TimelineBlock() {
@@ -32,9 +39,8 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock(TimelineBlock timelineBlock) {
         super(timelineBlock);
-        if (timelineBlock.timelineEntryList != null)
-            this.timelineEntryList = timelineBlock.timelineEntryList.stream().map(x -> new TimelineEntry(x))
-                    .collect(Collectors.toList());
+        this.timelineEntryList = timelineBlock.timelineEntryList.stream().map(x -> new TimelineEntry(x))
+                .collect(Collectors.toList());
         this.setBlockStartTime(timelineBlock.blockStartTime);
         this.setBlockEndTime(timelineBlock.blockEndTime);
         this.blockStartRow = timelineBlock.blockStartRow;
@@ -42,6 +48,64 @@ public class TimelineBlock extends AbstractPersistable {
         this.blockScheduleAfter = timelineBlock.blockScheduleAfter;
         this.origin = timelineBlock.origin;
         this.score = timelineBlock.score;
+    }
+
+
+    @Override
+    public boolean checkValid() {
+        checkNotNull(blockStartTime);
+        checkNotNull(blockStartTime != null);
+        checkNotNull(blockEndTime != null);
+        checkNotNull(blockStartRow != null);
+        checkNotNull(blockEndRow != null);
+        checkNotNull(blockScheduleAfter != null);
+        checkNotNull(timelineEntryList != null);
+        checkArgument(getZonedBlockEndTime().isAfter(getZonedBlockStartTime()));
+        checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
+        return true;
+    }
+
+    @Override
+    public TimelineBlock removeVolatile() {
+        timelineEntryList.forEach(TimelineEntry::removeVolatile);
+        return this;
+    }
+
+    @Override
+    public TimelineBlock removeEmpty() {
+        timelineEntryList.forEach(TimelineEntry::removeEmpty);
+        return this;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        TimelineBlock that = (TimelineBlock) o;
+
+        if (!timelineEntryList.equals(that.timelineEntryList)) return false;
+        if (!blockStartTime.equals(that.blockStartTime)) return false;
+        if (!blockEndTime.equals(that.blockEndTime)) return false;
+        if (!blockStartRow.equals(that.blockStartRow)) return false;
+        if (!blockEndRow.equals(that.blockEndRow)) return false;
+        if (!blockScheduleAfter.equals(that.blockScheduleAfter)) return false;
+        return origin.equals(that.origin);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + timelineEntryList.hashCode();
+        result = 31 * result + blockStartTime.hashCode();
+        result = 31 * result + blockEndTime.hashCode();
+        result = 31 * result + blockStartRow.hashCode();
+        result = 31 * result + blockEndRow.hashCode();
+        result = 31 * result + blockScheduleAfter.hashCode();
+        result = 31 * result + origin.hashCode();
+        return result;
     }
 
     public List<TimelineEntry> getTimelineEntryList() {
@@ -59,11 +123,11 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock setBlockStartTime(String blockStartTime) {
         this.blockStartTime = blockStartTime;
-        if (blockStartTime != null) zonedBlockStartTime = ZonedDateTime.parse(blockStartTime);
         return this;
     }
 
     public ZonedDateTime getZonedBlockStartTime() {
+        if (zonedBlockStartTime == null) zonedBlockStartTime = ZonedDateTime.parse(blockStartTime);
         return zonedBlockStartTime;
     }
 
@@ -73,11 +137,11 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock setBlockEndTime(String blockEndTime) {
         this.blockEndTime = blockEndTime;
-        if (blockEndTime != null) zonedBlockEndTime = ZonedDateTime.parse(blockEndTime);
         return this;
     }
 
     public ZonedDateTime getZonedBlockEndTime() {
+        if (zonedBlockEndTime == null) zonedBlockEndTime = ZonedDateTime.parse(blockEndTime);
         return zonedBlockEndTime;
     }
 
@@ -117,24 +181,19 @@ public class TimelineBlock extends AbstractPersistable {
         return this;
     }
 
-    public Integer getBlockScheduleAfter() {
+    public String getBlockScheduleAfter() {
         return blockScheduleAfter;
     }
 
-    public TimelineBlock setBlockScheduleAfter(Integer blockScheduleAfter) {
+    public TimelineBlock setBlockScheduleAfter(String blockScheduleAfter) {
         this.blockScheduleAfter = blockScheduleAfter;
         return this;
     }
 
-    @Override
-    public TimelineBlock removeVolatile() {
-        if (timelineEntryList != null) timelineEntryList.forEach(TimelineEntry::removeVolatile);
-        return this;
+    public ZonedDateTime getZonedBlockScheduleAfter() {
+        zonedBlockScheduleAfter = ZonedDateTime.parse(blockScheduleAfter);
+        return zonedBlockScheduleAfter;
     }
 
-    @Override
-    public TimelineBlock removeEmpty() {
-        if (timelineEntryList != null) timelineEntryList.forEach(TimelineEntry::removeEmpty);
-        return this;
-    }
+
 }

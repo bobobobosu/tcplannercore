@@ -1,13 +1,13 @@
 <solver>
-    <environmentMode>NON_REPRODUCIBLE</environmentMode>
-<!--    <moveThreadCount>AUTO</moveThreadCount>-->
+    <environmentMode>REPRODUCIBLE</environmentMode>
+    <moveThreadCount>AUTO</moveThreadCount>
     <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
     <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
     <scoreDirectorFactory>
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>100</millisecondsSpentLimit>-->
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
@@ -24,13 +24,10 @@
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
-            <changeMoveSelector>
+            <moveListFactory>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
-                <entitySelector>
-                    <filterClass>bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter</filterClass>
-                </entitySelector>
-                <valueSelector variableName="executionMode"/>
-            </changeMoveSelector>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
+            </moveListFactory>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
                 <entitySelector>
@@ -47,9 +44,9 @@
                 <fixedProbabilityWeight>0.59616</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
-                        <filterClass>bo.tc.tcplanner.domain.solver.filters.ExecutionModeCanChangeFilter</filterClass>
+                        <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
                     </entitySelector>
-                    <valueSelector variableName="executionMode"/>
+                    <valueSelector variableName="timelineEntry"/>
                 </changeMoveSelector>
                 <changeMoveSelector>
                     <entitySelector mimicSelectorRef="entitySelector"/>
@@ -77,11 +74,11 @@
             </cartesianProductMoveSelector>
             <moveListFactory>
                 <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitExecutionMoveFactory</moveListFactoryClass>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
             </moveListFactory>
             <moveListFactory>
                 <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeExecutionMoveFactory</moveListFactoryClass>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
             </moveListFactory>
         </unionMoveSelector>
         <acceptor>
