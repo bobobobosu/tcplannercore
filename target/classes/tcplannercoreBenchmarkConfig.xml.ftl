@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+<#--                <millisecondsSpentLimit>30000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -41,7 +41,7 @@
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl','TCRules_P1_1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -110,13 +110,18 @@
 
 
 <#--    fine Moves-->
-    <#list ['<changeMoveSelector>
-                    <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
-                    <entitySelector>
-                        ${ExecutionModeCanChangeFilter}
-                    </entitySelector>
-                    <valueSelector variableName="executionMode"/>
-                </changeMoveSelector>'] as executionMode>
+    <#list ['<moveListFactory>
+                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>
+            </moveListFactory>'] as executionMode>
+<#--        ,-->
+<#--        '<changeMoveSelector>-->
+<#--        <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--        <entitySelector>-->
+<#--            ${ExecutionModeCanChangeFilter}-->
+<#--        </entitySelector>-->
+<#--        <valueSelector variableName="executionMode"/>-->
+<#--    </changeMoveSelector>'-->
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
                 <entitySelector>
@@ -159,7 +164,7 @@
             ${splitMove}'] as mergesplitMoves>
 
     <solverBenchmark>
-        <name>a${delayWeight?index}</name>
+        <name>a${scoreDrl?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -232,10 +237,7 @@
 </plannerBenchmark>
 
 
-<#--'<moveListFactory>-->
-<#--    <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->
-<#--    <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseExecutionMoveFactory</moveListFactoryClass>-->
-<#--</moveListFactory>'-->
+
 
 <#--<#list ['<changeMoveSelector>-->
 <#--                <fixedProbabilityWeight>${executionWeight*fineWeight}</fixedProbabilityWeight>-->

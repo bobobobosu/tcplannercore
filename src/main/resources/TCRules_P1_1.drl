@@ -107,7 +107,7 @@ rule "checkSplittable"
             $jobprogressdelta : executionMode.progressChange.progressDelta,
             eval($progressdelta != ($jobprogressdelta * 100) ))
     then
-        int score = -10*(int)Math.abs($progressdelta-$jobprogressdelta * 100);
+        int score = -(int)Math.abs($progressdelta-$jobprogressdelta * 100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
 											new int[]{0,0,0,0});

@@ -10,6 +10,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -40,9 +42,19 @@ public class SplitExecutionMove extends AbstractMove<Schedule> {
     @Override
     protected void doMoveOnGenuineVariables(ScoreDirector<Schedule> scoreDirector) {
         Integer sum = allocation.getProgressdelta();
+        int max = sum / 2;
+
+        ZonedDateTime thisStart = allocation.getStartDate();
+        ZonedDateTime nextStart = allocation.getNextFocusedAllocation().getStartDate();
+        if (allocation.getExecutionMode().getHumanStateChange().getDuration() > 0 &&
+                allocation.getEndDate().isAfter(nextStart)) {
+            max = (int) (100 * allocation.getExecutionMode().getProgressChange().getProgressDelta() * (
+                    Duration.between(thisStart, nextStart).toMinutes() /
+                            allocation.getExecutionMode().getHumanStateChange().getDuration()));
+        }
 
         new AllocationValues()
-                .setProgressDelta(sum / 2)
+                .setProgressDelta(max)
                 .setExecutionMode(usableExecutionMode)
                 .apply(dummyAllocation, scoreDirector);
 

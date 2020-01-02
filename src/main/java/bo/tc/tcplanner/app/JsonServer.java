@@ -65,7 +65,7 @@ public class JsonServer {
     }
 
     public void updateTimelineBlock(boolean print, Schedule newresult) {
-//        latestTimelineBlock = new DataStructureWriter().generateTimelineBlock(newresult);
+        latestTimelineBlock = new DataStructureWriter().generateTimelineBlock(newresult);
         latestBestSolutions = newresult;
         synchronized (newTimelineBlockLock) {
             newTimelineBlockLock.notify();

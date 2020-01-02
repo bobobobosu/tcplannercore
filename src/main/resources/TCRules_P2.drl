@@ -143,3 +143,4 @@ end
 //    then
 //        scoreHolder.addSoftConstraintMatch(kcontext, 2,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
 //end
+

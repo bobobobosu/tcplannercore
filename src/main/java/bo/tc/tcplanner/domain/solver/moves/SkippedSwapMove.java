@@ -50,7 +50,7 @@ public class SkippedSwapMove extends AbstractMove<Schedule> {
 
 
     public String toString() {
-        return "{" + allocation + " <-> " + toAllocation + "}";
+        return "SkippedSwap {" + allocation + " <-> " + toAllocation + "}";
     }
 
     @Override

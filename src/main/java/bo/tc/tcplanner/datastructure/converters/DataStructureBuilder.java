@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
-import static java.lang.Math.round;
-
 
 public class DataStructureBuilder {
     Schedule schedule;
@@ -39,7 +37,7 @@ public class DataStructureBuilder {
                 .setMovetoLocation(schedule.special.dummyLocation)
                 .setRequirementTimerange(schedule.special.dummyTime);
         schedule.special.dummyProgressChange = new ProgressChange()
-                .setProgressDelta(0.1);
+                .setProgressDelta(0.5);
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
                 .setResourceChange(new HashMap<>());
         schedule.special.dummyChronoProperty = new ChronoProperty()
@@ -59,7 +57,7 @@ public class DataStructureBuilder {
         schedule.special.dummyExecutionMode = new ExecutionMode()
                 .setVolatileFlag(true)
                 .setSchedule(schedule)
-                .setTitle("dummyExecutionMode")
+                .setTitle("\"\"")
                 .setDescription("")
                 .setExecutionModeIndex(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
@@ -79,7 +77,7 @@ public class DataStructureBuilder {
                 .setExecutionModeIndex(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
                 .setProgressChange(schedule.special.dummyProgressChange)
-                .setResourceStateChange(schedule.special.dummyResourceStateChange)
+                .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
                         .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
@@ -92,12 +90,12 @@ public class DataStructureBuilder {
         schedule.special.sinkAllocation.setExecutionMode(new ExecutionMode()
                 .setVolatileFlag(true)
                 .setSchedule(schedule)
-                .setTitle("source")
+                .setTitle("sink")
                 .setDescription("")
                 .setExecutionModeIndex(0)
                 .setHumanStateChange(schedule.special.dummyHumamStateChange)
                 .setProgressChange(schedule.special.dummyProgressChange)
-                .setResourceStateChange(schedule.special.dummyResourceStateChange)
+                .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
                         .setStartTime(schedule.getProblemTimelineBlock().getBlockEndTime())

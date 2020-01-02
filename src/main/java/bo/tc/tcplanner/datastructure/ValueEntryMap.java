@@ -12,6 +12,12 @@ public class ValueEntryMap extends HashMap<String, ValueEntry> {
 
     public ValueEntryMap removeVolatile() {
         this.entrySet().removeIf(x -> x.getValue().isVolatileFlag());
+        this.forEach((k, v) -> v.removeVolatile());
+        return this;
+    }
+
+    public ValueEntryMap removeEmpty() {
+        this.forEach((k, v) -> v.removeEmpty());
         return this;
     }
 }

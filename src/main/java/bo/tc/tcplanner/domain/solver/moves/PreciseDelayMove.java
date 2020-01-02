@@ -59,7 +59,7 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
     }
 
     public String toString() {
-        return allocation + " {" + allocation.getDelay() + " -> " + toDelay + "}";
+        return "PreciseDelay "+allocation + " {" + allocation.getDelay() + " -> " + toDelay + "}";
     }
 
     @Override

@@ -13,7 +13,7 @@ public class PreciseExecutionMoveFactory implements MoveListFactory<Schedule> {
 
     @Override
     public List<SetValueMove> createMoveList(Schedule schedule) {
-        List<Allocation> allocationList = schedule.getDummyAllocationList();
+        List<Allocation> allocationList = schedule.getCondensedAllocationList();
 
         List<SetValueMove> moveList = new ArrayList<>();
         for (Allocation allocation : allocationList) {

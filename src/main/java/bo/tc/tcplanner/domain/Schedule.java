@@ -173,4 +173,20 @@ public class Schedule extends AbstractPersistable {
         return dummyAllocationList;
     }
 
+    public List<Allocation> getCondensedAllocationList() {
+        List<Allocation> condensedAllocationList = new ArrayList<>();
+        Allocation prevAllocation = null;
+        for (Allocation thisAllocaion : allocationList) {
+            if (thisAllocaion.isFocused()) {
+                condensedAllocationList.add(thisAllocaion);
+                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
+                    condensedAllocationList.add(
+                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
+                    );
+                prevAllocation = thisAllocaion;
+            }
+        }
+        return condensedAllocationList;
+    }
+
 }
