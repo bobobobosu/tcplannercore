@@ -2,3 +2,5 @@
 local/log/optaplanner.log
 /local/
 /target/
+/.settings/
+/out/
