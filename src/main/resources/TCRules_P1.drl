@@ -24,6 +24,17 @@ global BendableScoreHolder scoreHolder;
 // Hard constraints
 // ############################################################################
 
+rule "distributeAllocations"
+    when
+        $allocation : Allocation(isFocused(),
+            !isHistory(),
+            $distributionScore : distributionScore,
+            $distributionScore<0)
+
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, 0, (int)$distributionScore);
+end
+
 rule "checkDependencyId"
     when
         $allocation : Allocation(isFocused(),
@@ -129,7 +140,7 @@ rule "checkSplittable"
     then
         int score = -10*(int)Math.abs($progressdelta-$jobprogressdelta * 100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, score, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -149,14 +160,7 @@ end
 // Soft constraints
 // ############################################################################
 
-rule "distributeAllocations"
-    when
-        $allocation : Allocation(isFocused(),
-            nextFocusedAllocation != null,
-            eval(nextFocusedAllocation.getIndex() - index < 2))
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1, -100);
-end
+
 
 rule "checkExcessResource"
     when
@@ -174,37 +178,39 @@ rule "dummyJob"
         scoreHolder.addSoftConstraintMatch(kcontext, 2, -100);
 end
 
-rule "punishFragmentation"
-    when
-        $allocation : Allocation(isFocused(),
-            $progressdelta : progressdelta,$progressdelta <100 )
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, 3,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
-end
 
 
 
 // ############################################################################
 // Phase 2 Soft constraints
 // ############################################################################
-
-rule "laterTheBetter"
-    when
-        $allocation : Allocation(isFocused(),
-            timelineEntry.chronoProperty.gravity == 1, $startDate : startDate)
-    then
-        int score = -(int)(Duration.between($allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
-                            $startDate)).toMinutes();
-        scoreHolder.addSoftConstraintMatch(kcontext, 3, score);
-end
-
-rule "earlierTheBetter"
-    when
-        $allocation : Allocation(isFocused(),
-            timelineEntry.chronoProperty.gravity == -1, $startDate : startDate)
-    then
-        int score = (int)(Duration.between($allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
-                            $startDate)).toMinutes();
-        scoreHolder.addSoftConstraintMatch(kcontext, 3, score);
-end
-
+//
+//
+//rule "punishFragmentation"
+//    when
+//        $allocation : Allocation(isFocused(),
+//            $progressdelta : progressdelta,$progressdelta <100 )
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, 3,  $progressdelta < 50 ? -$progressdelta : $progressdelta-100);
+//end
+//
+//rule "laterTheBetter"
+//    when
+//        $allocation : Allocation(isFocused(),
+//            timelineEntry.chronoProperty.gravity == 1, $startDate : startDate)
+//    then
+//        int score = -(int)(Duration.between($allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
+//                            $startDate)).toMinutes();
+//        scoreHolder.addSoftConstraintMatch(kcontext, 3, score);
+//end
+//
+//rule "earlierTheBetter"
+//    when
+//        $allocation : Allocation(isFocused(),
+//            timelineEntry.chronoProperty.gravity == -1, $startDate : startDate)
+//    then
+//        int score = (int)(Duration.between($allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
+//                            $startDate)).toMinutes();
+//        scoreHolder.addSoftConstraintMatch(kcontext, 3, score);
+//end
+//

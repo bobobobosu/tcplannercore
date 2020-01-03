@@ -169,28 +169,31 @@ public class DataStructureBuilder {
                     schedule.getAllocationList().add(schedule.getAllocationList().size() - 1, allocation);
 
                     // add job clone
-                    TimelineEntry timelineEntryClone;
-                    timelineEntryClone = new TimelineEntry(timelineEntry)
-                            .setChronoProperty(new ChronoProperty(y.getChronoProperty())
-                                    .setMovable(1)
-                                    .setChangeable(1))
-                            .setTimelineProperty(new TimelineProperty(y.getTimelineProperty())
-                                    .setTimelineid(null)
-                                    .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name()));
-                    schedule.getTimelineEntryList().add(timelineEntryClone);
+                    if (y.getChronoProperty().getSplittable() == 1) {
+                        TimelineEntry timelineEntryClone;
+                        timelineEntryClone = new TimelineEntry(timelineEntry)
+                                .setChronoProperty(new ChronoProperty(y.getChronoProperty())
+                                        .setMovable(1)
+                                        .setChangeable(1))
+                                .setTimelineProperty(new TimelineProperty(y.getTimelineProperty())
+                                        .setTimelineid(null)
+                                        .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name()));
+                        schedule.getTimelineEntryList().add(timelineEntryClone);
 
-                    // Update Map
-                    schedule.getJob2jobcloneMap().put(timelineEntry, timelineEntryClone);
+                        // Update Map
+                        schedule.getJob2jobcloneMap().put(timelineEntry, timelineEntryClone);
+                    }
+
 
                 });
 
         // add dummy jobs
-        for (int i = schedule.getAllocationList().size() - 1; i > 0; i--) {
+        for (int i = schedule.getAllocationList().size() - 1; i >= 0; i--) {
             if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isAfter(
                     schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) {
                 // add dummy jobs between
                 int finalI = i;
-                IntStream.rangeClosed(1, 20).forEach(x -> {
+                IntStream.rangeClosed(1, 30).forEach(x -> {
                     Allocation allocation = new Allocation()
                             .setVolatileFlag(true)
                             .setSchedule(schedule);

@@ -31,7 +31,7 @@
           ],
           "r.Calories Consumption": [
             {
-              "amt": 300.0,
+              "amt": 3.0,
               "location": ""
             }
           ]
@@ -176,7 +176,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -272,7 +272,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -362,7 +362,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -422,7 +422,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -481,7 +481,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -558,7 +558,7 @@
           ],
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -617,7 +617,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -676,7 +676,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -735,7 +735,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -794,7 +794,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -852,7 +852,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -908,7 +908,7 @@
         "resourceChange": {
           "r.Calories Consumption": [
             {
-              "amt": -100.0,
+              "amt": -1.0,
               "location": ""
             }
           ],
@@ -1235,7 +1235,7 @@
   "blockEndTime": "2021-12-11T00:00:00-08:00[America/Los_Angeles]",
   "blockStartRow": 6320.0,
   "blockEndRow": 6346.0,
-  "blockScheduleAfter": "2019-12-24T18:36:00-08:00[America/Los_Angeles]",
+  "blockScheduleAfter": "2019-12-24T18:30:00-08:00[America/Los_Angeles]",
   "score": "",
   "origin": "TCxlsb"
 }

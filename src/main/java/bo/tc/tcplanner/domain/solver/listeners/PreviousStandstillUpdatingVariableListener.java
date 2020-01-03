@@ -48,8 +48,8 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
 
         List<Allocation> focusedAllocation = originalAllocation.getFocusedAllocationsTillEnd();
 
-        Allocation prevAllocation = null;
-        for(Allocation thisAllocation : focusedAllocation){
+        Allocation prevAllocation = focusedAllocation.get(0).getPrevFocusedAllocation();
+        for (Allocation thisAllocation : focusedAllocation) {
             scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
             updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
             scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");

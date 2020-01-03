@@ -169,15 +169,6 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-    public TimelineEntry getDummyExecutionMode() {
-        return special.dummyTimelineEntry;
-    }
-
-    public Schedule setDummyExecutionMode(TimelineEntry dummyExecutionMode) {
-        this.special.dummyTimelineEntry = dummyExecutionMode;
-        return this;
-    }
-
     public Map<TimelineEntry, TimelineEntry> getJob2jobcloneMap() {
         return job2jobcloneMap;
     }
@@ -208,18 +199,14 @@ public class Schedule extends AbstractPersistable {
     }
 
     public List<Allocation> getCondensedAllocationList() {
+        List<Allocation> focuseddAllocationList = getFocusedAllocationList();
         List<Allocation> condensedAllocationList = new ArrayList<>();
-        Allocation prevAllocation = null;
-        for (Allocation thisAllocaion : allocationList) {
-            if (thisAllocaion.isFocused()) {
-                condensedAllocationList.add(thisAllocaion);
-                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
-                    condensedAllocationList.add(
-                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
-                    );
-                prevAllocation = thisAllocaion;
-            }
+        for (int thisIdx = 0, nextIdx = 1; nextIdx < focuseddAllocationList.size(); thisIdx++, nextIdx++) {
+            int idx1 = focuseddAllocationList.get(thisIdx).getIndex();
+            int idx2 = focuseddAllocationList.get(nextIdx).getIndex();
+            if (idx2 - idx1 > 1) condensedAllocationList.add(allocationList.get((idx1 + idx2) / 2));
         }
+        condensedAllocationList.addAll(focuseddAllocationList);
         return condensedAllocationList;
     }
 

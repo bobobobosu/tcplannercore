@@ -19,9 +19,9 @@
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+<#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
 
             </termination>
         </solver>
@@ -114,14 +114,14 @@
                 <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>
                 <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
             </moveListFactory>'] as timelineEntry>
-<#--        ,-->
-<#--        '<changeMoveSelector>-->
-<#--        <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>-->
-<#--        <entitySelector>-->
-<#--            ${TimelineEntryCanChangeFilter}-->
-<#--        </entitySelector>-->
-<#--        <valueSelector variableName="timelineEntry"/>-->
-<#--    </changeMoveSelector>'-->
+<#--    <#list ['<changeMoveSelector>-->
+<#--                <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>-->
+<#--                <entitySelector>-->
+<#--                    ${TimelineEntryCanChangeFilter}-->
+<#--                </entitySelector>-->
+<#--                <valueSelector variableName="timelineEntry"/>-->
+<#--            </changeMoveSelector>'] as timelineEntry>-->
+
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
                 <entitySelector>

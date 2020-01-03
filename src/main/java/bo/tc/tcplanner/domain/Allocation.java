@@ -213,11 +213,9 @@ public class Allocation extends AbstractPersistable {
     public Double getResourceElementMapExcessScore() {
         double score = 0;
         for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
-            int alive = 0;
+            double alive = entry.getValue().stream()
+                    .filter(x -> x.getAmt() > 0).mapToDouble(ResourceElement::getAmt).sum();
             double capacity = schedule.getValueEntryMap().get(entry.getKey()).getCapacity();
-            for (ResourceElement resourceElement : entry.getValue()) {
-                alive += (resourceElement.getAmt() > 0) ? resourceElement.getAmt() : 0;
-            }
             score += (alive > capacity) ? capacity - alive : 0;
         }
         return score;
@@ -250,6 +248,17 @@ public class Allocation extends AbstractPersistable {
                     plannedDuration.toMinutes();
 
         }
+    }
+
+    public long getDistributionScore() {
+        long score = 0;
+
+        if (index - 1 > 0 && !schedule.getAllocationList().get(index - 1).getTimelineEntry().equals(schedule.special.dummyTimelineEntry))
+            score -= 100;
+        if (index + 1 < schedule.getAllocationList().size() - 1 && !schedule.getAllocationList().get(index + 1).getTimelineEntry().equals(schedule.special.dummyTimelineEntry))
+            score -= 100;
+
+        return score;
     }
 
     // ************************************************************************
