@@ -251,13 +251,11 @@ public class Allocation extends AbstractPersistable {
     }
 
     public long getDistributionScore() {
-        long score = 0;
-
-        if (index - 1 > 0 && !schedule.getAllocationList().get(index - 1).getTimelineEntry().equals(schedule.special.dummyTimelineEntry))
-            score -= 100;
-        if (index + 1 < schedule.getAllocationList().size() - 1 && !schedule.getAllocationList().get(index + 1).getTimelineEntry().equals(schedule.special.dummyTimelineEntry))
-            score -= 100;
-
+        long score = -2;
+        Allocation prevAllocation = getPrevFocusedAllocation();
+        Allocation nextAllocation = getNextFocusedAllocation();
+        if (prevAllocation != null) score += Math.min(1, index - prevAllocation.getIndex());
+        if (nextAllocation != null) score += Math.min(1, nextAllocation.getIndex() - index);
         return score;
     }
 
