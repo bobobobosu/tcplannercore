@@ -43,23 +43,22 @@ public class SplitTimelineEntryMove extends AbstractMove<Schedule> {
         Integer sum = allocation.getProgressdelta();
         int max = sum / 2;
 
-        ZonedDateTime thisStart = allocation.getStartDate();
-        ZonedDateTime nextStart = allocation.getNextFocusedAllocation().getStartDate();
-        if (allocation.getTimelineEntry().getHumanStateChange().getDuration() > 0 &&
-                allocation.getEndDate().isAfter(nextStart)) {
-            max = (int) (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta() * (
-                    Duration.between(thisStart, nextStart).toMinutes() /
-                            allocation.getTimelineEntry().getHumanStateChange().getDuration()));
-        }
+//        ZonedDateTime thisStart = allocation.getStartDate();
+//        ZonedDateTime nextStart = allocation.getNextFocusedAllocation().getStartDate();
+//        if (allocation.getTimelineEntry().getHumanStateChange().getDuration() > 0 &&
+//                allocation.getEndDate().isAfter(nextStart)) {
+//            max = (int) (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta() * (
+//                    Duration.between(thisStart, nextStart).toMinutes() /
+//                            allocation.getTimelineEntry().getHumanStateChange().getDuration()));
+//        }
 
         new AllocationValues()
                 .setProgressDelta(max)
+                .apply(allocation, scoreDirector);
+        new AllocationValues()
+                .setProgressDelta(sum - allocation.getProgressdelta())
                 .setExecutionMode(usableExecutionMode)
                 .apply(dummyAllocation, scoreDirector);
-
-        new AllocationValues()
-                .setProgressDelta(sum - dummyAllocation.getProgressdelta())
-                .apply(allocation, scoreDirector);
     }
 
     @Override

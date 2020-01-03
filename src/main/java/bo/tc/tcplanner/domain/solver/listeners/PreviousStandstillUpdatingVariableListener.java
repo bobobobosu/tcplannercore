@@ -7,6 +7,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.List;
 
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
 
 public class PreviousStandstillUpdatingVariableListener implements VariableListener<Allocation> {
@@ -46,10 +47,13 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
         }
 
         List<Allocation> focusedAllocation = originalAllocation.getFocusedAllocationsTillEnd();
-        for (int prevIdx = 0, thisIdx = 1; thisIdx < focusedAllocation.size(); prevIdx++, thisIdx++) {
-            scoreDirector.beforeVariableChanged(focusedAllocation.get(thisIdx), "previousStandstill");
-            updateAllocationPreviousStandstill(focusedAllocation.get(thisIdx), focusedAllocation.get(prevIdx));
-            scoreDirector.afterVariableChanged(focusedAllocation.get(thisIdx), "previousStandstill");
+
+        Allocation prevAllocation = null;
+        for(Allocation thisAllocation : focusedAllocation){
+            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
+            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
+            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
+            prevAllocation = thisAllocation;
         }
 
     }

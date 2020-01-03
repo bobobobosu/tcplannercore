@@ -21,7 +21,7 @@
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
 <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>6000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -175,10 +175,10 @@
             </scoreDirectorFactory>
             <localSearch>
                 <unionMoveSelector>
-                    ${swapMove}
+<#--                    ${swapMove}-->
                     ${fineMoves}
                     ${cartesianMoves}
-                    ${mergesplitMoves}
+<#--                    ${mergesplitMoves}-->
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>

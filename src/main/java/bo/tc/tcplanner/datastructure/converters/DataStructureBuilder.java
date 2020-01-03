@@ -190,7 +190,7 @@ public class DataStructureBuilder {
                     schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) {
                 // add dummy jobs between
                 int finalI = i;
-                IntStream.rangeClosed(1, 3).forEach(x -> {
+                IntStream.rangeClosed(1, 20).forEach(x -> {
                     Allocation allocation = new Allocation()
                             .setVolatileFlag(true)
                             .setSchedule(schedule);
