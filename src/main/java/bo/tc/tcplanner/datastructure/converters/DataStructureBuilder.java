@@ -116,6 +116,7 @@ public class DataStructureBuilder {
                 Arrays.asList(schedule.special.dummyTimelineEntry,
                         schedule.special.sourceAllocation.getTimelineEntry(),
                         schedule.special.sinkAllocation.getTimelineEntry())));
+        schedule.setJob2jobcloneMap(new IdentityHashMap<>());
 
         // Add TimelineEntries from valueEntryMap
         // Add jobs from ValueEntryMap
@@ -156,8 +157,9 @@ public class DataStructureBuilder {
                     schedule.getValueEntryMap().put(y.getTimelineProperty().getTimelineid().toString(),
                             new ValueEntry().setVolatileFlag(true).setCapacity(100d).setClassification("task"));
 
-                    TimelineEntry timelineEntry;
+
                     // add real job
+                    TimelineEntry timelineEntry;
                     timelineEntry = new TimelineEntry(y);
                     timelineEntry.getResourceStateChange().addResourceElementToChange(y.getTimelineProperty().getTimelineid().toString(),
                             jobResourceElement);
@@ -167,14 +169,18 @@ public class DataStructureBuilder {
                     schedule.getAllocationList().add(schedule.getAllocationList().size() - 1, allocation);
 
                     // add job clone
-                    timelineEntry = new TimelineEntry(timelineEntry)
+                    TimelineEntry timelineEntryClone;
+                    timelineEntryClone = new TimelineEntry(timelineEntry)
                             .setChronoProperty(new ChronoProperty(y.getChronoProperty())
                                     .setMovable(1)
                                     .setChangeable(1))
                             .setTimelineProperty(new TimelineProperty(y.getTimelineProperty())
                                     .setTimelineid(null)
                                     .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name()));
-                    schedule.getTimelineEntryList().add(timelineEntry);
+                    schedule.getTimelineEntryList().add(timelineEntryClone);
+
+                    // Update Map
+                    schedule.getJob2jobcloneMap().put(timelineEntry, timelineEntryClone);
 
                 });
 

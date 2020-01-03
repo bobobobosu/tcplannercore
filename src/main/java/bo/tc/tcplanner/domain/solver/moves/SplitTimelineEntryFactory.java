@@ -17,7 +17,8 @@ public class SplitTimelineEntryFactory implements MoveListFactory<Schedule> {
 
         for (Allocation thisAllocation : schedule.getFocusedAllocationList()) {
             for (Allocation dummyAllocation : dummyAllocationList) {
-                moveList.add(new SplitTimelineEntryMove(thisAllocation, dummyAllocation, thisAllocation.getTimelineEntry()));
+                moveList.add(new SplitTimelineEntryMove(thisAllocation, dummyAllocation,
+                        thisAllocation.getSchedule().getJob2jobcloneMap().get(thisAllocation.getTimelineEntry())));
             }
         }
         return moveList;

@@ -29,6 +29,7 @@ import org.optaplanner.persistence.xstream.api.score.buildin.bendable.BendableSc
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -46,6 +47,10 @@ public class Schedule extends AbstractPersistable {
     private ValueEntryMap valueEntryMap;
     private TimeEntryMap timeEntryMap;
     public Special special;
+
+    // Easy Access
+    private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
+
 
     public class Special {
         public Allocation sourceAllocation;
@@ -68,8 +73,10 @@ public class Schedule extends AbstractPersistable {
         checkNotNull(problemTimelineBlock);
         checkNotNull(valueEntryMap);
         checkNotNull(timeEntryMap);
+        checkNotNull(job2jobcloneMap);
         checkArgument(allocationList.stream().allMatch(Allocation::checkValid));
         checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
+        checkArgument(job2jobcloneMap.entrySet().stream().allMatch(x -> x.getValue().getResourceStateChange().equals(x.getKey().getResourceStateChange())));
         checkArgument(valueEntryMap.checkValid());
         return true;
     }
@@ -82,6 +89,7 @@ public class Schedule extends AbstractPersistable {
         valueEntryMap.entrySet().removeIf(x -> x.getValue().isVolatileFlag());
         allocationList.removeIf(AbstractPersistable::isVolatileFlag);
         allocationList.forEach(Allocation::removeVolatile);
+        job2jobcloneMap.entrySet().removeIf(x -> x.getKey().isVolatileFlag() || x.getValue().isVolatileFlag());
         return this;
     }
 
@@ -169,6 +177,16 @@ public class Schedule extends AbstractPersistable {
         this.special.dummyTimelineEntry = dummyExecutionMode;
         return this;
     }
+
+    public Map<TimelineEntry, TimelineEntry> getJob2jobcloneMap() {
+        return job2jobcloneMap;
+    }
+
+    public Schedule setJob2jobcloneMap(Map<TimelineEntry, TimelineEntry> job2jobcloneMap) {
+        this.job2jobcloneMap = job2jobcloneMap;
+        return this;
+    }
+
 
     public List<Allocation> getFocusedAllocationList() {
         return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
