@@ -191,7 +191,7 @@ public class TimelineBlock extends AbstractPersistable {
     }
 
     public ZonedDateTime getZonedBlockScheduleAfter() {
-        zonedBlockScheduleAfter = ZonedDateTime.parse(blockScheduleAfter);
+        if (zonedBlockScheduleAfter == null) zonedBlockScheduleAfter = ZonedDateTime.parse(blockScheduleAfter);
         return zonedBlockScheduleAfter;
     }
 
