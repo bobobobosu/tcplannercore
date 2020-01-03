@@ -54,9 +54,9 @@ public class DataStructureWriter {
         Map<TimelineEntry, List<Allocation>> timelineEntryListMap =
                 result.getAllocationList()
                         .stream()
-                        .filter(x -> !x.isVolatileFlag())
+                        .filter(x -> !x.getTimelineEntry().isVolatileFlag())
                         .collect(Collectors.groupingBy(Allocation::getTimelineEntry));
-        result.getAllocationList().stream().filter(x -> !x.isVolatileFlag()).forEach(x -> {
+        result.getAllocationList().stream().filter(x -> !x.getTimelineEntry().isVolatileFlag()).forEach(x -> {
             if (x.getTimelineEntry().getTimelineProperty().getTimelineid() == null ||
                     x.getTimelineEntry().getTimelineProperty().getPlanningWindowType().equals(
                             PropertyConstants.PlanningWindowTypes.types.Draft.name())) {
@@ -69,7 +69,7 @@ public class DataStructureWriter {
 
         // create result TimelineEntry
         List<TimelineEntry> TEList = new ArrayList<>();
-        result.getAllocationList().stream().filter(x -> !x.isVolatileFlag()).forEach(allocation -> {
+        result.getAllocationList().stream().filter(x -> !x.getTimelineEntry().isVolatileFlag()).forEach(allocation -> {
             // Initialize
             TimelineEntry TE = new TimelineEntry();
 
@@ -98,7 +98,7 @@ public class DataStructureWriter {
             TE.getTimelineProperty().getDependencyIdList().addAll(timelineEntryListMap
                     .get(allocation.getTimelineEntry())
                     .stream()
-                    .filter(x -> x.getIndex() > allocation.getIndex() && !x.isVolatileFlag())
+                    .filter(x -> x.getIndex() > allocation.getIndex() && !x.getTimelineEntry().isVolatileFlag())
                     .map(allocationRealidMap::get)
                     .collect(Collectors.toList())
             );

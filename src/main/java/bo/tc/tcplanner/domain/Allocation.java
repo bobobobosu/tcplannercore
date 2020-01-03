@@ -106,7 +106,6 @@ public class Allocation extends AbstractPersistable {
 
     @Override
     public boolean isVolatileFlag() {
-        if (!timelineEntry.isVolatileFlag()) return false;
         return this.volatileFlag;
     }
 

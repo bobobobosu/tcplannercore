@@ -22,8 +22,8 @@ public class TimelineBlock extends AbstractPersistable {
     private String blockScheduleAfter;
     @Nullable
     private String origin;
-
-    private String score; // nullable
+    @Nullable
+    private String score;
 
     @JsonIgnore
     private ZonedDateTime zonedBlockStartTime;

@@ -148,11 +148,11 @@
     <#list ['<moveListFactory>
             <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
             <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
-        </moveListFactory>'] as mergeMove>
+        </moveListFactory>'] as splitMove>
     <#list ['<moveListFactory>
             <fixedProbabilityWeight>${mergesplitWeight/2}</fixedProbabilityWeight>
             <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
-        </moveListFactory>'] as splitMove>
+        </moveListFactory>'] as mergeMove>
 
     <#list ['${progressdelta}
             ${timelineEntry}
