@@ -68,8 +68,8 @@ end
 rule "checkScheduleAfter"
    when
        $allocation : Allocation(isFocused(),
-            timelineEntry.timelineProperty.planningWindowType !=
-                PropertyConstants.PlanningWindowTypes.types.History.name(),
+            timelineEntry.timelineProperty.planningWindowType ==
+                PropertyConstants.PlanningWindowTypes.types.Draft.name(),
             $scheduleAfter : schedule.problemTimelineBlock.zonedBlockScheduleAfter,
             $startDate : startDate,
             eval($startDate.isBefore($scheduleAfter)))
