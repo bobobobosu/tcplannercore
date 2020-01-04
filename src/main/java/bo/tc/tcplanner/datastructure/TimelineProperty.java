@@ -4,6 +4,7 @@ import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,6 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TimelineProperty extends AbstractPersistable {
     private int rownum;
     private Set<Integer> dependencyIdList;
+    private List<Integer> taskChainIdList;
     private String planningWindowType; // See PropertyConstants
     @Nullable
     private Integer timelineid;
@@ -36,9 +38,11 @@ public class TimelineProperty extends AbstractPersistable {
     public boolean checkValid() {
         checkArgument(rownum >= 0);
         checkNotNull(dependencyIdList);
+        checkNotNull(taskChainIdList);
         checkNotNull(planningWindowType);
         checkNotNull(timelineid);
         checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
+        checkArgument(taskChainIdList.contains(timelineid));
         return true;
     }
 
@@ -86,6 +90,16 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
+
+    public List<Integer> getTaskChainIdList() {
+        return taskChainIdList;
+    }
+
+    public TimelineProperty setTaskChainIdList(List<Integer> taskChainIdList) {
+        this.taskChainIdList = taskChainIdList;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,8 +110,9 @@ public class TimelineProperty extends AbstractPersistable {
 
         if (rownum != that.rownum) return false;
         if (!dependencyIdList.equals(that.dependencyIdList)) return false;
+        if (!taskChainIdList.equals(that.taskChainIdList)) return false;
         if (!planningWindowType.equals(that.planningWindowType)) return false;
-        return timelineid != null ? timelineid.equals(that.timelineid) : that.timelineid == null;
+        return timelineid.equals(that.timelineid);
     }
 
     @Override
@@ -105,8 +120,9 @@ public class TimelineProperty extends AbstractPersistable {
         int result = super.hashCode();
         result = 31 * result + rownum;
         result = 31 * result + dependencyIdList.hashCode();
+        result = 31 * result + taskChainIdList.hashCode();
         result = 31 * result + planningWindowType.hashCode();
-        result = 31 * result + (timelineid != null ? timelineid.hashCode() : 0);
+        result = 31 * result + timelineid.hashCode();
         return result;
     }
 }

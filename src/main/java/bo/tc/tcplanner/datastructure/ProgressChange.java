@@ -3,12 +3,19 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProgressChange extends AbstractPersistable {
     //percentage change
-    double progressDelta;
+    private double progressDelta;
+    //progress preset
+    private List<ProgressEntry> progressPreset;
+    //progress log
+    private List<ProgressEntry> progressLog;
 
     public ProgressChange(ProgressChange other) {
         super(other);
@@ -31,8 +38,13 @@ public class ProgressChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
+        checkNotNull(progressPreset);
+        checkNotNull(progressLog);
         checkArgument(progressDelta >= 0);
         checkArgument(progressDelta <= 1);
+        checkArgument(progressPreset.stream().allMatch(ProgressEntry::checkValid));
+        checkArgument(progressLog.stream().allMatch(ProgressEntry::checkValid));
+        progressLog.forEach(x -> checkNotNull(x.getStartTime()));
         return true;
     }
 
@@ -63,5 +75,23 @@ public class ProgressChange extends AbstractPersistable {
         temp = Double.doubleToLongBits(progressDelta);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    public List<ProgressEntry> getProgressPreset() {
+        return progressPreset;
+    }
+
+    public ProgressChange setProgressPreset(List<ProgressEntry> progressPreset) {
+        this.progressPreset = progressPreset;
+        return this;
+    }
+
+    public List<ProgressEntry> getProgressLog() {
+        return progressLog;
+    }
+
+    public ProgressChange setProgressLog(List<ProgressEntry> progressLog) {
+        this.progressLog = progressLog;
+        return this;
     }
 }
