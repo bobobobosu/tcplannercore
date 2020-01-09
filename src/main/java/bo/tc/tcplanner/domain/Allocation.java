@@ -73,9 +73,10 @@ public class Allocation extends AbstractPersistable {
     @Override
     public Allocation removeVolatile() {
         timelineEntry.removeVolatile();
-        if (resourceElementMap != null)
-            resourceElementMap.forEach((k, v) -> v.forEach(ResourceElement::removeVolatile));
-
+        if (resourceElementMap != null) {
+            resourceElementMap.forEach((k, v) -> v.removeIf(AbstractPersistable::isVolatileFlag));
+            resourceElementMap.entrySet().removeIf(x -> x.getValue().size() == 0);
+        }
         return this;
     }
 

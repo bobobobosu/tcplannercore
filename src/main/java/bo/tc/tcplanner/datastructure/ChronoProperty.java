@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ChronoProperty extends AbstractPersistable {
@@ -60,12 +59,14 @@ public class ChronoProperty extends AbstractPersistable {
 
     @JsonIgnore
     public ZonedDateTime getZonedStartTime() {
+        if (startTime == null) return null;
         if (zonedStartTime == null) this.zonedStartTime = ZonedDateTime.parse(startTime);
         return zonedStartTime;
     }
 
     @JsonIgnore
     public ZonedDateTime getZonedDeadline() {
+        if (deadline == null) return null;
         if (zonedDeadline == null) this.zonedDeadline = ZonedDateTime.parse(deadline);
         return zonedDeadline;
     }

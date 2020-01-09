@@ -22,14 +22,10 @@ public class ListenerTools {
     }
 
     public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
-        allocation.setPredecessorsDoneDate(prevAllocation == null ? allocation.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime() : prevAllocation.getEndDate());
+        allocation.setPredecessorsDoneDate(prevAllocation.getEndDate());
     }
 
     public static void updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
-        if (prevAllocation == null) {
-            allocation.setPreviousStandstill(allocation.getSchedule().special.dummyLocation);
-            return;
-        }
         String PreviousStandStill = prevAllocation.getPreviousStandstill();
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||

@@ -20,7 +20,7 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>
 <#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
 
             </termination>
@@ -30,9 +30,10 @@
 
 
 <#--    files-->
-    <#list ['TimelineBlockSolutionMixed'] as solution>
+    <#list ['TimelineBlockSolutionQuarter'] as solution>
 <#--    numbers-->
-    <#list [240] as acceptedCountLimit>
+        <#list [4] as acceptedCountLimit>
+            <#list [10000] as startingTemperature>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
@@ -164,7 +165,7 @@
             ${splitMove}'] as mergesplitMoves>
 
     <solverBenchmark>
-        <name>a${scoreDrl?index}</name>
+        <name>a${startingTemperature?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -182,6 +183,7 @@
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>
+                        <#--                        <simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>-->
                         ${lateAcceptance}
 <#--                        ${tabu}-->
                         ${mtabu}
@@ -189,6 +191,7 @@
                     </acceptor>
                 </#if>
                 <forager>
+                    <#--                    <acceptedCountLimit>4</acceptedCountLimit>-->
                     <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
                     ${finalistPodiumType}
                     <pickEarlyType>${pickEarlyType}</pickEarlyType>
@@ -196,6 +199,7 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

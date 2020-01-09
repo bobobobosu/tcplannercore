@@ -127,6 +127,7 @@ public class TimelineBlock extends AbstractPersistable {
     }
 
     public ZonedDateTime getZonedBlockStartTime() {
+        if (blockStartTime == null) return null;
         if (zonedBlockStartTime == null) zonedBlockStartTime = ZonedDateTime.parse(blockStartTime);
         return zonedBlockStartTime;
     }
@@ -141,6 +142,7 @@ public class TimelineBlock extends AbstractPersistable {
     }
 
     public ZonedDateTime getZonedBlockEndTime() {
+        if (blockEndTime == null) return null;
         if (zonedBlockEndTime == null) zonedBlockEndTime = ZonedDateTime.parse(blockEndTime);
         return zonedBlockEndTime;
     }
