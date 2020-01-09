@@ -17,7 +17,6 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.domain.Allocation;
-import org.kie.api.definition.rule.All;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
@@ -79,7 +78,12 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
         for (Allocation thisAllocation : focusedAllocation) {
             scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-            scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
+            try {
+                scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
+            }catch (Exception ex){
+                int g=0;
+            }
+
             prevAllocation = thisAllocation;
         }
     }

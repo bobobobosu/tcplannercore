@@ -36,7 +36,8 @@ public class MergeTimelineEntryMove extends AbstractMove<Schedule> {
     @Override
     protected void doMoveOnGenuineVariables(ScoreDirector<Schedule> scoreDirector) {
         int sum = allocation.getProgressdelta() + toAllocation.getProgressdelta();
-        int rest = sum > 100 ? sum - 100 : 0;
+        int mergedToProgressDelta = Math.max(sum, 100);
+        int rest = sum - mergedToProgressDelta;
 
         new AllocationValues()
                 .setProgressDelta(sum)

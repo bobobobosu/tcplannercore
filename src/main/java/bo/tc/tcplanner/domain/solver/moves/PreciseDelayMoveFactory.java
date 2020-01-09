@@ -19,6 +19,8 @@ public class PreciseDelayMoveFactory implements MoveListFactory<Schedule> {
                 moveList.add(new PreciseDelayMove(allocation, delayIterator.next()));
             }
         }
+
+//        Collections.reverse(moveList);
         return moveList;
     }
 }

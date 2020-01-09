@@ -17,6 +17,8 @@ public class SkippedSwapMoveFactory implements MoveListFactory<Schedule> {
                 moveList.add(new SkippedSwapMove(thisAllocation, dummyAllocation));
             }
         }
+
+//        Collections.reverse(moveList);
         return moveList;
     }
 }

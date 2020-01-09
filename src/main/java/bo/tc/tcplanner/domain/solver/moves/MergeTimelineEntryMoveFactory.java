@@ -27,6 +27,7 @@ public class MergeTimelineEntryMoveFactory implements MoveListFactory<Schedule> 
             }
         }
 
+//        Collections.reverse(moveList);
         return moveList;
     }
 }

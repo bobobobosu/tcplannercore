@@ -114,7 +114,7 @@ public class ProgressEntry extends AbstractPersistable {
         checkNotNull(task);
         checkNotNull(upMilestone);
         checkArgument(percentage >= 0);
-        checkArgument(percentage <= 0);
+        checkArgument(percentage <= 1);
         checkArgument(taskCount >= 0);
         return true;
     }

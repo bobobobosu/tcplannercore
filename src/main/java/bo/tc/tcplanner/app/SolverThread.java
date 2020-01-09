@@ -153,10 +153,10 @@ public class SolverThread extends Thread {
             for (int i = 1; i < fullAllocationList.size() - 1; i++) {
                 Allocation thisAllocation = fullAllocationList.get(i);
                 result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
-                DSB.constructChainProperty();
+                DSB.constructChainProperty(result);
                 solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
                 if (thisAllocation.isFocused() && !thisAllocation.isHistory()) {
-                    if (continuetosolve && !isSolved(result, currentSolver)) {
+                    if (continuetosolve) {
                         printCurrentSolution(result, false, solvingStatus);
                         currentSchedule = result;
                         currentSchedule = result = currentSolver.solve(result);

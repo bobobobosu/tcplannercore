@@ -57,11 +57,16 @@ public class SetValueMove extends AbstractMove<Schedule> {
     public SetValueMove(List<Allocation> allocationList, List<AllocationValues> allocationValuesList) {
         this.allocationList = allocationList;
         this.allocationValuesList = allocationValuesList;
-        this.oldallocationValuesList = allocationList.stream()
-                .map(x -> new AllocationValues()
-                        .setProgressDelta(x.getProgressdelta())
-                        .setExecutionMode(x.getTimelineEntry())
-                        .setDelay(x.getDelay())).collect(Collectors.toList());
+        try{
+            this.oldallocationValuesList = allocationList.stream()
+                    .map(x -> new AllocationValues()
+                            .setProgressDelta(x.getProgressdelta())
+                            .setExecutionMode(x.getTimelineEntry())
+                            .setDelay(x.getDelay())).collect(Collectors.toList());
+        }catch (Exception ex){
+            int g=0;
+        }
+
     }
 
     @Override

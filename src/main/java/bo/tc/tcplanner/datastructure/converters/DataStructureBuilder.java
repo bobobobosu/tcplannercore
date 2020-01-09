@@ -60,6 +60,7 @@ public class DataStructureBuilder {
                 .setRownum(0)
                 .setTimelineid(null)
                 .setDependencyIdList(new HashSet<>())
+                .setTaskChainIdList(new ArrayList<>())
                 .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name());
 
         // Set Planning Facts
@@ -139,6 +140,7 @@ public class DataStructureBuilder {
                                                 .setRownum(0)
                                                 .setTimelineid(null)
                                                 .setDependencyIdList(new HashSet<>())
+                                                .setTaskChainIdList(new ArrayList<>())
                                                 .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name())));
                     }
                 });
@@ -205,11 +207,17 @@ public class DataStructureBuilder {
 
         fullAllocationList = new ArrayList<>(schedule.getAllocationList());
     }
+    public DataStructureBuilder constructChainProperty(){
+        return constructChainProperty(schedule);
+    }
 
-    public DataStructureBuilder constructChainProperty() {
+    public DataStructureBuilder constructChainProperty(Schedule schedule) {
         schedule.special.sourceAllocation = schedule.getAllocationList().get(0);
         schedule.special.sinkAllocation = schedule.getAllocationList().get(schedule.getAllocationList().size() - 1);
-        for (int i = 0; i < schedule.getAllocationList().size(); i++) schedule.getAllocationList().get(i).setIndex(i);
+        for (int i = 0; i < schedule.getAllocationList().size(); i++){
+            schedule.getAllocationList().get(i).setIndex(i);
+            schedule.getAllocationList().get(i).setSchedule(schedule);
+        }
 
         // Set Scheduled Job requirement
         schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());

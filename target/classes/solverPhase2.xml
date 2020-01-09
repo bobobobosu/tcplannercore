@@ -7,8 +7,8 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-        <millisecondsSpentLimit>300000</millisecondsSpentLimit>
-        <!--        <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+                <millisecondsSpentLimit>300000</millisecondsSpentLimit>
+<!--        <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -26,8 +26,7 @@
             </changeMoveSelector>
             <moveListFactory>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory
-                </moveListFactoryClass>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
             </moveListFactory>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
@@ -75,13 +74,11 @@
             </cartesianProductMoveSelector>
             <moveListFactory>
                 <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory
-                </moveListFactoryClass>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
             </moveListFactory>
             <moveListFactory>
                 <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory
-                </moveListFactoryClass>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
             </moveListFactory>
         </unionMoveSelector>
         <acceptor>

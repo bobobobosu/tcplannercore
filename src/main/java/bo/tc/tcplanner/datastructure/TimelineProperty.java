@@ -4,6 +4,7 @@ import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -52,6 +53,7 @@ public class TimelineProperty extends AbstractPersistable {
         this.setTimelineid(other.timelineid);
         this.setDependencyIdList(new TreeSet<>(other.dependencyIdList));
         this.setPlanningWindowType(other.planningWindowType);
+        this.setTaskChainIdList(new ArrayList<>(other.taskChainIdList));
     }
 
     public int getRownum() {
@@ -112,7 +114,7 @@ public class TimelineProperty extends AbstractPersistable {
         if (!dependencyIdList.equals(that.dependencyIdList)) return false;
         if (!taskChainIdList.equals(that.taskChainIdList)) return false;
         if (!planningWindowType.equals(that.planningWindowType)) return false;
-        return timelineid.equals(that.timelineid);
+        return timelineid != null ? timelineid.equals(that.timelineid) : that.timelineid == null;
     }
 
     @Override
@@ -122,7 +124,7 @@ public class TimelineProperty extends AbstractPersistable {
         result = 31 * result + dependencyIdList.hashCode();
         result = 31 * result + taskChainIdList.hashCode();
         result = 31 * result + planningWindowType.hashCode();
-        result = 31 * result + timelineid.hashCode();
+        result = 31 * result + (timelineid != null ? timelineid.hashCode() : 0);
         return result;
     }
 }

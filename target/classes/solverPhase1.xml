@@ -8,7 +8,7 @@
     </scoreDirectorFactory>
     <termination>
 <!--        <millisecondsSpentLimit>6000</millisecondsSpentLimit>-->
-        <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
+        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
