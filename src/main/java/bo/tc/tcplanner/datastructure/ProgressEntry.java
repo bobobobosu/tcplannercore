@@ -3,7 +3,6 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import org.jetbrains.annotations.Nullable;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ProgressEntry extends AbstractPersistable {
@@ -14,6 +13,19 @@ public class ProgressEntry extends AbstractPersistable {
     private String task;
     private int taskCount;
     private String upMilestone;
+
+    public ProgressEntry() {
+        super();
+    }
+
+    public ProgressEntry(ProgressEntry other) {
+        startTime = other.startTime;
+        percentage = other.percentage;
+        milestone = other.milestone;
+        task = other.task;
+        taskCount = other.taskCount;
+        upMilestone = other.upMilestone;
+    }
 
     public double getPercentage() {
         return percentage;
@@ -113,9 +125,6 @@ public class ProgressEntry extends AbstractPersistable {
         checkNotNull(milestone);
         checkNotNull(task);
         checkNotNull(upMilestone);
-        checkArgument(percentage >= 0);
-        checkArgument(percentage <= 1);
-        checkArgument(taskCount >= 0);
         return true;
     }
 }

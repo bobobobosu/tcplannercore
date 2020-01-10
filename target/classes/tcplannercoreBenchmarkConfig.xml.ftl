@@ -20,8 +20,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-                <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>
-<#--                <millisecondsSpentLimit>60000</millisecondsSpentLimit>-->
+<#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>600</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -32,8 +32,8 @@
 <#--    files-->
     <#list ['TimelineBlockSolutionQuarter'] as solution>
 <#--    numbers-->
-    <#list [4] as acceptedCountLimit>
-   <#list [10000] as startingTemperature>
+        <#list [4] as acceptedCountLimit>
+            <#list [10000] as startingTemperature>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
@@ -60,8 +60,10 @@
     <#list ['${(1-swapWeight)*fineWeightRest}'?number] as fineWeight>
     <#list ['${(1-swapWeight)*(1-fineWeightRest)*cartesianWeightRest}'?number] as cartesianWeight>
     <#list ['${(1-swapWeight)*(1-fineWeightRest)*(1-cartesianWeightRest)}'?number] as mergesplitWeight>
-
-
+<#--    Selectors-->
+     <#list ['  <cacheType>PHASE</cacheType>
+                <selectionOrder>PROBABILISTIC</selectionOrder>
+                <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>'] as WeightFactoryClass>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>'] as IsFocusedFilter>
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>'] as DelayCanChangeFilter>
@@ -82,6 +84,7 @@
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
                         ${TimelineEntryCanChangeFilter}
+                        ${WeightFactoryClass}
                     </entitySelector>
                     <valueSelector variableName="timelineEntry"/>
                 </changeMoveSelector>
@@ -97,6 +100,7 @@
                     <entitySelector>
                         ${IsFocusedFilter}
                         ${DelayCanChangeFilter}
+                        ${WeightFactoryClass}
                     </entitySelector>
                     <valueSelector variableName="delay"/>
                 </changeMoveSelector>
@@ -128,6 +132,7 @@
                 <entitySelector>
                     ${IsFocusedFilter}
                     ${ProgressDeltaCanChangeFilter}
+                    ${WeightFactoryClass}
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>'] as progressdelta>
@@ -137,6 +142,7 @@
                 <entitySelector>
                     ${IsFocusedFilter}
                     ${DelayCanChangeFilter}
+                    ${WeightFactoryClass}
                 </entitySelector>
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>'] as delay>
@@ -165,7 +171,7 @@
             ${splitMove}'] as mergesplitMoves>
 
     <solverBenchmark>
-        <name>a${startingTemperature?index}</name>
+        <name>a${WeightFactoryClass?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -183,22 +189,23 @@
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>
-<#--                        <simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>-->
-                        ${lateAcceptance}
+                        <simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>
+<#--                        ${lateAcceptance}-->
 <#--                        ${tabu}-->
-                        ${mtabu}
-                        ${umtabu}
+<#--                        ${mtabu}-->
+<#--                        ${umtabu}-->
                     </acceptor>
                 </#if>
                 <forager>
-<#--                    <acceptedCountLimit>4</acceptedCountLimit>-->
-                    <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
-                    ${finalistPodiumType}
-                    <pickEarlyType>${pickEarlyType}</pickEarlyType>
+                                        <acceptedCountLimit>4</acceptedCountLimit>
+<#--                    <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>-->
+<#--                    ${finalistPodiumType}-->
+<#--                    <pickEarlyType>${pickEarlyType}</pickEarlyType>-->
                 </forager>
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

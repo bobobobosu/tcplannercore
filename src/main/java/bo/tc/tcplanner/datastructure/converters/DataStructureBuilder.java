@@ -44,7 +44,9 @@ public class DataStructureBuilder {
                 .setMovetoLocation(schedule.special.dummyLocation)
                 .setRequirementTimerange(schedule.special.dummyTime);
         schedule.special.dummyProgressChange = new ProgressChange()
-                .setProgressDelta(0.5);
+                .setProgressDelta(0.5)
+                .setProgressLog(new ArrayList<>())
+                .setProgressPreset(new ArrayList<>());
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
                 .setResourceChange(new HashMap<>())
                 .setMode(PropertyConstants.ResourceStateChangeTypes.types.delta.name());
@@ -128,7 +130,8 @@ public class DataStructureBuilder {
                                         .setExecutionMode(i)
                                         .setTitle(y.getKey())
                                         .setDescription("")
-                                        .setProgressChange(y.getValue().getProgressChangeList().get(i))
+                                        .setProgressChange(y.getValue().getProgressChangeList().get(i)
+                                                .setProgressLog(new ArrayList<>()))
                                         .setHumanStateChange(y.getValue().getHumanStateChangeList().get(i))
                                         .setResourceStateChange(y.getValue().getResourceStateChangeList().get(i))
                                         .setChronoProperty(new ChronoProperty(y.getValue().getChronoProperty())
@@ -189,50 +192,31 @@ public class DataStructureBuilder {
 
         // add dummy jobs
         for (int i = schedule.getAllocationList().size() - 1; i >= 0; i--) {
-            if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getStartTime() != null) {
-                if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isAfter(
-                        schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) {
-                    // add dummy jobs between
-                    int finalI = i;
-                    IntStream.rangeClosed(1, 30).forEach(x -> {
-                        Allocation allocation = new Allocation()
-                                .setVolatileFlag(true)
-                                .setSchedule(schedule);
-                        allocation.setTimelineEntry(schedule.special.dummyTimelineEntry);
-                        schedule.getAllocationList().add(finalI, allocation);
-                    });
-                }
-            }
+            if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getStartTime() != null &&
+                    schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isBefore(
+                            schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) break;
+
+            // add dummy jobs between
+            int finalI = i;
+            IntStream.rangeClosed(1, 30).forEach(x -> {
+                Allocation allocation = new Allocation()
+                        .setVolatileFlag(true)
+                        .setSchedule(schedule);
+                allocation.setTimelineEntry(schedule.special.dummyTimelineEntry);
+                schedule.getAllocationList().add(finalI, allocation);
+            });
+
 
         }
-
+        schedule.getAllocationList().forEach(x -> x.setScored(true));
+        schedule.getAllocationList().forEach(x -> x.setPinned(false));
         fullAllocationList = new ArrayList<>(schedule.getAllocationList());
-    }
-
-    public DataStructureBuilder resetSourceSink(Schedule schedule) {
-        schedule.special.sourceAllocation.setPredecessorsDoneDate(null);
-        schedule.special.sourceAllocation.setPreviousStandstill(null);
-        schedule.special.sourceAllocation.setResourceElementMap(null);
-        schedule.special.sinkAllocation.setPredecessorsDoneDate(null);
-        schedule.special.sinkAllocation.setPreviousStandstill(null);
-        schedule.special.sinkAllocation.setResourceElementMap(null);
-        return this;
     }
 
     public DataStructureBuilder constructChainProperty() {
         return constructChainProperty(schedule);
     }
 
-    public DataStructureBuilder tailTohead(Schedule schedule) {
-        // Append Previous Tail
-        schedule.special.sourceAllocation.setPreviousStandstill(schedule.special.sinkAllocation.getPreviousStandstill());
-        schedule.special.sourceAllocation.setPredecessorsDoneDate(schedule.special.sinkAllocation.getPredecessorsDoneDate());
-        if (schedule.special.sinkAllocation.getResourceElementMap() != null) {
-            schedule.special.sinkAllocation.removeVolatile();
-            schedule.special.sourceAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(schedule.special.sinkAllocation.getResourceElementMap());
-        }
-        return this;
-    }
     public DataStructureBuilder constructChainProperty(Schedule schedule) {
         schedule.special.sourceAllocation = schedule.getAllocationList().get(0);
         schedule.special.sinkAllocation = schedule.getAllocationList().get(schedule.getAllocationList().size() - 1);

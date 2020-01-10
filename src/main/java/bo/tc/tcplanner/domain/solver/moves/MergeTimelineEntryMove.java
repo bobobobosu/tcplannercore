@@ -40,7 +40,7 @@ public class MergeTimelineEntryMove extends AbstractMove<Schedule> {
         int rest = sum - mergedToProgressDelta;
 
         new AllocationValues()
-                .setProgressDelta(sum)
+                .setProgressDelta(mergedToProgressDelta)
                 .apply(toAllocation, scoreDirector);
         new AllocationValues()
                 .setProgressDelta(rest)

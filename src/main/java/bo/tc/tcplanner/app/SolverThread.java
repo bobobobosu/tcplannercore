@@ -148,51 +148,31 @@ public class SolverThread extends Thread {
 //        Solve Hard Incremental By AllocationList
         if (P1_mode.equals("incremental")) {
             currentSolver = solverList.get(0);
-            DSB.resetSourceSink(result);
-            List<Allocation> fullAllocationList = DSB.getFullAllocationList();
             //Solve by restricted Score
 
-            //Solve by chunck
-//            List<List<Allocation>> chunckOfAllocations = new ArrayList<>();
-//            ZonedDateTime startDate = result.getProblemTimelineBlock().getZonedBlockStartTime();
-//            int allocationIdx = 1;
-//            while (startDate.isBefore(result.getProblemTimelineBlock().getZonedBlockEndTime())) {
-//                startDate = startDate.plusDays(3);
-//                List<Allocation> thisChunck = new ArrayList<>();
-//                for (int i = allocationIdx; i < fullAllocationList.size() - 1; allocationIdx = ++i) {
-//                    if (fullAllocationList.get(i).isFocused() &&
-//                            fullAllocationList.get(i).getStartDate().isAfter(startDate)) {
-//                        thisChunck.add(fullAllocationList.get(i));
-//                        allocationIdx++;
-//                        break;
-//                    }
-//                    thisChunck.add(fullAllocationList.get(i));
-//                }
-//                if (thisChunck.size() > 0)
-//                    chunckOfAllocations.add(thisChunck);
-//            }
-//
-//            for (List<Allocation> chunckOfAllocation : chunckOfAllocations) {
-//
-//                result.setAllocationList(new ArrayList<>(Arrays.asList(result.getAllocationList().get(0), result.getAllocationList().get(result.getAllocationList().size() - 1))));
-//                result.getAllocationList().addAll(1, chunckOfAllocation);
-//                DSB.tailTohead(result);
-//                DSB.constructChainProperty(result);
-//                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
-//                if (continuetosolve) {
-//                    printCurrentSolution(result, false, solvingStatus);
-//                    currentSchedule = result;
-//                    currentSchedule = result = currentSolver.solve(result);
-//                    jsonServer.updateTimelineBlock(false, result);
-//                }
-//            }
 
-            // AddAllocation Solving
-//            for (int i = 1; i < fullAllocationList.size() - 1; i++) {
-//                Allocation thisAllocation = fullAllocationList.get(i);
-//                result.getAllocationList().add(result.getAllocationList().size() - 1, thisAllocation);
-//                DSB.constructChainProperty(result);
-//                solvingStatus = 100 * result.getAllocationList().size() / fullAllocationList.size() + "%";
+            result.getAllocationList().forEach(x -> x.setScored(false));
+            result.getAllocationList().forEach(x -> x.setPinned(true));
+            result.getAllocationList().get(0).setScored(true);
+            result.getAllocationList().get(result.getAllocationList().size() - 1).setScored(true);
+            for (int i = 1; i < result.getAllocationList().size() - 1; i++) {
+                solvingStatus = 100 * (i + 1) / result.getAllocationList().size() + "%";
+                Allocation thisAllocation = result.getAllocationList().get(i);
+                thisAllocation.setScored(true);
+                thisAllocation.setPinned(false);
+                if (thisAllocation.isFocused() && !thisAllocation.isHistory() && i > 100) {
+                    if (continuetosolve) {
+                        printCurrentSolution(result, false, solvingStatus);
+                        currentSchedule = result = currentSolver.solve(result);
+                        jsonServer.updateTimelineBlock(false, result);
+                    }
+                }
+            }
+//            for (int i = 1; i < result.getAllocationList().size() - 1; i++) {
+//                solvingStatus = 100 * (i + 1) / result.getAllocationList().size() + "%";
+//                Allocation thisAllocation = result.getAllocationList().get(i);
+//                thisAllocation.setScored(true);
+//                thisAllocation.setPinned(false);
 //                if (thisAllocation.isFocused() && !thisAllocation.isHistory()) {
 //                    if (continuetosolve) {
 //                        printCurrentSolution(result, false, solvingStatus);
@@ -207,7 +187,7 @@ public class SolverThread extends Thread {
         //Solve Hard Full
         if (P1_mode.equals("global")) {
             currentSolver = solverList.get(0);
-            printCurrentSolution(result, true, solvingStatus);
+            printCurrentSolution(result, false, solvingStatus);
             currentSchedule = result;
             if (continuetosolve) {
                 currentSchedule = result = solverList.get(0).solve(result);
@@ -216,7 +196,6 @@ public class SolverThread extends Thread {
         }
 
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
-        printCurrentSolution(result, true, solvingStatus);
 
         //Solve Soft
         if (P2_mode.equals("global")) {

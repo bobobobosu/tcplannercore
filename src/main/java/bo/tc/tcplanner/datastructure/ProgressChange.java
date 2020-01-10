@@ -4,6 +4,7 @@ import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -20,6 +21,10 @@ public class ProgressChange extends AbstractPersistable {
     public ProgressChange(ProgressChange other) {
         super(other);
         this.progressDelta = other.progressDelta;
+        if (other.progressPreset != null)
+            this.progressPreset = other.getProgressPreset().stream().map(ProgressEntry::new).collect(Collectors.toList());
+        if (other.progressLog != null)
+            this.progressLog = other.getProgressLog().stream().map(ProgressEntry::new).collect(Collectors.toList());
     }
 
     public ProgressChange() {
@@ -38,7 +43,12 @@ public class ProgressChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(progressPreset);
+        try {
+            checkNotNull(progressPreset);
+        } catch (Exception ex) {
+            int g = 0;
+        }
+
         checkNotNull(progressLog);
         checkArgument(progressDelta >= 0);
         checkArgument(progressDelta <= 1);

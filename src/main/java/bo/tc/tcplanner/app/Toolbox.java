@@ -165,7 +165,9 @@ public class Toolbox {
                                     allocation.getTimelineEntry().getTimelineProperty().getRownum())
                                     + "\n(" + allocation.getIndex() + ")\n" +
                                     allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType(),
-                            String.valueOf(allocation.getProgressdelta()),
+                            allocation.getProgressdelta() + "\n" +
+                                    (allocation.isPinned() ? "Pinned" : "") + "\n" +
+                                    (allocation.isScored() ? "Scored" : ""),
                             datetime,
                             LocalTime.MIN.plus(Duration.between(
                                     allocation.getStartDate(), allocation.getEndDate())).toString(),

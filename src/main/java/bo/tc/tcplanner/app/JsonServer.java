@@ -63,6 +63,8 @@ public class JsonServer {
         server.createContext("/newTimelineBlock", newTimelineBlockNotifier);
         var scoreTimelineBlockHandler = new ScoreTimelineBlockHandler();
         server.createContext("/scoreTimelineBlock", scoreTimelineBlockHandler);
+        var patchTimelineBlockHandler = new PatchTimelineBlockHandler();
+        server.createContext("/patchTimelineBlock", patchTimelineBlockHandler);
         var updateOptaFilesHandler = new UpdateOptaFilesHandler();
         server.createContext("/updateOptaFiles", updateOptaFilesHandler);
         return server;
@@ -223,6 +225,30 @@ public class JsonServer {
                     }
 
                     System.out.println("Sending Scored TimelineBlock");
+                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
+                    exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
+                    OutputStream responseBody = exchange.getResponseBody();
+                    responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8));
+                    responseBody.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        }
+    }
+
+    public class PatchTimelineBlockHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if (!exchange.getRequestMethod().equals("POST")) {
+                throw new UnsupportedOperationException();
+            }
+
+            new Thread(() -> {
+                try {
+                    TimelineBlock timelineBlock = latestTimelineBlock;
+                    System.out.println("Sending Patched TimelineBlock");
                     exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                     exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                     OutputStream responseBody = exchange.getResponseBody();

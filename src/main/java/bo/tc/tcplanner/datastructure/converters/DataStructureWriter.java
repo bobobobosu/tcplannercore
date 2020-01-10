@@ -57,9 +57,7 @@ public class DataStructureWriter {
                         .filter(x -> !x.getTimelineEntry().isVolatileFlag())
                         .collect(Collectors.groupingBy(Allocation::getTimelineEntry));
         result.getAllocationList().stream().filter(x -> !x.getTimelineEntry().isVolatileFlag()).forEach(x -> {
-            if (x.getTimelineEntry().getTimelineProperty().getTimelineid() == null ||
-                    x.getTimelineEntry().getTimelineProperty().getPlanningWindowType().equals(
-                            PropertyConstants.PlanningWindowTypes.types.Draft.name())) {
+            if (x.getTimelineEntry().getTimelineProperty().getTimelineid() == null) {
                 allocationRealidMap.put(x, newID(allocationRealidMap.values()));
             } else {
                 allocationRealidMap.put(x, x.getTimelineEntry().getTimelineProperty().getTimelineid());
@@ -102,9 +100,12 @@ public class DataStructureWriter {
                     .map(allocationRealidMap::get)
                     .collect(Collectors.toList())
             );
+            if (!TE.getTimelineProperty().getTaskChainIdList().contains(TE.getTimelineProperty().getTimelineid()))
+                TE.getTimelineProperty().getTaskChainIdList().add(TE.getTimelineProperty().getTimelineid());
 
             // Progress Change
-            TE.setProgressChange(new ProgressChange().setProgressDelta((double) allocation.getProgressdelta() / 100));
+            TE.setProgressChange(new ProgressChange(allocation.getTimelineEntry().getProgressChange())
+                    .setProgressDelta((double) allocation.getProgressdelta() / 100));
 
             // Resource State Change
             TE.setResourceStateChange(new ResourceStateChange(allocation.getTimelineEntry().getResourceStateChange())
@@ -124,6 +125,7 @@ public class DataStructureWriter {
         // Build Rownum
         Set<Integer> rownumList = TEList
                 .stream()
+                .filter(x -> x.getTimelineProperty().getRownum() > 0)
                 .map(x -> x.getTimelineProperty().getRownum())
                 .collect(Collectors.toCollection(TreeSet::new));
 

@@ -55,6 +55,8 @@ public class Allocation extends AbstractPersistable {
 
     // Pre-Solving Properties
     private int index;
+    private boolean scored;
+    private boolean pinned;
 
     // Planning variables: changes during planning, between score calculations.
     private TimelineEntry timelineEntry;
@@ -192,10 +194,14 @@ public class Allocation extends AbstractPersistable {
 
     @PlanningPin
     public boolean isPinned() {
-        return timelineEntry.getTimelineProperty().getPlanningWindowType()
-                .equals(PropertyConstants.PlanningWindowTypes.types.History.name());
+        return pinned;
     }
 
+    public Allocation setPinned(boolean pinned) {
+        this.pinned = timelineEntry.getTimelineProperty().getPlanningWindowType()
+                .equals(PropertyConstants.PlanningWindowTypes.types.History.name()) || pinned;
+        return this;
+    }
 
     // ************************************************************************
     // Scores
@@ -255,8 +261,8 @@ public class Allocation extends AbstractPersistable {
         long score = -2;
         Allocation prevAllocation = getPrevFocusedAllocation();
         Allocation nextAllocation = getNextFocusedAllocation();
-        if (prevAllocation != null) score += Math.min(1, index - prevAllocation.getIndex());
-        if (nextAllocation != null) score += Math.min(1, nextAllocation.getIndex() - index);
+        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
+        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
         return score;
     }
 
@@ -398,4 +404,13 @@ public class Allocation extends AbstractPersistable {
                 this.equals(schedule.special.sinkAllocation) ||
                 !timelineEntry.equals(schedule.special.dummyTimelineEntry);
     }
+
+    public boolean isScored() {
+        return scored;
+    }
+
+    public void setScored(boolean scored) {
+        this.scored = scored;
+    }
+
 }

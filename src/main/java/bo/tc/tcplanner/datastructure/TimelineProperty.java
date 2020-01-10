@@ -43,7 +43,12 @@ public class TimelineProperty extends AbstractPersistable {
         checkNotNull(planningWindowType);
         checkNotNull(timelineid);
         checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
-        checkArgument(taskChainIdList.contains(timelineid));
+        try {
+            checkArgument(taskChainIdList.contains(timelineid));
+        } catch (Exception ex) {
+            int g = 0;
+        }
+
         return true;
     }
 
