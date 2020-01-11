@@ -216,9 +216,13 @@
                 ${cartesiandelay}'] as customMoves>
 
                                                                                                                                                                 <solverBenchmark>
-                                                                                                                                                                    <name>a${WeightFactoryClass?index}</name>
+                                                                                                                                                                    <name>
+                                                                                                                                                                        a${WeightFactoryClass?index}</name>
                                                                                                                                                                     <problemBenchmarks>
-                                                                                                                                                                        <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
+                                                                                                                                                                        <inputSolutionFile>
+                                                                                                                                                                            C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}
+                                                                                                                                                                            .json
+                                                                                                                                                                        </inputSolutionFile>
                                                                                                                                                                     </problemBenchmarks>
                                                                                                                                                                     <solver>
                                                                                                                                                                         <environmentMode>${envmode}</environmentMode>
@@ -239,7 +243,9 @@
                                                                                                                                                                                 </acceptor>
                                                                                                                                                                             </#if>
                                                                                                                                                                             <forager>
-                                                                                                                                                                                <acceptedCountLimit>4</acceptedCountLimit>
+                                                                                                                                                                                <acceptedCountLimit>
+                                                                                                                                                                                    4
+                                                                                                                                                                                </acceptedCountLimit>
                                                                                                                                                                                 <#--                                        <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>-->
                                                                                                                                                                                 <#--                                        ${finalistPodiumType}-->
                                                                                                                                                                                 <#--                                        <pickEarlyType>${pickEarlyType}</pickEarlyType>-->
