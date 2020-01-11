@@ -7,8 +7,8 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-                <millisecondsSpentLimit>300000</millisecondsSpentLimit>
-<!--        <bestScoreLimit>[0/0/0/0/0]hard/[0/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+<!--        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -19,32 +19,40 @@
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
                 <entitySelector>
+                    <cacheType>PHASE</cacheType>
+                    <selectionOrder>PROBABILISTIC</selectionOrder>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter</filterClass>
+                    <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
-            <moveListFactory>
+            <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
-            </moveListFactory>
+                <entitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                </entitySelector>
+                <valueSelector variableName="timelineEntry"/>
+            </changeMoveSelector>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
                 <entitySelector>
+                    <cacheType>PHASE</cacheType>
+                    <selectionOrder>PROBABILISTIC</selectionOrder>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>
+                    <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                 </entitySelector>
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>
-            <moveListFactory>
-                <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveFactory</moveListFactoryClass>
-            </moveListFactory>
             <cartesianProductMoveSelector>
                 <fixedProbabilityWeight>0.59616</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="entitySelector">
+                        <cacheType>PHASE</cacheType>
+                        <selectionOrder>PROBABILISTIC</selectionOrder>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                        <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                     </entitySelector>
                     <valueSelector variableName="timelineEntry"/>
                 </changeMoveSelector>
@@ -58,8 +66,11 @@
                 <fixedProbabilityWeight>0.05184</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector>
+                        <cacheType>PHASE</cacheType>
+                        <selectionOrder>PROBABILISTIC</selectionOrder>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>
+                        <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                     </entitySelector>
                     <valueSelector variableName="delay"/>
                 </changeMoveSelector>
@@ -72,23 +83,15 @@
                 </changeMoveSelector>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
             </cartesianProductMoveSelector>
-            <moveListFactory>
-                <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
-            </moveListFactory>
-            <moveListFactory>
-                <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
-            </moveListFactory>
         </unionMoveSelector>
         <acceptor>
+            <entityTabuRatio>0.02</entityTabuRatio>
             <moveTabuSize>1</moveTabuSize>
             <undoMoveTabuSize>5</undoMoveTabuSize>
             <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
-            <pickEarlyType>NEVER</pickEarlyType>
-            <acceptedCountLimit>240</acceptedCountLimit>
+            <acceptedCountLimit>4</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

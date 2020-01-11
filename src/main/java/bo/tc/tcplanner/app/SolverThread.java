@@ -155,12 +155,17 @@ public class SolverThread extends Thread {
             result.getAllocationList().forEach(x -> x.setPinned(true));
             result.getAllocationList().get(0).setScored(true);
             result.getAllocationList().get(result.getAllocationList().size() - 1).setScored(true);
+            int solvingFrame = 800;
             for (int i = 1; i < result.getAllocationList().size() - 1; i++) {
                 solvingStatus = 100 * (i + 1) / result.getAllocationList().size() + "%";
                 Allocation thisAllocation = result.getAllocationList().get(i);
                 thisAllocation.setScored(true);
                 thisAllocation.setPinned(false);
-                if (thisAllocation.isFocused() && !thisAllocation.isHistory() && i > 100) {
+                if (i > solvingFrame) {
+                    result.getAllocationList().get(i - solvingFrame).setScored(false);
+                    result.getAllocationList().get(i - solvingFrame).setPinned(true);
+                }
+                if (thisAllocation.isFocused() && !thisAllocation.isHistory() && i > solvingFrame) {
                     if (continuetosolve) {
                         printCurrentSolution(result, false, solvingStatus);
                         currentSchedule = result = currentSolver.solve(result);
@@ -168,20 +173,6 @@ public class SolverThread extends Thread {
                     }
                 }
             }
-//            for (int i = 1; i < result.getAllocationList().size() - 1; i++) {
-//                solvingStatus = 100 * (i + 1) / result.getAllocationList().size() + "%";
-//                Allocation thisAllocation = result.getAllocationList().get(i);
-//                thisAllocation.setScored(true);
-//                thisAllocation.setPinned(false);
-//                if (thisAllocation.isFocused() && !thisAllocation.isHistory()) {
-//                    if (continuetosolve) {
-//                        printCurrentSolution(result, false, solvingStatus);
-//                        currentSchedule = result;
-//                        currentSchedule = result = currentSolver.solve(result);
-//                        jsonServer.updateTimelineBlock(false, result);
-//                    }
-//                }
-//            }
         }
 
         //Solve Hard Full

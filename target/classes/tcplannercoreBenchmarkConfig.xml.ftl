@@ -19,9 +19,9 @@
             <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
 
             <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>600</millisecondsSpentLimit>
+<#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+<#--                                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
+                <millisecondsSpentLimit>10000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -32,12 +32,13 @@
 <#--    files-->
     <#list ['TimelineBlockSolutionQuarter'] as solution>
 <#--    numbers-->
-        <#list [4] as acceptedCountLimit>
-            <#list [10000] as startingTemperature>
+    <#list [4] as acceptedCountLimit>
+    <#list [10000] as startingTemperature>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
+    <#list ['<simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>'] as simulatedAnnealing>
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
@@ -48,6 +49,7 @@
              </constructionHeuristic>'] as constructionHeuristic>
     <#list ['<finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>'] as finalistPodiumType>
     <#list ['NEVER'] as pickEarlyType>
+    <#list ['${lateAcceptance}'] as algorithm>
 
     <#list [0.08] as delayWeight>
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
@@ -60,10 +62,11 @@
     <#list ['${(1-swapWeight)*fineWeightRest}'?number] as fineWeight>
     <#list ['${(1-swapWeight)*(1-fineWeightRest)*cartesianWeightRest}'?number] as cartesianWeight>
     <#list ['${(1-swapWeight)*(1-fineWeightRest)*(1-cartesianWeightRest)}'?number] as mergesplitWeight>
-<#--    Selectors-->
-     <#list ['  <cacheType>PHASE</cacheType>
-                <selectionOrder>PROBABILISTIC</selectionOrder>
-                <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>'] as WeightFactoryClass>
+<#--    &lt;#&ndash;    Selectors&ndash;&gt;-->
+<#--        <#list ['<cacheType>PHASE</cacheType>-->
+<#--                <selectionOrder>PROBABILISTIC</selectionOrder>-->
+<#--                <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>',''] as WeightFactoryClass>-->
+        <#list [''] as WeightFactoryClass>
 <#--    Moves-->
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>'] as IsFocusedFilter>
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>'] as DelayCanChangeFilter>
@@ -71,11 +74,45 @@
     <#list ['<filterClass>bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter</filterClass>'] as ProgressDeltaCanChangeFilter>
 
 <#--    Swap Moves-->
-    <#list [
-            '<moveListFactory>
+    <#list ['<swapMoveSelector>
                 <fixedProbabilityWeight>${swapWeight}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as swapMove>
+                <entitySelector id="entitySelector2">
+                    ${TimelineEntryCanChangeFilter}
+                </entitySelector>
+                <secondaryEntitySelector>
+                      ${TimelineEntryCanChangeFilter}
+                    <nearbySelection>
+                        <originEntitySelector mimicSelectorRef="entitySelector2"/>
+                        <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>
+                        <parabolicDistributionSizeMaximum>40</parabolicDistributionSizeMaximum>
+                    </nearbySelection>
+                </secondaryEntitySelector>
+                <variableNameInclude>timelineEntry</variableNameInclude>
+                <variableNameInclude>progressdelta</variableNameInclude>
+            </swapMoveSelector>'] as swapMove>
+
+<#--            <#list [-->
+<#--            '<moveListFactory>-->
+<#--                <fixedProbabilityWeight>${swapWeight}</fixedProbabilityWeight>-->
+<#--                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>-->
+<#--            </moveListFactory>',-->
+<#--            '<swapMoveSelector>-->
+<#--                <fixedProbabilityWeight>${swapWeight}</fixedProbabilityWeight>-->
+<#--                <entitySelector id="entitySelector2">-->
+<#--                    ${TimelineEntryCanChangeFilter}-->
+<#--                </entitySelector>-->
+<#--                <secondaryEntitySelector>-->
+<#--                      ${TimelineEntryCanChangeFilter}-->
+<#--                    <nearbySelection>-->
+<#--                        <originEntitySelector mimicSelectorRef="entitySelector2"/>-->
+<#--                        <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>-->
+<#--                        <parabolicDistributionSizeMaximum>40</parabolicDistributionSizeMaximum>-->
+<#--                    </nearbySelection>-->
+<#--                </secondaryEntitySelector>-->
+<#--                <variableNameInclude>timelineEntry</variableNameInclude>-->
+<#--                <variableNameInclude>progressdelta</variableNameInclude>-->
+<#--            </swapMoveSelector>',''] as swapMove>-->
+
 
 <#--    cartesian Product Moves-->
     <#list ['<cartesianProductMoveSelector>
@@ -115,17 +152,17 @@
 
 
 <#--    fine Moves-->
-    <#list ['<moveListFactory>
+    <#list ['<moveIteratorFactory>
                 <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as timelineEntry>
-<#--    <#list ['<changeMoveSelector>-->
-<#--                <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>-->
-<#--                <entitySelector>-->
-<#--                    ${TimelineEntryCanChangeFilter}-->
-<#--                </entitySelector>-->
-<#--                <valueSelector variableName="timelineEntry"/>-->
-<#--            </changeMoveSelector>'] as timelineEntry>-->
+                <moveIteratorFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveIteratorFactory</moveIteratorFactoryClass>
+            </moveIteratorFactory>'] as timelineEntryCustom>
+    <#list ['<changeMoveSelector>
+                <fixedProbabilityWeight>${timelineEntryWeight*fineWeight}</fixedProbabilityWeight>
+                <entitySelector>
+                    ${TimelineEntryCanChangeFilter}
+                </entitySelector>
+                <valueSelector variableName="timelineEntry"/>
+            </changeMoveSelector>'] as timelineEntry>
 
     <#list ['<changeMoveSelector>
                 <fixedProbabilityWeight>${progressWeight*fineWeight}</fixedProbabilityWeight>
@@ -146,10 +183,10 @@
                 </entitySelector>
                 <valueSelector variableName="delay"/>
             </changeMoveSelector>'] as delay>
-    <#list ['<moveListFactory>
+    <#list ['<moveIteratorFactory>
                 <fixedProbabilityWeight>${delayWeight*fineWeight/2}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as precisedelay>
+                <moveIteratorFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveIteratorFactory</moveIteratorFactoryClass>
+            </moveIteratorFactory>'] as precisedelay>
 
 <#--        mergesplit-->
     <#list ['<moveListFactory>
@@ -163,12 +200,20 @@
 
     <#list ['${progressdelta}
             ${timelineEntry}
-            ${delay}
-            ${precisedelay}'] as fineMoves>
+            ${precisedelay}
+            ${delay}'] as fineMoves>
     <#list ['${cartesiantimelineEntry}
              ${cartesiandelay}'] as cartesianMoves>
     <#list ['${mergeMove}
             ${splitMove}'] as mergesplitMoves>
+
+     <#list ['  ${swapMove}
+                ${progressdelta}
+                ${timelineEntry}
+                ${precisedelay}
+                ${delay}
+                ${cartesiantimelineEntry}
+                ${cartesiandelay}'] as customMoves>
 
     <solverBenchmark>
         <name>a${WeightFactoryClass?index}</name>
@@ -182,14 +227,11 @@
             </scoreDirectorFactory>
             <localSearch>
                 <unionMoveSelector>
-                    ${swapMove}
-                    ${fineMoves}
-                    ${cartesianMoves}
-                    ${mergesplitMoves}
+                    ${customMoves}
                 </unionMoveSelector>
                 <#if lateAcceptance != "" || tabu != "" || mtabu != "" || umtabu != "">
                     <acceptor>
-                        <simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>
+                            ${algorithm}
 <#--                        ${lateAcceptance}-->
 <#--                        ${tabu}-->
 <#--                        ${mtabu}-->
@@ -197,10 +239,10 @@
                     </acceptor>
                 </#if>
                 <forager>
-                                        <acceptedCountLimit>4</acceptedCountLimit>
-<#--                    <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>-->
-<#--                    ${finalistPodiumType}-->
-<#--                    <pickEarlyType>${pickEarlyType}</pickEarlyType>-->
+                    <acceptedCountLimit>4</acceptedCountLimit>
+<#--                                        <acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>-->
+<#--                                        ${finalistPodiumType}-->
+<#--                                        <pickEarlyType>${pickEarlyType}</pickEarlyType>-->
                 </forager>
             </localSearch>
         </solver>
@@ -244,7 +286,10 @@
     </#list>
     </#list>
     </#list>
-
+    </#list>
+    </#list>
+    </#list>
+    </#list>
 </plannerBenchmark>
 
 
