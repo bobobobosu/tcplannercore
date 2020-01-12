@@ -11,7 +11,7 @@ public class MergeTimelineEntryMoveFactory implements MoveListFactory<Schedule> 
     @Override
     public List<MergeTimelineEntryMove> createMoveList(Schedule schedule) {
         List<MergeTimelineEntryMove> moveList = new ArrayList<>();
-        for (Allocation thisAllocation : schedule.getFocusedAllocationList()) {
+        for (Allocation thisAllocation : schedule.focusedAllocationSet) {
             for (Allocation toAllocation : thisAllocation.getTimelineEntry().getAllocationList()) {
                 moveList.add(new MergeTimelineEntryMove(thisAllocation, toAllocation));
             }

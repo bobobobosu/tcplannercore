@@ -9,9 +9,8 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Random;
-
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.TimelineEntryCanChange;
 
 public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<Schedule> {
 
@@ -22,31 +21,28 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
 
     @Override
     public Iterator<? extends Move<Schedule>> createOriginalMoveIterator(ScoreDirector<Schedule> scoreDirector) {
-
         return new Iterator<Move<Schedule>>() {
-            Allocation thisAllocation = scoreDirector.getWorkingSolution().getAllocationList().get(0);
-            Iterator<TimelineEntry> thisTimelineEntry = scoreDirector.getWorkingSolution().getAllocationList().get(0).getTimelineEntryRange().listIterator();
+            Iterator<Allocation> thisFocusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
+            Allocation thisAllocation = thisFocusedAllocationIterator.next();
+            ListIterator<TimelineEntry> timelineEntryIterator = thisAllocation.getTimelineEntryRange().listIterator();
 
             @Override
             public boolean hasNext() {
-                return thisAllocation != null && thisTimelineEntry.hasNext();
+                return thisAllocation != null;
             }
 
             @Override
             public Move<Schedule> next() {
-                Allocation saveAllocation = thisAllocation;
-                TimelineEntry saveTimeEntry = thisTimelineEntry.next();
-                if (!thisTimelineEntry.hasNext()) {
-                    do {
-                        thisAllocation = thisAllocation.getNextFocusedAllocation();
-                        thisTimelineEntry = thisAllocation.getTimelineEntryRange().listIterator();
-                    } while (!TimelineEntryCanChange(thisAllocation));
+                if (!timelineEntryIterator.hasNext()) {
+                    thisAllocation = thisFocusedAllocationIterator.hasNext() ? thisFocusedAllocationIterator.next() : null;
+                    timelineEntryIterator = scoreDirector.getWorkingSolution().getTimelineEntryList().listIterator();
                 }
                 return new SetValueMove(
-                        Arrays.asList(saveAllocation, saveAllocation.getNextFocusedAllocation()),
+                        Arrays.asList(thisAllocation,
+                                scoreDirector.getWorkingSolution().focusedAllocationSet.higher(thisAllocation)),
                         Arrays.asList(
                                 new AllocationValues()
-                                        .setExecutionMode(saveTimeEntry)
+                                        .setExecutionMode(timelineEntryIterator.next())
                                         .setProgressDelta(100)
                                         .setDelay(0),
                                 new AllocationValues().setDelay(0))
@@ -58,29 +54,27 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
     @Override
     public Iterator<? extends Move<Schedule>> createRandomMoveIterator(ScoreDirector<Schedule> scoreDirector, Random random) {
         return new Iterator<Move<Schedule>>() {
-            Allocation thisAllocation = scoreDirector.getWorkingSolution().getAllocationList().get(0);
-            Iterator<TimelineEntry> thisTimelineEntry = scoreDirector.getWorkingSolution().getAllocationList().get(0).getTimelineEntryRange().listIterator();
+            Iterator<Allocation> thisFocusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
+            Allocation thisAllocation = thisFocusedAllocationIterator.next();
+            ListIterator<TimelineEntry> timelineEntryIterator = thisAllocation.getTimelineEntryRange().listIterator();
 
             @Override
             public boolean hasNext() {
-                return thisAllocation != null && thisTimelineEntry.hasNext();
+                return thisAllocation != null;
             }
 
             @Override
             public Move<Schedule> next() {
-                Allocation saveAllocation = thisAllocation;
-                TimelineEntry saveTimeEntry = thisTimelineEntry.next();
-                if (!thisTimelineEntry.hasNext()) {
-                    do {
-                        thisAllocation = thisAllocation.getNextFocusedAllocation();
-                        thisTimelineEntry = thisAllocation.getTimelineEntryRange().listIterator();
-                    } while (!TimelineEntryCanChange(thisAllocation));
+                if (!timelineEntryIterator.hasNext()) {
+                    thisAllocation = thisFocusedAllocationIterator.hasNext() ? thisFocusedAllocationIterator.next() : null;
+                    timelineEntryIterator = scoreDirector.getWorkingSolution().getTimelineEntryList().listIterator();
                 }
                 return new SetValueMove(
-                        Arrays.asList(saveAllocation, saveAllocation.getNextFocusedAllocation()),
+                        Arrays.asList(thisAllocation,
+                                scoreDirector.getWorkingSolution().focusedAllocationSet.higher(thisAllocation)),
                         Arrays.asList(
                                 new AllocationValues()
-                                        .setExecutionMode(saveTimeEntry)
+                                        .setExecutionMode(timelineEntryIterator.next())
                                         .setProgressDelta(100)
                                         .setDelay(0),
                                 new AllocationValues().setDelay(0))

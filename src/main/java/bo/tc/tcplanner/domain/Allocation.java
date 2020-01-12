@@ -22,6 +22,7 @@ import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.TimelineEntryStrengthComparator;
+import bo.tc.tcplanner.domain.solver.listeners.FocusedAllocationSetUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.PredecessorsDoneDateUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.PreviousStandstillUpdatingVariableListener;
 import bo.tc.tcplanner.domain.solver.listeners.ResourceStateChangeVariableListener;
@@ -39,10 +40,9 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -149,7 +149,7 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = PreviousStandstillUpdatingVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "timelineEntry")})
+            @PlanningVariableReference(variableName = "focusedAllocationSet")})
     public String getPreviousStandstill() {
         return previousStandstill;
     }
@@ -159,7 +159,7 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "timelineEntry"),
+            @PlanningVariableReference(variableName = "focusedAllocationSet"),
             @PlanningVariableReference(variableName = "delay"),
             @PlanningVariableReference(variableName = "progressdelta")})
     public Map<String, List<ResourceElement>> getResourceElementMap() {
@@ -172,7 +172,7 @@ public class Allocation extends AbstractPersistable {
 
     @CustomShadowVariable(variableListenerClass = PredecessorsDoneDateUpdatingVariableListener.class,
             sources = {
-                    @PlanningVariableReference(variableName = "timelineEntry"),
+                    @PlanningVariableReference(variableName = "focusedAllocationSet"),
                     @PlanningVariableReference(variableName = "delay"),
                     @PlanningVariableReference(variableName = "progressdelta")})
     public ZonedDateTime getPredecessorsDoneDate() {
@@ -191,6 +191,18 @@ public class Allocation extends AbstractPersistable {
     public void setPlannedDuration(Duration plannedDuration) {
         this.plannedDuration = plannedDuration;
     }
+
+    @CustomShadowVariable(variableListenerClass = FocusedAllocationSetUpdatingVariableListener.class,
+            sources = {
+                    @PlanningVariableReference(variableName = "timelineEntry")})
+    public TreeSet<Allocation> getFocusedAllocationSet() {
+        return schedule.focusedAllocationSet;
+    }
+
+    public void setFocusedAllocationSet(TreeSet<Allocation> focusedAllocationSet) {
+        schedule.focusedAllocationSet = focusedAllocationSet;
+    }
+
 
     @PlanningPin
     public boolean isPinned() {
@@ -264,8 +276,8 @@ public class Allocation extends AbstractPersistable {
 
     public long getDistributionScore() {
         long score = -2;
-        Allocation prevAllocation = getPrevFocusedAllocation();
-        Allocation nextAllocation = getNextFocusedAllocation();
+        Allocation prevAllocation = getFocusedAllocationSet().lower(this);
+        Allocation nextAllocation = getFocusedAllocationSet().higher(this);
         if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
         if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
         return score;
@@ -328,62 +340,62 @@ public class Allocation extends AbstractPersistable {
         return this;
     }
 
-    public Allocation getNextFocusedAllocation() {
-        Allocation result = null;
-        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
-            if (schedule.getAllocationList().get(i).isFocused()) {
-                result = schedule.getAllocationList().get(i);
-                break;
-            }
-        }
-        return result;
-    }
-
-    public Allocation getPrevFocusedAllocation() {
-        Allocation result = null;
-        for (int i = index - 1; i >= 0; i--) {
-            if (schedule.getAllocationList().get(i).isFocused()) {
-                result = schedule.getAllocationList().get(i);
-                break;
-            }
-        }
-        return result;
-    }
-
-    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
-        Allocation allocation = this;
-        Allocation tmpAllocation;
-        // Go back two allocations
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        Allocation finalAllocation = allocation;
-        return new Iterator<Allocation>() {
-            Allocation thisAllocation = finalAllocation;
-
-            @Override
-            public boolean hasNext() {
-                return thisAllocation.getNextFocusedAllocation() != null;
-            }
-
-            @Override
-            public Allocation next() {
-                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
-            }
-        };
-    }
-
-    public List<Allocation> getFocusedAllocationsTillEnd() {
-        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
-        Allocation allocation = this;
-        Allocation tmpAllocation = null;
-        // Go back two allocations
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
-            focusedAllocationsTillEnd.add(allocation);
-        }
-        return focusedAllocationsTillEnd;
-    }
+//    public Allocation getNextFocusedAllocation() {
+//        Allocation result = null;
+//        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
+//            if (schedule.getAllocationList().get(i).isFocused()) {
+//                result = schedule.getAllocationList().get(i);
+//                break;
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public Allocation getPrevFocusedAllocation() {
+//        Allocation result = null;
+//        for (int i = index - 1; i >= 0; i--) {
+//            if (schedule.getAllocationList().get(i).isFocused()) {
+//                result = schedule.getAllocationList().get(i);
+//                break;
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
+//        Allocation allocation = this;
+//        Allocation tmpAllocation;
+//        // Go back two allocations
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        Allocation finalAllocation = allocation;
+//        return new Iterator<Allocation>() {
+//            Allocation thisAllocation = finalAllocation;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return thisAllocation.getNextFocusedAllocation() != null;
+//            }
+//
+//            @Override
+//            public Allocation next() {
+//                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
+//            }
+//        };
+//    }
+//
+//    public List<Allocation> getFocusedAllocationsTillEnd() {
+//        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
+//        Allocation allocation = this;
+//        Allocation tmpAllocation = null;
+//        // Go back two allocations
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
+//            focusedAllocationsTillEnd.add(allocation);
+//        }
+//        return focusedAllocationsTillEnd;
+//    }
 
     public Integer getIndex() {
         return index;

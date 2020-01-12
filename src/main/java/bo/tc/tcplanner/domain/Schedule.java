@@ -19,6 +19,7 @@ package bo.tc.tcplanner.domain;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.solver.ArrayListWithFilters;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.google.common.collect.Iterators;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
@@ -28,9 +29,7 @@ import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.persistence.xstream.api.score.buildin.bendable.BendableScoreXStreamConverter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -51,7 +50,7 @@ public class Schedule extends AbstractPersistable {
 
     // Easy Access
     private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
-
+    public TreeSet<Allocation> focusedAllocationSet;
 
     public class Special {
         public Allocation sourceAllocation;
@@ -179,36 +178,71 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
+    public Iterator<Allocation> getDummyAllocationIterator() {
+        return new Iterator<Allocation>() {
+            Iterator<Allocation> focusedAllocationIterator = focusedAllocationSet.iterator();
+            Allocation thisAllocation = focusedAllocationIterator.next();
+            Allocation nextAllocation = focusedAllocationIterator.hasNext() ? getDummyAllocation(
+                    thisAllocation, thisAllocation = focusedAllocationIterator.next()) : null;
+
+            @Override
+            public boolean hasNext() {
+                return nextAllocation != null;
+            }
+
+            @Override
+            public Allocation next() {
+                Allocation saveAllocation = nextAllocation;
+                nextAllocation = focusedAllocationIterator.hasNext() ? getDummyAllocation(
+                        thisAllocation, thisAllocation = focusedAllocationIterator.next()) : null;
+                return saveAllocation;
+            }
+
+            private Allocation getDummyAllocation(Allocation prevAllocation, Allocation thisAllocation) {
+                if (prevAllocation.equals(thisAllocation)) return null;
+                if (thisAllocation.getIndex() - prevAllocation.getIndex() < 2) return null;
+                return allocationList.get((thisAllocation.getIndex() + prevAllocation.getIndex()) / 2);
+            }
+        };
+    }
+
+    public Iterator<Allocation> getCondensedAllocationIterator() {
+        return Iterators.concat(getDummyAllocationIterator(), focusedAllocationSet.iterator());
+    }
+
+//    public Allocation getNextFocusedAllocation(Allocation allocation) {
+//        return allocation.getFocusedAllocationSet().higher(allocation);
+//    }
 
     public List<Allocation> getFocusedAllocationList() {
         return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
     }
-
-    public List<Allocation> getDummyAllocationList() {
-        List<Allocation> dummyAllocationList = new ArrayList<>();
-        Allocation prevAllocation = null;
-        for (Allocation thisAllocaion : allocationList) {
-            if (thisAllocaion.isFocused()) {
-                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
-                    dummyAllocationList.add(
-                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
-                    );
-                prevAllocation = thisAllocaion;
-            }
-        }
-        return dummyAllocationList;
-    }
-
-    public List<Allocation> getCondensedAllocationList() {
-        List<Allocation> focuseddAllocationList = getFocusedAllocationList();
-        List<Allocation> condensedAllocationList = new ArrayList<>();
-        for (int thisIdx = 0, nextIdx = 1; nextIdx < focuseddAllocationList.size(); thisIdx++, nextIdx++) {
-            int idx1 = focuseddAllocationList.get(thisIdx).getIndex();
-            int idx2 = focuseddAllocationList.get(nextIdx).getIndex();
-            if (idx2 - idx1 > 1) condensedAllocationList.add(allocationList.get((idx1 + idx2) / 2));
-        }
-        condensedAllocationList.addAll(focuseddAllocationList);
-        return condensedAllocationList;
-    }
+//
+//    public List<Allocation> getDummyAllocationList() {
+//        List<Allocation> dummyAllocationList = new ArrayList<>();
+//        Allocation prevAllocation = null;
+//        for (Allocation thisAllocaion : allocationList) {
+//            if (thisAllocaion.isFocused()) {
+//                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
+//                    dummyAllocationList.add(
+//                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
+//                    );
+//                prevAllocation = thisAllocaion;
+//            }
+//        }
+//        return dummyAllocationList;
+//    }
+//
+//    public List<Allocation> getCondensedAllocationList() {
+//        List<Allocation> focuseddAllocationList = getFocusedAllocationList();
+//        List<Allocation> condensedAllocationList = new ArrayList<>();
+//        for (int thisIdx = 0, nextIdx = 1; nextIdx < focuseddAllocationList.size(); thisIdx++, nextIdx++) {
+//            int idx1 = focuseddAllocationList.get(thisIdx).getIndex();
+//            int idx2 = focuseddAllocationList.get(nextIdx).getIndex();
+//            if (idx2 - idx1 > 1) condensedAllocationList.add(allocationList.get((idx1 + idx2) / 2));
+//        }
+//        condensedAllocationList.addAll(focuseddAllocationList);
+//        return condensedAllocationList;
+//    }
 
 }

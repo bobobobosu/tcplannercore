@@ -23,9 +23,7 @@
                     <selectionOrder>PROBABILISTIC</selectionOrder>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.ProgressDeltaCanChangeFilter</filterClass>
-                    <probabilityWeightFactoryClass>
-                        bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory
-                    </probabilityWeightFactoryClass>
+                    <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.meters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                 </entitySelector>
                 <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>

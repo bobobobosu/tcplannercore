@@ -128,7 +128,7 @@ public class Toolbox {
     public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
         try {
             //Debug
-            List<Allocation> debugAllocationList = schedule.getFocusedAllocationList();
+            List<Allocation> debugAllocationList = new ArrayList<>(schedule.focusedAllocationSet);
 
             System.err.print("\033[H\033[2J");
             System.err.flush();

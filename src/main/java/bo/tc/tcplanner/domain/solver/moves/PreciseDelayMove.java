@@ -21,7 +21,7 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
     public PreciseDelayMove(Allocation allocation, Integer toDelay) {
         this.toDelay = toDelay;
         this.allocation = allocation;
-        this.nextAllocation = allocation.getNextFocusedAllocation();
+        this.nextAllocation = allocation.getFocusedAllocationSet().higher(allocation);
 
     }
 
@@ -48,7 +48,7 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
         if (!IsFocused(allocation)) return false;
         if (!DelayCanChange(allocation)) return false;
         return (!allocation.getDelay().equals(this.toDelay)) &&
-                (allocation.getNextFocusedAllocation() != null);
+                (allocation.getFocusedAllocationSet().higher(allocation) != null);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PreciseDelayMove extends AbstractMove<Schedule> {
     }
 
     public String toString() {
-        return "PreciseDelay "+allocation + " {" + allocation.getDelay() + " -> " + toDelay + "}";
+        return "PreciseDelay " + allocation + " {" + allocation.getDelay() + " -> " + toDelay + "}";
     }
 
     @Override

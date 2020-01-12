@@ -229,7 +229,12 @@ public class DataStructureBuilder {
             schedule.getAllocationList().get(i).setSchedule(schedule);
         }
         schedule.getAllocationList().forEach(x -> x.getTimelineEntry().getAllocationList().add(x));
-        List<Allocation> focusedAllocationList = schedule.getFocusedAllocationList();
+        List<Allocation> focusedAllocationList = schedule.getAllocationList()
+                .stream().filter(Allocation::isFocused).collect(Collectors.toList());
+
+        TreeSet<Allocation> focusedAllocationSet = new TreeSet<>(Comparator.comparing(Allocation::getIndex));
+        focusedAllocationSet.addAll(focusedAllocationList);
+        schedule.focusedAllocationSet = focusedAllocationSet;
 
         // Set Scheduled Job requirement
         schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
@@ -267,7 +272,7 @@ public class DataStructureBuilder {
 
         // Set PlannedDuration
         schedule.getAllocationList().forEach(x -> x.setPlannedDuration(null));
-        schedule.getFocusedAllocationList().forEach(ListenerTools::updatePlanningDuration);
+        focusedAllocationList.forEach(ListenerTools::updatePlanningDuration);
 
         // Set PredecessorsDoneDate
         for (int i = 1; i < schedule.getAllocationList().size(); i++)

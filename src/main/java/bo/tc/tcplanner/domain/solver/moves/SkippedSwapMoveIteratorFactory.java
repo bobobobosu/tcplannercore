@@ -9,36 +9,33 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import java.util.Iterator;
 import java.util.Random;
 
-public class PreciseDelayMoveIteratorFactory implements MoveIteratorFactory<Schedule> {
+public class SkippedSwapMoveIteratorFactory implements MoveIteratorFactory<Schedule> {
     @Override
     public long getSize(ScoreDirector<Schedule> scoreDirector) {
-        Schedule thisSchedule = scoreDirector.getWorkingSolution();
-        return (thisSchedule.getAllocationList().size() / 20) *
-                thisSchedule.getAllocationList().get(0).getDelayRange().getSize();
+        return scoreDirector.getWorkingSolution().focusedAllocationSet.size() *
+                scoreDirector.getWorkingSolution().focusedAllocationSet.size();
     }
 
     @Override
     public Iterator<? extends Move<Schedule>> createOriginalMoveIterator(ScoreDirector<Schedule> scoreDirector) {
         return new Iterator<Move<Schedule>>() {
             Iterator<Allocation> focusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
+            Iterator<Allocation> dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
             Allocation thisAllocation = focusedAllocationIterator.next();
-            Iterator<Integer> delayIterator = thisAllocation.getDelayRange().createOriginalIterator();
 
             @Override
             public boolean hasNext() {
-                return thisAllocation != null && delayIterator.hasNext();
+                return thisAllocation != null;
             }
 
             @Override
             public Move<Schedule> next() {
                 Allocation allocation = thisAllocation;
-                if (!delayIterator.hasNext()) {
+                if (!dummyAllocationIterator.hasNext()) {
                     thisAllocation = focusedAllocationIterator.hasNext() ? focusedAllocationIterator.next() : null;
-                    if (thisAllocation != null)
-                        delayIterator = thisAllocation.getDelayRange().createOriginalIterator();
+                    dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
                 }
-
-                return new PreciseDelayMove(allocation, delayIterator.next());
+                return new SkippedSwapMove(allocation, dummyAllocationIterator.next());
             }
         };
     }
@@ -47,24 +44,21 @@ public class PreciseDelayMoveIteratorFactory implements MoveIteratorFactory<Sche
     public Iterator<? extends Move<Schedule>> createRandomMoveIterator(ScoreDirector<Schedule> scoreDirector, Random random) {
         return new Iterator<Move<Schedule>>() {
             Iterator<Allocation> focusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
-            Allocation thisAllocation = focusedAllocationIterator.next();
-            Iterator<Integer> delayIterator = thisAllocation.getDelayRange().createOriginalIterator();
+            Iterator<Allocation> dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
+            Move<Schedule> thisMove = new SkippedSwapMove(focusedAllocationIterator.next(), dummyAllocationIterator.next());
 
             @Override
             public boolean hasNext() {
-                return thisAllocation != null && delayIterator.hasNext();
+                return thisMove != null;
             }
 
             @Override
             public Move<Schedule> next() {
-                Allocation allocation = thisAllocation;
-                if (!delayIterator.hasNext()) {
-                    thisAllocation = focusedAllocationIterator.hasNext() ? focusedAllocationIterator.next() : null;
-                    if (thisAllocation != null)
-                        delayIterator = thisAllocation.getDelayRange().createOriginalIterator();
-                }
-
-                return new PreciseDelayMove(allocation, delayIterator.next());
+                Move<Schedule> saveMove = thisMove;
+                if (!dummyAllocationIterator.hasNext())
+                    dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
+                thisMove = new SkippedSwapMove(focusedAllocationIterator.next(), dummyAllocationIterator.next());
+                return saveMove;
             }
         };
     }

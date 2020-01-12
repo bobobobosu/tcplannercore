@@ -4,6 +4,10 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.util.Iterator;
+
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationPreviousStandstill;
+
 
 public class PreviousStandstillUpdatingVariableListener implements VariableListener<Allocation> {
     @Override
@@ -40,16 +44,17 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
         if (!originalAllocation.isFocused()) {
             originalAllocation.setPreviousStandstill(null);
         }
-//
-//        List<Allocation> focusedAllocation = originalAllocation.getFocusedAllocationsTillEnd();
-//
-//        Allocation prevAllocation = focusedAllocation.get(0).getPrevFocusedAllocation();
-//        for (Allocation thisAllocation : focusedAllocation) {
-//            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
-//            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
-//            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
-//            prevAllocation = thisAllocation;
-//        }
+        Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
+                .tailSet(originalAllocation.getFocusedAllocationSet().lower(originalAllocation)).iterator();
+
+        Allocation prevAllocation = focusedAllocationIterator.next();
+        while (focusedAllocationIterator.hasNext()) {
+            Allocation thisAllocation = focusedAllocationIterator.next();
+            scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
+            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
+            scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
+            prevAllocation = thisAllocation;
+        }
 
     }
 

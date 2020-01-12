@@ -20,6 +20,11 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.util.Iterator;
+
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePlanningDuration;
+import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
+
 public class PredecessorsDoneDateUpdatingVariableListener implements VariableListener<Allocation> {
 
     @Override
@@ -54,33 +59,31 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
         // Update Planning Duration
-//        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
-//        if (!originalAllocation.isFocused()) {
-//            originalAllocation.setPlannedDuration(null);
-//        } else {
-//            updatePlanningDuration(originalAllocation);
-//        }
-//        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
-//
-//        // Update PredecessorDoneDate
-//        if (!originalAllocation.isFocused()) {
-//            originalAllocation.setPredecessorsDoneDate(null);
-//        }
+        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
+        if (!originalAllocation.isFocused()) {
+            originalAllocation.setPlannedDuration(null);
+        } else {
+            updatePlanningDuration(originalAllocation);
+        }
+        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
 
-//        List<Allocation> focusedAllocation = originalAllocation.getFocusedAllocationsTillEnd();
-//
-//        Allocation prevAllocation = focusedAllocation.get(0).getPrevFocusedAllocation();
-//        for (Allocation thisAllocation : focusedAllocation) {
-//            scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
-//            updatePredecessorsDoneDate(thisAllocation, prevAllocation);
-//            try {
-//                scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
-//            }catch (Exception ex){
-//                int g=0;
-//            }
-//
-//            prevAllocation = thisAllocation;
-//        }
+        // Update PredecessorDoneDate
+        if (!originalAllocation.isFocused()) {
+            originalAllocation.setPredecessorsDoneDate(null);
+        }
+
+        Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
+                .tailSet(originalAllocation.getFocusedAllocationSet().lower(originalAllocation)).iterator();
+
+        Allocation prevAllocation = focusedAllocationIterator.next();
+        while (focusedAllocationIterator.hasNext()) {
+            Allocation thisAllocation = focusedAllocationIterator.next();
+            scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
+            updatePredecessorsDoneDate(thisAllocation, prevAllocation);
+            scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
+            prevAllocation = thisAllocation;
+        }
+
     }
 
 }
