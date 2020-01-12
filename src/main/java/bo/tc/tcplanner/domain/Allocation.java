@@ -230,11 +230,16 @@ public class Allocation extends AbstractPersistable {
 
     public Double getResourceElementMapDeficitScore() {
         double score = 0;
-        for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
-            for (ResourceElement resourceElement : entry.getValue()) {
-                score += (resourceElement.getAmt() < 0) ? resourceElement.getAmt() : 0;
+        try {
+            for (Map.Entry<String, List<ResourceElement>> entry : resourceElementMap.entrySet()) {
+                for (ResourceElement resourceElement : entry.getValue()) {
+                    score += (resourceElement.getAmt() < 0) ? resourceElement.getAmt() : 0;
+                }
             }
+        } catch (Exception ex) {
+            int g = 0;
         }
+
         return score;
     }
 

@@ -1,11 +1,21 @@
 package bo.tc.tcplanner.datastructure;
 
+import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.jetbrains.annotations.Nullable;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@PlanningEntity
 public class TimelineEntry extends AbstractPersistable {
     //names
     String title;
@@ -205,5 +215,18 @@ public class TimelineEntry extends AbstractPersistable {
         result = 31 * result + timelineProperty.hashCode();
         return result;
     }
+
+    @JsonIgnore
+    List<Allocation> allocationList = new ArrayList<>();
+
+    @InverseRelationShadowVariable(sourceVariableName = "timelineEntry")
+    public List<Allocation> getAllocationList() {
+        return allocationList;
+    }
+
+    public void setAllocationList(List<Allocation> allocationList) {
+        this.allocationList = allocationList;
+    }
+
 }
 

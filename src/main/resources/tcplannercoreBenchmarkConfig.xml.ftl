@@ -15,13 +15,14 @@
 
         <solver>
             <moveThreadCount>AUTO</moveThreadCount>
-            <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>
-            <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>
+            <#--            <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>-->
+            <#--            <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>-->
+            <scanAnnotatedClasses/>
 
             <termination>
                 <#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
                 <#--                                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
             </termination>
         </solver>

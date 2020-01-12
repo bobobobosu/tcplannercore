@@ -4,9 +4,9 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import java.util.*;
-
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updateAllocationResourceStateChange;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ResourceStateChangeVariableListener implements VariableListener<Allocation> {
     Set<String> dirty = new TreeSet<>();
@@ -44,17 +44,17 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
         List<Allocation> focusedAllocationList = originalAllocation.getSchedule().getFocusedAllocationList();
-
-        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
-        originalAllocation.setResourceElementMap(null);
-        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
-
-        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, dirty);
-        for (int i = 0; i < focusedAllocationList.size(); i++) {
-            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
-            focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
-            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
-        }
+//
+//        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
+//        originalAllocation.setResourceElementMap(null);
+//        scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
+//
+//        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, dirty);
+//        for (int i = 0; i < focusedAllocationList.size(); i++) {
+//            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
+//            focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
+//            scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
+//        }
 
     }
 

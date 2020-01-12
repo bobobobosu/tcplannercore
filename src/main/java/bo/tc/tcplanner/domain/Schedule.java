@@ -17,6 +17,7 @@
 package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.*;
+import bo.tc.tcplanner.domain.solver.ArrayListWithFilters;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
@@ -105,7 +106,7 @@ public class Schedule extends AbstractPersistable {
     public Schedule() {
         //Initialize
         timelineEntryList = new ArrayList<TimelineEntry>();
-        allocationList = new ArrayList<>();
+        allocationList = new ArrayListWithFilters();
         special = new Special();
     }
 
@@ -146,7 +147,7 @@ public class Schedule extends AbstractPersistable {
     }
 
     public Schedule setAllocationList(List<Allocation> allocationList) {
-        this.allocationList = allocationList;
+        this.allocationList = new ArrayListWithFilters(allocationList);
         return this;
     }
 

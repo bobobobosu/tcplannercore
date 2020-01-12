@@ -4,6 +4,7 @@ import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.ArrayListWithFilters;
 import bo.tc.tcplanner.domain.solver.listeners.ListenerTools;
 
 import java.time.Duration;
@@ -111,8 +112,9 @@ public class DataStructureBuilder {
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
 
         // Initialize Lists with dummy facts
-        schedule.setAllocationList(new ArrayList<>(
-                Arrays.asList(schedule.special.sourceAllocation, schedule.special.sinkAllocation)));
+        schedule.setAllocationList(new ArrayListWithFilters()
+                .addAllocation(schedule.special.sourceAllocation)
+                .addAllocation(schedule.special.sinkAllocation));
         schedule.setTimelineEntryList(new ArrayList<TimelineEntry>(
                 Arrays.asList(schedule.special.dummyTimelineEntry,
                         schedule.special.sourceAllocation.getTimelineEntry(),
@@ -220,12 +222,14 @@ public class DataStructureBuilder {
     public DataStructureBuilder constructChainProperty(Schedule schedule) {
         schedule.special.sourceAllocation = schedule.getAllocationList().get(0);
         schedule.special.sinkAllocation = schedule.getAllocationList().get(schedule.getAllocationList().size() - 1);
-        List<Allocation> focusedAllocationList = schedule.getFocusedAllocationList();
+
 
         for (int i = 0; i < schedule.getAllocationList().size(); i++) {
             schedule.getAllocationList().get(i).setIndex(i);
             schedule.getAllocationList().get(i).setSchedule(schedule);
         }
+        schedule.getAllocationList().forEach(x -> x.getTimelineEntry().getAllocationList().add(x));
+        List<Allocation> focusedAllocationList = schedule.getFocusedAllocationList();
 
         // Set Scheduled Job requirement
         schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
