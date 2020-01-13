@@ -6,8 +6,7 @@
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-        <!--        <millisecondsSpentLimit>6000</millisecondsSpentLimit>-->
-        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
+        <millisecondsSpentLimit>60000</millisecondsSpentLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>

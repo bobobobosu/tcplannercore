@@ -58,33 +58,28 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
     }
 
     protected void updateAllocation(ScoreDirector scoreDirector, Allocation originalAllocation) {
-        // Update Planning Duration
-        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
-        if (!originalAllocation.isFocused()) {
-            originalAllocation.setPlannedDuration(null);
-        } else {
-            updatePlanningDuration(originalAllocation);
-        }
-        scoreDirector.beforeVariableChanged(originalAllocation, "plannedDuration");
-
         // Update PredecessorDoneDate
         if (!originalAllocation.isFocused()) {
+            scoreDirector.beforeVariableChanged(originalAllocation, "predecessorsDoneDate");
             originalAllocation.setPredecessorsDoneDate(null);
+            scoreDirector.afterVariableChanged(originalAllocation, "predecessorsDoneDate");
         }
 
         Allocation startAllocation = originalAllocation.getFocusedAllocationSet().lower(originalAllocation);
         startAllocation = startAllocation == null ? originalAllocation : startAllocation;
-
         Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
                 .tailSet(startAllocation).iterator();
 
         Allocation prevAllocation = focusedAllocationIterator.next();
+
         while (focusedAllocationIterator.hasNext()) {
             Allocation thisAllocation = focusedAllocationIterator.next();
             scoreDirector.beforeVariableChanged(thisAllocation, "predecessorsDoneDate");
-            updatePredecessorsDoneDate(thisAllocation, prevAllocation);
+            boolean changed = updatePredecessorsDoneDate(thisAllocation, prevAllocation);
             scoreDirector.afterVariableChanged(thisAllocation, "predecessorsDoneDate");
             prevAllocation = thisAllocation;
+
+            if (!changed && thisAllocation.getIndex() > originalAllocation.getIndex()) break;
         }
 
     }

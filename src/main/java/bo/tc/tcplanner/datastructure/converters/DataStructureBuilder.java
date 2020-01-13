@@ -288,10 +288,15 @@ public class DataStructureBuilder {
                                 .toMinutes()));
         }
 
+
         // set ResourceElementMap
         for (int i = 0; i < schedule.getAllocationList().size(); i++)
             schedule.getAllocationList().get(i).setResourceElementMap(null);
-        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, null);
+        var newResourceElementMap = updateAllocationResourceStateChange(
+                focusedAllocationList,
+                schedule.getAllocationList().stream().flatMap(x ->
+                        x.getTimelineEntry().getResourceStateChange().getResourceChange().keySet().stream())
+                        .collect(Collectors.toSet()));
         for (int i = 0; i < focusedAllocationList.size(); i++)
             focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
 

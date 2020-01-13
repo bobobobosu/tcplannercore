@@ -55,11 +55,12 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
         while (focusedAllocationIterator.hasNext()) {
             Allocation thisAllocation = focusedAllocationIterator.next();
             scoreDirector.beforeVariableChanged(thisAllocation, "previousStandstill");
-            updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
+            boolean changed = updateAllocationPreviousStandstill(thisAllocation, prevAllocation);
             scoreDirector.afterVariableChanged(thisAllocation, "previousStandstill");
             prevAllocation = thisAllocation;
+
+            if (!changed && thisAllocation.getIndex() > originalAllocation.getIndex()) break;
         }
 
     }
-
 }

@@ -15,17 +15,24 @@ import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
 import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 
 public class ListenerTools {
-    public static void updatePlanningDuration(Allocation allocation) {
-        allocation.setPlannedDuration(Duration.ofMinutes(
+    public static boolean updatePlanningDuration(Allocation allocation) {
+        Duration duration = Duration.ofMinutes(
                 (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration()
-                        * (allocation.getProgressdelta()) / (100))));
+                        * (allocation.getProgressdelta()) / (100)));
+        boolean changed = allocation.getPlannedDuration() == null || allocation.getPlannedDuration().equals(duration);
+        allocation.setPlannedDuration(duration);
+        return changed;
     }
 
-    public static void updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
-        allocation.setPredecessorsDoneDate(prevAllocation.getEndDate());
+    public static boolean updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
+        var endDate = prevAllocation.getEndDate();
+        boolean changed = allocation.getPredecessorsDoneDate() == null ||
+                !allocation.getPredecessorsDoneDate().isEqual(endDate);
+        allocation.setPredecessorsDoneDate(endDate);
+        return changed;
     }
 
-    public static void updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
+    public static boolean updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
         String PreviousStandStill = prevAllocation.getPreviousStandstill();
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
@@ -40,15 +47,13 @@ public class ListenerTools {
             PreviousStandStill = prevAllocation.getTimelineEntry().getHumanStateChange().getMovetoLocation();
         }
 
+        boolean changed = allocation.getPreviousStandstill() == null ||
+                !allocation.getPreviousStandstill().equals(PreviousStandStill);
         allocation.setPreviousStandstill(PreviousStandStill);
+        return changed;
     }
 
     public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
-        if (dirty == null)
-            dirty = focusedAllocationList.get(0).getSchedule().getAllocationList().stream().flatMap(x ->
-                    x.getTimelineEntry().getResourceStateChange().getResourceChange().keySet().stream())
-                    .collect(Collectors.toSet());
-
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
 
         // Pull
