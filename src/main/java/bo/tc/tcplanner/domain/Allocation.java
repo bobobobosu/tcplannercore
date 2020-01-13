@@ -149,6 +149,7 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = PreviousStandstillUpdatingVariableListener.class, sources = {
+            @PlanningVariableReference(variableName = "timelineEntry"),
             @PlanningVariableReference(variableName = "focusedAllocationSet")})
     public String getPreviousStandstill() {
         return previousStandstill;
@@ -159,8 +160,8 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
+            @PlanningVariableReference(variableName = "timelineEntry"),
             @PlanningVariableReference(variableName = "focusedAllocationSet"),
-            @PlanningVariableReference(variableName = "delay"),
             @PlanningVariableReference(variableName = "progressdelta")})
     public Map<String, List<ResourceElement>> getResourceElementMap() {
         return resourceElementMap;
@@ -172,6 +173,7 @@ public class Allocation extends AbstractPersistable {
 
     @CustomShadowVariable(variableListenerClass = PredecessorsDoneDateUpdatingVariableListener.class,
             sources = {
+                    @PlanningVariableReference(variableName = "timelineEntry"),
                     @PlanningVariableReference(variableName = "focusedAllocationSet"),
                     @PlanningVariableReference(variableName = "delay"),
                     @PlanningVariableReference(variableName = "progressdelta")})

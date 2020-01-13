@@ -22,7 +22,7 @@
             <termination>
 <#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
 <#--                                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>150000</millisecondsSpentLimit>
+                <millisecondsSpentLimit>120000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -208,7 +208,7 @@
     <#list ['${mergeMove}
             ${splitMove}'] as mergesplitMoves>
 
-     <#list ['  ${swapMove}
+     <#list ['
                 ${progressdelta}
                 ${timelineEntry}
                 ${precisedelay}

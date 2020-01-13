@@ -72,8 +72,11 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
             originalAllocation.setPredecessorsDoneDate(null);
         }
 
+        Allocation startAllocation = originalAllocation.getFocusedAllocationSet().lower(originalAllocation);
+        startAllocation = startAllocation == null ? originalAllocation : startAllocation;
+
         Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
-                .tailSet(originalAllocation.getFocusedAllocationSet().lower(originalAllocation)).iterator();
+                .tailSet(startAllocation).iterator();
 
         Allocation prevAllocation = focusedAllocationIterator.next();
         while (focusedAllocationIterator.hasNext()) {

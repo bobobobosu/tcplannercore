@@ -4,7 +4,6 @@ import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
-import bo.tc.tcplanner.domain.solver.ArrayListWithFilters;
 import bo.tc.tcplanner.domain.solver.listeners.ListenerTools;
 
 import java.time.Duration;
@@ -112,9 +111,7 @@ public class DataStructureBuilder {
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
 
         // Initialize Lists with dummy facts
-        schedule.setAllocationList(new ArrayListWithFilters()
-                .addAllocation(schedule.special.sourceAllocation)
-                .addAllocation(schedule.special.sinkAllocation));
+        schedule.setAllocationList(new ArrayList<>(Arrays.asList(schedule.special.sourceAllocation, schedule.special.sinkAllocation)));
         schedule.setTimelineEntryList(new ArrayList<TimelineEntry>(
                 Arrays.asList(schedule.special.dummyTimelineEntry,
                         schedule.special.sourceAllocation.getTimelineEntry(),

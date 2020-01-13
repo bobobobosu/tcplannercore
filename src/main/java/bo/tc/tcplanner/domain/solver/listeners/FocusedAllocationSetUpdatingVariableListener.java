@@ -5,6 +5,7 @@ import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 public class FocusedAllocationSetUpdatingVariableListener implements VariableListener<Allocation> {
+
     @Override
     public void beforeEntityAdded(ScoreDirector scoreDirector, Allocation allocation) {
 
