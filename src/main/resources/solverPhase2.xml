@@ -1,15 +1,20 @@
 <solver>
     <environmentMode>REPRODUCIBLE</environmentMode>
+    <moveThreadCount>AUTO</moveThreadCount>
     <scanAnnotatedClasses/>
     <scoreDirectorFactory>
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-        <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>
-<!--        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+<!--        <millisecondsSpentLimit>10000</millisecondsSpentLimit>-->
+        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.1</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
+            </moveListFactory>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
                 <entitySelector>
@@ -79,10 +84,13 @@
             </moveListFactory>
         </unionMoveSelector>
         <acceptor>
+            <moveTabuSize>1</moveTabuSize>
+            <undoMoveTabuSize>5</undoMoveTabuSize>
             <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>4</acceptedCountLimit>
+            <acceptedCountLimit>350</acceptedCountLimit>
+            <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>
 </solver>

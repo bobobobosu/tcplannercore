@@ -111,7 +111,9 @@ public class DataStructureBuilder {
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
 
         // Initialize Lists with dummy facts
+        // First, last allocations must follow this order
         schedule.setAllocationList(new ArrayList<>(Arrays.asList(sourceAllocation, sinkAllocation)));
+        // First, second and third timelineEntry must follow this order
         schedule.setTimelineEntryList(new ArrayList<TimelineEntry>(
                 Arrays.asList(dummyTimelineEntry,
                         sourceAllocation.getTimelineEntry(),

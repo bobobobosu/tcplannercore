@@ -19,6 +19,7 @@ package bo.tc.tcplanner.domain;
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
+import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.TimelineEntryStrengthComparator;
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-@PlanningEntity
+@PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
 public class Allocation extends AbstractPersistable {
     // Belongs-to relationship
     private transient Schedule schedule;
@@ -280,8 +281,8 @@ public class Allocation extends AbstractPersistable {
         long score = -2;
         Allocation prevAllocation = getFocusedAllocationSet().lower(this);
         Allocation nextAllocation = getFocusedAllocationSet().higher(this);
-        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
-        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
+        if (prevAllocation != null) score += Math.min(1, index - prevAllocation.getIndex());
+        if (nextAllocation != null) score += Math.min(1, nextAllocation.getIndex() - index);
         return score;
     }
 

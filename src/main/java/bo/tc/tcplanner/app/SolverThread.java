@@ -174,26 +174,26 @@ public class SolverThread extends Thread {
                 }
             }
         }
-
-        //Solve Hard Full
-        if (P1_mode.equals("global")) {
-            currentSolver = solverList.get(0);
-            printCurrentSolution(result, false, solvingStatus);
-            currentSchedule = result;
-            if (continuetosolve) {
-                currentSchedule = result = solverList.get(0).solve(result);
-                jsonServer.updateTimelineBlock(false, result);
-            }
-        }
-
-        displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+//
+//        //Solve Hard Full
+//        if (P1_mode.equals("global")) {
+//            currentSolver = solverList.get(0);
+//            printCurrentSolution(result, false, solvingStatus);
+//            currentSchedule = result;
+//            if (continuetosolve) {
+//                currentSchedule = result = solverList.get(0).solve(result);
+//                jsonServer.updateTimelineBlock(false, result);
+//            }
+//        }
+//
+//        displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
 
         //Solve Soft
         if (P2_mode.equals("global")) {
             currentSolver = solverList.get(1);
             if (continuetosolve) {
                 currentSchedule = result = solverList.get(1).solve(result);
-                jsonServer.updateTimelineBlock(false, result);
+//                jsonServer.updateTimelineBlock(false, result);
             }
         }
         return result;

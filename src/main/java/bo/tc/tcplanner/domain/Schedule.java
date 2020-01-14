@@ -19,7 +19,9 @@ package bo.tc.tcplanner.domain;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
+import org.kie.api.definition.rule.All;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -213,6 +215,10 @@ public class Schedule extends AbstractPersistable {
                 return allocationList.get((thisAllocation.getIndex() + prevAllocation.getIndex()) / 2);
             }
         };
+    }
+
+    public List<Allocation> getDummyAllocationList(){
+        return Lists.newArrayList(getDummyAllocationIterator());
     }
 
     public Iterator<Allocation> getCondensedAllocationIterator() {

@@ -6,7 +6,9 @@ import org.optaplanner.core.impl.heuristic.move.Move;
 import org.optaplanner.core.impl.heuristic.selector.move.factory.MoveIteratorFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class SkippedSwapMoveIteratorFactory implements MoveIteratorFactory<Schedule> {
@@ -43,22 +45,19 @@ public class SkippedSwapMoveIteratorFactory implements MoveIteratorFactory<Sched
     @Override
     public Iterator<? extends Move<Schedule>> createRandomMoveIterator(ScoreDirector<Schedule> scoreDirector, Random random) {
         return new Iterator<Move<Schedule>>() {
-            Iterator<Allocation> focusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
-            Iterator<Allocation> dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
-            Move<Schedule> thisMove = new SkippedSwapMove(focusedAllocationIterator.next(), dummyAllocationIterator.next());
+            List<Allocation> focusedAllocationList = new ArrayList<>(scoreDirector.getWorkingSolution().focusedAllocationSet);
+            List<Allocation> dummyAllocationList = scoreDirector.getWorkingSolution().getDummyAllocationList();
 
             @Override
             public boolean hasNext() {
-                return thisMove != null;
+                return focusedAllocationList.size() > 0 && dummyAllocationList.size() > 0;
             }
 
             @Override
             public Move<Schedule> next() {
-                Move<Schedule> saveMove = thisMove;
-                if (!dummyAllocationIterator.hasNext())
-                    dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
-                thisMove = new SkippedSwapMove(focusedAllocationIterator.next(), dummyAllocationIterator.next());
-                return saveMove;
+                return new SkippedSwapMove(
+                        focusedAllocationList.get(random.nextInt(focusedAllocationList.size())),
+                        dummyAllocationList.get(random.nextInt(dummyAllocationList.size())));
             }
         };
     }
