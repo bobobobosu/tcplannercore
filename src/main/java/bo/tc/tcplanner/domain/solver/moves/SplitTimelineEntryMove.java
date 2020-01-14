@@ -65,7 +65,7 @@ public class SplitTimelineEntryMove extends AbstractMove<Schedule> {
     public boolean isMoveDoable(ScoreDirector<Schedule> scoreDirector) {
         if (!IsFocused(allocation)) return false;
         if (!ProgressDeltaCanChange(allocation)) return false;
-        if (!dummyAllocation.getTimelineEntry().equals(allocation.getSchedule().special.dummyTimelineEntry))
+        if (!dummyAllocation.getTimelineEntry().equals(allocation.getSchedule().getDummyTimelineEntry()))
             return false;
         return !allocation.equals(dummyAllocation);
     }

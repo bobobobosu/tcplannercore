@@ -66,7 +66,7 @@ public class DataStructureBuilder {
                 .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name());
 
         // Set Planning Facts
-        schedule.special.dummyTimelineEntry = new TimelineEntry()
+        TimelineEntry dummyTimelineEntry = new TimelineEntry()
                 .setVolatileFlag(true)
                 .setTitle("\"\"")
                 .setDescription("")
@@ -76,10 +76,10 @@ public class DataStructureBuilder {
                 .setResourceStateChange(schedule.special.dummyResourceStateChange)
                 .setChronoProperty(schedule.special.dummyChronoProperty)
                 .setTimelineProperty(schedule.special.dummyTimelineProperty);
-        schedule.special.sourceAllocation = new Allocation()
+        Allocation sourceAllocation = new Allocation()
                 .setVolatileFlag(true)
                 .setSchedule(schedule);
-        schedule.special.sourceAllocation.setTimelineEntry(new TimelineEntry()
+        sourceAllocation.setTimelineEntry(new TimelineEntry()
                 .setVolatileFlag(true)
                 .setTitle("source")
                 .setDescription("")
@@ -92,10 +92,10 @@ public class DataStructureBuilder {
                         .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
                 .setTimelineProperty(new TimelineProperty(schedule.special.dummyTimelineProperty)
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
-        schedule.special.sinkAllocation = new Allocation()
+        Allocation sinkAllocation = new Allocation()
                 .setVolatileFlag(true)
                 .setSchedule(schedule);
-        schedule.special.sinkAllocation.setTimelineEntry(new TimelineEntry()
+        sinkAllocation.setTimelineEntry(new TimelineEntry()
                 .setVolatileFlag(true)
                 .setTitle("sink")
                 .setDescription("")
@@ -111,11 +111,11 @@ public class DataStructureBuilder {
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
 
         // Initialize Lists with dummy facts
-        schedule.setAllocationList(new ArrayList<>(Arrays.asList(schedule.special.sourceAllocation, schedule.special.sinkAllocation)));
+        schedule.setAllocationList(new ArrayList<>(Arrays.asList(sourceAllocation, sinkAllocation)));
         schedule.setTimelineEntryList(new ArrayList<TimelineEntry>(
-                Arrays.asList(schedule.special.dummyTimelineEntry,
-                        schedule.special.sourceAllocation.getTimelineEntry(),
-                        schedule.special.sinkAllocation.getTimelineEntry())));
+                Arrays.asList(dummyTimelineEntry,
+                        sourceAllocation.getTimelineEntry(),
+                        sinkAllocation.getTimelineEntry())));
         schedule.setJob2jobcloneMap(new IdentityHashMap<>());
 
         // Add TimelineEntries from valueEntryMap
@@ -201,7 +201,7 @@ public class DataStructureBuilder {
                 Allocation allocation = new Allocation()
                         .setVolatileFlag(true)
                         .setSchedule(schedule);
-                allocation.setTimelineEntry(schedule.special.dummyTimelineEntry);
+                allocation.setTimelineEntry(dummyTimelineEntry);
                 schedule.getAllocationList().add(finalI, allocation);
             });
 
@@ -217,15 +217,14 @@ public class DataStructureBuilder {
     }
 
     public DataStructureBuilder constructChainProperty(Schedule schedule) {
-        schedule.special.sourceAllocation = schedule.getAllocationList().get(0);
-        schedule.special.sinkAllocation = schedule.getAllocationList().get(schedule.getAllocationList().size() - 1);
-
+        Allocation sourceAllocation = schedule.getSourceAllocation();
+        Allocation sinkAllocation = schedule.getSinkAllocation();
 
         for (int i = 0; i < schedule.getAllocationList().size(); i++) {
             schedule.getAllocationList().get(i).setIndex(i);
             schedule.getAllocationList().get(i).setSchedule(schedule);
         }
-        schedule.getAllocationList().forEach(x -> x.getTimelineEntry().getAllocationList().add(x));
+//        schedule.getAllocationList().forEach(x -> x.getTimelineEntry().getAllocatedList().add(x));
         List<Allocation> focusedAllocationList = schedule.getAllocationList()
                 .stream().filter(Allocation::isFocused).collect(Collectors.toList());
 
@@ -234,14 +233,14 @@ public class DataStructureBuilder {
         schedule.focusedAllocationSet = focusedAllocationSet;
 
         // Set Scheduled Job requirement
-        schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
+        schedule.getSinkAllocation().getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
         schedule.getAllocationList().stream()
                 .filter(
                         x -> x.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
                                 .equals(PropertyConstants.PlanningWindowTypes.types.Published.name()) &&
                                 x.getTimelineEntry().getChronoProperty().getChangeable() == 0)
                 .forEach(x -> {
-                    schedule.special.sinkAllocation.getTimelineEntry().getResourceStateChange().getResourceChange()
+                    schedule.getSinkAllocation().getTimelineEntry().getResourceStateChange().getResourceChange()
                             .put(x.getTimelineEntry().getTimelineProperty().getTimelineid().toString(),
                                     new ArrayList<>(Arrays.asList(
                                             new ResourceElement()
@@ -260,8 +259,8 @@ public class DataStructureBuilder {
         // Set PreviousStandstill
         for (int i = 1; i < schedule.getAllocationList().size(); i++)
             schedule.getAllocationList().get(i).setPreviousStandstill(null);
-        if (schedule.special.sourceAllocation.getPreviousStandstill() == null)
-            schedule.special.sourceAllocation.setPreviousStandstill(schedule.special.dummyLocation);
+        if (schedule.getSourceAllocation().getPreviousStandstill() == null)
+            schedule.getSourceAllocation().setPreviousStandstill(schedule.special.dummyLocation);
 
         for (int prevIdx = 0, thidIdx = 1; thidIdx < focusedAllocationList.size(); prevIdx++, thidIdx++) {
             updateAllocationPreviousStandstill(focusedAllocationList.get(thidIdx), focusedAllocationList.get(prevIdx));
@@ -274,8 +273,8 @@ public class DataStructureBuilder {
         // Set PredecessorsDoneDate
         for (int i = 1; i < schedule.getAllocationList().size(); i++)
             schedule.getAllocationList().get(i).setPredecessorsDoneDate(null);
-        if (schedule.special.sourceAllocation.getPredecessorsDoneDate() == null)
-            schedule.special.sourceAllocation.setPredecessorsDoneDate(schedule.getProblemTimelineBlock().getZonedBlockStartTime());
+        if (schedule.getSourceAllocation().getPredecessorsDoneDate() == null)
+            schedule.getSourceAllocation().setPredecessorsDoneDate(schedule.getProblemTimelineBlock().getZonedBlockStartTime());
         for (int prevIdx = 0, thidIdx = 1; thidIdx < focusedAllocationList.size(); prevIdx++, thidIdx++) {
             Allocation prevAllocation = focusedAllocationList.get(prevIdx);
             Allocation thisAllocation = focusedAllocationList.get(thidIdx);

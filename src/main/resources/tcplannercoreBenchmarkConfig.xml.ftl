@@ -14,14 +14,14 @@
         </problemBenchmarks>
 
         <solver>
-<#--            <moveThreadCount>AUTO</moveThreadCount>-->
+            <moveThreadCount>AUTO</moveThreadCount>
 <#--            <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>-->
 <#--            <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>-->
             <scanAnnotatedClasses/>
 
             <termination>
 <#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
-<#--                                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+<#--                <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>-->
                 <millisecondsSpentLimit>10000</millisecondsSpentLimit>
 
             </termination>
@@ -217,7 +217,7 @@
                 ${cartesiandelay}'] as customMoves>
 
     <solverBenchmark>
-        <name>a${WeightFactoryClass?index}</name>
+        <name>a${algorithm?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>

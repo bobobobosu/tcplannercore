@@ -45,7 +45,7 @@ public class MergeTimelineEntryMove extends AbstractMove<Schedule> {
         new AllocationValues()
                 .setProgressDelta(rest)
                 .setExecutionMode(rest == 0 ?
-                        allocation.getSchedule().special.dummyTimelineEntry : allocation.getTimelineEntry())
+                        allocation.getSchedule().getDummyTimelineEntry() : allocation.getTimelineEntry())
                 .apply(allocation, scoreDirector);
     }
 

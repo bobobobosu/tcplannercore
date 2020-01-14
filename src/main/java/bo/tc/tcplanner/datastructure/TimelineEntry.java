@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@PlanningEntity
+
 public class TimelineEntry extends AbstractPersistable {
     //names
     String title;
@@ -216,17 +216,17 @@ public class TimelineEntry extends AbstractPersistable {
         return result;
     }
 
-    @JsonIgnore
-    List<Allocation> allocationList = new ArrayList<>();
-
-    @InverseRelationShadowVariable(sourceVariableName = "timelineEntry")
-    public List<Allocation> getAllocationList() {
-        return allocationList;
-    }
-
-    public void setAllocationList(List<Allocation> allocationList) {
-        this.allocationList = allocationList;
-    }
+//    @JsonIgnore
+//    List<Allocation> allocatedList = new ArrayList<>();
+//
+//    @InverseRelationShadowVariable(sourceVariableName = "timelineEntry")
+//    public List<Allocation> getAllocatedList() {
+//        return allocatedList;
+//    }
+//
+//    public void setAllocatedList(List<Allocation> allocatedList) {
+//        this.allocatedList = allocatedList;
+//    }
 
 }
 

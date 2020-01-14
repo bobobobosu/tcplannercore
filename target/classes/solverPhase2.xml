@@ -1,12 +1,12 @@
 <solver>
     <environmentMode>REPRODUCIBLE</environmentMode>
-    <moveThreadCount>AUTO</moveThreadCount>
     <scanAnnotatedClasses/>
     <scoreDirectorFactory>
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-        <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+        <unimprovedSecondsSpentLimit>300</unimprovedSecondsSpentLimit>
+<!--        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -69,6 +69,14 @@
                 </changeMoveSelector>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
             </cartesianProductMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.MergeTimelineEntryMoveFactory</moveListFactoryClass>
+            </moveListFactory>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.081</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SplitTimelineEntryFactory</moveListFactoryClass>
+            </moveListFactory>
         </unionMoveSelector>
         <acceptor>
             <lateAcceptanceSize>1</lateAcceptanceSize>

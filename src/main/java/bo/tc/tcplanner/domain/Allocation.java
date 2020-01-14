@@ -146,7 +146,8 @@ public class Allocation extends AbstractPersistable {
     }
 
     @CustomShadowVariable(variableListenerClass = PreviousStandstillUpdatingVariableListener.class, sources = {
-            @PlanningVariableReference(variableName = "focusedAllocationSet")})
+            @PlanningVariableReference(variableName = "focusedAllocationSet"),
+            @PlanningVariableReference(variableName = "timelineEntry")})
     public String getPreviousStandstill() {
         return previousStandstill;
     }
@@ -157,6 +158,7 @@ public class Allocation extends AbstractPersistable {
 
     @CustomShadowVariable(variableListenerClass = ResourceStateChangeVariableListener.class, sources = {
             @PlanningVariableReference(variableName = "focusedAllocationSet"),
+            @PlanningVariableReference(variableName = "timelineEntry"),
             @PlanningVariableReference(variableName = "progressdelta")})
     public Map<String, List<ResourceElement>> getResourceElementMap() {
         return resourceElementMap;
@@ -181,6 +183,7 @@ public class Allocation extends AbstractPersistable {
     @CustomShadowVariable(variableListenerClass = PlanningDurationVariableUpdatingListener.class,
             sources = {
                     @PlanningVariableReference(variableName = "focusedAllocationSet"),
+                    @PlanningVariableReference(variableName = "timelineEntry"),
                     @PlanningVariableReference(variableName = "progressdelta")})
     public Duration getPlannedDuration() {
         return plannedDuration;
@@ -189,6 +192,7 @@ public class Allocation extends AbstractPersistable {
     public void setPlannedDuration(Duration plannedDuration) {
         this.plannedDuration = plannedDuration;
     }
+
 
     @CustomShadowVariable(variableListenerClass = FocusedAllocationSetUpdatingVariableListener.class,
             sources = {
@@ -294,14 +298,14 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
-        if (timelineEntry.equals(schedule.special.dummyTimelineEntry))
+        if (timelineEntry.equals(schedule.getDummyTimelineEntry()))
             return ValueRangeFactory.createIntValueRange(0, 1, 1);
         return ValueRangeFactory.createIntValueRange(0, 60 * 24);
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
-        if (timelineEntry.equals(schedule.special.dummyTimelineEntry))
+        if (timelineEntry.equals(schedule.getDummyTimelineEntry()))
             return ValueRangeFactory.createIntValueRange(100, 110, 10);
         return ValueRangeFactory.createIntValueRange(0, 101, 1);
     }
@@ -415,9 +419,9 @@ public class Allocation extends AbstractPersistable {
     }
 
     public boolean isFocused() {
-        return this.equals(schedule.special.sourceAllocation) ||
-                this.equals(schedule.special.sinkAllocation) ||
-                !timelineEntry.equals(schedule.special.dummyTimelineEntry);
+        return this.equals(schedule.getSourceAllocation()) ||
+                this.equals(schedule.getSinkAllocation()) ||
+                !timelineEntry.equals(schedule.getDummyTimelineEntry());
     }
 
     public boolean isScored() {

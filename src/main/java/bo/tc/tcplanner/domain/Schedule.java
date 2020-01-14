@@ -23,6 +23,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
+import org.optaplanner.core.api.domain.solution.cloner.DeepPlanningClone;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
@@ -52,9 +53,6 @@ public class Schedule extends AbstractPersistable {
     public TreeSet<Allocation> focusedAllocationSet;
 
     public class Special {
-        public Allocation sourceAllocation;
-        public Allocation sinkAllocation;
-        public TimelineEntry dummyTimelineEntry;
         public HumanStateChange dummyHumamStateChange;
         public ProgressChange dummyProgressChange;
         public ResourceStateChange dummyResourceStateChange;
@@ -62,6 +60,18 @@ public class Schedule extends AbstractPersistable {
         public TimelineProperty dummyTimelineProperty;
         public String dummyLocation;
         public String dummyTime;
+    }
+
+    public Allocation getSourceAllocation() {
+        return allocationList.get(0);
+    }
+
+    public Allocation getSinkAllocation() {
+        return allocationList.get(allocationList.size() - 1);
+    }
+
+    public TimelineEntry getDummyTimelineEntry() {
+        return timelineEntryList.get(0);
     }
 
 
