@@ -48,7 +48,7 @@ public class DataStructureBuilder {
                 .setProgressLog(new ArrayList<>())
                 .setProgressPreset(new ArrayList<>());
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
-                .setResourceChange(new HashMap<>())
+                .setResourceChange(new ResourceElementMap())
                 .setMode(PropertyConstants.ResourceStateChangeTypes.types.delta.name());
         schedule.special.dummyChronoProperty = new ChronoProperty()
                 .setChangeable(1)
@@ -235,7 +235,7 @@ public class DataStructureBuilder {
         schedule.focusedAllocationSet = focusedAllocationSet;
 
         // Set Scheduled Job requirement
-        schedule.getSinkAllocation().getTimelineEntry().getResourceStateChange().setResourceChange(new HashMap<>());
+        schedule.getSinkAllocation().getTimelineEntry().getResourceStateChange().setResourceChange(new ResourceElementMap());
         schedule.getAllocationList().stream()
                 .filter(
                         x -> x.getTimelineEntry().getTimelineProperty().getPlanningWindowType()

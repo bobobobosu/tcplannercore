@@ -65,8 +65,13 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
             scoreDirector.afterVariableChanged(originalAllocation, "predecessorsDoneDate");
         }
 
-        Allocation startAllocation = originalAllocation.getFocusedAllocationSet().lower(originalAllocation);
-        startAllocation = startAllocation == null ? originalAllocation : startAllocation;
+        Allocation startAllocation = originalAllocation;
+        while (startAllocation.getEndDate()==null){
+            Allocation checkAllocation;
+            if ((checkAllocation = startAllocation.getFocusedAllocationSet().lower(startAllocation)) != null)
+                startAllocation = checkAllocation;
+        }
+
         Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
                 .tailSet(startAllocation).iterator();
 

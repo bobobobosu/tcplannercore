@@ -2,6 +2,7 @@ package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
+import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.domain.Allocation;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
@@ -26,6 +27,11 @@ public class ListenerTools {
 
     public static boolean updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
         var endDate = prevAllocation.getEndDate();
+        try {
+            boolean f = allocation.getPredecessorsDoneDate() != null && allocation.getPredecessorsDoneDate().isEqual(endDate);
+        }catch (Exception ex){
+            int g=0;
+        }
         boolean changed = allocation.getPredecessorsDoneDate() == null ||
                 !allocation.getPredecessorsDoneDate().isEqual(endDate);
         allocation.setPredecessorsDoneDate(endDate);
@@ -53,7 +59,7 @@ public class ListenerTools {
         return changed;
     }
 
-    public static List<Map<String, List<ResourceElement>>> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
+    public static List<ResourceElementMap> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
 
         // Pull
@@ -130,15 +136,15 @@ public class ListenerTools {
 
 
     static class ResourceChangeChain {
-        List<Map<String, List<ResourceElement>>> resultChain = new ArrayList<>();
-        Map<Integer, Map<String, List<ResourceElement>>> pushpullMap = new HashMap<>();
+        List<ResourceElementMap> resultChain = new ArrayList<>();
+        Map<Integer, ResourceElementMap> pushpullMap = new HashMap<>();
         Map<ResourceElement, Integer> resourceSourceMap = new IdentityHashMap<>();
 
         ResourceChangeChain(List<Allocation> focusedAllocationList, Set<String> dirty) {
             // initialization
             for (int i = 0; i < focusedAllocationList.size(); i++) {
-                pushpullMap.put(i, new HashMap<>());
-                resultChain.add(new ConcurrentHashMap<>());
+                pushpullMap.put(i, new ResourceElementMap());
+                resultChain.add( new ResourceElementMap());
             }
 
             for (int i = 0; i < focusedAllocationList.size(); i++) {

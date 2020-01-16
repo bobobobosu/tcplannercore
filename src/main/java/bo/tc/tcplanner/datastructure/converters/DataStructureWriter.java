@@ -109,10 +109,7 @@ public class DataStructureWriter {
 
             // Resource State Change
             TE.setResourceStateChange(new ResourceStateChange(allocation.getTimelineEntry().getResourceStateChange())
-                    .setResourceStatus(allocation.getResourceElementMap().entrySet().stream().collect(
-                            Collectors.toMap(
-                                    Map.Entry::getKey,
-                                    x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))))
+                    .setResourceStatus(new ResourceElementMap(allocation.getResourceElementMap()))
                     .removeVolatile()
                     .removeEmpty());
 
@@ -124,35 +121,35 @@ public class DataStructureWriter {
             TEList.add(TE);
         });
 
-//        // Build Rownum
-//        Set<Integer> rownumList = TEList
-//                .stream()
-//                .filter(x -> x.getTimelineProperty().getRownum() > 0)
-//                .map(x -> x.getTimelineProperty().getRownum())
-//                .collect(Collectors.toCollection(TreeSet::new));
-//
-//        Iterator<Integer> rownumIterator = rownumList.iterator();
-//        int tmprownum = Collections.min(rownumList) - 1;
-//
-//        for (TimelineEntry timelineEntry : TEList) {
-//            if (timelineEntry.getTimelineProperty().getTimelineid() > 0 && rownumIterator.hasNext()) {
-//                tmprownum = rownumIterator.next();
-//            }
-//            timelineEntry.getTimelineProperty().setRownum(tmprownum);
-//        }
-//
-//        // Add deleted
-//        Set<Object> remainingIdSet = TEList
-//                .stream()
-//                .map(x -> x.getTimelineProperty().getTimelineid())
-//                .collect(Collectors.toSet());
-//        for (TimelineEntry timelineEntry : oldTimelineBlock.getTimelineEntryList().stream()
-//                .filter(x -> !remainingIdSet.contains(x.getTimelineProperty().getTimelineid()))
-//                .collect(Collectors.toSet())) {
-//            TEList.add(timelineEntry.setTimelineProperty(
-//                    timelineEntry.getTimelineProperty().setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Deleted.name())
-//            ));
-//        }
+        // Build Rownum
+        Set<Integer> rownumList = TEList
+                .stream()
+                .filter(x -> x.getTimelineProperty().getRownum() > 0)
+                .map(x -> x.getTimelineProperty().getRownum())
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        Iterator<Integer> rownumIterator = rownumList.iterator();
+        int tmprownum = Collections.min(rownumList) - 1;
+
+        for (TimelineEntry timelineEntry : TEList) {
+            if (timelineEntry.getTimelineProperty().getTimelineid() > 0 && rownumIterator.hasNext()) {
+                tmprownum = rownumIterator.next();
+            }
+            timelineEntry.getTimelineProperty().setRownum(tmprownum);
+        }
+
+        // Add deleted
+        Set<Object> remainingIdSet = TEList
+                .stream()
+                .map(x -> x.getTimelineProperty().getTimelineid())
+                .collect(Collectors.toSet());
+        for (TimelineEntry timelineEntry : oldTimelineBlock.getTimelineEntryList().stream()
+                .filter(x -> !remainingIdSet.contains(x.getTimelineProperty().getTimelineid()))
+                .collect(Collectors.toSet())) {
+            TEList.add(timelineEntry.setTimelineProperty(
+                    timelineEntry.getTimelineProperty().setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Deleted.name())
+            ));
+        }
 
 
         timelineBlock.setTimelineEntryList(TEList);

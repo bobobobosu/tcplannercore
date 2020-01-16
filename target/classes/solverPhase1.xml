@@ -3,19 +3,27 @@
     <moveThreadCount>AUTO</moveThreadCount>
     <scanAnnotatedClasses/>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1.drl</scoreDrl>
+        <scoreDrl>TCRules_P1_2.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>10000</millisecondsSpentLimit>-->
+<!--        <millisecondsSpentLimit>300</millisecondsSpentLimit>-->
         <unimprovedSecondsSpentLimit>3</unimprovedSecondsSpentLimit>
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
-            <moveListFactory>
+            <swapMoveSelector>
                 <fixedProbabilityWeight>0.1</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
-            </moveListFactory>
+                <entitySelector id="entitySelector2">
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.IsFocusedFilter</filterClass>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                </entitySelector>
+                <secondaryEntitySelector>
+                    <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                </secondaryEntitySelector>
+                <variableNameInclude>timelineEntry</variableNameInclude>
+                <variableNameInclude>progressdelta</variableNameInclude>
+            </swapMoveSelector>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
                 <entitySelector>

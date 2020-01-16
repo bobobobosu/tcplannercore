@@ -66,7 +66,7 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
                                 scoreDirector.getWorkingSolution().focusedAllocationSet.higher(thisAllocation)),
                         Arrays.asList(
                                 new AllocationValues()
-                                        .setExecutionMode(thisAllocation.getTimelineEntryRange().get(random.nextInt(focusedAllocationList.size())))
+                                        .setExecutionMode(thisAllocation.getTimelineEntryRange().get(random.nextInt(thisAllocation.getTimelineEntryRange().size())))
                                         .setProgressDelta(100)
                                         .setDelay(0),
                                 new AllocationValues().setDelay(0))

@@ -168,34 +168,35 @@ public class SolverThread extends Thread {
                 if (thisAllocation.isFocused() && !thisAllocation.isHistory() && i > solvingFrame) {
                     if (continuetosolve) {
                         printCurrentSolution(result, false, solvingStatus);
-                        currentSchedule = result = currentSolver.solve(result);
+                        currentSchedule = result = solverList.get(0).solve(result);
+                        currentSchedule = result = solverList.get(1).solve(result);
                         jsonServer.updateTimelineBlock(false, result);
                     }
                 }
             }
         }
-//
-//        //Solve Hard Full
-//        if (P1_mode.equals("global")) {
-//            currentSolver = solverList.get(0);
-//            printCurrentSolution(result, false, solvingStatus);
-//            currentSchedule = result;
-//            if (continuetosolve) {
-//                currentSchedule = result = solverList.get(0).solve(result);
-//                jsonServer.updateTimelineBlock(false, result);
-//            }
-//        }
-//
-//        displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+
+        //Solve Hard Full
+        if (P1_mode.equals("global")) {
+            currentSolver = solverList.get(0);
+            printCurrentSolution(result, false, solvingStatus);
+            currentSchedule = result;
+            if (continuetosolve) {
+                currentSchedule = result = solverList.get(0).solve(result);
+                jsonServer.updateTimelineBlock(false, result);
+            }
+        }
 
         //Solve Soft
         if (P2_mode.equals("global")) {
             currentSolver = solverList.get(1);
             if (continuetosolve) {
                 currentSchedule = result = solverList.get(1).solve(result);
-//                jsonServer.updateTimelineBlock(false, result);
+                jsonServer.updateTimelineBlock(false, result);
             }
         }
+
+        displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
         return result;
     }
 

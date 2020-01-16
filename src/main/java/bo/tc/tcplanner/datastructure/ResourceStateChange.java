@@ -14,9 +14,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ResourceStateChange extends AbstractPersistable {
     //resource change
-    Map<String, List<ResourceElement>> resourceChange;
+    ResourceElementMap resourceChange;
     //resource status
-    Map<String, List<ResourceElement>> resourceStatus;
+    ResourceElementMap resourceStatus;
     //change mode
     String mode; // "delta" or "absolute"
 
@@ -26,14 +26,9 @@ public class ResourceStateChange extends AbstractPersistable {
 
     public ResourceStateChange(ResourceStateChange other) {
         super(other);
-        this.setResourceChange(other.resourceChange.entrySet().stream().collect(
-                Collectors.toMap(
-                        Map.Entry::getKey,
-                        x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))));
-        if (other.getResourceStatus() != null) this.setResourceStatus(other.resourceStatus.entrySet().stream().collect(
-                Collectors.toMap(
-                        Map.Entry::getKey,
-                        x -> x.getValue().stream().map(ResourceElement::new).collect(Collectors.toList()))));
+        this.setResourceChange(new ResourceElementMap(other.resourceChange));
+        if (other.getResourceStatus() != null)
+            this.setResourceChange(new ResourceElementMap(other.resourceStatus));
         this.setMode(other.mode);
     }
 
@@ -42,20 +37,18 @@ public class ResourceStateChange extends AbstractPersistable {
         checkNotNull(resourceChange);
         checkNotNull(mode);
         checkArgument(PropertyConstants.ResourceStateChangeTypes.isValid(mode));
-        checkArgument(resourceChange.entrySet().stream().allMatch(x -> x.getValue().stream().allMatch(ResourceElement::checkValid)));
+        checkArgument(resourceChange.checkValid());
+        if (resourceStatus != null)
+            checkArgument(resourceStatus.checkValid());
         return true;
     }
 
     @Override
     public ResourceStateChange removeVolatile() {
-        resourceChange.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
-        resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
-
+        resourceChange.removeVolatile();
         if (resourceStatus != null) {
-            resourceStatus.values().forEach(x -> x.removeIf(y -> y.isVolatileFlag()));
-            resourceStatus.entrySet().removeIf(x -> x.getValue().size() == 0);
+            resourceStatus.removeVolatile();
         }
-
         return this;
     }
 
@@ -63,7 +56,7 @@ public class ResourceStateChange extends AbstractPersistable {
         return resourceChange;
     }
 
-    public ResourceStateChange setResourceChange(Map<String, List<ResourceElement>> resourceChange) {
+    public ResourceStateChange setResourceChange(ResourceElementMap resourceChange) {
         this.resourceChange = resourceChange;
         return this;
     }
@@ -81,29 +74,27 @@ public class ResourceStateChange extends AbstractPersistable {
         return resourceStatus;
     }
 
-    public ResourceStateChange setResourceStatus(Map<String, List<ResourceElement>> resourceStatus) {
+    public ResourceStateChange setResourceStatus(ResourceElementMap resourceStatus) {
         this.resourceStatus = resourceStatus;
         return this;
     }
 
     public ResourceStateChange removeEmpty() {
-        if (!(resourceStatus == null)) resourceStatus.forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
-        if (!(resourceStatus == null)) resourceStatus.entrySet().removeIf(x -> x.getValue().size() == 0);
-        if (!(resourceChange == null)) resourceChange.forEach((k, v) -> v.removeIf(x -> x.getAmt() == 0));
-        if (!(resourceChange == null)) resourceChange.entrySet().removeIf(x -> x.getValue().size() == 0);
+        resourceChange.removeEmpty();
+        if (!(resourceStatus == null)) resourceStatus.removeEmpty();
         return this;
     }
 
 
     public ResourceStateChange addResourceElementToChange(String key, ResourceElement resourceElement) {
-        if (resourceChange == null) resourceChange = new TreeMap<>();
+        if (resourceChange == null) resourceChange = new ResourceElementMap();
         if (!resourceChange.containsKey(key)) resourceChange.put(key, new ArrayList<>());
         resourceChange.get(key).add(resourceElement);
         return this;
     }
 
     public ResourceStateChange addResourceElementToStatus(String key, ResourceElement resourceElement) {
-        if (resourceStatus == null) resourceStatus = new TreeMap<>();
+        if (resourceStatus == null) resourceStatus = new ResourceElementMap();
         if (!resourceStatus.containsKey(key)) resourceStatus.put(key, new ArrayList<>());
         resourceStatus.get(key).add(resourceElement);
         return this;

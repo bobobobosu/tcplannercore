@@ -58,7 +58,7 @@ public class PreciseDelayMoveIteratorFactory implements MoveIteratorFactory<Sche
             @Override
             public Move<Schedule> next() {
                 Allocation thisAllocation = focusedAllocationList.get(random.nextInt(focusedAllocationList.size()));
-                return new PreciseDelayMove(thisAllocation, thisAllocation.getDelayRange().get(random.nextInt(focusedAllocationList.size())));
+                return new PreciseDelayMove(thisAllocation, thisAllocation.getDelayRange().get(random.nextInt((int) thisAllocation.getDelayRange().getSize())));
             }
         };
     }

@@ -44,9 +44,9 @@ public class PreviousStandstillUpdatingVariableListener implements VariableListe
         if (!originalAllocation.isFocused()) {
             originalAllocation.setPreviousStandstill(null);
         }
+
         Allocation startAllocation = originalAllocation.getFocusedAllocationSet().lower(originalAllocation);
         startAllocation = startAllocation == null ? originalAllocation : startAllocation;
-
         Iterator<Allocation> focusedAllocationIterator = originalAllocation.getFocusedAllocationSet()
                 .tailSet(startAllocation).iterator();
 

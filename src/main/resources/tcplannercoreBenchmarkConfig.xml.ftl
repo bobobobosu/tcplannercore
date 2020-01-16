@@ -21,8 +21,8 @@
 
             <termination>
                 <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>10000</millisecondsSpentLimit>
+                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>
+                <millisecondsSpentLimit>300000</millisecondsSpentLimit>
 
             </termination>
         </solver>
@@ -31,7 +31,7 @@
 
 
 <#--    files-->
-    <#list ['TimelineBlockSolutionPreviousStandstill'] as solution>
+    <#list ['TimelineBlockProblem'] as solution>
 <#--    numbers-->
     <#list [350] as acceptedCountLimit>
     <#list [10000] as startingTemperature>
@@ -43,8 +43,8 @@
     <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
-    <#list ['FULL_ASSERT'] as envmode>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['REPRODUCIBLE'] as envmode>
+    <#list ['TCRules_P1_2.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -122,11 +122,18 @@
 <#--            </swapMoveSelector>',''] as swapMove>-->
 
         <#list [
-        '<moveListFactory>
-                ${selectionOrderCacheType}
+        '<swapMoveSelector>
                 <fixedProbabilityWeight>${swapWeight}</fixedProbabilityWeight>
-                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.SkippedSwapMoveFactory</moveListFactoryClass>
-            </moveListFactory>'] as swapMove>
+                <entitySelector id="entitySelector2">
+                    ${IsFocusedFilter}
+                    ${TimelineEntryCanChangeFilter}
+                </entitySelector>
+                <secondaryEntitySelector>
+                     ${TimelineEntryCanChangeFilter}
+                </secondaryEntitySelector>
+                <variableNameInclude>timelineEntry</variableNameInclude>
+                <variableNameInclude>progressdelta</variableNameInclude>
+            </swapMoveSelector>'] as swapMove>
 
 <#--    cartesian Product Moves-->
     <#list ['<cartesianProductMoveSelector>
@@ -245,7 +252,7 @@
                 ${splitMove}'] as customMoves>
 
     <solverBenchmark>
-        <name>a${entitySelector?index}</name>
+        <name>a${scoreDrl?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>C:/_DATA/_Storage/_Sync/Devices/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>

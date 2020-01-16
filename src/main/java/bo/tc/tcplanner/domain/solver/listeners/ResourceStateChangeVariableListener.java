@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
+import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
@@ -56,7 +57,7 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
             scoreDirector.afterVariableChanged(originalAllocation, "resourceElementMap");
         }else {
             scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
-            originalAllocation.setResourceElementMap(new ConcurrentHashMap<>());
+            originalAllocation.setResourceElementMap(new ResourceElementMap());
             scoreDirector.afterVariableChanged(originalAllocation, "resourceElementMap");
         }
 

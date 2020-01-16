@@ -18,6 +18,7 @@ package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
+import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
@@ -62,7 +63,7 @@ public class Allocation extends AbstractPersistable {
     private ZonedDateTime predecessorsDoneDate;
     private String previousStandstill;
     private Duration plannedDuration;
-    private Map<String, List<ResourceElement>> resourceElementMap;
+    private ResourceElementMap resourceElementMap;
 
     public Allocation() {
 
@@ -161,11 +162,11 @@ public class Allocation extends AbstractPersistable {
             @PlanningVariableReference(variableName = "focusedAllocationSet"),
             @PlanningVariableReference(variableName = "timelineEntry"),
             @PlanningVariableReference(variableName = "progressdelta")})
-    public Map<String, List<ResourceElement>> getResourceElementMap() {
+    public ResourceElementMap getResourceElementMap() {
         return resourceElementMap;
     }
 
-    public void setResourceElementMap(Map<String, List<ResourceElement>> resourceElementMap) {
+    public void setResourceElementMap(ResourceElementMap resourceElementMap) {
         this.resourceElementMap = resourceElementMap;
     }
 
@@ -281,8 +282,8 @@ public class Allocation extends AbstractPersistable {
         long score = -2;
         Allocation prevAllocation = getFocusedAllocationSet().lower(this);
         Allocation nextAllocation = getFocusedAllocationSet().higher(this);
-        if (prevAllocation != null) score += Math.min(1, index - prevAllocation.getIndex());
-        if (nextAllocation != null) score += Math.min(1, nextAllocation.getIndex() - index);
+        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
+        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
         return score;
     }
 
