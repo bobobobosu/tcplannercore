@@ -17,8 +17,6 @@ public class TimelineBlock extends AbstractPersistable {
     private List<TimelineEntry> timelineEntryList;
     private String blockStartTime;
     private String blockEndTime;
-    private Integer blockStartRow;
-    private Integer blockEndRow;
     private String blockScheduleAfter;
     @Nullable
     private String origin;
@@ -43,8 +41,6 @@ public class TimelineBlock extends AbstractPersistable {
                 .collect(Collectors.toList());
         this.setBlockStartTime(timelineBlock.blockStartTime);
         this.setBlockEndTime(timelineBlock.blockEndTime);
-        this.blockStartRow = timelineBlock.blockStartRow;
-        this.blockEndRow = timelineBlock.blockEndRow;
         this.blockScheduleAfter = timelineBlock.blockScheduleAfter;
         this.origin = timelineBlock.origin;
         this.score = timelineBlock.score;
@@ -56,8 +52,6 @@ public class TimelineBlock extends AbstractPersistable {
         checkNotNull(blockStartTime);
         checkNotNull(blockStartTime != null);
         checkNotNull(blockEndTime != null);
-        checkNotNull(blockStartRow != null);
-        checkNotNull(blockEndRow != null);
         checkNotNull(blockScheduleAfter != null);
         checkNotNull(timelineEntryList != null);
         checkArgument(getZonedBlockEndTime().isAfter(getZonedBlockStartTime()));
@@ -89,8 +83,6 @@ public class TimelineBlock extends AbstractPersistable {
         if (!timelineEntryList.equals(that.timelineEntryList)) return false;
         if (!blockStartTime.equals(that.blockStartTime)) return false;
         if (!blockEndTime.equals(that.blockEndTime)) return false;
-        if (!blockStartRow.equals(that.blockStartRow)) return false;
-        if (!blockEndRow.equals(that.blockEndRow)) return false;
         if (!blockScheduleAfter.equals(that.blockScheduleAfter)) return false;
         return origin.equals(that.origin);
     }
@@ -101,8 +93,6 @@ public class TimelineBlock extends AbstractPersistable {
         result = 31 * result + timelineEntryList.hashCode();
         result = 31 * result + blockStartTime.hashCode();
         result = 31 * result + blockEndTime.hashCode();
-        result = 31 * result + blockStartRow.hashCode();
-        result = 31 * result + blockEndRow.hashCode();
         result = 31 * result + blockScheduleAfter.hashCode();
         result = 31 * result + origin.hashCode();
         return result;
@@ -162,24 +152,6 @@ public class TimelineBlock extends AbstractPersistable {
 
     public TimelineBlock setScore(String score) {
         this.score = score;
-        return this;
-    }
-
-    public Integer getBlockStartRow() {
-        return blockStartRow;
-    }
-
-    public TimelineBlock setBlockStartRow(Integer blockStartRow) {
-        this.blockStartRow = blockStartRow;
-        return this;
-    }
-
-    public Integer getBlockEndRow() {
-        return blockEndRow;
-    }
-
-    public TimelineBlock setBlockEndRow(Integer blockEndRow) {
-        this.blockEndRow = blockEndRow;
         return this;
     }
 

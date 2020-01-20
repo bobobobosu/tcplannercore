@@ -9,6 +9,8 @@ import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.solver.SolverConfig;
+import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,19 +71,36 @@ public class SolverThread extends Thread {
 
     public void initializeSolvers() {
         SolverFactory<Schedule> solverFactory;
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverPhase1.xml");
         solverList = new ArrayList<>();
 
-        // Solve Phase 1 : to met requirements
-        solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
+        // Solve Phase 1 : fast
+        solverConfig.withTerminationConfig(
+                new TerminationConfig()
+                        .withUnimprovedSecondsSpentLimit(3L)
+                        .withBestScoreFeasible(true));
+        solverFactory = SolverFactory.create(solverConfig);
         Solver<Schedule> solver1 = solverFactory.buildSolver();
         setSolverListener(solver1);
         solverList.add(solver1);
 
-        // Solve Phase 2 : to optimize
-        solverFactory = SolverFactory.createFromXmlResource("solverPhase2.xml");
+        // Solve Phase 2 : accurate
+        solverConfig.withTerminationConfig(
+                new TerminationConfig()
+                        .withBestScoreFeasible(true));
+        solverFactory = SolverFactory.create(solverConfig);
         Solver<Schedule> solver2 = solverFactory.buildSolver();
         setSolverListener(solver2);
         solverList.add(solver2);
+
+        // Solve Phase 3 : optimize
+        solverConfig.withTerminationConfig(
+                new TerminationConfig()
+                        .withUnimprovedMinutesSpentLimit(5L));
+        solverFactory = SolverFactory.create(solverConfig);
+        Solver<Schedule> solver3 = solverFactory.buildSolver();
+        setSolverListener(solver3);
+        solverList.add(solver3);
 
         currentSolver = solver1;
     }
@@ -185,18 +204,20 @@ public class SolverThread extends Thread {
                 currentSchedule = result = solverList.get(0).solve(result);
                 jsonServer.updateTimelineBlock(false, result);
             }
-        }
-
-        //Solve Soft
-        if (P2_mode.equals("global")) {
-            currentSolver = solverList.get(1);
             if (continuetosolve) {
                 currentSchedule = result = solverList.get(1).solve(result);
                 jsonServer.updateTimelineBlock(false, result);
             }
         }
-
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+        //Solve Soft
+        currentSolver = solverList.get(2);
+        if (continuetosolve) {
+            currentSchedule = result = solverList.get(2).solve(result);
+            jsonServer.updateTimelineBlock(false, result);
+        }
+
+
         return result;
     }
 

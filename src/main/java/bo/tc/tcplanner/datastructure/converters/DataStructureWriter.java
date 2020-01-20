@@ -44,8 +44,6 @@ public class DataStructureWriter {
         TimelineBlock timelineBlock = new TimelineBlock()
                 .setBlockStartTime(oldTimelineBlock.getBlockStartTime())
                 .setBlockEndTime(oldTimelineBlock.getBlockEndTime())
-                .setBlockStartRow(oldTimelineBlock.getBlockStartRow())
-                .setBlockEndRow(oldTimelineBlock.getBlockEndRow())
                 .setBlockScheduleAfter(oldTimelineBlock.getBlockScheduleAfter())
                 .setOrigin("tcplannercore");
 

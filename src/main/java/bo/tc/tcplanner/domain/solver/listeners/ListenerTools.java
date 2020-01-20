@@ -201,8 +201,8 @@ public class ListenerTools {
                                                  Integer timelineId) {
         if (timelineId != null) {
             return new CompareToBuilder()
-                    .append(o1.getPriorityTimelineIdList().contains(timelineId),
-                            o2.getPriorityTimelineIdList().contains(timelineId))
+                    .append(o2.getPriorityTimelineIdList().contains(timelineId),
+                            o1.getPriorityTimelineIdList().contains(timelineId))
 //                                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
 //                                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
                     .append(resourceSourceMap.get(o1), resourceSourceMap.get(o2))
