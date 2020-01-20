@@ -50,10 +50,10 @@ public class TimelineBlock extends AbstractPersistable {
     @Override
     public boolean checkValid() {
         checkNotNull(blockStartTime);
-        checkNotNull(blockStartTime != null);
-        checkNotNull(blockEndTime != null);
-        checkNotNull(blockScheduleAfter != null);
-        checkNotNull(timelineEntryList != null);
+        checkNotNull(blockStartTime);
+        checkNotNull(blockEndTime);
+        checkNotNull(blockScheduleAfter);
+        checkNotNull(timelineEntryList);
         checkArgument(getZonedBlockEndTime().isAfter(getZonedBlockStartTime()));
         checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
         return true;
