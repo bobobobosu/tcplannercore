@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -14,7 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TimelineProperty extends AbstractPersistable {
     private int rownum;
-    private Set<Integer> dependencyIdList;
+    private List<Integer> dependencyIdList;
     private List<Integer> taskChainIdList;
     private String planningWindowType; // See PropertyConstants
     @Nullable
@@ -43,12 +42,7 @@ public class TimelineProperty extends AbstractPersistable {
         checkNotNull(planningWindowType);
         checkNotNull(timelineid);
         checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
-        try {
-            checkArgument(taskChainIdList.contains(timelineid));
-        } catch (Exception ex) {
-            int g = 0;
-        }
-
+        checkArgument(taskChainIdList.contains(timelineid));
         return true;
     }
 
@@ -56,7 +50,7 @@ public class TimelineProperty extends AbstractPersistable {
         super(other);
         this.setRownum(other.rownum);
         this.setTimelineid(other.timelineid);
-        this.setDependencyIdList(new TreeSet<>(other.dependencyIdList));
+        this.setDependencyIdList(new ArrayList<>(other.dependencyIdList));
         this.setPlanningWindowType(other.planningWindowType);
         this.setTaskChainIdList(new ArrayList<>(other.taskChainIdList));
     }
@@ -70,11 +64,11 @@ public class TimelineProperty extends AbstractPersistable {
         return this;
     }
 
-    public Set<Integer> getDependencyIdList() {
+    public List<Integer> getDependencyIdList() {
         return dependencyIdList;
     }
 
-    public TimelineProperty setDependencyIdList(Set<Integer> dependencyIdList) {
+    public TimelineProperty setDependencyIdList(List<Integer> dependencyIdList) {
         this.dependencyIdList = dependencyIdList;
         return this;
     }

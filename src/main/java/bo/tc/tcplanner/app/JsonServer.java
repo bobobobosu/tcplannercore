@@ -1,9 +1,6 @@
 package bo.tc.tcplanner.app;
 
-import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
-import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
-import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.datastructure.ValueEntryMap;
+import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.datastructure.converters.DataStructureWriter;
 import bo.tc.tcplanner.domain.Schedule;
@@ -22,6 +19,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,6 +37,7 @@ public class JsonServer {
 
     //Solvers
     SolverThread solverThread;
+    FirebaseServer firebaseServer;
     //Latest Solutions
     private TimelineBlock latestTimelineBlock;
     private TimelineBlock problemTimelineBlock;
@@ -157,6 +156,14 @@ public class JsonServer {
 
     public void setProblemTimelineBlock(TimelineBlock problemTimelineBlock) {
         this.problemTimelineBlock = problemTimelineBlock;
+    }
+
+    public FirebaseServer getFirebaseServer() {
+        return firebaseServer;
+    }
+
+    public void setFirebaseServer(FirebaseServer firebaseServer) {
+        this.firebaseServer = firebaseServer;
     }
 
     public enum StatusCode {
@@ -314,6 +321,7 @@ public class JsonServer {
                 try {
                     tmptimeHierarchyMap.checkValid();
                     timeHierarchyMap = tmptimeHierarchyMap;
+//                    firebaseServer.fullUpload("TimeHierarchyMap", timeHierarchyMap);
                     System.out.println("TimeHierarchyMap Updated");
                 } catch (AssertionError assertionError) {
                     assertionError.printStackTrace();
@@ -325,6 +333,7 @@ public class JsonServer {
                 try {
                     tmplocationHierarchyMap.checkValid();
                     locationHierarchyMap = tmplocationHierarchyMap;
+//                    firebaseServer.fullUpload("LocationHierarchyMap", locationHierarchyMap);
                     System.out.println("LocationHierarchyMap Updated");
                 } catch (AssertionError assertionError) {
                     assertionError.printStackTrace();
@@ -332,15 +341,40 @@ public class JsonServer {
                 }
 
             }
+            if (entry.getKey().equals("ValueHierarchyMap.json")) {
+                ValueHierarchyMap tmpvalueHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), ValueHierarchyMap.class);
+                try {
+                    tmpvalueHierarchyMap.checkValid();
+                    valueHierarchyMap = tmpvalueHierarchyMap;
+//                    firebaseServer.fullUpload("ValueHierarchyMap", valueHierarchyMap);
+                    System.out.println("ValueHierarchyMap Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad ValueHierarchyMap");
+                }
+            }
             if (entry.getKey().equals("ValueEntryMap.json")) {
                 ValueEntryMap tmpvalueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
                 try {
                     tmpvalueEntryMap.checkValid();
                     valueEntryMap = tmpvalueEntryMap;
+//                    firebaseServer.fullUpload("ValueEntryMap", valueEntryMap);
                     System.out.println("ValueEntryMap Updated");
                 } catch (AssertionError assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad ValueEntryMap");
+                }
+            }
+            if (entry.getKey().equals("Timeline.json")) {
+                Timeline tmptimeline = new ObjectMapper().convertValue(entry.getValue(), Timeline.class);
+                try {
+                    tmptimeline.checkValid();
+                    timeline = tmptimeline;
+//                    firebaseServer.fullUpload("Timeline", timeline);
+                    System.out.println("Timeline Updated");
+                } catch (AssertionError assertionError) {
+                    assertionError.printStackTrace();
+                    System.out.println("Bad Timeline");
                 }
             }
             if (entry.getKey().equals("TimelineBlock.json")) {
@@ -360,6 +394,6 @@ public class JsonServer {
 
     public class Constants {
         public static final String CONTENT_TYPE = "Content-Type";
-        public static final String APPLICATION_JSON = "application/json";
+        public static final String APPLICATION_JSON = "application/json; charset=UTF-8";
     }
 }

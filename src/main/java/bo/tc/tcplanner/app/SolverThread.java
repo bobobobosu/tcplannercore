@@ -34,6 +34,7 @@ public class SolverThread extends Thread {
     String P2_mode = "global";
     String solvingStatus;
     Solver<Schedule> currentSolver;
+    static ScoreDirector<Schedule> scoringScoreDirector;
     Schedule currentSchedule;
     private List<Solver<Schedule>> solverList;
     private Object resumeSolvingLock;
@@ -262,7 +263,7 @@ public class SolverThread extends Thread {
     }
 
     private boolean isSolved(Schedule schedule, Solver<Schedule> solver) {
-        ScoreDirector<Schedule> scoreDirector = createScoreDirector(schedule);
+        ScoreDirector<Schedule> scoreDirector = getScoringScoreDirector();
         scoreDirector.setWorkingSolution(schedule);
         for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
             if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
@@ -271,4 +272,11 @@ public class SolverThread extends Thread {
         return true;
     }
 
+    public static ScoreDirector<Schedule> getScoringScoreDirector() {
+        if (scoringScoreDirector == null) {
+            SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
+            scoringScoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
+        }
+        return scoringScoreDirector;
+    }
 }

@@ -61,7 +61,7 @@ public class DataStructureBuilder {
         schedule.special.dummyTimelineProperty = new TimelineProperty()
                 .setRownum(0)
                 .setTimelineid(null)
-                .setDependencyIdList(new HashSet<>())
+                .setDependencyIdList(new ArrayList<>())
                 .setTaskChainIdList(new ArrayList<>())
                 .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name());
 
@@ -141,7 +141,7 @@ public class DataStructureBuilder {
                                         .setTimelineProperty(new TimelineProperty()
                                                 .setRownum(0)
                                                 .setTimelineid(null)
-                                                .setDependencyIdList(new HashSet<>())
+                                                .setDependencyIdList(new ArrayList<>())
                                                 .setTaskChainIdList(new ArrayList<>())
                                                 .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.Draft.name())));
                     }
@@ -157,7 +157,7 @@ public class DataStructureBuilder {
                             .setVolatileFlag(true)
                             .setAmt(100)
                             .setLocation(schedule.special.dummyLocation)
-                            .setPriorityTimelineIdList(new TreeSet<>());
+                            .setPriorityTimelineIdList(new ArrayList<>());
                     schedule.getValueEntryMap().put(y.getTimelineProperty().getTimelineid().toString(),
                             new ValueEntry().setVolatileFlag(true).setCapacity(100d).setClassification("task"));
 
@@ -249,11 +249,11 @@ public class DataStructureBuilder {
                                                     .setVolatileFlag(true)
                                                     .setAmt(-100)
                                                     .setLocation(schedule.special.dummyLocation)
-                                                    .setPriorityTimelineIdList(new TreeSet<>()))));
+                                                    .setPriorityTimelineIdList(new ArrayList<>()))));
                 });
 
         // Set ProgressDelta
-        schedule.getAllocationList().forEach(x -> x.setProgressdelta((int) (x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
+        schedule.getAllocationList().forEach(x -> x.setProgressdelta((int) Math.round(x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
 
         // Set Delay
         schedule.getAllocationList().forEach(x -> x.setDelay(0));

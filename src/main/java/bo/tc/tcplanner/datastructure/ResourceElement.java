@@ -6,8 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -19,12 +20,14 @@ public class ResourceElement extends AbstractPersistable {
     //if amt>0, location is availability
     String location;
 
+    @JsonIgnore
+    List<Integer> priorityTimelineIdList;
     @Nullable
     @JsonIgnore
-    Set<Integer> priorityTimelineIdList;
+    Set<Allocation> dependedTimelineIdList;
     @Nullable
     @JsonIgnore
-    Set<Allocation> appliedTimelineIdList;
+    Set<Allocation> suppliedTimelineIdList;
 
 
     public ResourceElement() {
@@ -37,7 +40,7 @@ public class ResourceElement extends AbstractPersistable {
         this.amt = resourceElement.getAmt();
         this.location = resourceElement.getLocation();
         if (resourceElement.priorityTimelineIdList != null)
-            this.setPriorityTimelineIdList(new TreeSet<>(resourceElement.priorityTimelineIdList));
+            this.setPriorityTimelineIdList(new ArrayList<>(resourceElement.priorityTimelineIdList));
     }
 
     public double getAmt() {
@@ -71,13 +74,13 @@ public class ResourceElement extends AbstractPersistable {
 
     @Override
     public ResourceElement removeVolatile() {
-        if (appliedTimelineIdList != null) appliedTimelineIdList.removeIf(Allocation::isVolatileFlag);
+        if (dependedTimelineIdList != null) dependedTimelineIdList.removeIf(Allocation::isVolatileFlag);
         return this;
     }
 
     @Override
     public ResourceElement removeEmpty() {
-        if (appliedTimelineIdList != null) appliedTimelineIdList.forEach(Allocation::removeEmpty);
+        if (dependedTimelineIdList != null) dependedTimelineIdList.forEach(Allocation::removeEmpty);
         return this;
     }
 
@@ -88,21 +91,30 @@ public class ResourceElement extends AbstractPersistable {
     }
 
 
-    public Set<Integer> getPriorityTimelineIdList() {
+    public List<Integer> getPriorityTimelineIdList() {
         return priorityTimelineIdList;
     }
 
-    public ResourceElement setPriorityTimelineIdList(Set<Integer> priorityTimelineIdList) {
+    public ResourceElement setPriorityTimelineIdList(List<Integer> priorityTimelineIdList) {
         this.priorityTimelineIdList = priorityTimelineIdList;
         return this;
     }
 
-    public Set<Allocation> getAppliedTimelineIdList() {
-        return appliedTimelineIdList;
+    public Set<Allocation> getDependedTimelineIdList() {
+        return dependedTimelineIdList;
     }
 
-    public ResourceElement setAppliedTimelineIdList(Set<Allocation> appliedTimelineIdList) {
-        this.appliedTimelineIdList = appliedTimelineIdList;
+    public ResourceElement setDependedTimelineIdList(Set<Allocation> dependedTimelineIdList) {
+        this.dependedTimelineIdList = dependedTimelineIdList;
+        return this;
+    }
+
+    public Set<Allocation> getSuppliedTimelineIdList() {
+        return suppliedTimelineIdList;
+    }
+
+    public ResourceElement setSuppliedTimelineIdList(Set<Allocation> suppliedTimelineIdList) {
+        this.suppliedTimelineIdList = suppliedTimelineIdList;
         return this;
     }
 

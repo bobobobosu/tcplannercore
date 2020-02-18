@@ -1,9 +1,11 @@
 package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.PropertyConstants;
+import bo.tc.tcplanner.app.SolverThread;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import com.google.common.collect.Sets;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
@@ -18,8 +20,7 @@ import static bo.tc.tcplanner.app.Toolbox.*;
 public class DataStructureWriter {
     public TimelineBlock generateTimelineBlockScore(Schedule result) {
         TimelineBlock timelineBlock = generateTimelineBlock(result);
-        ScoreDirector<Schedule> scoreDirector = createScoreDirector(result);
-
+        ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
         Map<Integer, Indictment> breakByTasks = new HashMap<>();
         for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
             if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
@@ -87,7 +88,7 @@ public class DataStructureWriter {
                     .flatMap(
                             x -> allocation.getResourceElementMap().get(x.getKey()).stream()
                                     .filter(y -> y.getAmt() <= 0 && !y.isVolatileFlag())
-                                    .flatMap(z -> z.getAppliedTimelineIdList().stream()
+                                    .flatMap(z -> z.getDependedTimelineIdList().stream()
                                             .filter(w -> allocationRealidMap.containsKey(w) && !w.isVolatileFlag())
                                             .map(allocationRealidMap::get))
                     ).collect(Collectors.toSet()));
@@ -116,6 +117,8 @@ public class DataStructureWriter {
                     .setDuration(allocation.getPlannedDuration().toMinutes())
             );
 
+            TE.getTimelineProperty().setDependencyIdList(
+                    new ArrayList<>(Sets.newHashSet(TE.getTimelineProperty().getDependencyIdList())));
             TEList.add(TE);
         });
 

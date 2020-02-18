@@ -24,15 +24,19 @@ public class PropertyConstants {
     }
 
     // Resource State Change Type
-    public static class ResourceStateChangeTypes{
-        public enum types{
+    public static class ResourceStateChangeTypes {
+        public enum types {
             delta,
             absolute,
             absolute_full
         }
+
         public static boolean isValid(String s) {
             return Arrays.stream(ResourceStateChangeTypes.types.values()).map(Enum::name).collect(Collectors.toList()).contains(s);
         }
     }
+
+    // Planning Constants
+    public static double resourceIgnoreAmt = 0.001;
 
 }

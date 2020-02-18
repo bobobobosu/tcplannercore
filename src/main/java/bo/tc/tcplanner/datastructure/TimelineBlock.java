@@ -3,6 +3,7 @@ package bo.tc.tcplanner.datastructure;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.firebase.database.Exclude;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
@@ -24,10 +25,13 @@ public class TimelineBlock extends AbstractPersistable {
     private String score;
 
     @JsonIgnore
+    @Exclude
     private ZonedDateTime zonedBlockStartTime;
     @JsonIgnore
+    @Exclude
     private ZonedDateTime zonedBlockEndTime;
     @JsonIgnore
+    @Exclude
     private ZonedDateTime zonedBlockScheduleAfter;
 
 

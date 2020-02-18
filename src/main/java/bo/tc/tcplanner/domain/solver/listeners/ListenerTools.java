@@ -3,12 +3,12 @@ package bo.tc.tcplanner.domain.solver.listeners;
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ResourceElementMap;
+import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,11 +27,6 @@ public class ListenerTools {
 
     public static boolean updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
         var endDate = prevAllocation.getEndDate();
-        try {
-            boolean f = allocation.getPredecessorsDoneDate() != null && allocation.getPredecessorsDoneDate().isEqual(endDate);
-        }catch (Exception ex){
-            int g=0;
-        }
         boolean changed = allocation.getPredecessorsDoneDate() == null ||
                 !allocation.getPredecessorsDoneDate().isEqual(endDate);
         allocation.setPredecessorsDoneDate(endDate);
@@ -75,7 +70,9 @@ public class ListenerTools {
 
             pushpullList.forEach((k, v) -> {
                 v.sort(
-                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2, resourceSourceMap, allocation.getTimelineEntry().getTimelineProperty().getTimelineid())
+                        (o1, o2) -> pullOrderCompareToBuilder(o1, o2,
+                                resourceSourceMap, focusedAllocationList,
+                                allocation.getTimelineEntry())
                 );
 
                 int posIdx = -1;
@@ -90,14 +87,23 @@ public class ListenerTools {
 
                         // TODO locationRestrictionCheck
                         if ((locationRestrictionCheck(thisResourceElement.getLocation(), "") || true) &&
-                                (delta = Math.min(thisResourceElement.getAmt(), -nextResourceElement.getAmt())) > 0) {
+                                (delta = Math.min(thisResourceElement.getAmt(), -nextResourceElement.getAmt())) > 0 &&
+                                (thisResourceElement.getAmt() >= 1 || thisResourceElement.getSuppliedTimelineIdList().size() == 0)) {
+
                             // valid push
                             thisResourceElement.setAmt(thisResourceElement.getAmt() - delta);
                             nextResourceElement.setAmt(nextResourceElement.getAmt() + delta);
 
+                            // ignore
+                            thisResourceElement.setAmt(Math.abs(thisResourceElement.getAmt()) >= PropertyConstants.resourceIgnoreAmt ? thisResourceElement.getAmt() : 0);
+                            nextResourceElement.setAmt(Math.abs(nextResourceElement.getAmt()) >= PropertyConstants.resourceIgnoreAmt ? nextResourceElement.getAmt() : 0);
+
                             // update applied timelineid
-                            nextResourceElement.getAppliedTimelineIdList().add(
+                            nextResourceElement.getDependedTimelineIdList().add(
                                     focusedAllocationList.get(resourceSourceMap.get(thisResourceElement))
+                            );
+                            thisResourceElement.getSuppliedTimelineIdList().add(
+                                    focusedAllocationList.get(resourceSourceMap.get(nextResourceElement))
                             );
 
                             // save annihilated resource for checking capacity violations
@@ -144,7 +150,7 @@ public class ListenerTools {
             // initialization
             for (int i = 0; i < focusedAllocationList.size(); i++) {
                 pushpullMap.put(i, new ResourceElementMap());
-                resultChain.add( new ResourceElementMap());
+                resultChain.add(new ResourceElementMap());
             }
 
             for (int i = 0; i < focusedAllocationList.size(); i++) {
@@ -156,12 +162,13 @@ public class ListenerTools {
                         return;
                     resourceChange.get(k).forEach(x -> {
                         // create resourceElement
+                        double realAmt = x.getAmt() *
+                                (allocation.getProgressdelta().doubleValue() /
+                                        (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta()));
                         ResourceElement resourceElement = new ResourceElement(x)
-                                // TODO this line breaks full assert
-                                .setAmt(x.getAmt() *
-                                        (allocation.getProgressdelta().doubleValue() /
-                                                (100 * allocation.getTimelineEntry().getProgressChange().getProgressDelta())))
-                                .setAppliedTimelineIdList(new TreeSet<>())
+                                .setAmt(!Double.isNaN(realAmt) ? realAmt : 0)
+                                .setDependedTimelineIdList(new TreeSet<>())
+                                .setSuppliedTimelineIdList(new TreeSet<>())
                                 .setPriorityTimelineIdList(
                                         allocation.getTimelineEntry().getTimelineProperty().getDependencyIdList());
 
@@ -198,11 +205,17 @@ public class ListenerTools {
 
     private static int pullOrderCompareToBuilder(ResourceElement o1, ResourceElement o2,
                                                  Map<ResourceElement, Integer> resourceSourceMap,
-                                                 Integer timelineId) {
+                                                 List<Allocation> allocationList,
+                                                 TimelineEntry timelineEntry) {
+        Integer timelineId = timelineEntry.getTimelineProperty().getTimelineid();
         if (timelineId != null) {
+            TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
+            TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
             return new CompareToBuilder()
-                    .append(o2.getPriorityTimelineIdList().contains(timelineId),
-                            o1.getPriorityTimelineIdList().contains(timelineId))
+                    .append(o2TimelineEntry.getTimelineProperty().getDependencyIdList().contains(timelineId),
+                            o1TimelineEntry.getTimelineProperty().getDependencyIdList().contains(timelineId))
+                    .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
+                            o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
 //                                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
 //                                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
                     .append(resourceSourceMap.get(o1), resourceSourceMap.get(o2))

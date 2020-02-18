@@ -118,13 +118,6 @@ public class Toolbox {
         }
     }
 
-    public static ScoreDirector<Schedule> createScoreDirector(Schedule workingSolution) {
-        SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
-        ScoreDirector<Schedule> scoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
-        scoreDirector.setWorkingSolution(workingSolution);
-        return scoreDirector;
-    }
-
     public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
         try {
             //Debug
@@ -139,7 +132,8 @@ public class Toolbox {
             List<String[]> timeline = new ArrayList<>();
 
 
-            ScoreDirector<Schedule> scoreDirector = createScoreDirector(schedule);
+            ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
+            scoreDirector.setWorkingSolution(schedule);
             for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
 //                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
                 breakByRules.add(new String[]{constraintMatch.toString()});

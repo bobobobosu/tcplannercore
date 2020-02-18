@@ -17,6 +17,7 @@
 package bo.tc.tcplanner.persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.firebase.database.Exclude;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
@@ -26,9 +27,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class AbstractPersistable implements Serializable, Comparable<AbstractPersistable> {
 
     @JsonIgnore
+    @Exclude
     protected Integer id;
 
     @JsonIgnore
+    @Exclude
     protected boolean volatileFlag;
 
     @Override

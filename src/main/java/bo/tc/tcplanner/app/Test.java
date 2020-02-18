@@ -4,9 +4,13 @@ import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
 import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.*;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -15,10 +19,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
@@ -31,37 +33,70 @@ public class Test {
     public static String fpath_LocationHierarchyMap;
     public static String fpath_TimeHierarchyMap;
 
-    public static void main(String[] args) throws IOException {
+
+    private static DatabaseReference database;
+
+    public static void startListeners() {
+        database.child("Calendar").addChildEventListener(new ChildEventListener() {
+
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildName) {
+
+            }
+
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildName) {
+                int g = 0;
+            }
+
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildName) {
+            }
+
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("startListeners: unable to attach listener to posts");
+                System.out.println("startListeners: " + databaseError.getMessage());
+            }
+        });
+    }
+
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         setConstants();
         initializeFiles();
-//        HashMap<String, Object> gdfr = timeHierarchyMap;
-//
-//        Range<ZonedDateTime> allRange = Range.closed(
-//                ZonedDateTime.parse("2019-01-14T00:00:00-07:00"),
-//                ZonedDateTime.parse("2019-12-15T00:00:00-07:00"));
-//
-//
-//        List<ZonedDateTime> totalDates = new ArrayList<>();
-//        ZonedDateTime start = allRange.lowerEndpoint();
-//        ZonedDateTime end = allRange.upperEndpoint();
-//
-//        List<Object> wed = castList(timeHierarchyMap.get("Wednesday"));
-//        Range<ZonedDateTime> thisRange = Range.closed(
-//                ZonedDateTime.parse("2019-12-11T02:00:00-07:00"),
-//                ZonedDateTime.parse("2019-12-11T22:00:00-07:00"));
-//
-//        boolean match = wed.stream().anyMatch(or_intervals ->
-//                ((List<HashMap<String, ArrayList>>) or_intervals).stream().allMatch(in_intervals -> checkConstraintDict(in_intervals, thisRange)));
-//
-//        Range<ZonedDateTime> validGrades2 = Range.closed(
-//                ZonedDateTime.parse("2019-12-13T00:00:00-07:00"),
-//                ZonedDateTime.parse("2019-12-18T00:00:00-07:00"));
 
-        RangeSet<Integer> test1 = TreeRangeSet.create();
-        test1.add(Range.closed(5, 10));
-        Range<Integer> tt = Range.closed(2, 3);
-        System.out.println(test1.subRangeSet(tt).toString());
-        int g = 0;
+        // Fetch the service account key JSON file contents
+        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\bobob\\Downloads\\tcplanner-4bbab-firebase-adminsdk-95h9b-f77d329628.json");
+
+// Initialize the app with a service account, granting admin privileges
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://tcplanner-4bbab.firebaseio.com")
+                .build();
+        FirebaseApp.initializeApp(options);
+
+// As an admin, the app has access to read and write all data, regardless of Security Rules
+        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object document = dataSnapshot.getValue();
+                System.out.println(document);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
+        while (true){
+            Thread.sleep(1000);
+            FirebaseDatabase.getInstance().getReference().getRoot().setValue(Arrays.asList(System.currentTimeMillis(), 2, 3), new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    System.out.println("Co");
+                }
+            });
+        }
     }
 
     static boolean checkConstraintDict(HashMap<String, ArrayList> constraintDict, Range<ZonedDateTime> timerange) {

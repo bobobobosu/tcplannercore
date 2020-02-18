@@ -2,6 +2,7 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.firebase.database.Exclude;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
@@ -19,8 +20,10 @@ public class ChronoProperty extends AbstractPersistable {
     private Integer gravity;
 
     @JsonIgnore
+    @Exclude
     private ZonedDateTime zonedStartTime;
     @JsonIgnore
+    @Exclude
     private ZonedDateTime zonedDeadline;
 
     public ChronoProperty() {
@@ -58,6 +61,7 @@ public class ChronoProperty extends AbstractPersistable {
     }
 
     @JsonIgnore
+    @Exclude
     public ZonedDateTime getZonedStartTime() {
         if (startTime == null) return null;
         if (zonedStartTime == null) this.zonedStartTime = ZonedDateTime.parse(startTime);
@@ -65,6 +69,7 @@ public class ChronoProperty extends AbstractPersistable {
     }
 
     @JsonIgnore
+    @Exclude
     public ZonedDateTime getZonedDeadline() {
         if (deadline == null) return null;
         if (zonedDeadline == null) this.zonedDeadline = ZonedDateTime.parse(deadline);
