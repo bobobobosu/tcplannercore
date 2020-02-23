@@ -43,12 +43,6 @@ public class ProgressChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        try {
-            checkNotNull(progressPreset);
-        } catch (Exception ex) {
-            int g = 0;
-        }
-
         checkNotNull(progressLog);
         checkArgument(progressDelta >= 0);
         checkArgument(progressDelta <= 1);

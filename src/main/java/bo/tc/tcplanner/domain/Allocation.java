@@ -30,6 +30,7 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.entity.PlanningPin;
+import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
@@ -40,8 +41,10 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -285,9 +288,22 @@ public class Allocation extends AbstractPersistable {
     // Ranges
     // ************************************************************************
 
+    private List<TimelineEntry> timelineEntryRange = null;
+
     @ValueRangeProvider(id = "timelineEntryRange")
     public List<TimelineEntry> getTimelineEntryRange() {
-//        return schedule.getTimelineEntryList();
+//        if (schedule.valueRangeMode.equals("reduce")) {
+//            if (timelineEntryRange == null) {
+//                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toList());
+//            }
+//        } else {
+//            if (timelineEntryRange == null) {
+//                timelineEntryRange = schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
+//                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
+//            }
+//        }
+//
+//        return timelineEntryRange;
         return schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
                 .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
     }

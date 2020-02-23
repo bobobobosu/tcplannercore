@@ -6,7 +6,9 @@ import com.google.firebase.database.Exclude;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
+import static bo.tc.tcplanner.FunctionConstants.ZonedDateTimeParseCache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ChronoProperty extends AbstractPersistable {
@@ -18,13 +20,6 @@ public class ChronoProperty extends AbstractPersistable {
     private Integer splittable;
     private Integer changeable;
     private Integer gravity;
-
-    @JsonIgnore
-    @Exclude
-    private ZonedDateTime zonedStartTime;
-    @JsonIgnore
-    @Exclude
-    private ZonedDateTime zonedDeadline;
 
     public ChronoProperty() {
         super();
@@ -64,18 +59,17 @@ public class ChronoProperty extends AbstractPersistable {
     @Exclude
     public ZonedDateTime getZonedStartTime() {
         if (startTime == null) return null;
-        if (zonedStartTime == null) this.zonedStartTime = ZonedDateTime.parse(startTime);
-        return zonedStartTime;
+        return ZonedDateTimeParseCache.computeIfAbsent(startTime, k -> ZonedDateTime.parse(startTime));
     }
 
     @JsonIgnore
     @Exclude
     public ZonedDateTime getZonedDeadline() {
         if (deadline == null) return null;
-        if (zonedDeadline == null) this.zonedDeadline = ZonedDateTime.parse(deadline);
-        return zonedDeadline;
+        return ZonedDateTimeParseCache.computeIfAbsent(deadline, k -> ZonedDateTime.parse(deadline));
     }
 
+    @Nullable
     public String getStartTime() {
         return startTime;
     }
@@ -85,6 +79,7 @@ public class ChronoProperty extends AbstractPersistable {
         return this;
     }
 
+    @Nullable
     public String getDeadline() {
         return deadline;
     }
@@ -138,8 +133,8 @@ public class ChronoProperty extends AbstractPersistable {
 
         ChronoProperty that = (ChronoProperty) o;
 
-        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
-        if (deadline != null ? !deadline.equals(that.deadline) : that.deadline != null) return false;
+        if (!Objects.equals(startTime, that.startTime)) return false;
+        if (!Objects.equals(deadline, that.deadline)) return false;
         if (!movable.equals(that.movable)) return false;
         if (!splittable.equals(that.splittable)) return false;
         if (!changeable.equals(that.changeable)) return false;

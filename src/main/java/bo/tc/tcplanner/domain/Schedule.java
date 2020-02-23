@@ -54,6 +54,9 @@ public class Schedule extends AbstractPersistable {
     private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
     public TreeSet<Allocation> focusedAllocationSet;
 
+    // Settings
+    public String valueRangeMode = "default";
+
     public class Special {
         public HumanStateChange dummyHumamStateChange;
         public ProgressChange dummyProgressChange;
@@ -217,7 +220,7 @@ public class Schedule extends AbstractPersistable {
         };
     }
 
-    public List<Allocation> getDummyAllocationList(){
+    public List<Allocation> getDummyAllocationList() {
         return Lists.newArrayList(getDummyAllocationIterator());
     }
 

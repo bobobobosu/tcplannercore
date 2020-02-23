@@ -19,7 +19,7 @@ import static bo.tc.tcplanner.app.Toolbox.*;
 
 
 public class Benchmark {
-    public static String fpath_Constants = "C:\\_DATA\\_Storage\\_Sync\\Devices\\root\\Constants.json";
+    public static String fpath_Constants = "S:\\root\\Constants.json";
     public static String path_Notebook;
     public static String fpath_TimelineBlock;
     public static String fpath_ValueEntryMap;

@@ -78,7 +78,7 @@ public class TimelineEntry extends AbstractPersistable {
 
     @Override
     public String toString() {
-        return title;
+        return timelineProperty.getRownum() + " " + title;
     }
 
     @Override

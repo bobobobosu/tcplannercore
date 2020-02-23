@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static bo.tc.tcplanner.FunctionConstants.ZonedDateTimeParseCache;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,17 +24,6 @@ public class TimelineBlock extends AbstractPersistable {
     private String origin;
     @Nullable
     private String score;
-
-    @JsonIgnore
-    @Exclude
-    private ZonedDateTime zonedBlockStartTime;
-    @JsonIgnore
-    @Exclude
-    private ZonedDateTime zonedBlockEndTime;
-    @JsonIgnore
-    @Exclude
-    private ZonedDateTime zonedBlockScheduleAfter;
-
 
     public TimelineBlock() {
         super();
@@ -122,8 +112,7 @@ public class TimelineBlock extends AbstractPersistable {
 
     public ZonedDateTime getZonedBlockStartTime() {
         if (blockStartTime == null) return null;
-        if (zonedBlockStartTime == null) zonedBlockStartTime = ZonedDateTime.parse(blockStartTime);
-        return zonedBlockStartTime;
+        return ZonedDateTimeParseCache.computeIfAbsent(blockStartTime, k -> ZonedDateTime.parse(blockStartTime));
     }
 
     public String getBlockEndTime() {
@@ -137,8 +126,7 @@ public class TimelineBlock extends AbstractPersistable {
 
     public ZonedDateTime getZonedBlockEndTime() {
         if (blockEndTime == null) return null;
-        if (zonedBlockEndTime == null) zonedBlockEndTime = ZonedDateTime.parse(blockEndTime);
-        return zonedBlockEndTime;
+        return ZonedDateTimeParseCache.computeIfAbsent(blockEndTime, k -> ZonedDateTime.parse(blockEndTime));
     }
 
     public String getOrigin() {
@@ -169,8 +157,7 @@ public class TimelineBlock extends AbstractPersistable {
     }
 
     public ZonedDateTime getZonedBlockScheduleAfter() {
-        if (zonedBlockScheduleAfter == null) zonedBlockScheduleAfter = ZonedDateTime.parse(blockScheduleAfter);
-        return zonedBlockScheduleAfter;
+        return ZonedDateTimeParseCache.computeIfAbsent(blockScheduleAfter, k -> ZonedDateTime.parse(blockScheduleAfter));
     }
 
 

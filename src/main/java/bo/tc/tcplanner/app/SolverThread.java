@@ -72,33 +72,34 @@ public class SolverThread extends Thread {
 
     public void initializeSolvers() {
         SolverFactory<Schedule> solverFactory;
-        SolverConfig solverConfig = SolverConfig.createFromXmlResource("solverPhase1.xml");
+        SolverConfig solverConfig1 = SolverConfig.createFromXmlResource("solverPhase1.xml");
+        SolverConfig solverConfig2 = SolverConfig.createFromXmlResource("solverPhase2.xml");
         solverList = new ArrayList<>();
 
         // Solve Phase 1 : fast
-        solverConfig.withTerminationConfig(
+        solverConfig1.withTerminationConfig(
                 new TerminationConfig()
                         .withUnimprovedSecondsSpentLimit(3L)
                         .withBestScoreFeasible(true));
-        solverFactory = SolverFactory.create(solverConfig);
+        solverFactory = SolverFactory.create(solverConfig1);
         Solver<Schedule> solver1 = solverFactory.buildSolver();
         setSolverListener(solver1);
         solverList.add(solver1);
 
         // Solve Phase 2 : accurate
-        solverConfig.withTerminationConfig(
+        solverConfig2.withTerminationConfig(
                 new TerminationConfig()
                         .withBestScoreFeasible(true));
-        solverFactory = SolverFactory.create(solverConfig);
+        solverFactory = SolverFactory.create(solverConfig2);
         Solver<Schedule> solver2 = solverFactory.buildSolver();
         setSolverListener(solver2);
         solverList.add(solver2);
 
         // Solve Phase 3 : optimize
-        solverConfig.withTerminationConfig(
+        solverConfig1.withTerminationConfig(
                 new TerminationConfig()
                         .withUnimprovedMinutesSpentLimit(5L));
-        solverFactory = SolverFactory.create(solverConfig);
+        solverFactory = SolverFactory.create(solverConfig1);
         Solver<Schedule> solver3 = solverFactory.buildSolver();
         setSolverListener(solver3);
         solverList.add(solver3);
@@ -214,6 +215,7 @@ public class SolverThread extends Thread {
         //Solve Soft
         currentSolver = solverList.get(2);
         if (continuetosolve) {
+            result.valueRangeMode = "reduce";
             currentSchedule = result = solverList.get(2).solve(result);
             jsonServer.updateTimelineBlock(false, result);
         }

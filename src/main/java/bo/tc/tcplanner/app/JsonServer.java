@@ -323,7 +323,7 @@ public class JsonServer {
                     timeHierarchyMap = tmptimeHierarchyMap;
 //                    firebaseServer.fullUpload("TimeHierarchyMap", timeHierarchyMap);
                     System.out.println("TimeHierarchyMap Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad TimeHierarchyMap");
                 }
@@ -335,7 +335,7 @@ public class JsonServer {
                     locationHierarchyMap = tmplocationHierarchyMap;
 //                    firebaseServer.fullUpload("LocationHierarchyMap", locationHierarchyMap);
                     System.out.println("LocationHierarchyMap Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad LocationHierarchyMap");
                 }
@@ -348,7 +348,7 @@ public class JsonServer {
                     valueHierarchyMap = tmpvalueHierarchyMap;
 //                    firebaseServer.fullUpload("ValueHierarchyMap", valueHierarchyMap);
                     System.out.println("ValueHierarchyMap Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad ValueHierarchyMap");
                 }
@@ -360,7 +360,7 @@ public class JsonServer {
                     valueEntryMap = tmpvalueEntryMap;
 //                    firebaseServer.fullUpload("ValueEntryMap", valueEntryMap);
                     System.out.println("ValueEntryMap Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad ValueEntryMap");
                 }
@@ -372,9 +372,9 @@ public class JsonServer {
                     timeline = tmptimeline;
 //                    firebaseServer.fullUpload("Timeline", timeline);
                     System.out.println("Timeline Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
-                    System.out.println("Bad Timeline");
+                    System.out.println("Bad Timeline "+ assertionError.getMessage());
                 }
             }
             if (entry.getKey().equals("TimelineBlock.json")) {
@@ -383,7 +383,7 @@ public class JsonServer {
                     timelineBlock.checkValid();
                     setProblemTimelineBlock(timelineBlock);
                     System.out.println("TimelineBlock Updated");
-                } catch (AssertionError assertionError) {
+                } catch (IllegalArgumentException assertionError) {
                     assertionError.printStackTrace();
                     System.out.println("Bad TimelineBlock");
                 }
