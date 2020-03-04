@@ -38,7 +38,7 @@ public class TCSchedulingApp {
 
         //SolverThread
         solverThread.setJsonServer(jsonServer);
-        solverThread.setResumeSolvingLock(resumeSolvingLock);
+        solverThread.setResumeSolvingLock(new StringBuffer("ScheduleFile"));
         solverThread.setNewTimelineBlockLock(newTimelineBlockLock);
 
         //Start Threads
@@ -74,9 +74,7 @@ public class TCSchedulingApp {
                 }
 
             }
-        }).
-
-                start();
+        }).start();
 
     }
 

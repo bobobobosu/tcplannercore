@@ -4,7 +4,7 @@
 <#--    <parallelBenchmarkCount>AUTO</parallelBenchmarkCount>-->
     <inheritedSolverBenchmark>
         <problemBenchmarks>
-            <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.ScheduleFileIO</solutionFileIOClass>
+            <solutionFileIOClass>bo.tc.tcplanner.datastructure.persistence.TimelineBlockScheduleFileIO</solutionFileIOClass>
             <problemStatisticType>BEST_SCORE</problemStatisticType>
             <problemStatisticType>STEP_SCORE</problemStatisticType>
             <problemStatisticType>MEMORY_USE</problemStatisticType>

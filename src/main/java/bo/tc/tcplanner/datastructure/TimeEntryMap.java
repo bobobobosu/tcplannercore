@@ -9,7 +9,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class TimeEntryMap extends HashMap<String, RangeSet<ZonedDateTime>> {
     public boolean checkValid() {
-        checkArgument(this.entrySet().stream().allMatch(x -> x.getValue() != null));
-        return true;
+        try {
+            checkArgument(this.entrySet().stream().allMatch(x -> x.getValue() != null));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 }

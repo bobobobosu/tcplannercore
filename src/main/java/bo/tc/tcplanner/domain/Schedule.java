@@ -112,7 +112,7 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-    @XStreamConverter(BendableScoreXStreamConverter.class)
+    //    @XStreamConverter(BendableScoreXStreamConverter.class)
     private BendableScore score;
 
 
@@ -228,39 +228,7 @@ public class Schedule extends AbstractPersistable {
         return Iterators.concat(getDummyAllocationIterator(), focusedAllocationSet.iterator());
     }
 
-//    public Allocation getNextFocusedAllocation(Allocation allocation) {
-//        return allocation.getFocusedAllocationSet().higher(allocation);
-//    }
-
     public List<Allocation> getFocusedAllocationList() {
         return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
     }
-//
-//    public List<Allocation> getDummyAllocationList() {
-//        List<Allocation> dummyAllocationList = new ArrayList<>();
-//        Allocation prevAllocation = null;
-//        for (Allocation thisAllocaion : allocationList) {
-//            if (thisAllocaion.isFocused()) {
-//                if (prevAllocation != null && (thisAllocaion.getIndex() - prevAllocation.getIndex() > 1))
-//                    dummyAllocationList.add(
-//                            allocationList.get((thisAllocaion.getIndex() + prevAllocation.getIndex()) / 2)
-//                    );
-//                prevAllocation = thisAllocaion;
-//            }
-//        }
-//        return dummyAllocationList;
-//    }
-//
-//    public List<Allocation> getCondensedAllocationList() {
-//        List<Allocation> focuseddAllocationList = getFocusedAllocationList();
-//        List<Allocation> condensedAllocationList = new ArrayList<>();
-//        for (int thisIdx = 0, nextIdx = 1; nextIdx < focuseddAllocationList.size(); thisIdx++, nextIdx++) {
-//            int idx1 = focuseddAllocationList.get(thisIdx).getIndex();
-//            int idx2 = focuseddAllocationList.get(nextIdx).getIndex();
-//            if (idx2 - idx1 > 1) condensedAllocationList.add(allocationList.get((idx1 + idx2) / 2));
-//        }
-//        condensedAllocationList.addAll(focuseddAllocationList);
-//        return condensedAllocationList;
-//    }
-
 }

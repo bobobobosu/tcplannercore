@@ -43,13 +43,17 @@ public class ProgressChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(progressLog);
-        checkArgument(progressDelta >= 0);
-        checkArgument(progressDelta <= 1);
-        checkArgument(progressPreset.stream().allMatch(ProgressEntry::checkValid));
-        checkArgument(progressLog.stream().allMatch(ProgressEntry::checkValid));
-        progressLog.forEach(x -> checkNotNull(x.getStartTime()));
-        return true;
+        try {
+            checkNotNull(progressLog);
+            checkArgument(progressDelta > 0);
+            checkArgument(progressDelta <= 1);
+            checkArgument(progressPreset.stream().allMatch(ProgressEntry::checkValid));
+            checkArgument(progressLog.stream().allMatch(ProgressEntry::checkValid));
+            progressLog.forEach(x -> checkNotNull(x.getStartTime(), this));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     public double getProgressDelta() {

@@ -53,20 +53,24 @@ public class TimelineEntry extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(title);
-        checkNotNull(description);
-        checkArgument(executionMode >= 0);
-        checkNotNull(humanStateChange);
-        checkNotNull(resourceStateChange);
-        checkNotNull(progressChange);
-        checkNotNull(chronoProperty);
-        checkNotNull(timelineProperty);
-        checkArgument(humanStateChange.checkValid());
-        checkArgument(resourceStateChange.checkValid());
-        checkArgument(progressChange.checkValid());
-        checkArgument(chronoProperty.checkValid());
-        checkArgument(timelineProperty.checkValid());
-        return true;
+        try {
+            checkNotNull(title);
+            checkNotNull(description);
+            checkArgument(executionMode >= 0);
+            checkNotNull(humanStateChange);
+            checkNotNull(resourceStateChange);
+            checkNotNull(progressChange);
+            checkNotNull(chronoProperty);
+            checkNotNull(timelineProperty);
+            checkArgument(humanStateChange.checkValid());
+            checkArgument(resourceStateChange.checkValid());
+            checkArgument(progressChange.checkValid());
+            checkArgument(chronoProperty.checkValid());
+            checkArgument(timelineProperty.checkValid());
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
 

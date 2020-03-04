@@ -36,14 +36,18 @@ public class TimelineProperty extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkArgument(rownum >= 0);
-        checkNotNull(dependencyIdList);
-        checkNotNull(taskChainIdList);
-        checkNotNull(planningWindowType);
-        checkNotNull(timelineid);
-        checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
-        checkArgument(taskChainIdList.contains(timelineid));
-        return true;
+        try {
+            checkArgument(rownum >= 0);
+            checkNotNull(dependencyIdList);
+            checkNotNull(taskChainIdList);
+            checkNotNull(planningWindowType);
+            checkNotNull(timelineid);
+            checkArgument(PropertyConstants.PlanningWindowTypes.isValid(planningWindowType));
+            checkArgument(taskChainIdList.contains(timelineid));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     public TimelineProperty(TimelineProperty other) {

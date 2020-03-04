@@ -15,7 +15,7 @@ public class PreciseDelayMoveFactory implements MoveListFactory<Schedule> {
         List<PreciseDelayMove> moveList = new ArrayList<>();
         for (Allocation allocation : schedule.getAllocationList()) {
             Iterator<Integer> delayIterator = allocation.getDelayRange().createOriginalIterator();
-            while (delayIterator.hasNext()){
+            while (delayIterator.hasNext()) {
                 moveList.add(new PreciseDelayMove(allocation, delayIterator.next()));
             }
         }

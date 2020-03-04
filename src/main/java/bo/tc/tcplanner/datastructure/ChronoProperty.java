@@ -16,6 +16,8 @@ public class ChronoProperty extends AbstractPersistable {
     private String startTime;
     @Nullable
     private String deadline;
+    @Nullable
+    private String aliveline;
     private Integer movable;
     private Integer splittable;
     private Integer changeable;
@@ -29,6 +31,7 @@ public class ChronoProperty extends AbstractPersistable {
         super(other);
         this.setStartTime(other.startTime);
         this.setDeadline(other.deadline);
+        this.setAliveline(other.aliveline);
         this.setMovable(other.movable);
         this.setGravity(other.gravity);
         this.setSplittable(other.splittable);
@@ -48,11 +51,15 @@ public class ChronoProperty extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(movable);
-        checkNotNull(splittable);
-        checkNotNull(changeable);
-        checkNotNull(gravity);
-        return true;
+        try {
+            checkNotNull(movable);
+            checkNotNull(splittable);
+            checkNotNull(changeable);
+            checkNotNull(gravity);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     @JsonIgnore
@@ -67,6 +74,13 @@ public class ChronoProperty extends AbstractPersistable {
     public ZonedDateTime getZonedDeadline() {
         if (deadline == null) return null;
         return ZonedDateTimeParseCache.computeIfAbsent(deadline, k -> ZonedDateTime.parse(deadline));
+    }
+
+    @JsonIgnore
+    @Exclude
+    public ZonedDateTime getZonedAliveline() {
+        if (deadline == null) return null;
+        return ZonedDateTimeParseCache.computeIfAbsent(aliveline, k -> ZonedDateTime.parse(aliveline));
     }
 
     @Nullable
@@ -86,6 +100,16 @@ public class ChronoProperty extends AbstractPersistable {
 
     public ChronoProperty setDeadline(String deadline) {
         this.deadline = deadline;
+        return this;
+    }
+
+    @Nullable
+    public String getAliveline() {
+        return aliveline;
+    }
+
+    public ChronoProperty setAliveline(String aliveline) {
+        this.aliveline = aliveline;
         return this;
     }
 
@@ -125,31 +149,21 @@ public class ChronoProperty extends AbstractPersistable {
         return this;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-
         ChronoProperty that = (ChronoProperty) o;
-
-        if (!Objects.equals(startTime, that.startTime)) return false;
-        if (!Objects.equals(deadline, that.deadline)) return false;
-        if (!movable.equals(that.movable)) return false;
-        if (!splittable.equals(that.splittable)) return false;
-        if (!changeable.equals(that.changeable)) return false;
-        return gravity.equals(that.gravity);
+        return movable.equals(that.movable) &&
+                splittable.equals(that.splittable) &&
+                changeable.equals(that.changeable) &&
+                gravity.equals(that.gravity);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-        result = 31 * result + (deadline != null ? deadline.hashCode() : 0);
-        result = 31 * result + movable.hashCode();
-        result = 31 * result + splittable.hashCode();
-        result = 31 * result + changeable.hashCode();
-        result = 31 * result + gravity.hashCode();
-        return result;
+        return Objects.hash(super.hashCode(), movable, splittable, changeable, gravity);
     }
 }

@@ -33,7 +33,7 @@ rule "checkDependencyId"
     then
         int score = -100;
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -42,11 +42,11 @@ rule "checkTimeOverlapping"
         $allocation : Allocation(isScored(), isFocused(),
             $predecessorsDoneDate : predecessorsDoneDate,
             $startDate : startDate,
-            $predecessorsDoneDate > $startDate)
+            eval($predecessorsDoneDate.isAfter($startDate)))
     then
         int score = (int)(-100*((double)Duration.between($startDate, $predecessorsDoneDate).toMinutes()));
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -61,7 +61,21 @@ rule "checkDeadline"
    then
         int score = (int)(-100*((double)Duration.between($deadline, $endDate).toMinutes()));
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
+											new int[]{0,0,0,0});
+end
+
+rule "checkAliveline"
+   when
+       $allocation : Allocation(isScored(), isFocused(),
+            $aliveline : timelineEntry.chronoProperty.zonedAliveline,
+            $startDate : startDate,
+            eval($aliveline.isAfter($startDate)))
+
+   then
+        int score = (int)(-100*((double)Duration.between($startDate, $aliveline).toMinutes()));
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -75,9 +89,9 @@ rule "checkScheduleAfter"
             eval($startDate.isBefore($scheduleAfter)))
 
    then
-        int score = (int)(-100*((double)Duration.between($startDate, $scheduleAfter).toMinutes()));
+        int score = (int)(-((double)Duration.between($startDate, $scheduleAfter).toMinutes())/10);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -91,7 +105,7 @@ rule "checkPreviousStandstill"
     then
         int score = -100;
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -99,11 +113,11 @@ rule "checkRequirementsDeficit"
     when
         $allocation : Allocation(isScored(), isFocused(),
                                     $score : resourceElementMapDeficitScore)
-        eval($score<-0.001)
+        eval($score<0)
     then
-        int score = (int)($score * 100);
+        int score = (int) Math.round($score * 100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -111,11 +125,11 @@ rule "checkCapacityRequirements"
     when
         $allocation : Allocation(isScored(), isFocused(),
                                     $score : resourceElementMapExcessScore)
-        eval($score<-0.001)
+        eval($score<0)
     then
-        int score = (int)($score * 100);
+        int score = (int) Math.round($score * 100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -133,15 +147,16 @@ rule "checkSplittable"
 											new int[]{0,0,0,0});
 end
 
-rule "timePreference"
+rule "timeRequirement"
     when
         $allocation : Allocation(isScored(), isFocused(),
-            $timerestrictionscore : timeRestrictionScore,
+            getRequirementTimerangeMatch(),
+            $timerestrictionscore : getRequirementTimerangeScore(),
             $timerestrictionscore < -5)
     then
         int score = (int)($timerestrictionscore*100);
 		scoreHolder.addMultiConstraintMatch(kcontext,
-											new int[]{$allocation.isOld() ? score : 0, score, 0,0,0},
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
 end
 
@@ -174,7 +189,16 @@ rule "checkExcessResource"
         scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)($score*100));
 end
 
-
+rule "timeAdvisory"
+    when
+        $allocation : Allocation(isScored(), isFocused(),
+            getAdviceTimerangeMatch(),
+            $timerestrictionscore : getAdviceTimerangeScore(),
+            $timerestrictionscore < -5)
+    then
+        int score = (int)($timerestrictionscore*100);
+		scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)(score));
+end
 
 // ############################################################################
 // Phase 2 Soft constraints

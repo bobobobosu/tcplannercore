@@ -86,8 +86,12 @@ public class ResourceElement extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(location);
-        return true;
+        try {
+            checkNotNull(location);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
 

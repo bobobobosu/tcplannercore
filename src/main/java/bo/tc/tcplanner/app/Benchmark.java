@@ -25,6 +25,7 @@ public class Benchmark {
     public static String fpath_ValueEntryMap;
     public static String fpath_LocationHierarchyMap;
     public static String fpath_TimeHierarchyMap;
+    public static String fpath_ScheduleSolution = "Schedule.xml";
 
     public static void main(String[] args) throws IOException {
         setConstants();

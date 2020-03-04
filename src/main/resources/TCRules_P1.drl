@@ -42,7 +42,7 @@ rule "checkTimeOverlapping"
         $allocation : Allocation(isScored(), isFocused(),
             $predecessorsDoneDate : predecessorsDoneDate,
             $startDate : startDate,
-            $predecessorsDoneDate > $startDate)
+            eval($predecessorsDoneDate.isAfter($startDate)))
     then
         int score = (int)(-100*((double)Duration.between($startDate, $predecessorsDoneDate).toMinutes()));
 		scoreHolder.addMultiConstraintMatch(kcontext,
@@ -60,6 +60,20 @@ rule "checkDeadline"
 
    then
         int score = (int)(-100*((double)Duration.between($deadline, $endDate).toMinutes()));
+		scoreHolder.addMultiConstraintMatch(kcontext,
+											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
+											new int[]{0,0,0,0});
+end
+
+rule "checkAliveline"
+   when
+       $allocation : Allocation(isScored(), isFocused(),
+            $aliveline : timelineEntry.chronoProperty.zonedAliveline,
+            $startDate : startDate,
+            eval($aliveline.isAfter($startDate)))
+
+   then
+        int score = (int)(-100*((double)Duration.between($startDate, $aliveline).toMinutes()));
 		scoreHolder.addMultiConstraintMatch(kcontext,
 											new int[]{score, $allocation.isOld() ? score : 0, 0,0,0},
 											new int[]{0,0,0,0});
@@ -133,10 +147,11 @@ rule "checkSplittable"
 											new int[]{0,0,0,0});
 end
 
-rule "timePreference"
+rule "timeRequirement"
     when
         $allocation : Allocation(isScored(), isFocused(),
-            $timerestrictionscore : timeRestrictionScore,
+            getRequirementTimerangeMatch(),
+            $timerestrictionscore : getRequirementTimerangeScore(),
             $timerestrictionscore < -5)
     then
         int score = (int)($timerestrictionscore*100);
@@ -174,7 +189,16 @@ rule "checkExcessResource"
         scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)($score*100));
 end
 
-
+rule "timeAdvisory"
+    when
+        $allocation : Allocation(isScored(), isFocused(),
+            getAdviceTimerangeMatch(),
+            $timerestrictionscore : getAdviceTimerangeScore(),
+            $timerestrictionscore < -5)
+    then
+        int score = (int)($timerestrictionscore*100);
+		scoreHolder.addSoftConstraintMatch(kcontext, 2,  (int)(score));
+end
 
 // ############################################################################
 // Phase 2 Soft constraints

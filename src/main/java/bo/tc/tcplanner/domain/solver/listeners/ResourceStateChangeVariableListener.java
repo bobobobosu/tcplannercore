@@ -55,7 +55,7 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
             scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
             originalAllocation.setResourceElementMap(null);
             scoreDirector.afterVariableChanged(originalAllocation, "resourceElementMap");
-        }else {
+        } else {
             scoreDirector.beforeVariableChanged(originalAllocation, "resourceElementMap");
             originalAllocation.setResourceElementMap(new ResourceElementMap());
             scoreDirector.afterVariableChanged(originalAllocation, "resourceElementMap");

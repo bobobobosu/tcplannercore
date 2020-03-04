@@ -88,7 +88,7 @@ public class Test {
             }
         });
 
-        while (true){
+        while (true) {
             Thread.sleep(1000);
             FirebaseDatabase.getInstance().getReference().getRoot().setValue(Arrays.asList(System.currentTimeMillis(), 2, 3), new DatabaseReference.CompletionListener() {
                 @Override

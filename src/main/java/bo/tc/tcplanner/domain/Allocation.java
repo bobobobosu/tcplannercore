@@ -28,6 +28,7 @@ import bo.tc.tcplanner.domain.solver.listeners.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import org.jetbrains.annotations.NotNull;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.entity.PlanningPin;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
@@ -49,9 +50,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @PlanningEntity(difficultyComparatorClass = AllocationDifficultyComparator.class)
-public class Allocation extends AbstractPersistable {
+public class Allocation extends AbstractPersistable implements Comparable<Allocation> {
     // Belongs-to relationship
-    private transient Schedule schedule;
+    private Schedule schedule;
 
     // Pre-Solving Properties
     private int index;
@@ -105,6 +106,11 @@ public class Allocation extends AbstractPersistable {
     @Override
     public String toString() {
         return this.getIndex() + "-" + timelineEntry;
+    }
+
+    @Override
+    public int compareTo(@NotNull Allocation o) {
+        return Integer.compare(index, o.index);
     }
 
     @Override
@@ -256,10 +262,10 @@ public class Allocation extends AbstractPersistable {
         return score;
     }
 
-    public long getTimeRestrictionScore() {
+    private long getTimeRestrictionScore(String restriction) {
         Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
         RangeSet<ZonedDateTime> restrictionRangeSet = schedule.getTimeEntryMap()
-                .get(timelineEntry.getHumanStateChange().getRequirementTimerange());
+                .get(restriction);
         RangeSet<ZonedDateTime> overlapRangeSet = restrictionRangeSet.subRangeSet(thisRange);
         if (restrictionRangeSet.isEmpty()) return plannedDuration.toMinutes();
         if (overlapRangeSet.isEmpty()) {
@@ -273,6 +279,34 @@ public class Allocation extends AbstractPersistable {
                     plannedDuration.toMinutes();
 
         }
+    }
+
+    private boolean getTimeRestrictionMatch(String restriction) {
+        Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
+        RangeSet<ZonedDateTime> restrictionRangeSet = schedule.getTimeEntryMap()
+                .get(restriction);
+        try{
+            var ff=  restrictionRangeSet.encloses(thisRange);
+        }catch (Exception ex){
+            int g=0;
+        }
+        return restrictionRangeSet.encloses(thisRange);
+    }
+
+    public boolean getRequirementTimerangeMatch() {
+        return getTimeRestrictionMatch(timelineEntry.getHumanStateChange().getRequirementTimerange());
+    }
+
+    public boolean getAdviceTimerangeMatch() {
+        return getTimeRestrictionMatch(timelineEntry.getHumanStateChange().getAdviceTimerange());
+    }
+
+    public long getRequirementTimerangeScore() {
+        return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getRequirementTimerange());
+    }
+
+    public long getAdviceTimerangeScore() {
+        return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getAdviceTimerange());
     }
 
     public long getDistributionScore() {
@@ -292,20 +326,20 @@ public class Allocation extends AbstractPersistable {
 
     @ValueRangeProvider(id = "timelineEntryRange")
     public List<TimelineEntry> getTimelineEntryRange() {
-//        if (schedule.valueRangeMode.equals("reduce")) {
-//            if (timelineEntryRange == null) {
-//                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toList());
-//            }
-//        } else {
-//            if (timelineEntryRange == null) {
-//                timelineEntryRange = schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
-//                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
-//            }
-//        }
-//
-//        return timelineEntryRange;
-        return schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
-                .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
+        if (schedule.valueRangeMode.equals("reduce")) {
+            if (timelineEntryRange == null) {
+                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toList());
+            }
+        } else {
+            if (timelineEntryRange == null) {
+                timelineEntryRange = schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
+                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
+            }
+        }
+
+        return timelineEntryRange;
+//        return schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
+//                .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
     }
 
     @ValueRangeProvider(id = "delayRange")

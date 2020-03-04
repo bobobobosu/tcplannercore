@@ -8,7 +8,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class LocationHierarchyMap extends HashMap<String, HashSet<String>> {
     public boolean checkValid() {
-        checkArgument(this.entrySet().stream().allMatch(x -> x.getValue().stream().allMatch(Objects::nonNull)));
-        return true;
+        try {
+            checkArgument(this.entrySet().stream().allMatch(x -> x.getValue().stream().allMatch(Objects::nonNull)));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 }

@@ -17,15 +17,23 @@ import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 
 public class ListenerTools {
     public static boolean updatePlanningDuration(Allocation allocation) {
-        Duration duration = Duration.ofMinutes(
-                (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration()
-                        * (allocation.getProgressdelta()) / (100)));
+        Duration duration = Duration.ofSeconds(
+                (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration() * 60
+                        * ((double) allocation.getProgressdelta() / 100) /
+                        (allocation.getTimelineEntry().getProgressChange().getProgressDelta())));
         boolean changed = allocation.getPlannedDuration() == null || allocation.getPlannedDuration().equals(duration);
         allocation.setPlannedDuration(duration);
         return changed;
     }
 
     public static boolean updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
+        try {
+            if (allocation.getTimelineEntry().getTimelineProperty().getTimelineid() == 824) {
+                int g = 0;
+            }
+        } catch (Exception ex) {
+
+        }
         var endDate = prevAllocation.getEndDate();
         boolean changed = allocation.getPredecessorsDoneDate() == null ||
                 !allocation.getPredecessorsDoneDate().isEqual(endDate);
@@ -85,7 +93,7 @@ public class ListenerTools {
                         double delta;
                         ResourceElement nextResourceElement = v.get(negIdx);
 
-                        // TODO locationRestrictionCheck
+                        // locationRestrictionCheck
                         if ((locationRestrictionCheck(thisResourceElement.getLocation(), "") || true) &&
                                 (delta = Math.min(thisResourceElement.getAmt(), -nextResourceElement.getAmt())) > 0 &&
                                 (thisResourceElement.getAmt() >= 1 || thisResourceElement.getSuppliedTimelineIdList().size() == 0)) {
@@ -207,30 +215,16 @@ public class ListenerTools {
                                                  Map<ResourceElement, Integer> resourceSourceMap,
                                                  List<Allocation> allocationList,
                                                  TimelineEntry timelineEntry) {
-        Integer timelineId = timelineEntry.getTimelineProperty().getTimelineid();
-        if (timelineId != null) {
-            TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
-            TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
-            return new CompareToBuilder()
-                    .append(o2TimelineEntry.getTimelineProperty().getDependencyIdList().contains(timelineId),
-                            o1TimelineEntry.getTimelineProperty().getDependencyIdList().contains(timelineId))
-                    .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
-                            o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
-//                                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
-//                                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
-                    .append(resourceSourceMap.get(o1), resourceSourceMap.get(o2))
-                    .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
-                    .append(o1.getAmt(), o2.getAmt())
-                    .toComparison();
-        } else {
-            return new CompareToBuilder()
-//                                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
-//                                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
-                    .append(resourceSourceMap.get(o1), resourceSourceMap.get(o2))
-                    .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
-                    .append(o1.getAmt(), o2.getAmt())
-                    .toComparison();
-        }
+        TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
+        TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
+        return new CompareToBuilder()
+                .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
+                .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
+                        o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
+                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
+                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
+                .toComparison();
+
     }
 
     private static void addResourceElement(Map<String, List<ResourceElement>> resourceElementMap, String key, ResourceElement resourceElement) {

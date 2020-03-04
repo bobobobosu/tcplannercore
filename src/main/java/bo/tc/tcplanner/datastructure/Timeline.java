@@ -31,10 +31,14 @@ public class Timeline extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(timelineEntryList);
-        checkNotNull(owner);
-        checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
-        return true;
+        try {
+            checkNotNull(timelineEntryList);
+            checkNotNull(owner);
+            checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     public List<TimelineEntry> getTimelineEntryList() {

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePlanningDuration;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
-public class PlanningDurationVariableUpdatingListener  implements VariableListener<Allocation> {
+public class PlanningDurationVariableUpdatingListener implements VariableListener<Allocation> {
 
     @Override
     public void beforeEntityAdded(ScoreDirector scoreDirector, Allocation allocation) {

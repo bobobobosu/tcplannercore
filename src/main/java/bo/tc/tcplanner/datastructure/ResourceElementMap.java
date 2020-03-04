@@ -21,8 +21,12 @@ public class ResourceElementMap extends HashMap<String, List<ResourceElement>> {
     }
 
     public boolean checkValid() {
-        checkArgument(this.values().stream().allMatch(x -> x.stream().allMatch(ResourceElement::checkValid)));
-        return true;
+        try {
+            checkArgument(this.values().stream().allMatch(x -> x.stream().allMatch(ResourceElement::checkValid)));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     public ResourceElementMap removeVolatile() {

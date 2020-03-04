@@ -8,12 +8,12 @@ import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.fliptables.FlipTable;
+import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.awt.*;
@@ -28,16 +28,10 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static bo.tc.tcplanner.app.JsonServer.updateConsole;
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 public class Toolbox {
-    public static Integer ZonedDatetime2OffsetMinutes(ZonedDateTime startDatetime, ZonedDateTime targetedDatetime) {
-        Duration duration = Duration.between(startDatetime, targetedDatetime);
-        return Math.toIntExact(duration.toMinutes());
-    }
-
-    public static ZonedDateTime OffsetMinutes2ZonedDatetime(ZonedDateTime startDatetime, Integer offsetMinutes) {
-        return startDatetime.plusMinutes(offsetMinutes);
-    }
-
     public static LinkedHashMap<String, Object> castDict(Object obj) {
         return (LinkedHashMap<String, Object>) obj;
     }
@@ -105,19 +99,6 @@ public class Toolbox {
         solverList = new ArrayList<>();
     }
 
-    public static void printTimelineBlock(TimelineBlock newTimelineBlock) {
-        // Print Results
-        for (TimelineEntry timelineEntry : newTimelineBlock.getTimelineEntryList()) {
-            String mandNote = (timelineEntry.getTimelineProperty().getTimelineid() > 0) ? String.valueOf(timelineEntry.getTimelineProperty().getRownum()) : "****";
-            System.err.println(mandNote + " " + timelineEntry.getChronoProperty().getStartTime() + "~"
-                    + ZonedDateTime.parse(timelineEntry.getChronoProperty().getStartTime())
-                    .plusMinutes((long) timelineEntry.getHumanStateChange().getDuration())
-                    + " : [" + timelineEntry.getTitle() + " ] "
-                    + timelineEntry.getHumanStateChange().getCurrentLocation() + "->"
-                    + timelineEntry.getHumanStateChange().getMovetoLocation());
-        }
-    }
-
     public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
         try {
             //Debug
@@ -129,16 +110,16 @@ public class Toolbox {
             String[] timelineHeader = {"Row", "%", "Date", "Duration", "Location", "Restriction", "Score", "Task"};
             List<String[]> breakByRules = new ArrayList<>();
             Map<Allocation, Indictment> breakByTasks = new HashMap<>();
-            List<String[]> timeline = new ArrayList<>();
+            List<String[]> breiftimeline = new ArrayList<>();
+            List<String[]> fulltimeline = new ArrayList<>();
 
 
             ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
             scoreDirector.setWorkingSolution(schedule);
             for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
-//                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
-                breakByRules.add(new String[]{constraintMatch.toString()});
+                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
+                    breakByRules.add(new String[]{constraintMatch.toString()});
             }
-            var fsd = scoreDirector.getIndictmentMap();
             for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
                 if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
                         Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
@@ -146,6 +127,8 @@ public class Toolbox {
                     breakByTasks.put(matchAllocation, indictmentEntry.getValue());
                 }
             }
+
+            int maxList = 10;
             for (Allocation allocation : schedule.getAllocationList()) {
                 if (allocation.isFocused()) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
@@ -153,7 +136,7 @@ public class Toolbox {
                             allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
                             formatter.format(
                                     allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
-                    timeline.add(new String[]{
+                    String[] timelineentry = (new String[]{
                             ((allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
                                     .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())) ? "****" :
                                     allocation.getTimelineEntry().getTimelineProperty().getRownum())
@@ -188,20 +171,28 @@ public class Toolbox {
                                                             .sum()
                                             )).toString().replaceAll("(.{60})", "$1\n")
                     });
+                    if ((breakByTasks.containsKey(allocation)) && maxList-- > 0) breiftimeline.add(timelineentry);
+                    fulltimeline.add(timelineentry);
                 }
             }
-            timeline.add(timelineHeader);
+            breiftimeline.add(timelineHeader);
+            fulltimeline.add(timelineHeader);
+
+            String status = "\n"
+                    + "Status: " + SolverThread.lastNewBestSolution[1] + "ms " + solvingStatus
+                    + " \nScore:" + scoreDirector.calculateScore().toShortString()
+                    + " \nRate: "
+                    + (SolverThread.lastNewBestSolution[3] != null ?
+                    ((Score) SolverThread.lastNewBestSolution[3]).divide(
+                            ((double) (long) SolverThread.lastNewBestSolution[1]) / 1000).toShortString()
+                    : "");
             if (showTimeline)
-                System.err.println(FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
-            System.err.println(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            System.err.println("Status: " + solvingStatus
-                    + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date())
-                    + " " + scoreDirector.calculateScore().toShortString());
-            SolverThread.logger.debug("\n" + FlipTable.of(timelineHeader, timeline.toArray(new String[timeline.size()][])));
+                System.err.println(updateConsole(FlipTable.of(timelineHeader, breiftimeline.toArray(new String[breiftimeline.size()][]))));
+            System.err.println(updateConsole(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][]))));
+            System.err.println(updateConsole(status));
+            SolverThread.logger.debug("\n" + FlipTable.of(timelineHeader, fulltimeline.toArray(new String[fulltimeline.size()][])));
             SolverThread.logger.info("\n" + FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][])));
-            SolverThread.logger.info("\n" + "Status: " + solvingStatus
-                    + " " + new SimpleDateFormat("dd-MM HH:mm").format(new Date())
-                    + " " + scoreDirector.calculateScore().toShortString());
+            SolverThread.logger.info(status);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -42,9 +42,10 @@ public class DataStructureBuilder {
                 .setDuration(0)
                 .setCurrentLocation(schedule.special.dummyLocation)
                 .setMovetoLocation(schedule.special.dummyLocation)
-                .setRequirementTimerange(schedule.special.dummyTime);
+                .setRequirementTimerange(schedule.special.dummyTime)
+                .setAdviceTimerange(schedule.special.dummyTime);
         schedule.special.dummyProgressChange = new ProgressChange()
-                .setProgressDelta(0.5)
+                .setProgressDelta(1)
                 .setProgressLog(new ArrayList<>())
                 .setProgressPreset(new ArrayList<>());
         schedule.special.dummyResourceStateChange = new ResourceStateChange()
@@ -57,7 +58,7 @@ public class DataStructureBuilder {
                 .setGravity(0)
                 .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
                 .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())
-                .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime());
+                .setAliveline(schedule.getProblemTimelineBlock().getBlockStartTime());
         schedule.special.dummyTimelineProperty = new TimelineProperty()
                 .setRownum(0)
                 .setTimelineid(null)
@@ -89,7 +90,8 @@ public class DataStructureBuilder {
                 .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
-                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
+                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())
+                        .setAliveline(schedule.getProblemTimelineBlock().getBlockStartTime()))
                 .setTimelineProperty(new TimelineProperty(schedule.special.dummyTimelineProperty)
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
         Allocation sinkAllocation = new Allocation()
@@ -105,7 +107,8 @@ public class DataStructureBuilder {
                 .setResourceStateChange(new ResourceStateChange(schedule.special.dummyResourceStateChange))
                 .setChronoProperty(new ChronoProperty()
                         .setChangeable(0).setMovable(0).setSplittable(0).setGravity(0)
-                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
+                        .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())
+                        .setAliveline(schedule.getProblemTimelineBlock().getBlockStartTime()))
                 .setTimelineProperty(new TimelineProperty(schedule.special.dummyTimelineProperty)
                         .setRownum(Integer.MAX_VALUE)
                         .setPlanningWindowType(PropertyConstants.PlanningWindowTypes.types.History.name())));
@@ -137,7 +140,8 @@ public class DataStructureBuilder {
                                         .setResourceStateChange(y.getValue().getResourceStateChangeList().get(i))
                                         .setChronoProperty(new ChronoProperty(y.getValue().getChronoProperty())
                                                 .setStartTime(schedule.getProblemTimelineBlock().getBlockStartTime())
-                                                .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime()))
+                                                .setDeadline(schedule.getProblemTimelineBlock().getBlockEndTime())
+                                                .setAliveline(schedule.getProblemTimelineBlock().getBlockStartTime()))
                                         .setTimelineProperty(new TimelineProperty()
                                                 .setRownum(0)
                                                 .setTimelineid(null)
@@ -230,7 +234,7 @@ public class DataStructureBuilder {
         List<Allocation> focusedAllocationList = schedule.getAllocationList()
                 .stream().filter(Allocation::isFocused).collect(Collectors.toList());
 
-        TreeSet<Allocation> focusedAllocationSet = new TreeSet<>(Comparator.comparing(Allocation::getIndex));
+        TreeSet<Allocation> focusedAllocationSet = new TreeSet<>();
         focusedAllocationSet.addAll(focusedAllocationList);
         schedule.focusedAllocationSet = focusedAllocationSet;
 
@@ -253,7 +257,9 @@ public class DataStructureBuilder {
                 });
 
         // Set ProgressDelta
-        schedule.getAllocationList().forEach(x -> x.setProgressdelta((int) Math.round(x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
+        schedule.getAllocationList().forEach(x -> x.setProgressdelta(
+                x.getTimelineEntry().equals(schedule.getDummyTimelineEntry()) ? 1 :
+                        (int) Math.round(x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
 
         // Set Delay
         schedule.getAllocationList().forEach(x -> x.setDelay(0));

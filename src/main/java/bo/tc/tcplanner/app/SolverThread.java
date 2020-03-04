@@ -4,7 +4,9 @@ import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
@@ -12,14 +14,18 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
+import org.optaplanner.persistence.xstream.impl.domain.solution.XStreamSolutionFileIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static bo.tc.tcplanner.app.JsonServer.updateConsole;
 import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
 import static bo.tc.tcplanner.app.TCSchedulingApp.valueEntryMap;
 import static bo.tc.tcplanner.app.Toolbox.*;
@@ -35,9 +41,10 @@ public class SolverThread extends Thread {
     String solvingStatus;
     Solver<Schedule> currentSolver;
     static ScoreDirector<Schedule> scoringScoreDirector;
-    Schedule currentSchedule;
+    public Schedule currentSchedule;
+    static Object[] lastNewBestSolution = {0L, 0L, null, null};
     private List<Solver<Schedule>> solverList;
-    private Object resumeSolvingLock;
+    private StringBuffer resumeSolvingLock;
     private Object newTimelineBlockLock;
 
     public Solver<Schedule> getCurrentSolver() {
@@ -64,8 +71,9 @@ public class SolverThread extends Thread {
             try {
                 initializeSolvers();
                 runSolve();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IllegalArgumentException | IOException ex) {
+                String msg = Throwables.getStackTraceAsString(ex);
+                System.err.println(updateConsole(msg));
             }
         }
     }
@@ -96,10 +104,10 @@ public class SolverThread extends Thread {
         solverList.add(solver2);
 
         // Solve Phase 3 : optimize
-        solverConfig1.withTerminationConfig(
+        solverConfig2.withTerminationConfig(
                 new TerminationConfig()
                         .withUnimprovedMinutesSpentLimit(5L));
-        solverFactory = SolverFactory.create(solverConfig1);
+        solverFactory = SolverFactory.create(solverConfig2);
         Solver<Schedule> solver3 = solverFactory.buildSolver();
         setSolverListener(solver3);
         solverList.add(solver3);
@@ -109,9 +117,14 @@ public class SolverThread extends Thread {
 
     public void setSolverListener(Solver<Schedule> solver) {
         solver.addEventListener(bestSolutionChangedEvent -> {
+            long currT = System.currentTimeMillis();
+            lastNewBestSolution[1] = currT - (long) lastNewBestSolution[0];
+            lastNewBestSolution[0] = currT;
+            lastNewBestSolution[3] = lastNewBestSolution[2] != null ?
+                    solver.getBestScore().subtract((Score) lastNewBestSolution[2]) : null;
+            lastNewBestSolution[2] = solver.getBestScore();
             printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), false, solvingStatus);
             currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
-            jsonServer.updateTimelineBlock(false, bestSolutionChangedEvent.getNewBestSolution());
         });
     }
 
@@ -137,8 +150,10 @@ public class SolverThread extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        jsonServer.setLatestTimelineBlock(timelineBlock);
+        resumeSolvingLock.setLength(0);
+        resumeSolvingLock.append("TimelineBlock");
         synchronized (resumeSolvingLock) {
+            setContinuetosolve(true);
             resumeSolvingLock.notify();
         }
     }
@@ -150,28 +165,37 @@ public class SolverThread extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        resumeSolvingLock.setLength(0);
+        resumeSolvingLock.append("ScheduleFile");
         synchronized (resumeSolvingLock) {
+            setContinuetosolve(true);
             resumeSolvingLock.notify();
         }
     }
 
-    public Schedule runSolve() throws IOException {
-        checkArgument(valueEntryMap.checkValid());
-        checkArgument(timeHierarchyMap.checkValid());
-        checkArgument(jsonServer.getLatestTimelineBlock().checkValid());
+    public void runSolve() throws IOException {
+        Schedule result;
+        if (resumeSolvingLock.toString().equals("TimelineBlock")) {
+            checkArgument(valueEntryMap.checkValid());
+            checkArgument(timeHierarchyMap.checkValid());
+            checkArgument(jsonServer.getProblemTimelineBlock().checkValid());
 
-        continuetosolve = true;
-        DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getLatestTimelineBlock(), timeHierarchyMap)
-                .constructChainProperty();
-        Schedule result = DSB.getSchedule();
+            continuetosolve = true;
+            DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getProblemTimelineBlock(), timeHierarchyMap)
+                    .constructChainProperty();
+            result = DSB.getSchedule();
+        } else if (resumeSolvingLock.toString().equals("ScheduleFile")) {
+            result = new XStreamSolutionFileIO<Schedule>().read(new File(Benchmark.fpath_ScheduleSolution));
+        } else {
+            return;
+        }
 
 
-//        Solve Hard Incremental By AllocationList
+        // Solve Hard Incremental By AllocationList
+        solvingStatus = P1_mode;
         if (P1_mode.equals("incremental")) {
             currentSolver = solverList.get(0);
             //Solve by restricted Score
-
-
             result.getAllocationList().forEach(x -> x.setScored(false));
             result.getAllocationList().forEach(x -> x.setPinned(true));
             result.getAllocationList().get(0).setScored(true);
@@ -189,7 +213,9 @@ public class SolverThread extends Thread {
                 if (thisAllocation.isFocused() && !thisAllocation.isHistory() && i > solvingFrame) {
                     if (continuetosolve) {
                         printCurrentSolution(result, false, solvingStatus);
+                        solvingStatus = "p1 incremental fast";
                         currentSchedule = result = solverList.get(0).solve(result);
+                        solvingStatus = "p1 incremental accurate";
                         currentSchedule = result = solverList.get(1).solve(result);
                         jsonServer.updateTimelineBlock(false, result);
                     }
@@ -203,25 +229,30 @@ public class SolverThread extends Thread {
             printCurrentSolution(result, false, solvingStatus);
             currentSchedule = result;
             if (continuetosolve) {
+                solvingStatus = "p1 global fast";
                 currentSchedule = result = solverList.get(0).solve(result);
                 jsonServer.updateTimelineBlock(false, result);
             }
             if (continuetosolve) {
+                solvingStatus = "p1 global accurate";
                 currentSchedule = result = solverList.get(1).solve(result);
                 jsonServer.updateTimelineBlock(false, result);
             }
         }
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+
         //Solve Soft
+        solvingStatus = P2_mode;
         currentSolver = solverList.get(2);
         if (continuetosolve) {
-            result.valueRangeMode = "reduce";
+            solvingStatus =
+                    result.valueRangeMode = "p2 reduce";
             currentSchedule = result = solverList.get(2).solve(result);
             jsonServer.updateTimelineBlock(false, result);
         }
 
-
-        return result;
+        result.valueRangeMode = "default";
+        new XStreamSolutionFileIO<>(Schedule.class).write(result, new File(Benchmark.fpath_ScheduleSolution));
     }
 
     public JsonServer getJsonServer() {
@@ -236,7 +267,7 @@ public class SolverThread extends Thread {
         return resumeSolvingLock;
     }
 
-    public void setResumeSolvingLock(Object resumeSolvingLock) {
+    public void setResumeSolvingLock(StringBuffer resumeSolvingLock) {
         this.resumeSolvingLock = resumeSolvingLock;
     }
 

@@ -24,7 +24,11 @@ public class ValueEntryMap extends HashMap<String, ValueEntry> {
     }
 
     public boolean checkValid() {
-        checkArgument(this.entrySet().stream().allMatch(x -> x.getValue().checkValid()));
-        return true;
+        try {
+            checkArgument(this.entrySet().stream().allMatch(x -> x.getValue().checkValid()));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 }

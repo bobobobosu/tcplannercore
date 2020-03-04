@@ -66,7 +66,7 @@ public class PredecessorsDoneDateUpdatingVariableListener implements VariableLis
         }
 
         Allocation startAllocation = originalAllocation;
-        while (startAllocation.getEndDate()==null){
+        while (startAllocation.getEndDate() == null) {
             Allocation checkAllocation;
             if ((checkAllocation = startAllocation.getFocusedAllocationSet().lower(startAllocation)) != null)
                 startAllocation = checkAllocation;

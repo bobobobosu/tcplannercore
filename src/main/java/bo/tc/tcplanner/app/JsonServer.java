@@ -6,6 +6,7 @@ import bo.tc.tcplanner.datastructure.converters.DataStructureWriter;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -19,7 +20,6 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,7 +27,6 @@ import java.util.Map;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
-import static bo.tc.tcplanner.app.Toolbox.printTimelineBlock;
 
 public class JsonServer {
     private static final String HOSTNAME = "0.0.0.0";
@@ -39,7 +38,6 @@ public class JsonServer {
     SolverThread solverThread;
     FirebaseServer firebaseServer;
     //Latest Solutions
-    private TimelineBlock latestTimelineBlock;
     private TimelineBlock problemTimelineBlock;
     private Schedule latestBestSolutions;
 
@@ -47,6 +45,19 @@ public class JsonServer {
     private Object resumeSolvingLock;
     private Object newTimelineBlockLock;
 
+    //Global
+    public static StringBuffer consoleBuffer = new StringBuffer();
+
+    public static String updateConsole(String s) {
+        consoleBuffer.append(s).append("\n");
+        return s;
+    }
+
+    public static String flushConsole() {
+        String buff = consoleBuffer.toString();
+        consoleBuffer.setLength(0);
+        return buff;
+    }
 
     public JsonServer() {
     }
@@ -66,17 +77,16 @@ public class JsonServer {
         server.createContext("/patchTimelineBlock", patchTimelineBlockHandler);
         var updateOptaFilesHandler = new UpdateOptaFilesHandler();
         server.createContext("/updateOptaFiles", updateOptaFilesHandler);
+        var consoleHandler = new ConsoleHandler();
+        server.createContext("/updateConsole", consoleHandler);
         return server;
     }
 
     public void updateTimelineBlock(boolean print, Schedule newresult) {
-        latestTimelineBlock = new DataStructureWriter().generateTimelineBlock(newresult);
         latestBestSolutions = newresult;
         synchronized (newTimelineBlockLock) {
             newTimelineBlockLock.notify();
         }
-        if (print)
-            printTimelineBlock(latestTimelineBlock);
     }
 
     public boolean compareTimelineBlock(TimelineBlock TB1, TimelineBlock TB2) throws JsonProcessingException {
@@ -108,14 +118,6 @@ public class JsonServer {
         } catch (final UnsupportedEncodingException ex) {
             throw new InternalError(ex);
         }
-    }
-
-    public TimelineBlock getLatestTimelineBlock() {
-        return latestTimelineBlock;
-    }
-
-    public void setLatestTimelineBlock(TimelineBlock latestTimelineBlock) {
-        this.latestTimelineBlock = latestTimelineBlock;
     }
 
     public Schedule getLatestBestSolutions() {
@@ -182,6 +184,28 @@ public class JsonServer {
         }
     }
 
+    public class ConsoleHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if (!exchange.getRequestMethod().equals("POST")) {
+                throw new UnsupportedOperationException();
+            }
+
+            new Thread(() -> {
+                try {
+                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
+                    exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
+                    OutputStream responseBody = exchange.getResponseBody();
+                    responseBody.write(flushConsole().getBytes(StandardCharsets.UTF_8));
+                    responseBody.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        }
+    }
+
     public class NewTimelineBlockNotifier implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -194,11 +218,12 @@ public class JsonServer {
                 synchronized (newTimelineBlockLock) {
                     try {
                         newTimelineBlockLock.wait();
-                        System.out.println("Sending New TimelineBlock");
+                        System.out.println(updateConsole("Sending New TimelineBlock"));
+                        TimelineBlock timelineBlock = new DataStructureWriter().generateTimelineBlockScore(latestBestSolutions);
                         exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                         exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                         OutputStream responseBody = exchange.getResponseBody();
-                        responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(latestTimelineBlock).getBytes(StandardCharsets.UTF_8));
+                        responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8));
                         responseBody.close();
                     } catch (InterruptedException | IOException e) {
                         e.printStackTrace();
@@ -218,24 +243,32 @@ public class JsonServer {
 
             new Thread(() -> {
                 try {
+                    byte[] response = new byte[0];
                     String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
                             StandardCharsets.UTF_8);
                     Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
-                    setFiles(updatedfiles);
 
-                    TimelineBlock timelineBlock = problemTimelineBlock;
-                    if (timelineBlock.getOrigin().equals("TCxlsb")) {
-                        Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
-                                .constructChainProperty().getSchedule();
-                        printCurrentSolution(result, false, "");
-                        timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
+                    try {
+                        setFiles(updatedfiles);
+                        TimelineBlock timelineBlock = problemTimelineBlock;
+                        if (timelineBlock.getOrigin().equals("TCxlsb")) {
+                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                                    .constructChainProperty().getSchedule();
+                            printCurrentSolution(result, true, "");
+                            timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
+                            response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8);
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        String msg = Throwables.getStackTraceAsString(ex);
+                        System.err.println(updateConsole(msg));
+                        response = msg.getBytes(StandardCharsets.UTF_8);
                     }
 
-                    System.out.println("Sending Scored TimelineBlock");
+                    System.out.println(updateConsole("Sending Scored TimelineBlock"));
                     exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                     exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                     OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8));
+                    responseBody.write(response);
                     responseBody.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -254,8 +287,8 @@ public class JsonServer {
 
             new Thread(() -> {
                 try {
-                    TimelineBlock timelineBlock = latestTimelineBlock;
-                    System.out.println("Sending Patched TimelineBlock");
+                    TimelineBlock timelineBlock = new DataStructureWriter().generateTimelineBlockScore(latestBestSolutions);
+                    System.out.println(updateConsole("Sending Patched TimelineBlock"));
                     exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                     exchange.sendResponseHeaders(StatusCode.CREATED.getCode(), 0);
                     OutputStream responseBody = exchange.getResponseBody();
@@ -277,27 +310,29 @@ public class JsonServer {
             }
             new Thread(() -> {
                 try {
-                    byte[] response = "{\"Updated\":true}".getBytes(StandardCharsets.UTF_8);
-
+                    byte[] response = new byte[0];
                     String javaString = URLDecoder.decode(IOUtils.toString(exchange.getRequestBody(), StandardCharsets.UTF_8),
                             StandardCharsets.UTF_8);
                     Map<String, Map> updatedfiles = new ObjectMapper().readValue(javaString, Map.class);
-                    setFiles(updatedfiles);
 
-                    if (updatedfiles.containsKey("TimelineBlock.json")) {
-                        if (problemTimelineBlock.getOrigin().equals("TCxlsb")) {
-                            solverThread.restartSolversWithNewTimelineBlock(problemTimelineBlock);
+                    try {
+                        setFiles(updatedfiles);
+                        if (updatedfiles.containsKey("TimelineBlock.json")) {
+                            if (problemTimelineBlock.getOrigin().equals("TCxlsb")) {
+                                solverThread.restartSolversWithNewTimelineBlock(problemTimelineBlock);
+                            }
+
+                            TimelineBlock timelineBlock = problemTimelineBlock;
+                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                                    .constructChainProperty().getSchedule();
+                            printCurrentSolution(result, true, "");
+                            response = "{\"Updated\":true}".getBytes(StandardCharsets.UTF_8);
                         }
-
-                        TimelineBlock timelineBlock = problemTimelineBlock;
-                        Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
-                                .constructChainProperty().getSchedule();
-                        printCurrentSolution(result, false, "");
-                        timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
-                        response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8);
-                        System.out.println("Sending Scored TimelineBlock");
+                    } catch (IllegalArgumentException ex) {
+                        String msg = Throwables.getStackTraceAsString(ex);
+                        System.err.println(updateConsole(msg));
+                        response = msg.getBytes(StandardCharsets.UTF_8);
                     }
-
 
                     exchange.getResponseHeaders().
                             set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
@@ -314,80 +349,49 @@ public class JsonServer {
         }
     }
 
-    private void setFiles(Map<String, Map> updatedfiles) {
+    private void setFiles(Map<String, Map> updatedfiles) throws IllegalArgumentException {
         for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
             if (entry.getKey().equals("TimeHierarchyMap.json")) {
                 TimeHierarchyMap tmptimeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), TimeHierarchyMap.class);
-                try {
-                    tmptimeHierarchyMap.checkValid();
-                    timeHierarchyMap = tmptimeHierarchyMap;
+                tmptimeHierarchyMap.checkValid();
+                timeHierarchyMap = tmptimeHierarchyMap;
 //                    firebaseServer.fullUpload("TimeHierarchyMap", timeHierarchyMap);
-                    System.out.println("TimeHierarchyMap Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad TimeHierarchyMap");
-                }
+                System.out.println(updateConsole("TimeHierarchyMap Updated"));
             }
             if (entry.getKey().equals("LocationHierarchyMap.json")) {
                 LocationHierarchyMap tmplocationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
-                try {
-                    tmplocationHierarchyMap.checkValid();
-                    locationHierarchyMap = tmplocationHierarchyMap;
+                tmplocationHierarchyMap.checkValid();
+                locationHierarchyMap = tmplocationHierarchyMap;
 //                    firebaseServer.fullUpload("LocationHierarchyMap", locationHierarchyMap);
-                    System.out.println("LocationHierarchyMap Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad LocationHierarchyMap");
-                }
+                System.out.println(updateConsole("LocationHierarchyMap Updated"));
 
             }
             if (entry.getKey().equals("ValueHierarchyMap.json")) {
                 ValueHierarchyMap tmpvalueHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), ValueHierarchyMap.class);
-                try {
-                    tmpvalueHierarchyMap.checkValid();
-                    valueHierarchyMap = tmpvalueHierarchyMap;
+                tmpvalueHierarchyMap.checkValid();
+                valueHierarchyMap = tmpvalueHierarchyMap;
 //                    firebaseServer.fullUpload("ValueHierarchyMap", valueHierarchyMap);
-                    System.out.println("ValueHierarchyMap Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad ValueHierarchyMap");
-                }
+                System.out.println(updateConsole("ValueHierarchyMap Updated"));
             }
             if (entry.getKey().equals("ValueEntryMap.json")) {
                 ValueEntryMap tmpvalueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
-                try {
-                    tmpvalueEntryMap.checkValid();
-                    valueEntryMap = tmpvalueEntryMap;
+                tmpvalueEntryMap.checkValid();
+                valueEntryMap = tmpvalueEntryMap;
 //                    firebaseServer.fullUpload("ValueEntryMap", valueEntryMap);
-                    System.out.println("ValueEntryMap Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad ValueEntryMap");
-                }
+                System.out.println(updateConsole("ValueEntryMap Updated"));
             }
             if (entry.getKey().equals("Timeline.json")) {
                 Timeline tmptimeline = new ObjectMapper().convertValue(entry.getValue(), Timeline.class);
-                try {
-                    tmptimeline.checkValid();
-                    timeline = tmptimeline;
+                tmptimeline.checkValid();
+                timeline = tmptimeline;
 //                    firebaseServer.fullUpload("Timeline", timeline);
-                    System.out.println("Timeline Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad Timeline "+ assertionError.getMessage());
-                }
+                System.out.println(updateConsole("Timeline Updated"));
             }
             if (entry.getKey().equals("TimelineBlock.json")) {
                 TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
-                try {
-                    timelineBlock.checkValid();
-                    setProblemTimelineBlock(timelineBlock);
-                    System.out.println("TimelineBlock Updated");
-                } catch (IllegalArgumentException assertionError) {
-                    assertionError.printStackTrace();
-                    System.out.println("Bad TimelineBlock");
-                }
-
+                timelineBlock.checkValid();
+                setProblemTimelineBlock(timelineBlock);
+                System.out.println(updateConsole("TimelineBlock Updated"));
             }
         }
     }

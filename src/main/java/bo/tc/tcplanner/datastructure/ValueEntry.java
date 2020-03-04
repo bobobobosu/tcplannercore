@@ -40,20 +40,24 @@ public class ValueEntry extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(type);
-        checkNotNull(classification);
-        checkArgument(capacity >= 0);
-        checkNotNull(chronoProperty);
-        checkNotNull(humanStateChangeList);
-        checkNotNull(resourceStateChangeList);
-        checkNotNull(progressChangeList);
-        checkArgument(humanStateChangeList.size() == resourceStateChangeList.size());
-        checkArgument(resourceStateChangeList.size() == progressChangeList.size());
-        checkArgument(chronoProperty.checkValid());
-        checkArgument(humanStateChangeList.stream().allMatch(HumanStateChange::checkValid));
-        checkArgument(resourceStateChangeList.stream().allMatch(ResourceStateChange::checkValid));
-        checkArgument(progressChangeList.stream().allMatch(ProgressChange::checkValid));
-        return true;
+        try {
+            checkNotNull(type);
+            checkNotNull(classification);
+            checkArgument(capacity >= 0);
+            checkNotNull(chronoProperty);
+            checkNotNull(humanStateChangeList);
+            checkNotNull(resourceStateChangeList);
+            checkNotNull(progressChangeList);
+            checkArgument(humanStateChangeList.size() == resourceStateChangeList.size());
+            checkArgument(resourceStateChangeList.size() == progressChangeList.size());
+            checkArgument(chronoProperty.checkValid());
+            checkArgument(humanStateChangeList.stream().allMatch(HumanStateChange::checkValid));
+            checkArgument(resourceStateChangeList.stream().allMatch(ResourceStateChange::checkValid));
+            checkArgument(progressChangeList.stream().allMatch(ProgressChange::checkValid));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     @Override

@@ -43,14 +43,19 @@ public class TimelineBlock extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(blockStartTime);
-        checkNotNull(blockStartTime);
-        checkNotNull(blockEndTime);
-        checkNotNull(blockScheduleAfter);
-        checkNotNull(timelineEntryList);
-        checkArgument(getZonedBlockEndTime().isAfter(getZonedBlockStartTime()));
-        checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
-        return true;
+        try {
+            checkNotNull(blockStartTime);
+            checkNotNull(blockStartTime);
+            checkNotNull(blockEndTime);
+            checkNotNull(blockScheduleAfter);
+            checkNotNull(timelineEntryList);
+            checkArgument(getZonedBlockEndTime().isAfter(getZonedBlockStartTime()));
+            checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
+
     }
 
     @Override
@@ -110,10 +115,6 @@ public class TimelineBlock extends AbstractPersistable {
         return this;
     }
 
-    public ZonedDateTime getZonedBlockStartTime() {
-        if (blockStartTime == null) return null;
-        return ZonedDateTimeParseCache.computeIfAbsent(blockStartTime, k -> ZonedDateTime.parse(blockStartTime));
-    }
 
     public String getBlockEndTime() {
         return blockEndTime;
@@ -124,9 +125,16 @@ public class TimelineBlock extends AbstractPersistable {
         return this;
     }
 
+    @JsonIgnore
     public ZonedDateTime getZonedBlockEndTime() {
         if (blockEndTime == null) return null;
         return ZonedDateTimeParseCache.computeIfAbsent(blockEndTime, k -> ZonedDateTime.parse(blockEndTime));
+    }
+
+    @JsonIgnore
+    public ZonedDateTime getZonedBlockStartTime() {
+        if (blockStartTime == null) return null;
+        return ZonedDateTimeParseCache.computeIfAbsent(blockStartTime, k -> ZonedDateTime.parse(blockStartTime));
     }
 
     public String getOrigin() {

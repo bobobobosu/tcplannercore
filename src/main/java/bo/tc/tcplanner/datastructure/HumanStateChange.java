@@ -2,6 +2,8 @@ package bo.tc.tcplanner.datastructure;
 
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
+import java.util.Objects;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -12,6 +14,7 @@ public class HumanStateChange extends AbstractPersistable {
     //time change
     double duration;
     String requirementTimerange;
+    String adviceTimerange;
 
     public HumanStateChange() {
         super();
@@ -29,11 +32,16 @@ public class HumanStateChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(currentLocation);
-        checkNotNull(movetoLocation);
-        checkArgument(duration >= 0);
-        checkNotNull(requirementTimerange);
-        return true;
+        try {
+            checkNotNull(currentLocation);
+            checkNotNull(movetoLocation);
+            checkArgument(duration >= 0);
+            checkNotNull(requirementTimerange);
+            checkNotNull(adviceTimerange);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     public HumanStateChange(HumanStateChange other) {
@@ -42,6 +50,7 @@ public class HumanStateChange extends AbstractPersistable {
         this.setMovetoLocation(other.movetoLocation);
         this.setDuration(other.duration);
         this.setRequirementTimerange(other.requirementTimerange);
+        this.setAdviceTimerange(other.adviceTimerange);
     }
 
     public String getCurrentLocation() {
@@ -80,29 +89,31 @@ public class HumanStateChange extends AbstractPersistable {
         return this;
     }
 
+    public String getAdviceTimerange() {
+        return adviceTimerange;
+    }
+
+    public HumanStateChange setAdviceTimerange(String adviceTimerange) {
+        this.adviceTimerange = adviceTimerange;
+        return this;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-
         HumanStateChange that = (HumanStateChange) o;
-
-        if (Double.compare(that.duration, duration) != 0) return false;
-        if (!currentLocation.equals(that.currentLocation)) return false;
-        if (!movetoLocation.equals(that.movetoLocation)) return false;
-        return requirementTimerange.equals(that.requirementTimerange);
+        return Double.compare(that.duration, duration) == 0 &&
+                currentLocation.equals(that.currentLocation) &&
+                movetoLocation.equals(that.movetoLocation) &&
+                requirementTimerange.equals(that.requirementTimerange) &&
+                adviceTimerange.equals(that.adviceTimerange);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        long temp;
-        result = 31 * result + currentLocation.hashCode();
-        result = 31 * result + movetoLocation.hashCode();
-        temp = Double.doubleToLongBits(duration);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + requirementTimerange.hashCode();
-        return result;
+        return Objects.hash(super.hashCode(), currentLocation, movetoLocation, duration, requirementTimerange, adviceTimerange);
     }
 }

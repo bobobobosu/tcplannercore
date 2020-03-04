@@ -34,13 +34,17 @@ public class ResourceStateChange extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(resourceChange);
-        checkNotNull(mode);
-        checkArgument(PropertyConstants.ResourceStateChangeTypes.isValid(mode));
-        checkArgument(resourceChange.checkValid());
-        if (resourceStatus != null)
-            checkArgument(resourceStatus.checkValid());
-        return true;
+        try {
+            checkNotNull(resourceChange);
+            checkNotNull(mode);
+            checkArgument(PropertyConstants.ResourceStateChangeTypes.isValid(mode));
+            checkArgument(resourceChange.checkValid());
+            if (resourceStatus != null)
+                checkArgument(resourceStatus.checkValid());
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 
     @Override

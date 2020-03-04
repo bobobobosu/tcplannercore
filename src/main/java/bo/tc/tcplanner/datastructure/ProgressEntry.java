@@ -122,9 +122,13 @@ public class ProgressEntry extends AbstractPersistable {
 
     @Override
     public boolean checkValid() {
-        checkNotNull(milestone);
-        checkNotNull(task);
-        checkNotNull(upMilestone);
-        return true;
+        try {
+            checkNotNull(milestone);
+            checkNotNull(task);
+            checkNotNull(upMilestone);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(this.toString(), ex);
+        }
     }
 }

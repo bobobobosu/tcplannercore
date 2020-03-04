@@ -57,14 +57,14 @@ public class SetValueMove extends AbstractMove<Schedule> {
     public SetValueMove(List<Allocation> allocationList, List<AllocationValues> allocationValuesList) {
         this.allocationList = allocationList;
         this.allocationValuesList = allocationValuesList;
-        try{
+        try {
             this.oldallocationValuesList = allocationList.stream()
                     .map(x -> new AllocationValues()
                             .setProgressDelta(x.getProgressdelta())
                             .setExecutionMode(x.getTimelineEntry())
                             .setDelay(x.getDelay())).collect(Collectors.toList());
-        }catch (Exception ex){
-            int g=0;
+        } catch (Exception ex) {
+            int g = 0;
         }
 
     }
@@ -129,8 +129,8 @@ public class SetValueMove extends AbstractMove<Schedule> {
                 s.append(allocation.getDelay()).append(" -> ").append(allocationValues.getDelay()).append(", ");
             s.append("} ");
         }
-        s.deleteCharAt(s.length()-1);
-        return s.insert(0,"SetValueMove ").toString();
+        s.deleteCharAt(s.length() - 1);
+        return s.insert(0, "SetValueMove ").toString();
     }
 
     @Override

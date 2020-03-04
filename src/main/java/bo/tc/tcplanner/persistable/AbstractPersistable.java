@@ -24,7 +24,7 @@ import org.optaplanner.core.api.domain.lookup.PlanningId;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class AbstractPersistable implements Serializable, Comparable<AbstractPersistable> {
+public abstract class AbstractPersistable implements Serializable {
 
     @JsonIgnore
     @Exclude
@@ -77,13 +77,13 @@ public abstract class AbstractPersistable implements Serializable, Comparable<Ab
     }
 
 
-    @Override
-    public int compareTo(AbstractPersistable other) {
-        return new CompareToBuilder()
-                .append(getClass().getName(), other.getClass().getName())
-                .append(id, other.id)
-                .toComparison();
-    }
+//    @Override
+//    public int compareTo(AbstractPersistable other) {
+//        return new CompareToBuilder()
+//                .append(getClass().getName(), other.getClass().getName())
+//                .append(id, other.id)
+//                .toComparison();
+//    }
 
     @Override
     public String toString() {

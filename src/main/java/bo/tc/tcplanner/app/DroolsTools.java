@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.app;
 
+import bo.tc.tcplanner.PropertyConstants;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
@@ -83,6 +84,7 @@ public class DroolsTools {
     }
 
     public static boolean locationRestrictionCheck(String available, String requirement) {
+        if(available.equals(PropertyConstants.dummyLocation))return true;
         return locationHierarchyMap.containsKey(available) ?
                 locationHierarchyMap.get(available).contains(requirement) :
                 available.equals(requirement);

@@ -3,11 +3,10 @@
     <moveThreadCount>AUTO</moveThreadCount>
     <scanAnnotatedClasses/>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1_2.drl</scoreDrl>
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
-<!--        <millisecondsSpentLimit>300</millisecondsSpentLimit>-->
-        <unimprovedSecondsSpentLimit>3</unimprovedSecondsSpentLimit>
+        <millisecondsSpentLimit>60000</millisecondsSpentLimit>
         <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
@@ -34,10 +33,16 @@
             </changeMoveSelector>
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
-                <entitySelector>
+                <entitySelector id="changeSelector1">
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
                 </entitySelector>
-                <valueSelector variableName="timelineEntry"/>
+                <valueSelector variableName="timelineEntry">
+                    <nearbySelection>
+                        <originEntitySelector mimicSelectorRef="changeSelector1"/>
+                        <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>
+                        <nearbySelectionDistributionType>PARABOLIC_DISTRIBUTION</nearbySelectionDistributionType>
+                    </nearbySelection>
+                </valueSelector>
             </changeMoveSelector>
             <moveIteratorFactory>
                 <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
@@ -54,13 +59,19 @@
             <cartesianProductMoveSelector>
                 <fixedProbabilityWeight>0.59616</fixedProbabilityWeight>
                 <changeMoveSelector>
-                    <entitySelector id="entitySelector">
+                    <entitySelector id="cartesianSelector1">
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
                     </entitySelector>
-                    <valueSelector variableName="timelineEntry"/>
+                    <valueSelector variableName="timelineEntry">
+                        <nearbySelection>
+                            <originEntitySelector mimicSelectorRef="cartesianSelector1"/>
+                            <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>
+                            <nearbySelectionDistributionType>PARABOLIC_DISTRIBUTION</nearbySelectionDistributionType>
+                        </nearbySelection>
+                    </valueSelector>
                 </changeMoveSelector>
                 <changeMoveSelector>
-                    <entitySelector mimicSelectorRef="entitySelector"/>
+                    <entitySelector mimicSelectorRef="cartesianSelector1"/>
                     <valueSelector variableName="progressdelta"/>
                 </changeMoveSelector>
                 <ignoreEmptyChildIterators>true</ignoreEmptyChildIterators>
