@@ -8,8 +8,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.optaplanner.core.impl.heuristic.move.AbstractMove;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 

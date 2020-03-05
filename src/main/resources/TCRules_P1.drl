@@ -51,6 +51,7 @@ rule "checkTimeOverlapping"
 end
 
 
+
 rule "checkDeadline"
    when
        $allocation : Allocation(isScored(), isFocused(),
@@ -166,19 +167,22 @@ end
 
 rule "dummyJob"
     when
-        $allocation : Allocation(isScored(), isFocused())
+        $allocation : Allocation(isScored(), isFocused(),
+        eval($allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
+                                 .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())))
     then
         scoreHolder.addSoftConstraintMatch(kcontext, 0, -1);
 end
 
-rule "distributeAllocations"
-    when
-        $allocation : Allocation(isScored(), isFocused(),
-            $distributionScore : distributionScore)
-
-    then
-        scoreHolder.addSoftConstraintMatch(kcontext, 1, (int)$distributionScore);
-end
+//rule "distributeAllocations"
+//    when
+//        $allocation : Allocation(isScored(), isFocused(),
+//            $focusedAllocationSet : focusedAllocationSet,
+//            $distributionScore : distributionScore)
+//
+//    then
+//        scoreHolder.addSoftConstraintMatch(kcontext, 1, (int)$distributionScore);
+//end
 
 rule "checkExcessResource"
     when

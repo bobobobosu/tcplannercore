@@ -31,7 +31,6 @@ import com.google.common.collect.RangeSet;
 import org.jetbrains.annotations.NotNull;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.entity.PlanningPin;
-import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
@@ -41,11 +40,11 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -309,15 +308,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getAdviceTimerange());
     }
 
-    public long getDistributionScore() {
-        long score = -2;
-        Allocation prevAllocation = getFocusedAllocationSet().lower(this);
-        Allocation nextAllocation = getFocusedAllocationSet().higher(this);
-        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
-        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
-        return score;
-    }
-
     // ************************************************************************
     // Ranges
     // ************************************************************************
@@ -410,41 +400,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         return result;
     }
 
-    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
-        Allocation allocation = this;
-        Allocation tmpAllocation;
-        // Go back two allocations
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        Allocation finalAllocation = allocation;
-        return new Iterator<Allocation>() {
-            Allocation thisAllocation = finalAllocation;
-
-            @Override
-            public boolean hasNext() {
-                return thisAllocation.getNextFocusedAllocation() != null;
-            }
-
-            @Override
-            public Allocation next() {
-                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
-            }
-        };
-    }
-
-    public List<Allocation> getFocusedAllocationsTillEnd() {
-        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
-        Allocation allocation = this;
-        Allocation tmpAllocation = null;
-        // Go back two allocations
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
-            focusedAllocationsTillEnd.add(allocation);
-        }
-        return focusedAllocationsTillEnd;
-    }
-
     public Integer getIndex() {
         return index;
     }
@@ -478,4 +433,53 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         this.scored = scored;
     }
 
+    public Allocation getNextAllocation(){
+        return getFocusedAllocationSet().higher(this);
+    }
+
 }
+
+
+//    public long getDistributionScore() {
+//        long score = -2;
+//        Allocation prevAllocation = getFocusedAllocationSet().lower(this);
+//        Allocation nextAllocation = getFocusedAllocationSet().higher(this);
+//        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
+//        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
+//        return score;
+//    }
+//
+//    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
+//        Allocation allocation = this;
+//        Allocation tmpAllocation;
+//        // Go back two allocations
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        Allocation finalAllocation = allocation;
+//        return new Iterator<Allocation>() {
+//            Allocation thisAllocation = finalAllocation;
+//
+//            @Override
+//            public boolean hasNext() {
+//                return thisAllocation.getNextFocusedAllocation() != null;
+//            }
+//
+//            @Override
+//            public Allocation next() {
+//                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
+//            }
+//        };
+//    }
+//
+//    public List<Allocation> getFocusedAllocationsTillEnd() {
+//        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
+//        Allocation allocation = this;
+//        Allocation tmpAllocation = null;
+//        // Go back two allocations
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
+//        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
+//            focusedAllocationsTillEnd.add(allocation);
+//        }
+//        return focusedAllocationsTillEnd;
+//    }

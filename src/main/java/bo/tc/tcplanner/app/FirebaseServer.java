@@ -1,22 +1,15 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.datastructure.Timeline;
-import bo.tc.tcplanner.datastructure.ValueHierarchyMap;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.*;
-import com.google.gson.Gson;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import static bo.tc.tcplanner.app.TCSchedulingApp.valueEntryMap;
 
 public class FirebaseServer extends Thread {
     public static void main(String[] args) throws InterruptedException, IOException {

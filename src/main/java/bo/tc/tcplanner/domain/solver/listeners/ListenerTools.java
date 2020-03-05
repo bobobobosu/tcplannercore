@@ -17,10 +17,10 @@ import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 
 public class ListenerTools {
     public static boolean updatePlanningDuration(Allocation allocation) {
+        double multiplier = ((double) allocation.getProgressdelta() / 100) /
+                (allocation.getTimelineEntry().getProgressChange().getProgressDelta());
         Duration duration = Duration.ofSeconds(
-                (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration() * 60
-                        * ((double) allocation.getProgressdelta() / 100) /
-                        (allocation.getTimelineEntry().getProgressChange().getProgressDelta())));
+                (long) (allocation.getTimelineEntry().getHumanStateChange().getDuration() * 60 * multiplier));
         boolean changed = allocation.getPlannedDuration() == null || allocation.getPlannedDuration().equals(duration);
         allocation.setPlannedDuration(duration);
         return changed;

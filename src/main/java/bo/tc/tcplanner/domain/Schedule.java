@@ -20,16 +20,12 @@ import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import org.kie.api.definition.rule.All;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.solution.cloner.DeepPlanningClone;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
-import org.optaplanner.persistence.xstream.api.score.buildin.bendable.BendableScoreXStreamConverter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -230,5 +226,22 @@ public class Schedule extends AbstractPersistable {
 
     public List<Allocation> getFocusedAllocationList() {
         return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
+    }
+
+    public List<Allocation> getBriefAllocationList() {
+        List<Allocation> briefAllocations = new ArrayList<>();
+        Iterator<Allocation> viewAllocationsIterator = focusedAllocationSet.iterator();
+        while (viewAllocationsIterator.hasNext()) {
+            Allocation allocation = viewAllocationsIterator.next();
+            if (briefAllocations.size() > 0) {
+                int prevIdx = briefAllocations.get(briefAllocations.size() - 1).getIndex();
+                int thisIdx = allocation.getIndex();
+                if ((prevIdx + thisIdx) / 2 != prevIdx) {
+                    briefAllocations.add(getAllocationList().get((prevIdx + thisIdx) / 2));
+                }
+            }
+            briefAllocations.add(allocation);
+        }
+        return briefAllocations;
     }
 }

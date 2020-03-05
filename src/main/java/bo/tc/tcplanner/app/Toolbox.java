@@ -2,8 +2,6 @@ package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.datastructure.ResourceElement;
-import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,18 +16,15 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.awt.*;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.JsonServer.updateConsole;
-import static com.google.common.base.MoreObjects.firstNonNull;
 
 public class Toolbox {
     public static LinkedHashMap<String, Object> castDict(Object obj) {
@@ -113,6 +108,9 @@ public class Toolbox {
             List<String[]> breiftimeline = new ArrayList<>();
             List<String[]> fulltimeline = new ArrayList<>();
 
+            //New Entries
+            List<String> newTimelineEntries = debugAllocationList.stream().filter(x -> x.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
+                    .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).map(x -> x.getTimelineEntry().getTitle()).distinct().collect(Collectors.toList());
 
             ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
             scoreDirector.setWorkingSolution(schedule);
@@ -182,10 +180,11 @@ public class Toolbox {
                     + "Status: " + SolverThread.lastNewBestSolution[1] + "ms " + solvingStatus
                     + " \nScore:" + scoreDirector.calculateScore().toShortString()
                     + " \nRate: "
-                    + (SolverThread.lastNewBestSolution[3] != null ?
+                    + ((SolverThread.lastNewBestSolution[3] != null ?
                     ((Score) SolverThread.lastNewBestSolution[3]).divide(
                             ((double) (long) SolverThread.lastNewBestSolution[1]) / 1000).toShortString()
-                    : "");
+                    : "")
+                    + " \nAdded:" + newTimelineEntries.toString());
             if (showTimeline)
                 System.err.println(updateConsole(FlipTable.of(timelineHeader, breiftimeline.toArray(new String[breiftimeline.size()][]))));
             System.err.println(updateConsole(FlipTable.of(breakByRulesHeader, breakByRules.toArray(new String[breakByRules.size()][]))));

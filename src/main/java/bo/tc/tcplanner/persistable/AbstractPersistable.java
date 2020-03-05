@@ -18,7 +18,6 @@ package bo.tc.tcplanner.persistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.Exclude;
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 
 import java.io.Serializable;

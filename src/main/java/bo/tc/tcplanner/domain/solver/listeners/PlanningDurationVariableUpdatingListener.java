@@ -4,10 +4,7 @@ import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
-import java.util.Iterator;
-
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePlanningDuration;
-import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.updatePredecessorsDoneDate;
 
 public class PlanningDurationVariableUpdatingListener implements VariableListener<Allocation> {
 

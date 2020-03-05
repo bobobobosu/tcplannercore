@@ -3,6 +3,7 @@ package bo.tc.tcplanner.app;
 import bo.tc.tcplanner.SwiftGui.StartStopGui;
 import bo.tc.tcplanner.datastructure.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -28,7 +29,11 @@ public class TCSchedulingApp {
         FirebaseServer firebaseServer = new FirebaseServer();
 
         //GUI
-        new StartStopGui(solverThread);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                StartStopGui.showFrame(solverThread);
+            }
+        });
 
         //JsonServer
         jsonServer.setSolverThread(solverThread);

@@ -6,8 +6,6 @@ import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.Range;
-import com.google.common.collect.RangeSet;
-import com.google.common.collect.TreeRangeSet;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.*;
@@ -20,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;

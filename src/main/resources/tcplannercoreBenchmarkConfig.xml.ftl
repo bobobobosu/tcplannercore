@@ -20,7 +20,7 @@
             <scanAnnotatedClasses/>
 
             <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
+<#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
 <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
                 <millisecondsSpentLimit>60000</millisecondsSpentLimit>
 
@@ -44,7 +44,7 @@
     <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl','TCRules_P2.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -221,7 +221,7 @@
                 ${splitMove}'] as customMoves>
 
     <solverBenchmark>
-        <name>a${selectionOrderCacheType?index}</name>
+        <name>a${scoreDrl?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>S:/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>

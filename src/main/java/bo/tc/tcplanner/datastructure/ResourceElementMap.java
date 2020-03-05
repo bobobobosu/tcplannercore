@@ -1,15 +1,12 @@
 package bo.tc.tcplanner.datastructure;
 
-import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ResourceElementMap extends HashMap<String, List<ResourceElement>> {
     public ResourceElementMap() {
