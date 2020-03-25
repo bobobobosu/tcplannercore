@@ -17,7 +17,9 @@
             <moveThreadCount>AUTO</moveThreadCount>
 <#--            <solutionClass>bo.tc.tcplanner.domain.Schedule</solutionClass>-->
 <#--            <entityClass>bo.tc.tcplanner.domain.Allocation</entityClass>-->
-            <scanAnnotatedClasses/>
+            <scanAnnotatedClasses>
+                <packageInclude>bo.tc.tcplanner</packageInclude>
+            </scanAnnotatedClasses>
 
             <termination>
 <#--                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
@@ -33,18 +35,19 @@
 <#--    files-->
     <#list ['TimelineBlockProblem'] as solution>
 <#--    numbers-->
-    <#list [350] as acceptedCountLimit>
+    <#list [350,400,450,500] as acceptedCountLimit>
     <#list [10000] as startingTemperature>
 <#--    <#list ['0.3'] as etabuRatio>-->
     <#list [1] as lateAcceptanceSize>
 <#--    algorithm-->
     <#list ['<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>'] as lateAcceptance>
     <#list ['<simulatedAnnealingStartingTemperature>[${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}/${startingTemperature}]hard/[0/0/0/0]soft</simulatedAnnealingStartingTemperature>'] as simulatedAnnealing>
-    <#list ['<entityTabuRatio>0.02</entityTabuRatio>'] as tabu>
-    <#list ['<moveTabuSize>1</moveTabuSize>'] as mtabu>
+    <#list ['<entityTabuRatio>0.002</entityTabuRatio>'] as tabu>
+    <#list ['<valueTabuRatio>0.002</valueTabuRatio>'] as vtabu>
+    <#list ['<moveTabuSize>3</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl','TCRules_P2.drl'] as scoreDrl>
+    <#list ['TCRules_P1.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -56,7 +59,7 @@
 <#--    <#list ['     <cacheType>PHASE</cacheType>-->
 <#--                  <selectionOrder>SORTED</selectionOrder>-->
 <#--                  <sorterManner>DECREASING_DIFFICULTY</sorterManner>',''] as entitySelector>-->
-    <#list ['${lateAcceptance}'] as algorithm>
+    <#list ['','${simulatedAnnealing}'] as algorithm>
 
     <#list [0.08] as delayWeight>
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
@@ -221,7 +224,7 @@
                 ${splitMove}'] as customMoves>
 
     <solverBenchmark>
-        <name>a${scoreDrl?index}</name>
+        <name>a${algorithm?index}b${acceptedCountLimit}</name>
         <problemBenchmarks>
             <inputSolutionFile>S:/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -238,6 +241,7 @@
                     <acceptor>
                             ${algorithm}
 <#--                        ${lateAcceptance}-->
+<#--                        ${vtabu}-->
 <#--                        ${tabu}-->
                         ${mtabu}
                         ${umtabu}
@@ -252,6 +256,7 @@
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

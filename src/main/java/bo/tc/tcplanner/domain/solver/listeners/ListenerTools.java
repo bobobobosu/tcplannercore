@@ -27,13 +27,6 @@ public class ListenerTools {
     }
 
     public static boolean updatePredecessorsDoneDate(Allocation allocation, Allocation prevAllocation) {
-        try {
-            if (allocation.getTimelineEntry().getTimelineProperty().getTimelineid() == 824) {
-                int g = 0;
-            }
-        } catch (Exception ex) {
-
-        }
         var endDate = prevAllocation.getEndDate();
         boolean changed = allocation.getPredecessorsDoneDate() == null ||
                 !allocation.getPredecessorsDoneDate().isEqual(endDate);

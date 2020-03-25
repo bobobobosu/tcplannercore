@@ -225,7 +225,8 @@ public class Schedule extends AbstractPersistable {
     }
 
     public List<Allocation> getFocusedAllocationList() {
-        return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
+//        return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
+        return Lists.newArrayList(focusedAllocationSet);
     }
 
     public List<Allocation> getBriefAllocationList() {

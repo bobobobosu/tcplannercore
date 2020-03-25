@@ -1,13 +1,14 @@
 <solver>
     <environmentMode>REPRODUCIBLE</environmentMode>
     <moveThreadCount>AUTO</moveThreadCount>
-    <scanAnnotatedClasses/>
+    <scanAnnotatedClasses>
+        <packageInclude>bo.tc.tcplanner</packageInclude>
+    </scanAnnotatedClasses>
     <scoreDirectorFactory>
         <scoreDrl>TCRules_P1.drl</scoreDrl>
     </scoreDirectorFactory>
     <termination>
         <millisecondsSpentLimit>60000</millisecondsSpentLimit>
-        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -104,9 +105,8 @@
             </moveListFactory>
         </unionMoveSelector>
         <acceptor>
-            <moveTabuSize>1</moveTabuSize>
+            <moveTabuSize>3</moveTabuSize>
             <undoMoveTabuSize>5</undoMoveTabuSize>
-            <lateAcceptanceSize>1</lateAcceptanceSize>
         </acceptor>
         <forager>
             <acceptedCountLimit>4</acceptedCountLimit>

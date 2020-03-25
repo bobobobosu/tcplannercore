@@ -2,12 +2,15 @@ package bo.tc.tcplanner.SwiftGui;
 
 import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.app.SolverThread;
+import bo.tc.tcplanner.app.Toolbox;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import bo.tc.tcplanner.domain.solver.moves.SetValueMove;
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.fliptables.FlipTable;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
@@ -39,19 +42,16 @@ public class StartStopGui extends JPanel {
     JTable table;
     JTextArea detailTextField;
 
-    ScoreDirector<Schedule> guiScoreDirector;
-    Schedule guiSchedule;
+    public ScoreDirector<Schedule> guiScoreDirector;
+    public Schedule guiSchedule;
     List<Allocation> guiAllocationList;
     private JComboBox<TimelineEntry> timelineEntryComboBox;
     private JComboBox<Integer> progressDeltaComboBox;
     private JComboBox<Integer> delayComboBox;
+
+    // current
     Allocation selectedAllocation = null;
-
     boolean isSelecting = false;
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> StartStopGui.showFrame(null));
-    }
 
     public StartStopGui(SolverThread solverThread) {
         initializeScoreDirector();
@@ -72,25 +72,17 @@ public class StartStopGui extends JPanel {
         for (Allocation allocation : guiAllocationList) {
             tableModel.addRow(new Object[]{
                     allocation.getTimelineEntry().getTimelineProperty().getRownum(),
+                    allocation.getTimelineEntry().getTimelineProperty().getTimelineid(),
                     allocation.getProgressdelta(),
                     allocation.getDelay(),
                     dateString(allocation),
                     allocation.getPlannedDuration(),
                     allocation.getTimelineEntry(),
-                    scoreString(allocation)
+                    scoreString(allocation),
+                    allocation.getTimelineEntry().getResourceStateChange().getResourceChange().toString()
             });
         }
         tableModel.fireTableDataChanged();
-
-        // populate editor
-        timelineEntryComboBox.setModel(new DefaultComboBoxModel(guiSchedule.getTimelineEntryList().toArray()));
-        delayComboBox.setModel(new DefaultComboBoxModel());
-        progressDeltaComboBox.setModel(new DefaultComboBoxModel());
-        ValueRangeFactory.createIntValueRange(0, 101, 1).createOriginalIterator()
-                .forEachRemaining(x -> progressDeltaComboBox.addItem(x));
-        ValueRangeFactory.createIntValueRange(0, 1200, 1).createOriginalIterator()
-                .forEachRemaining(x -> delayComboBox.addItem(x));
-
         isSelecting = true;
     }
 
@@ -99,9 +91,17 @@ public class StartStopGui extends JPanel {
         guiScoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
     }
 
+    public void refreshSchedule() {
+        guiSchedule = solverThread.currentSchedule;
+        guiAllocationList = guiSchedule.getBriefAllocationList();
+        populateSchedule();
+        this.revalidate();
+        this.repaint();
+    }
+
     private void initializeUI() {
-        setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(900, 1500));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setPreferredSize(new Dimension(900, 600));
 
         // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -110,14 +110,13 @@ public class StartStopGui extends JPanel {
         JButton b = new JButton("STOP");
         b.addActionListener(e -> {
             solverThread.terminateSolver();
-            guiSchedule = solverThread.currentSchedule;
-            guiAllocationList = guiSchedule.getBriefAllocationList();
-            populateSchedule();
+            refreshSchedule();
         });
         buttonPanel.add(b);
 
         JButton b2 = new JButton("START");
         b2.addActionListener(e -> {
+            solverThread.terminateSolver();
             solverThread.currentSchedule = guiSchedule;
             solverThread.resumeSolvers();
         });
@@ -129,69 +128,66 @@ public class StartStopGui extends JPanel {
         });
         buttonPanel.add(b3);
 
+        JButton b4 = new JButton("REFRESH");
+        b4.addActionListener(e -> {
+            refreshSchedule();
+        });
+        buttonPanel.add(b4);
+
         // Table
         table = new JTable();
-        DefaultTableModel timelineTableModel = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                switch (getColumnName(column)) {
-                    case "Row":
-                        return false;
-                    case "%":
-                        return true;
-                    case "Delay":
-                        return true;
-                    case "Date":
-                        return false;
-                    case "Duration":
-                        return false;
-                    case "Title":
-                        return true;
-                    case "Score":
-                        return false;
-                }
-                return super.isCellEditable(row, column);
-            }
-        };
+        DefaultTableModel timelineTableModel = new DefaultTableModel();
         timelineTableModel.setColumnIdentifiers(
-                new Object[]{"Row", "%", "Delay", "Date", "Duration", "Title", "Score",});
+                new Object[]{"Row", "Id", "%", "Delay", "Date", "Duration", "Title", "Score", "Resource Change"});
         table.setModel(timelineTableModel);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table.setPreferredScrollableViewportSize(new Dimension(table.getPreferredSize().width, 700));
         table.setFillsViewportHeight(true);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         table.getColumn("Row").setPreferredWidth(40);
+        table.getColumn("Id").setPreferredWidth(40);
         table.getColumn("%").setPreferredWidth(40);
         table.getColumn("Delay").setPreferredWidth(40);
         table.getColumn("Date").setPreferredWidth(170);
         table.getColumn("Duration").setPreferredWidth(80);
         table.getColumn("Title").setPreferredWidth(200);
-        table.getColumn("Score").setPreferredWidth(200);
+        table.getColumn("Score").setPreferredWidth(100);
+        table.getColumn("Resource Change").setPreferredWidth(200);
 
         table.getSelectionModel().addListSelectionListener(event -> {
-            if (isSelecting && table.getSelectedRow() != -1 && guiAllocationList != null) {
+            if (table.getSelectedRow() != -1 && guiAllocationList != null) {
+                isSelecting = false;
                 selectedAllocation = guiAllocationList.get(table.getSelectedRow());
                 detailTextField.setText(detailString(selectedAllocation));
+                detailTextField.setCaretPosition(0);
+                progressDeltaComboBox.removeAllItems();
+                selectedAllocation.getProgressDeltaRange().createOriginalIterator().forEachRemaining(x ->
+                        progressDeltaComboBox.addItem(x));
+                progressDeltaComboBox.setSelectedItem(selectedAllocation.getProgressdelta());
+                delayComboBox.removeAllItems();
+                selectedAllocation.getDelayRange().createOriginalIterator().forEachRemaining(x ->
+                        delayComboBox.addItem(x));
+                delayComboBox.setSelectedItem(selectedAllocation.getDelay());
+                timelineEntryComboBox.removeAllItems();
+                guiSchedule.getTimelineEntryList().forEach(x ->
+                        timelineEntryComboBox.addItem(x));
+                timelineEntryComboBox.setSelectedItem(selectedAllocation.getTimelineEntry());
+                isSelecting = true;
             }
         });
 
         JScrollPane pane = new JScrollPane(table);
         pane.setPreferredSize(getPreferredSize());
-        add(pane, BorderLayout.LINE_START);
+        add(pane);
 
-        // Add Textarea in to middle panel
-        detailTextField = new JTextArea();
-        detailTextField.setPreferredSize(new Dimension(getPreferredSize().width, 150));
-        detailTextField.setFont(new Font("Consolas", Font.PLAIN, 12));
-        detailTextField.setEditable(false); // set textArea non-editable
-        JScrollPane pane2 = new JScrollPane(detailTextField);
-        pane2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(pane2, BorderLayout.PAGE_END);
 
         // ComboBoxes
         progressDeltaComboBox = new JComboBox();
+        buttonPanel.add(progressDeltaComboBox);
         timelineEntryComboBox = new JComboBox();
+        buttonPanel.add(timelineEntryComboBox);
         delayComboBox = new JComboBox();
+        buttonPanel.add(delayComboBox);
         timelineEntryComboBox.addItemListener(e -> {
             if (!isSelecting || selectedAllocation == null) return;
             SetValueMove setValueMove = new SetValueMove(
@@ -225,12 +221,20 @@ public class StartStopGui extends JPanel {
             setValueMove.doMove(guiScoreDirector);
             populateSchedule();
         });
-        table.getColumn("%").setCellEditor(new DefaultCellEditor(progressDeltaComboBox));
-        table.getColumn("Title").setCellEditor(new DefaultCellEditor(timelineEntryComboBox));
-        table.getColumn("Delay").setCellEditor(new DefaultCellEditor(delayComboBox));
+
+
+        // Add Textarea in to middle panel
+        detailTextField = new JTextArea();
+        detailTextField.setPreferredSize(new Dimension(getPreferredSize().width, 20000));
+        detailTextField.setFont(new Font("MingLiU", Font.PLAIN, 12));
+        detailTextField.setEditable(false); // set textArea non-editable
+        JScrollPane pane2 = new JScrollPane(detailTextField);
+        pane2.setPreferredSize(new Dimension(getPreferredSize().width, 400));
+        pane2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(pane2);
     }
 
-    public static void showFrame(SolverThread solverThread) {
+    public void showFrame() {
         JPanel panel = new StartStopGui(solverThread);
         panel.setOpaque(true);
 
@@ -263,47 +267,8 @@ public class StartStopGui extends JPanel {
 
     private String detailString(Allocation allocation) {
         if (allocation.getStartDate() == null) return "";
-        String[] timelineHeader = {"Row", "%", "Date", "Duration", "Location", "Restriction", "Task"};
-        List<String[]> breiftimeline = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
-        String datetime = formatter.format(
-                allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault())) + "\n" +
-                formatter.format(
-                        allocation.getEndDate().withZoneSameInstant(ZoneId.systemDefault()));
-        String[] timelineentry = (new String[]{
-                ((allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType()
-                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())) ? "****" :
-                        allocation.getTimelineEntry().getTimelineProperty().getRownum())
-                        + "\n(" + allocation.getIndex() + ")\n" +
-                        allocation.getTimelineEntry().getTimelineProperty().getPlanningWindowType(),
-                allocation.getProgressdelta() + "\n" +
-                        (allocation.isPinned() ? "Pinned" : "") + "\n" +
-                        (allocation.isScored() ? "Scored" : ""),
-                datetime,
-                LocalTime.MIN.plus(Duration.between(
-                        allocation.getStartDate(), allocation.getEndDate())).toString(),
-                "P:" + allocation.getPreviousStandstill() +
-                        "\nC:" + allocation.getTimelineEntry().getHumanStateChange().getCurrentLocation() +
-                        "\nM:" + allocation.getTimelineEntry().getHumanStateChange().getMovetoLocation()
-                ,
-                allocation.getTimelineEntry().getChronoProperty().getChangeable() + "C/" +
-                        allocation.getTimelineEntry().getChronoProperty().getMovable() + "M/" +
-                        allocation.getTimelineEntry().getChronoProperty().getSplittable() + "S/" +
-                        (allocation.isHistory() ? 1 : 0) + "L",
-                allocation.getTimelineEntry().getTitle() + " " + "\n" +
-                        allocation.getResourceElementMap().entrySet()
-                                .stream()
-                                .filter(entry -> entry.getValue()
-                                        .stream()
-                                        .mapToDouble(ResourceElement::getAmt)
-                                        .sum() != 0)
-                                .collect(Collectors.toMap(Map.Entry::getKey,
-                                        x -> x.getValue().stream()
-                                                .mapToDouble(ResourceElement::getAmt)
-                                                .sum()
-                                )).toString().replaceAll("(.{60})", "$1\n")
-        });
-        breiftimeline.add(timelineentry);
-        return FlipTable.of(timelineHeader, breiftimeline.toArray(new String[breiftimeline.size()][]));
+        Toolbox.PrettyPrintAlloc printAlloc = new Toolbox.PrettyPrintAlloc(guiScoreDirector);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return printAlloc.prettyAllocation(allocation) + "\n" + gson.toJson(allocation.getTimelineEntry());
     }
 }

@@ -6,83 +6,32 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="2020.01.19">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/SwiftGui/AutoCompletion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem.json" afterDir="false" />
+    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistence/StatePersistence.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem3_4_2020.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem3_8_2020.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P1_2.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/tcplannercore_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/tcplannercore_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Schedule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Schedule.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/FunctionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/FunctionConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/tcplannercore.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/tcplannercore.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/SwiftGui/StartStopGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/SwiftGui/StartStopGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/FirebaseServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/FirebaseServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCSchedulingApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCSchedulingApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Toolbox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElementMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceElementMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceStateChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/ResourceStateChange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/TimelineProperty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PlanningDurationVariableUpdatingListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PlanningDurationVariableUpdatingListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SetValueMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SetValueMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitTimelineEntryMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/SplitTimelineEntryMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistable/AbstractPersistable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistable/AbstractPersistable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TCRules_P1.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/checkstyle-checker.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/checkstyle-rules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/checkstyle.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/TCRules_P1.drl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/SwiftGui/StartStopGui$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/SwiftGui/StartStopGui$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/SwiftGui/StartStopGui.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Benchmark.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/DroolsTools.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$Constants.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$NewTimelineBlockNotifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$StatusCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer$UpdateOptaFilesHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/JsonServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/SolverThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/TCSchedulingApp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/app/Toolbox.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/HumanStateChange.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/LocationHierarchyMap.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ProgressChange.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceElement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ResourceStateChange.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/TimelineBlock.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/TimelineEntry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/datastructure/ValueEntryMap.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Allocation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/Schedule.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/comparators/DelayStrengthComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/comparators/ProgressDeltaStrengthComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/filters/FilterTools.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PredecessorsDoneDateUpdatingVariableListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/listeners/PreviousStandstillUpdatingVariableListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/domain/solver/meters/AllocationNearbyDistanceMeter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/persistable/AbstractPersistable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bo/tc/tcplanner/persistable/PersistableIdComparator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/solverPhase1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" />
     </list>
     <list id="6df2b124-dab0-48db-b3b1-3ad2a096093e" name="cached zoned date time" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -158,25 +107,25 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.testRunning" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="S:\root\Code\tcplannercore\src\main\resources" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner\domain\solver\filters\delete" />
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
-      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="bo.tc.tcplanner.domain.solver.filters" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner\domain\solver\filters\delete" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\root\Code\tcplannercore\src\main\resources" />
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
+      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -265,9 +214,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.TCSchedulingApp" />
+        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.StartStopGui" />
         <item itemvalue="Application.AutoCompletion" />
-        <item itemvalue="Application.Benchmark" />
         <item itemvalue="Application.Logging" />
       </list>
     </recent_temporary>
@@ -435,7 +384,19 @@
       <workItem from="1579391827509" duration="3406000" />
       <workItem from="1579506477968" duration="957000" />
       <workItem from="1583311572363" duration="13100000" />
-      <workItem from="1583354113542" duration="36766000" />
+      <workItem from="1583354113542" duration="48781000" />
+      <workItem from="1583441424211" duration="206000" />
+      <workItem from="1583441700407" duration="723000" />
+      <workItem from="1583442518311" duration="13000" />
+      <workItem from="1583699602256" duration="915000" />
+      <workItem from="1583700535946" duration="20000" />
+      <workItem from="1583700595200" duration="16811000" />
+      <workItem from="1583868432534" duration="1597000" />
+      <workItem from="1583977668978" duration="92000" />
+      <workItem from="1583977820415" duration="1482000" />
+      <workItem from="1583992600107" duration="104000" />
+      <workItem from="1584000456734" duration="4970000" />
+      <workItem from="1585107713091" duration="990000" />
     </task>
     <task id="LOCAL-00001" summary="Add benchmark">
       <created>1573965651431</created>
@@ -745,7 +706,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579506851203</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Added Swing GUI">
+      <created>1583397071351</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1583397071351</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -778,7 +746,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="v19.12.28" />
     <MESSAGE value="Non-accumulative Resource State Change" />
     <MESSAGE value="Accumulative Resource State Change" />
     <MESSAGE value="v2019.12.30" />
@@ -803,25 +770,37 @@
     <MESSAGE value="2020.01.15" />
     <MESSAGE value="2020.01.19" />
     <MESSAGE value="2020.03.04" />
-    <option name="LAST_COMMIT_MESSAGE" value="2020.03.04" />
+    <MESSAGE value="Added Swing GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Swing GUI" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="142" y="176" width="1487" height="674" key="#Project_Structure" timestamp="1583702510977">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="142" y="176" width="1487" height="674" key="#Project_Structure/91.0.1829.1080@91.0.1829.1080" timestamp="1583702510977" />
     <state x="520" y="91" width="579" height="683" key="#TCSchedulingApp" timestamp="1578532432896">
       <screen x="65" y="0" width="1471" height="864" />
     </state>
     <state x="520" y="91" width="579" height="683" key="#TCSchedulingApp/65.0.1471.864@65.0.1471.864" timestamp="1578532432896" />
-    <state x="460" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583311610066">
-      <screen x="88" y="0" width="1832" height="1080" />
+    <state x="462" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583702214463">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="460" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311610066" />
-    <state x="621" y="127" key="#com.intellij.ide.util.MemberChooser" timestamp="1583377523342">
-      <screen x="91" y="0" width="1445" height="864" />
+    <state x="462" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1583702214463" />
+    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser" timestamp="1583406749444">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="621" y="127" key="#com.intellij.ide.util.MemberChooser/91.0.1445.864@91.0.1445.864" timestamp="1583377523342" />
-    <state x="250" y="158" width="1356" height="800" key="CommitChangelistDialog2" timestamp="1583315257021">
-      <screen x="88" y="0" width="1832" height="1080" />
+    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser/91.0.1829.1080@91.0.1829.1080" timestamp="1583406749444" />
+    <state x="737" y="291" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1583406480907">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="737" y="291" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1583406480907" />
+    <state x="253" y="158" width="1356" height="800" key="CommitChangelistDialog2" timestamp="1583397069431">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="250" y="158" width="1356" height="800" key="CommitChangelistDialog2/88.0.1832.1080@88.0.1832.1080" timestamp="1583315257021" />
+    <state x="253" y="158" key="CommitChangelistDialog2/91.0.1829.1080@91.0.1829.1080" timestamp="1583397069431" />
     <state x="181" y="93" width="1645" height="893" key="DiffContextDialog" timestamp="1583317495462">
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
@@ -830,62 +809,66 @@
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
     <state x="73" y="0" key="FileDocumentManager.FileCacheConflict/88.0.1832.1080@88.0.1832.1080" timestamp="1583309675904" />
-    <state width="1787" height="457" key="GridCell.Tab.0.bottom" timestamp="1583396671375">
+    <state width="1787" height="152" key="GridCell.Tab.0.bottom" timestamp="1584004822539">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="418" key="GridCell.Tab.0.bottom/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
     <state width="1790" height="269" key="GridCell.Tab.0.bottom/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="356" key="GridCell.Tab.0.bottom/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1787" height="457" key="GridCell.Tab.0.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671375" />
-    <state width="1787" height="457" key="GridCell.Tab.0.center" timestamp="1583396671375">
+    <state width="1787" height="152" key="GridCell.Tab.0.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1584004822539" />
+    <state width="1787" height="152" key="GridCell.Tab.0.center" timestamp="1584004822538">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="418" key="GridCell.Tab.0.center/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
     <state width="1790" height="269" key="GridCell.Tab.0.center/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="356" key="GridCell.Tab.0.center/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1787" height="457" key="GridCell.Tab.0.center/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671375" />
-    <state width="1787" height="457" key="GridCell.Tab.0.left" timestamp="1583396671375">
+    <state width="1787" height="152" key="GridCell.Tab.0.center/91.0.1829.1080@91.0.1829.1080" timestamp="1584004822538" />
+    <state width="1787" height="152" key="GridCell.Tab.0.left" timestamp="1584004822538">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="418" key="GridCell.Tab.0.left/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
     <state width="1790" height="269" key="GridCell.Tab.0.left/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="356" key="GridCell.Tab.0.left/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1787" height="457" key="GridCell.Tab.0.left/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671375" />
-    <state width="1787" height="457" key="GridCell.Tab.0.right" timestamp="1583396671375">
+    <state width="1787" height="152" key="GridCell.Tab.0.left/91.0.1829.1080@91.0.1829.1080" timestamp="1584004822538" />
+    <state width="1787" height="152" key="GridCell.Tab.0.right" timestamp="1584004822539">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="418" key="GridCell.Tab.0.right/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
     <state width="1790" height="269" key="GridCell.Tab.0.right/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="356" key="GridCell.Tab.0.right/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1787" height="457" key="GridCell.Tab.0.right/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671375" />
-    <state width="1787" height="457" key="GridCell.Tab.1.bottom" timestamp="1583396671260">
+    <state width="1787" height="152" key="GridCell.Tab.0.right/91.0.1829.1080@91.0.1829.1080" timestamp="1584004822539" />
+    <state width="1787" height="601" key="GridCell.Tab.1.bottom" timestamp="1583990938936">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="88" key="GridCell.Tab.1.bottom/65.0.1471.864@65.0.1471.864" timestamp="1578535337613" />
     <state width="1790" height="269" key="GridCell.Tab.1.bottom/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="139" key="GridCell.Tab.1.bottom/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1787" height="457" key="GridCell.Tab.1.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671260" />
-    <state width="1787" height="457" key="GridCell.Tab.1.center" timestamp="1583396671260">
+    <state width="1787" height="601" key="GridCell.Tab.1.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1583990938936" />
+    <state width="1787" height="601" key="GridCell.Tab.1.center" timestamp="1583990938935">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="88" key="GridCell.Tab.1.center/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
     <state width="1790" height="269" key="GridCell.Tab.1.center/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="139" key="GridCell.Tab.1.center/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1787" height="457" key="GridCell.Tab.1.center/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671260" />
-    <state width="1787" height="457" key="GridCell.Tab.1.left" timestamp="1583396671260">
+    <state width="1787" height="601" key="GridCell.Tab.1.center/91.0.1829.1080@91.0.1829.1080" timestamp="1583990938935" />
+    <state width="1787" height="601" key="GridCell.Tab.1.left" timestamp="1583990938935">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="88" key="GridCell.Tab.1.left/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
     <state width="1790" height="269" key="GridCell.Tab.1.left/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="139" key="GridCell.Tab.1.left/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1787" height="457" key="GridCell.Tab.1.left/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671260" />
-    <state width="1787" height="457" key="GridCell.Tab.1.right" timestamp="1583396671260">
+    <state width="1787" height="601" key="GridCell.Tab.1.left/91.0.1829.1080@91.0.1829.1080" timestamp="1583990938935" />
+    <state width="1787" height="601" key="GridCell.Tab.1.right" timestamp="1583990938936">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1428" height="88" key="GridCell.Tab.1.right/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
     <state width="1790" height="269" key="GridCell.Tab.1.right/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
     <state width="1402" height="139" key="GridCell.Tab.1.right/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1787" height="457" key="GridCell.Tab.1.right/91.0.1829.1080@91.0.1829.1080" timestamp="1583396671260" />
+    <state width="1787" height="601" key="GridCell.Tab.1.right/91.0.1829.1080@91.0.1829.1080" timestamp="1583990938936" />
+    <state x="510" y="186" key="SettingsEditor" timestamp="1583701504259">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="510" y="186" key="SettingsEditor/91.0.1829.1080@91.0.1829.1080" timestamp="1583701504259" />
     <state x="597" y="277" key="Vcs.Push.Dialog.v2" timestamp="1583312296905">
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
@@ -898,24 +881,36 @@
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
     <state x="181" y="93" width="1645" height="893" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311797024" />
-    <state x="181" y="93" width="1645" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1583349331153">
-      <screen x="88" y="0" width="1832" height="1080" />
+    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1583717512706">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="181" y="93" width="1645" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583349331153" />
-    <state x="185" y="94" width="1258" height="677" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1583377689076">
-      <screen x="91" y="0" width="1445" height="864" />
+    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1583717512706" />
+    <state x="210" y="118" width="1593" height="847" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1583716205459">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="185" y="94" width="1258" height="677" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/91.0.1445.864@91.0.1445.864" timestamp="1583377689076" />
-    <state x="519" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1583354257303">
-      <screen x="91" y="0" width="1445" height="864" />
+    <state x="210" y="118" width="1593" height="847" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1583716205459" />
+    <state x="500" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1585107721316">
+      <screen x="64" y="0" width="1472" height="864" />
     </state>
+    <state x="500" y="256" key="com.intellij.ide.util.TipDialog/64.0.1472.864@64.0.1472.864" timestamp="1585107721316" />
     <state x="501" y="256" key="com.intellij.ide.util.TipDialog/65.0.1471.864@65.0.1471.864" timestamp="1578525090366" />
     <state x="631" y="320" key="com.intellij.ide.util.TipDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311583291" />
     <state x="519" y="256" key="com.intellij.ide.util.TipDialog/91.0.1445.864@91.0.1445.864" timestamp="1583354257303" />
+    <state x="633" y="320" key="com.intellij.ide.util.TipDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1584000492979" />
+    <state x="424" y="151" width="1214" height="863" key="find.popup" timestamp="1583713012184">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="424" y="151" width="1214" height="863" key="find.popup/91.0.1829.1080@91.0.1829.1080" timestamp="1583713012184" />
     <state x="810" y="344" key="git4idea.merge.GitMergeDialog" timestamp="1583311982106">
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
     <state x="810" y="344" key="git4idea.merge.GitMergeDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311982106" />
+    <state x="664" y="252" width="672" height="677" key="run.anything.popup" timestamp="1583701625890">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="664" y="252" width="672" height="677" key="run.anything.popup/91.0.1829.1080@91.0.1829.1080" timestamp="1583701625890" />
     <state x="581" y="229" width="851" height="848" key="search.everywhere.popup" timestamp="1583390618913">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
@@ -937,17 +932,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
-          <line>43</line>
+          <line>40</line>
           <option name="timeStamp" value="265" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java</url>
-          <line>79</line>
+          <line>76</line>
           <option name="timeStamp" value="270" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/persistable/AbstractPersistable.java</url>
-          <line>58</line>
+          <line>57</line>
           <option name="timeStamp" value="386" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -972,8 +967,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java</url>
-          <line>285</line>
+          <line>273</line>
           <option name="timeStamp" value="403" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java</url>
+          <line>315</line>
+          <option name="timeStamp" value="406" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

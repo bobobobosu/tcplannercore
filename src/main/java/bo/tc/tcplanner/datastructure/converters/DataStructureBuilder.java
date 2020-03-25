@@ -288,11 +288,11 @@ public class DataStructureBuilder {
             Allocation thisAllocation = focusedAllocationList.get(thidIdx);
             updatePredecessorsDoneDate(thisAllocation, prevAllocation);
             if (thisAllocation.getTimelineEntry().getChronoProperty().getZonedStartTime() != null)
-                thisAllocation.setDelay(Math.max(0,
+                thisAllocation.setDelay(
                         (int) Duration.between(
                                 thisAllocation.getPredecessorsDoneDate(),
                                 thisAllocation.getTimelineEntry().getChronoProperty().getZonedStartTime())
-                                .toMinutes()));
+                                .toMinutes());
         }
 
 

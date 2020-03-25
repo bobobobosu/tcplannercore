@@ -40,6 +40,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -318,12 +319,12 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     public List<TimelineEntry> getTimelineEntryRange() {
         if (schedule.valueRangeMode.equals("reduce")) {
             if (timelineEntryRange == null) {
-                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toList());
+                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toCollection(ArrayList::new));
             }
         } else {
             if (timelineEntryRange == null) {
                 timelineEntryRange = schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
-                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
+                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toCollection(ArrayList::new));
             }
         }
 
