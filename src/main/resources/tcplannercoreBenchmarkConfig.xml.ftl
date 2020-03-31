@@ -20,13 +20,9 @@
             <scanAnnotatedClasses>
                 <packageInclude>bo.tc.tcplanner</packageInclude>
             </scanAnnotatedClasses>
-
-            <termination>
-                <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-<#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                <millisecondsSpentLimit>60000</millisecondsSpentLimit>
-
-            </termination>
+<#--            <termination>-->
+<#--                <millisecondsSpentLimit>10</millisecondsSpentLimit>-->
+<#--            </termination>-->
         </solver>
 
     </inheritedSolverBenchmark>
@@ -195,20 +191,34 @@
     <#list ['${mergeMove}
             ${splitMove}'] as mergesplitMoves>
 
-     <#list ['
-                ${swapMove}
-                ${progressdelta}
-                ${timelineEntry}
-                ${timelineEntryPrecise}
-                ${precisedelay}
-                ${delay}
-                ${cartesiantimelineEntry}
-                ${cartesiandelay}
-                ${mergeMove}
-                ${splitMove}'] as customMoves>
+    <#list ['
+            ${swapMove}
+            ${progressdelta}
+            ${timelineEntry}
+            ${timelineEntryPrecise}
+            ${precisedelay}
+            ${delay}
+            ${cartesiantimelineEntry}
+            ${cartesiandelay}
+            ${mergeMove}
+            ${splitMove}'] as customMoves>
+    <#list ['<constructionHeuristic>
+                    <queuedEntityPlacer>
+                        <entitySelector id="placerEntitySelector">
+                            <cacheType>PHASE</cacheType>
+                            <selectionOrder>SORTED</selectionOrder>
+                            <sorterManner>DECREASING_DIFFICULTY</sorterManner>
+                            ${TimelineEntryCanChangeFilter}
+                        </entitySelector>
+                            <changeMoveSelector>
+                                <entitySelector mimicSelectorRef="placerEntitySelector"/>
+                                <valueSelector variableName="timelineEntry"/>
+                            </changeMoveSelector>
+                    </queuedEntityPlacer>
+                </constructionHeuristic>'] as constructionHeuristic>
 
     <solverBenchmark>
-        <name>a${AllocationProbabilityWeight?index}b${timelineEntryPrecise?index}c${finalistPodiumType?index}d${pickEarlyType?index}</name>
+        <name>a${constructionHeuristic?index}b${timelineEntryPrecise?index}c${finalistPodiumType?index}d${pickEarlyType?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>S:/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
@@ -216,7 +226,9 @@
             <environmentMode>${envmode}</environmentMode>
             <scoreDirectorFactory>
                 <scoreDrl>${scoreDrl}</scoreDrl>
+<#--                <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>-->
             </scoreDirectorFactory>
+            ${constructionHeuristic}
             <localSearch>
                 <unionMoveSelector>
                     ${customMoves}
@@ -237,9 +249,15 @@
                         ${finalistPodiumType}
                         <pickEarlyType>${pickEarlyType}</pickEarlyType>
                 </forager>
+                <termination>
+<#--                    <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+                    <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
+                    <millisecondsSpentLimit>180000</millisecondsSpentLimit>
+                </termination>
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

@@ -1,10 +1,14 @@
 package bo.tc.tcplanner.datastructure.converters;
 
 import bo.tc.tcplanner.PropertyConstants;
+import bo.tc.tcplanner.app.SolverThread;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
 import bo.tc.tcplanner.domain.solver.listeners.ListenerTools;
+import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.time.Duration;
 import java.util.*;
@@ -262,6 +266,10 @@ public class DataStructureBuilder {
         schedule.getAllocationList().forEach(x -> x.setProgressdelta(
                 x.getTimelineEntry().equals(schedule.getDummyTimelineEntry()) ? 1 :
                         (int) Math.round(x.getTimelineEntry().getProgressChange().getProgressDelta() * 100)));
+        CondensedAllocationFilter condensedAllocationFilter = new CondensedAllocationFilter();
+        schedule.getAllocationList().forEach(x -> {
+            if (!x.isFocused() && !condensedAllocationFilter.accept(null, x)) x.setProgressdelta(100);
+        });
 
         // Set Delay
         schedule.getAllocationList().forEach(x -> x.setDelay(0));
@@ -310,6 +318,20 @@ public class DataStructureBuilder {
                         .collect(Collectors.toSet()));
         for (int i = 0; i < focusedAllocationList.size(); i++)
             focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));
+
+        // check solved
+        ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
+        scoreDirector.setWorkingSolution(schedule);
+        scoreDirector.calculateScore();
+        schedule.getAllocationList().forEach(allocation -> {
+            if (scoreDirector.getIndictmentMap().containsKey(allocation) &&
+                    Arrays.stream(((BendableScore) scoreDirector.getIndictmentMap().get(allocation).getScore())
+                            .getHardScores()).anyMatch(x -> x < 0)) {
+                allocation.setSolved(false);
+                return;
+            }
+            allocation.setSolved(true);
+        });
 
         return this;
     }

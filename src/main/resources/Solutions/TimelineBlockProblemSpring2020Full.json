@@ -180,7 +180,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -233,7 +233,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 1.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -648,7 +648,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -695,7 +695,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1034,7 +1034,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1083,69 +1083,16 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": -1.0
       },
       "timelineProperty": {
         "timelineid": 113,
         "rownum": 15.0,
-        "planningWindowType": "Published",
+        "planningWindowType": "History",
         "dependencyIdList": [],
         "taskChainIdList": [
           113
-        ]
-      }
-    },
-    {
-      "title": "\u6d17\u6fa1",
-      "description": "",
-      "humanStateChange": {
-        "currentLocation": "Home",
-        "movetoLocation": "Undefined",
-        "duration": 9.000000000000002,
-        "requirementTimerange": "Anytime",
-        "adviceTimerange": "Anytime"
-      },
-      "resourceStateChange": {
-        "resourceChange": {
-          "r.Clean Body": [
-            {
-              "amt": 1.0,
-              "location": "[Home]"
-            }
-          ]
-        },
-        "mode": "delta"
-      },
-      "progressChange": {
-        "progressDelta": 1.0,
-        "progressPreset": [
-          {
-            "percentage": 1.0,
-            "milestone": "",
-            "task": "",
-            "taskCount": 1.0,
-            "upMilestone": "End"
-          }
-        ],
-        "progressLog": []
-      },
-      "chronoProperty": {
-        "startTime": "2020-03-31T15:25:30+08:00[Asia/Taipei]",
-        "deadline": "2020-08-31T08:30:00+08:00[Asia/Taipei]",
-        "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
-        "movable": 1.0,
-        "changeable": 1.0,
-        "splittable": 0.0,
-        "gravity": 0.0
-      },
-      "timelineProperty": {
-        "timelineid": 15,
-        "rownum": 16.0,
-        "planningWindowType": "Published",
-        "dependencyIdList": [],
-        "taskChainIdList": [
-          15
         ]
       }
     },
@@ -1208,11 +1155,64 @@
       },
       "timelineProperty": {
         "timelineid": 13,
-        "rownum": 17.0,
+        "rownum": 16.0,
         "planningWindowType": "Published",
         "dependencyIdList": [],
         "taskChainIdList": [
           13
+        ]
+      }
+    },
+    {
+      "title": "\u6d17\u6fa1",
+      "description": "",
+      "humanStateChange": {
+        "currentLocation": "Home",
+        "movetoLocation": "Undefined",
+        "duration": 9.000000000000002,
+        "requirementTimerange": "Anytime",
+        "adviceTimerange": "Anytime"
+      },
+      "resourceStateChange": {
+        "resourceChange": {
+          "r.Clean Body": [
+            {
+              "amt": 1.0,
+              "location": "[Home]"
+            }
+          ]
+        },
+        "mode": "delta"
+      },
+      "progressChange": {
+        "progressDelta": 1.0,
+        "progressPreset": [
+          {
+            "percentage": 1.0,
+            "milestone": "",
+            "task": "",
+            "taskCount": 1.0,
+            "upMilestone": "End"
+          }
+        ],
+        "progressLog": []
+      },
+      "chronoProperty": {
+        "startTime": "2020-03-31T21:39:00+08:00[Asia/Taipei]",
+        "deadline": "2020-08-31T08:30:00+08:00[Asia/Taipei]",
+        "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
+        "movable": 1.0,
+        "changeable": 1.0,
+        "splittable": 0.0,
+        "gravity": 0.0
+      },
+      "timelineProperty": {
+        "timelineid": 15,
+        "rownum": 17.0,
+        "planningWindowType": "Published",
+        "dependencyIdList": [],
+        "taskChainIdList": [
+          15
         ]
       }
     },
@@ -1395,12 +1395,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-01T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-03-31T18:29:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1448,12 +1448,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-01T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-03-31T20:09:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1499,7 +1499,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1552,7 +1552,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 1.0,
         "changeable": 1.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -1809,7 +1809,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2015,12 +2015,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-03T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-02T19:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2066,7 +2066,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2376,7 +2376,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2496,7 +2496,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 1.0,
         "changeable": 1.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2739,7 +2739,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 0.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2945,12 +2945,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-06T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-05T17:50:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -2998,12 +2998,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-06T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-05T18:32:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3104,12 +3104,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-06T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-05T21:01:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3157,12 +3157,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-06T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-06T01:00:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3366,7 +3366,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3412,7 +3412,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3458,7 +3458,7 @@
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
         "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3597,12 +3597,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-08T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-07T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3650,12 +3650,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-08T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-08T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3885,12 +3885,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-10T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-09T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -3931,12 +3931,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-10T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-10T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4166,12 +4166,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-12T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-12T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4310,12 +4310,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-13T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-12T19:33:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4363,12 +4363,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-13T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-12T23:41:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4416,12 +4416,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-13T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-13T03:48:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4469,12 +4469,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-13T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-13T07:56:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4704,12 +4704,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-15T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-14T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4757,12 +4757,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-15T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-15T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -4810,12 +4810,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-15T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-15T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5045,12 +5045,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-17T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-17T00:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5091,12 +5091,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-17T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-17T13:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5137,12 +5137,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-19T00:00:00+08:00[Asia/Taipei]",
+        "startTime": "2020-04-18T18:15:00+08:00[Asia/Taipei]",
         "deadline": "2020-08-31T08:30:00+08:00[Asia/Taipei]",
         "aliveline": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5281,12 +5281,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-19T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-19T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5425,12 +5425,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-20T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-19T19:33:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5471,12 +5471,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-20T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-19T23:41:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5524,12 +5524,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-20T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-20T03:48:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5577,12 +5577,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-20T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-20T07:56:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5812,12 +5812,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-22T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-21T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5865,12 +5865,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-22T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-22T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -5918,12 +5918,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-22T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-22T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6153,12 +6153,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-24T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-24T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6388,12 +6388,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-26T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-26T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6532,12 +6532,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-27T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-26T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6585,12 +6585,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-27T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-27T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6820,12 +6820,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-29T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-28T19:33:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6873,12 +6873,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-29T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-28T23:41:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6926,12 +6926,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-29T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-29T03:48:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -6979,12 +6979,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-29T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-29T07:56:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7116,12 +7116,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-04-30T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-30T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7260,12 +7260,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-01T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-04-30T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7306,12 +7306,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-01T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-01T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7359,12 +7359,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-01T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-01T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7594,12 +7594,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-03T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-03T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7738,12 +7738,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-04T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-03T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7791,12 +7791,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-04T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-04T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -7844,12 +7844,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-04T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-04T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8079,12 +8079,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-06T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-05T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8132,12 +8132,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-06T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-06T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8185,12 +8185,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-06T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-06T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8420,12 +8420,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-08T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-08T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8655,12 +8655,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-10T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-10T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8799,12 +8799,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-11T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-10T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8852,12 +8852,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-11T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-11T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -8905,12 +8905,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-11T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-11T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9140,12 +9140,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-13T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-12T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9193,12 +9193,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-13T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-13T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9246,12 +9246,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-13T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-13T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9481,12 +9481,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-15T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-14T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9527,12 +9527,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-15T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-15T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9762,12 +9762,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-17T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-17T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -9906,12 +9906,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-18T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-18T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10141,12 +10141,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-20T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-19T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10194,12 +10194,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-20T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-20T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10429,12 +10429,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-22T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-22T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10664,12 +10664,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-24T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-24T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10801,12 +10801,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-25T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-25T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -10945,12 +10945,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-26T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-26T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11089,12 +11089,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-27T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-26T19:33:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11142,12 +11142,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-27T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-26T23:41:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11195,12 +11195,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-27T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-27T03:48:45-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11248,12 +11248,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-27T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-27T07:56:15-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11483,12 +11483,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-29T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-29T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11718,12 +11718,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-05-31T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-31T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11862,12 +11862,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-01T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-05-31T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11915,12 +11915,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-01T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-01T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -11968,12 +11968,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-01T23:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-01T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -12203,12 +12203,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-03T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-02T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -12256,12 +12256,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-03T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-03T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -12491,12 +12491,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-05T09:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-04T20:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -12537,12 +12537,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-05T11:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-05T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -12590,12 +12590,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-05T23:59:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-05T07:15:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -13007,12 +13007,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-09T08:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-08T21:37:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -13053,12 +13053,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-09T16:00:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-09T05:52:30-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -13379,12 +13379,12 @@
         "progressLog": []
       },
       "chronoProperty": {
-        "startTime": "2020-06-12T11:30:00-07:00[America/Los_Angeles]",
+        "startTime": "2020-06-12T01:45:00-07:00[America/Los_Angeles]",
         "deadline": "2020-08-31T08:30:00-07:00[America/Los_Angeles]",
         "aliveline": "2020-03-25T11:00:00-07:00[America/Los_Angeles]",
-        "movable": 0.0,
+        "movable": 1.0,
         "changeable": 0.0,
-        "splittable": 1.0,
+        "splittable": 0.0,
         "gravity": 0.0
       },
       "timelineProperty": {
@@ -20589,7 +20589,7 @@
   ],
   "blockStartTime": "2020-03-25T11:00:00+08:00[Asia/Taipei]",
   "blockEndTime": "2020-08-31T08:30:00+08:00[Asia/Taipei]",
-  "blockScheduleAfter": "2020-03-31T11:28:51+08:00[Asia/Taipei]",
+  "blockScheduleAfter": "2020-03-31T15:28:11+08:00[Asia/Taipei]",
   "score": "",
   "origin": "TCxlsb"
 }

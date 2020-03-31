@@ -1,0 +1,24 @@
+<solver>
+    <environmentMode>REPRODUCIBLE</environmentMode>
+    <moveThreadCount>AUTO</moveThreadCount>
+    <scanAnnotatedClasses>
+        <packageInclude>bo.tc.tcplanner</packageInclude>
+    </scanAnnotatedClasses>
+    <scoreDirectorFactory>
+        <scoreDrl>TCRules_P1.drl</scoreDrl>
+    </scoreDirectorFactory>
+    <constructionHeuristic>
+        <queuedEntityPlacer>
+            <entitySelector id="placerEntitySelector">
+                <cacheType>PHASE</cacheType>
+                <selectionOrder>SORTED</selectionOrder>
+                <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                <sorterManner>DECREASING_DIFFICULTY</sorterManner>
+            </entitySelector>
+            <changeMoveSelector>
+                <entitySelector mimicSelectorRef="placerEntitySelector"/>
+                <valueSelector variableName="timelineEntry"/>
+            </changeMoveSelector>
+        </queuedEntityPlacer>
+    </constructionHeuristic>
+</solver>

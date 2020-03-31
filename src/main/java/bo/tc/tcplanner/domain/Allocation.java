@@ -24,6 +24,8 @@ import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.TimelineEntryStrengthComparator;
+import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
+import bo.tc.tcplanner.domain.solver.filters.ReinitializeAllocationFilter;
 import bo.tc.tcplanner.domain.solver.listeners.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Range;
@@ -58,6 +60,7 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     private int index;
     private boolean scored;
     private boolean pinned;
+    private boolean solved;
 
     // Planning variables: changes during planning, between score calculations.
     private TimelineEntry timelineEntry;
@@ -126,7 +129,8 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
-            "timelineEntryRange"}, strengthComparatorClass = TimelineEntryStrengthComparator.class)
+            "timelineEntryRange"}, strengthComparatorClass = TimelineEntryStrengthComparator.class,
+            reinitializeVariableEntityFilter = ReinitializeAllocationFilter.class)
     public TimelineEntry getTimelineEntry() {
         return timelineEntry;
     }
@@ -146,7 +150,8 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
-            "progressdeltaRange"}, strengthComparatorClass = ProgressDeltaStrengthComparator.class)
+            "progressdeltaRange"}, strengthComparatorClass = ProgressDeltaStrengthComparator.class,
+            reinitializeVariableEntityFilter = ReinitializeAllocationFilter.class)
     public Integer getProgressdelta() {
         return progressdelta;
     }
@@ -400,6 +405,14 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
 
     public void setScored(boolean scored) {
         this.scored = scored;
+    }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.solved = solved;
     }
 
     public Allocation getNextAllocation() {
