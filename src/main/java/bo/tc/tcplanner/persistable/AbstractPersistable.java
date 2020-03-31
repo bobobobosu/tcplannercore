@@ -25,32 +25,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractPersistable implements Serializable {
 
+    private final static AtomicInteger counter = new AtomicInteger();
     @JsonIgnore
     @Exclude
     protected Integer id;
-
     @JsonIgnore
     @Exclude
     protected boolean volatileFlag;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AbstractPersistable that = (AbstractPersistable) o;
-
-        return id.equals(that.id);
-    }
-
     protected AbstractPersistable() {
         this.id = genId();
         this.volatileFlag = false;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
     }
 
     protected AbstractPersistable(AbstractPersistable abstractPersistable) {
@@ -66,13 +51,23 @@ public abstract class AbstractPersistable implements Serializable {
         this.id = id;
     }
 
-    @PlanningId
-    public Integer getId() {
-        return id;
+    private synchronized static int genId() {
+        return counter.incrementAndGet();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractPersistable that = (AbstractPersistable) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
 
@@ -83,6 +78,15 @@ public abstract class AbstractPersistable implements Serializable {
 //                .append(id, other.id)
 //                .toComparison();
 //    }
+
+    @PlanningId
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
@@ -103,11 +107,5 @@ public abstract class AbstractPersistable implements Serializable {
     abstract public AbstractPersistable removeEmpty();
 
     abstract public boolean checkValid();
-
-    private final static AtomicInteger counter = new AtomicInteger();
-
-    private synchronized static int genId() {
-        return counter.incrementAndGet();
-    }
 
 }

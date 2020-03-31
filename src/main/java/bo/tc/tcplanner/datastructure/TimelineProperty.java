@@ -23,6 +23,15 @@ public class TimelineProperty extends AbstractPersistable {
         super();
     }
 
+    public TimelineProperty(TimelineProperty other) {
+        super(other);
+        this.setRownum(other.rownum);
+        this.setTimelineid(other.timelineid);
+        this.setDependencyIdList(new ArrayList<>(other.dependencyIdList));
+        this.setPlanningWindowType(other.planningWindowType);
+        this.setTaskChainIdList(new ArrayList<>(other.taskChainIdList));
+    }
+
     @Override
     public TimelineProperty removeVolatile() {
         return this;
@@ -47,15 +56,6 @@ public class TimelineProperty extends AbstractPersistable {
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(this.toString(), ex);
         }
-    }
-
-    public TimelineProperty(TimelineProperty other) {
-        super(other);
-        this.setRownum(other.rownum);
-        this.setTimelineid(other.timelineid);
-        this.setDependencyIdList(new ArrayList<>(other.dependencyIdList));
-        this.setPlanningWindowType(other.planningWindowType);
-        this.setTaskChainIdList(new ArrayList<>(other.taskChainIdList));
     }
 
     public int getRownum() {

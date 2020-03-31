@@ -9,7 +9,10 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.util.*;
 
+import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
+
 public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<Schedule> {
+    Map<String, List<TimelineEntry>> avareq2timelineEntryMap = new HashMap<>();
 
     @Override
     public long getSize(ScoreDirector<Schedule> scoreDirector) {
@@ -19,27 +22,62 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
     @Override
     public Iterator<? extends Move<Schedule>> createOriginalMoveIterator(ScoreDirector<Schedule> scoreDirector) {
         return new Iterator<Move<Schedule>>() {
-            Iterator<Allocation> thisFocusedAllocationIterator = scoreDirector.getWorkingSolution().focusedAllocationSet.iterator();
-            Allocation thisAllocation = thisFocusedAllocationIterator.next();
-            ListIterator<TimelineEntry> timelineEntryIterator = thisAllocation.getTimelineEntryRange().listIterator();
+            Iterator<Allocation> dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
+            Allocation thisAllocation = null;
+            List<TimelineEntry> matchingTimelineEntries = new ArrayList<>();
 
             @Override
             public boolean hasNext() {
-                return thisAllocation != null;
+                populateQueue();
+                return matchingTimelineEntries.size() > 0;
+            }
+
+            private void populateQueue() {
+                if (matchingTimelineEntries.size() > 0) return;
+                while (matchingTimelineEntries.size() == 0) {
+                    if (!dummyAllocationIterator.hasNext()) break;
+                    thisAllocation = dummyAllocationIterator.next();
+                    matchingTimelineEntries = new ArrayList<>(getMatchingTimelineEntries(thisAllocation));
+                }
+            }
+
+            private List<TimelineEntry> getMatchingTimelineEntries(Allocation allocation) {
+                Allocation nextAllocation = allocation.getNextAllocation();
+                if (nextAllocation == null ||
+                        locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
+                    return new ArrayList<>();
+                String available = nextAllocation.getPreviousStandstill();
+                String requirement = nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation();
+                return avareq2timelineEntryMap.computeIfAbsent(available + requirement,
+                        key -> {
+                            List<TimelineEntry> timelineEntries = new ArrayList<>();
+                            for (TimelineEntry timelineEntry : allocation.getSchedule().getTimelineEntryList()) {
+                                if (locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                        timelineEntry.getHumanStateChange().getCurrentLocation()) &&
+                                        locationRestrictionCheck(timelineEntry.getHumanStateChange().getMovetoLocation(),
+                                                nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
+                                    timelineEntries.add(timelineEntry);
+                                }
+                            }
+                            return timelineEntries;
+                        });
             }
 
             @Override
             public Move<Schedule> next() {
-                if (!timelineEntryIterator.hasNext()) {
-                    thisAllocation = thisFocusedAllocationIterator.hasNext() ? thisFocusedAllocationIterator.next() : null;
-                    timelineEntryIterator = scoreDirector.getWorkingSolution().getTimelineEntryList().listIterator();
-                }
+                populateQueue();
+                Allocation allocation = thisAllocation;
+                TimelineEntry timelineEntry = matchingTimelineEntries.get(0);
+
+                // advance
+                matchingTimelineEntries.remove(0);
+
                 return new SetValueMove(
-                        Arrays.asList(thisAllocation,
-                                scoreDirector.getWorkingSolution().focusedAllocationSet.higher(thisAllocation)),
+                        Arrays.asList(allocation, allocation.getFocusedAllocationSet().higher(allocation)),
                         Arrays.asList(
                                 new AllocationValues()
-                                        .setExecutionMode(timelineEntryIterator.next())
+                                        .setExecutionMode(timelineEntry)
                                         .setProgressDelta(100)
                                         .setDelay(0),
                                 new AllocationValues().setDelay(0))
@@ -49,24 +87,64 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
     }
 
     @Override
-    public Iterator<? extends Move<Schedule>> createRandomMoveIterator(ScoreDirector<Schedule> scoreDirector, Random random) {
+    public Iterator<? extends Move<Schedule>> createRandomMoveIterator(ScoreDirector<Schedule> scoreDirector, Random workingRandom) {
         return new Iterator<Move<Schedule>>() {
-            List<Allocation> focusedAllocationList = new ArrayList<>(scoreDirector.getWorkingSolution().focusedAllocationSet);
+            Iterator<Allocation> dummyAllocationIterator = scoreDirector.getWorkingSolution().getDummyAllocationIterator();
+            Allocation thisAllocation = null;
+            List<TimelineEntry> matchingTimelineEntries = new ArrayList<>();
 
             @Override
             public boolean hasNext() {
-                return focusedAllocationList.size() > 0;
+                populateQueue();
+                return matchingTimelineEntries.size() > 0;
+            }
+
+            private void populateQueue() {
+                if (matchingTimelineEntries.size() > 0) return;
+                while (matchingTimelineEntries.size() == 0) {
+                    if (!dummyAllocationIterator.hasNext()) break;
+                    thisAllocation = dummyAllocationIterator.next();
+                    matchingTimelineEntries = new ArrayList<>(getMatchingTimelineEntries(thisAllocation));
+                }
+            }
+
+            private List<TimelineEntry> getMatchingTimelineEntries(Allocation allocation) {
+                Allocation nextAllocation = allocation.getNextAllocation();
+                if (nextAllocation == null ||
+                        locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
+                    return new ArrayList<>();
+                String available = nextAllocation.getPreviousStandstill();
+                String requirement = nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation();
+                return avareq2timelineEntryMap.computeIfAbsent(available + requirement,
+                        key -> {
+                            List<TimelineEntry> timelineEntries = new ArrayList<>();
+                            for (TimelineEntry timelineEntry : allocation.getSchedule().getTimelineEntryList()) {
+                                if (locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                        timelineEntry.getHumanStateChange().getCurrentLocation()) &&
+                                        locationRestrictionCheck(timelineEntry.getHumanStateChange().getMovetoLocation(),
+                                                nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
+                                    timelineEntries.add(timelineEntry);
+                                }
+                            }
+                            return timelineEntries;
+                        });
             }
 
             @Override
             public Move<Schedule> next() {
-                Allocation thisAllocation = focusedAllocationList.get(random.nextInt(focusedAllocationList.size()));
+                populateQueue();
+                Allocation allocation = thisAllocation;
+                TimelineEntry timelineEntry = matchingTimelineEntries.get(0);
+
+                // advance
+                matchingTimelineEntries.remove(0);
+
                 return new SetValueMove(
-                        Arrays.asList(thisAllocation,
-                                scoreDirector.getWorkingSolution().focusedAllocationSet.higher(thisAllocation)),
+                        Arrays.asList(allocation, allocation.getFocusedAllocationSet().higher(allocation)),
                         Arrays.asList(
                                 new AllocationValues()
-                                        .setExecutionMode(thisAllocation.getTimelineEntryRange().get(random.nextInt(thisAllocation.getTimelineEntryRange().size())))
+                                        .setExecutionMode(timelineEntry)
                                         .setProgressDelta(100)
                                         .setDelay(0),
                                 new AllocationValues().setDelay(0))
@@ -74,4 +152,5 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
             }
         };
     }
+
 }

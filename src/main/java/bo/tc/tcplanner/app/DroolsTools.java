@@ -84,7 +84,6 @@ public class DroolsTools {
     }
 
     public static boolean locationRestrictionCheck(String available, String requirement) {
-        if(available.equals(PropertyConstants.dummyLocation))return true;
         return locationHierarchyMap.containsKey(available) ?
                 locationHierarchyMap.get(available).contains(requirement) :
                 available.equals(requirement);

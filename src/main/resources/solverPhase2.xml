@@ -9,6 +9,7 @@
     </scoreDirectorFactory>
     <termination>
         <millisecondsSpentLimit>60000</millisecondsSpentLimit>
+        <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
     </termination>
     <localSearch>
         <unionMoveSelector>
@@ -19,7 +20,10 @@
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
                 </entitySelector>
                 <secondaryEntitySelector>
+                    <cacheType>STEP</cacheType>
+                    <selectionOrder>PROBABILISTIC</selectionOrder>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                    <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.filters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                 </secondaryEntitySelector>
                 <variableNameInclude>timelineEntry</variableNameInclude>
                 <variableNameInclude>progressdelta</variableNameInclude>
@@ -35,16 +39,17 @@
             <changeMoveSelector>
                 <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
                 <entitySelector id="changeSelector1">
+                    <cacheType>STEP</cacheType>
+                    <selectionOrder>PROBABILISTIC</selectionOrder>
                     <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                    <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.filters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                 </entitySelector>
-                <valueSelector variableName="timelineEntry">
-                    <nearbySelection>
-                        <originEntitySelector mimicSelectorRef="changeSelector1"/>
-                        <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>
-                        <nearbySelectionDistributionType>PARABOLIC_DISTRIBUTION</nearbySelectionDistributionType>
-                    </nearbySelection>
-                </valueSelector>
+                <valueSelector variableName="timelineEntry"/>
             </changeMoveSelector>
+            <moveListFactory>
+                <fixedProbabilityWeight>0.0414</fixedProbabilityWeight>
+                <moveListFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseTimeEntryMoveFactory</moveListFactoryClass>
+            </moveListFactory>
             <moveIteratorFactory>
                 <fixedProbabilityWeight>0.0036</fixedProbabilityWeight>
                 <moveIteratorFactoryClass>bo.tc.tcplanner.domain.solver.moves.PreciseDelayMoveIteratorFactory</moveIteratorFactoryClass>
@@ -61,15 +66,12 @@
                 <fixedProbabilityWeight>0.59616</fixedProbabilityWeight>
                 <changeMoveSelector>
                     <entitySelector id="cartesianSelector1">
+                        <cacheType>STEP</cacheType>
+                        <selectionOrder>PROBABILISTIC</selectionOrder>
                         <filterClass>bo.tc.tcplanner.domain.solver.filters.TimelineEntryCanChangeFilter</filterClass>
+                        <probabilityWeightFactoryClass>bo.tc.tcplanner.domain.solver.filters.AllocationProbabilityWeightFactory</probabilityWeightFactoryClass>
                     </entitySelector>
-                    <valueSelector variableName="timelineEntry">
-                        <nearbySelection>
-                            <originEntitySelector mimicSelectorRef="cartesianSelector1"/>
-                            <nearbyDistanceMeterClass>bo.tc.tcplanner.domain.solver.meters.AllocationNearbyDistanceMeter</nearbyDistanceMeterClass>
-                            <nearbySelectionDistributionType>PARABOLIC_DISTRIBUTION</nearbySelectionDistributionType>
-                        </nearbySelection>
-                    </valueSelector>
+                    <valueSelector variableName="timelineEntry"/>
                 </changeMoveSelector>
                 <changeMoveSelector>
                     <entitySelector mimicSelectorRef="cartesianSelector1"/>
@@ -109,7 +111,7 @@
             <undoMoveTabuSize>5</undoMoveTabuSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>400</acceptedCountLimit>
+            <acceptedCountLimit>1500</acceptedCountLimit>
             <finalistPodiumType>STRATEGIC_OSCILLATION_BY_LEVEL</finalistPodiumType>
         </forager>
     </localSearch>

@@ -20,6 +20,15 @@ public class HumanStateChange extends AbstractPersistable {
         super();
     }
 
+    public HumanStateChange(HumanStateChange other) {
+        super(other);
+        this.setCurrentLocation(other.currentLocation);
+        this.setMovetoLocation(other.movetoLocation);
+        this.setDuration(other.duration);
+        this.setRequirementTimerange(other.requirementTimerange);
+        this.setAdviceTimerange(other.adviceTimerange);
+    }
+
     @Override
     public HumanStateChange removeVolatile() {
         return this;
@@ -42,15 +51,6 @@ public class HumanStateChange extends AbstractPersistable {
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(this.toString(), ex);
         }
-    }
-
-    public HumanStateChange(HumanStateChange other) {
-        super(other);
-        this.setCurrentLocation(other.currentLocation);
-        this.setMovetoLocation(other.movetoLocation);
-        this.setDuration(other.duration);
-        this.setRequirementTimerange(other.requirementTimerange);
-        this.setAdviceTimerange(other.adviceTimerange);
     }
 
     public String getCurrentLocation() {

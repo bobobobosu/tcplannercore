@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import static bo.tc.tcplanner.app.Benchmark.setConstants;
+import static bo.tc.tcplanner.PropertyConstants.setConstants;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 
 public class TCSchedulingApp {

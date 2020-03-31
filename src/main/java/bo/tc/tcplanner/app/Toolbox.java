@@ -1,7 +1,6 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.PropertyConstants;
-import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +14,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -29,6 +26,8 @@ import java.util.stream.Collectors;
 import static bo.tc.tcplanner.app.JsonServer.updateConsole;
 
 public class Toolbox {
+    public static TrayIcon trayIcon;
+
     public static LinkedHashMap<String, Object> castDict(Object obj) {
         return (LinkedHashMap<String, Object>) obj;
     }
@@ -68,7 +67,6 @@ public class Toolbox {
         return null;
     }
 
-    public static TrayIcon trayIcon;
     public static void displayTray(String caption, String text) {
         //Obtain only one instance of the SystemTray object
         SystemTray tray = SystemTray.getSystemTray();
@@ -163,10 +161,29 @@ public class Toolbox {
         }
     }
 
+    public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet) {
+        StringBuilder result = new StringBuilder();
+        Iterator<ConstraintMatch> constraintMatchSetIterator = ConstraintMatchSet.iterator();
+        while (constraintMatchSetIterator.hasNext()) {
+            ConstraintMatch constraintMatch = constraintMatchSetIterator.next();
+            if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x < 0)) {
+                result.append(constraintMatch.getConstraintName())
+                        .append("\n")
+                        .append(Arrays.toString(((BendableScore) (constraintMatch.getScore())).getHardScores()))
+                        .append("\n");
+            }
+        }
+        return result.toString();
+    }
+
+    public static String genPathFromConstants(String filename, HashMap<String, Object> ConstantsJson) {
+        return castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get(castString(castDict(castDict(ConstantsJson.get("Paths")).get("Files")).get(filename)))) + filename;
+    }
+
     public static class PrettyPrintAlloc {
-        ScoreDirector<Schedule> scoreDirector;
         public List<String[]> breakByRules = new ArrayList<>();
         public Map<Allocation, Indictment> breakByTasks = new HashMap<>();
+        ScoreDirector<Schedule> scoreDirector;
 
         public PrettyPrintAlloc(ScoreDirector<Schedule> scoreDirector) {
             this.scoreDirector = scoreDirector;
@@ -245,18 +262,13 @@ public class Toolbox {
         }
 
         public String titleStr(Allocation allocation) {
+
             return allocation.getTimelineEntry().getTitle() + " " + "\n" +
-                    allocation.getResourceElementMap().entrySet()
-                            .stream()
-                            .filter(entry -> entry.getValue()
-                                    .stream()
-                                    .mapToDouble(ResourceElement::getAmt)
-                                    .sum() != 0)
-                            .collect(Collectors.toMap(Map.Entry::getKey,
-                                    x -> x.getValue().stream()
-                                            .mapToDouble(ResourceElement::getAmt)
-                                            .sum()
-                            )).toString().replace(", ", "\n");
+                    allocation.getResourceElementMap().entrySet().stream().filter(
+                            x -> x.getValue().stream().anyMatch(y -> y.getAmt() < 0 ||
+                                    y.getAmt() > allocation.getSchedule().getValueEntryMap().get(x.getKey()).getCapacity()))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                            .toString().replace("], ", "]\n");
         }
 
         public String prettyAllocation(Allocation allocation) {
@@ -273,25 +285,6 @@ public class Toolbox {
                     titleStr(allocation)});
             return FlipTable.of(timelineHeader, new String[][]{timelineentry});
         }
-    }
-
-    public static String hardConstraintMatchToString(Set<ConstraintMatch> ConstraintMatchSet) {
-        StringBuilder result = new StringBuilder();
-        Iterator<ConstraintMatch> constraintMatchSetIterator = ConstraintMatchSet.iterator();
-        while (constraintMatchSetIterator.hasNext()) {
-            ConstraintMatch constraintMatch = constraintMatchSetIterator.next();
-            if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x < 0)) {
-                result.append(constraintMatch.getConstraintName())
-                        .append("\n")
-                        .append(Arrays.toString(((BendableScore) (constraintMatch.getScore())).getHardScores()))
-                        .append("\n");
-            }
-        }
-        return result.toString();
-    }
-
-    public static String genPathFromConstants(String filename, HashMap<String, Object> ConstantsJson) {
-        return castString(castDict(castDict(ConstantsJson.get("Paths")).get("Folders")).get(castString(castDict(castDict(ConstantsJson.get("Paths")).get("Files")).get(filename)))) + filename;
     }
 }
 

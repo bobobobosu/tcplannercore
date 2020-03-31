@@ -141,6 +141,56 @@ public class ListenerTools {
         return resourceChangeChain.resultChain;
     }
 
+    private static int pullOrderCompareToBuilder(ResourceElement o1, ResourceElement o2,
+                                                 Map<ResourceElement, Integer> resourceSourceMap,
+                                                 List<Allocation> allocationList,
+                                                 TimelineEntry timelineEntry) {
+        TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
+        TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
+        return new CompareToBuilder()
+                .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
+                .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
+                        o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
+                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
+                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
+                .toComparison();
+
+    }
+
+    private static void addResourceElement(Map<String, List<ResourceElement>> resourceElementMap, String key, ResourceElement resourceElement) {
+        Map<String, List<ResourceElement>> targetMap = resourceElementMap;
+        if (!targetMap.containsKey(key)) targetMap.put(key, new ArrayList<>());
+        targetMap.get(key).add(resourceElement);
+    }
+
+    private static int nextPositive(List<ResourceElement> resourceElementList, int startIdx) {
+        while ((startIdx = startIdx + 1) < resourceElementList.size()) {
+            if (resourceElementList.get(startIdx).getAmt() > 0) break;
+        }
+        return startIdx < resourceElementList.size() ? startIdx : -1;
+    }
+
+    private static int nextNegative(List<ResourceElement> resourceElementList, int startIdx) {
+        while ((startIdx = startIdx + 1) < resourceElementList.size()) {
+            if (resourceElementList.get(startIdx).getAmt() < 0) break;
+        }
+        return startIdx < resourceElementList.size() ? startIdx : -1;
+    }
+
+    public static Map<String, List<ResourceElement>> deepCloneResourceMap
+            (Map<String, List<ResourceElement>> resourceElementMap) {
+        Map<String, List<ResourceElement>> newMap = new HashMap<>();
+        for (Map.Entry<String, List<ResourceElement>> resource : resourceElementMap.entrySet()) {
+            newMap.put(resource.getKey(), resource.getValue()
+                    .stream().map(x -> new ResourceElement()
+                            .setAmt(x.getAmt())
+                            .setLocation(x.getLocation())
+                            .setVolatileFlag(x.isVolatileFlag()))
+                    .collect(Collectors.toList())
+            );
+        }
+        return newMap;
+    }
 
     static class ResourceChangeChain {
         List<ResourceElementMap> resultChain = new ArrayList<>();
@@ -202,56 +252,5 @@ public class ListenerTools {
                 });
             }
         }
-    }
-
-    private static int pullOrderCompareToBuilder(ResourceElement o1, ResourceElement o2,
-                                                 Map<ResourceElement, Integer> resourceSourceMap,
-                                                 List<Allocation> allocationList,
-                                                 TimelineEntry timelineEntry) {
-        TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
-        TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
-        return new CompareToBuilder()
-                .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
-                .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
-                        o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
-                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
-                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
-                .toComparison();
-
-    }
-
-    private static void addResourceElement(Map<String, List<ResourceElement>> resourceElementMap, String key, ResourceElement resourceElement) {
-        Map<String, List<ResourceElement>> targetMap = resourceElementMap;
-        if (!targetMap.containsKey(key)) targetMap.put(key, new ArrayList<>());
-        targetMap.get(key).add(resourceElement);
-    }
-
-    private static int nextPositive(List<ResourceElement> resourceElementList, int startIdx) {
-        while ((startIdx = startIdx + 1) < resourceElementList.size()) {
-            if (resourceElementList.get(startIdx).getAmt() > 0) break;
-        }
-        return startIdx < resourceElementList.size() ? startIdx : -1;
-    }
-
-    private static int nextNegative(List<ResourceElement> resourceElementList, int startIdx) {
-        while ((startIdx = startIdx + 1) < resourceElementList.size()) {
-            if (resourceElementList.get(startIdx).getAmt() < 0) break;
-        }
-        return startIdx < resourceElementList.size() ? startIdx : -1;
-    }
-
-    public static Map<String, List<ResourceElement>> deepCloneResourceMap
-            (Map<String, List<ResourceElement>> resourceElementMap) {
-        Map<String, List<ResourceElement>> newMap = new HashMap<>();
-        for (Map.Entry<String, List<ResourceElement>> resource : resourceElementMap.entrySet()) {
-            newMap.put(resource.getKey(), resource.getValue()
-                    .stream().map(x -> new ResourceElement()
-                            .setAmt(x.getAmt())
-                            .setLocation(x.getLocation())
-                            .setVolatileFlag(x.isVolatileFlag()))
-                    .collect(Collectors.toList())
-            );
-        }
-        return newMap;
     }
 }

@@ -1,57 +1,38 @@
 package bo.tc.tcplanner.SwiftGui;
 
-import bo.tc.tcplanner.PropertyConstants;
 import bo.tc.tcplanner.app.SolverThread;
 import bo.tc.tcplanner.app.Toolbox;
-import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import bo.tc.tcplanner.domain.solver.moves.SetValueMove;
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jakewharton.fliptables.FlipTable;
-import org.optaplanner.core.api.domain.valuerange.ValueRangeFactory;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.time.Duration;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class StartStopGui extends JPanel {
-    SolverThread solverThread;
-
-    JTable table;
-    JTextArea detailTextField;
-
     public ScoreDirector<Schedule> guiScoreDirector;
     public Schedule guiSchedule;
+    SolverThread solverThread;
+    JTable table;
+    JTextArea detailTextField;
     List<Allocation> guiAllocationList;
-    private JComboBox<TimelineEntry> timelineEntryComboBox;
-    private JComboBox<Integer> progressDeltaComboBox;
-    private JComboBox<Integer> delayComboBox;
-
     // current
     Allocation selectedAllocation = null;
     boolean isSelecting = false;
+    private JComboBox<TimelineEntry> timelineEntryComboBox;
+    private JComboBox<Integer> progressDeltaComboBox;
+    private JComboBox<Integer> delayComboBox;
 
     public StartStopGui(SolverThread solverThread) {
         initializeScoreDirector();
@@ -93,7 +74,7 @@ public class StartStopGui extends JPanel {
 
     public void refreshSchedule() {
         guiSchedule = solverThread.currentSchedule;
-        guiAllocationList = guiSchedule.getBriefAllocationList();
+        guiAllocationList = guiSchedule.getCondensedAllocationList();
         populateSchedule();
         this.revalidate();
         this.repaint();

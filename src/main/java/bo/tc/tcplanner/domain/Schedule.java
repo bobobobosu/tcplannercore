@@ -17,6 +17,8 @@
 package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.datastructure.*;
+import bo.tc.tcplanner.domain.solver.filters.AllocationProbabilityWeightFactory;
+import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -36,31 +38,27 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @PlanningSolution
 public class Schedule extends AbstractPersistable {
 
+    public Special special;
+    public TreeSet<Allocation> focusedAllocationSet;
+    // Settings
+    public String valueRangeMode = "default";
     // Domain
     private List<Allocation> allocationList;
     private List<TimelineEntry> timelineEntryList;
-
     // Objects
     private TimelineBlock problemTimelineBlock;
     private ValueEntryMap valueEntryMap;
     private TimeEntryMap timeEntryMap;
-    public Special special;
-
     // Easy Access
     private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
-    public TreeSet<Allocation> focusedAllocationSet;
+    //    @XStreamConverter(BendableScoreXStreamConverter.class)
+    private BendableScore score;
 
-    // Settings
-    public String valueRangeMode = "default";
-
-    public class Special {
-        public HumanStateChange dummyHumamStateChange;
-        public ProgressChange dummyProgressChange;
-        public ResourceStateChange dummyResourceStateChange;
-        public ChronoProperty dummyChronoProperty;
-        public TimelineProperty dummyTimelineProperty;
-        public String dummyLocation;
-        public String dummyTime;
+    public Schedule() {
+        //Initialize
+        timelineEntryList = new ArrayList<TimelineEntry>();
+        allocationList = new ArrayList<>();
+        special = new Special();
     }
 
     public Allocation getSourceAllocation() {
@@ -74,7 +72,6 @@ public class Schedule extends AbstractPersistable {
     public TimelineEntry getDummyTimelineEntry() {
         return timelineEntryList.get(0);
     }
-
 
     @Override
     public boolean checkValid() {
@@ -108,17 +105,6 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-    //    @XStreamConverter(BendableScoreXStreamConverter.class)
-    private BendableScore score;
-
-
-    public Schedule() {
-        //Initialize
-        timelineEntryList = new ArrayList<TimelineEntry>();
-        allocationList = new ArrayList<>();
-        special = new Special();
-    }
-
     @ProblemFactProperty
     public ValueEntryMap getValueEntryMap() {
         return valueEntryMap;
@@ -149,7 +135,6 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-
     @PlanningEntityCollectionProperty
     public List<Allocation> getAllocationList() {
         return allocationList;
@@ -168,7 +153,6 @@ public class Schedule extends AbstractPersistable {
     public void setScore(BendableScore score) {
         this.score = score;
     }
-
 
     public TimelineBlock getProblemTimelineBlock() {
         return problemTimelineBlock;
@@ -189,31 +173,7 @@ public class Schedule extends AbstractPersistable {
     }
 
     public Iterator<Allocation> getDummyAllocationIterator() {
-        return new Iterator<Allocation>() {
-            Iterator<Allocation> focusedAllocationIterator = focusedAllocationSet.iterator();
-            Allocation thisAllocation = focusedAllocationIterator.next();
-            Allocation nextAllocation = focusedAllocationIterator.hasNext() ? getDummyAllocation(
-                    thisAllocation, thisAllocation = focusedAllocationIterator.next()) : null;
-
-            @Override
-            public boolean hasNext() {
-                return nextAllocation != null;
-            }
-
-            @Override
-            public Allocation next() {
-                Allocation saveAllocation = nextAllocation;
-                nextAllocation = focusedAllocationIterator.hasNext() ? getDummyAllocation(
-                        thisAllocation, thisAllocation = focusedAllocationIterator.next()) : null;
-                return saveAllocation;
-            }
-
-            private Allocation getDummyAllocation(Allocation prevAllocation, Allocation thisAllocation) {
-                if (prevAllocation.equals(thisAllocation)) return null;
-                if (thisAllocation.getIndex() - prevAllocation.getIndex() < 2) return null;
-                return allocationList.get((thisAllocation.getIndex() + prevAllocation.getIndex()) / 2);
-            }
-        };
+        return AllocationProbabilityWeightFactory.getDummyAllocationIterator(allocationList.get(0));
     }
 
     public List<Allocation> getDummyAllocationList() {
@@ -221,28 +181,24 @@ public class Schedule extends AbstractPersistable {
     }
 
     public Iterator<Allocation> getCondensedAllocationIterator() {
-        return Iterators.concat(getDummyAllocationIterator(), focusedAllocationSet.iterator());
+        return AllocationProbabilityWeightFactory.getCondensedAllocationIterator(allocationList.get(0));
+    }
+
+    public List<Allocation> getCondensedAllocationList() {
+        return Lists.newArrayList(getCondensedAllocationIterator());
     }
 
     public List<Allocation> getFocusedAllocationList() {
-//        return allocationList.stream().filter(Allocation::isFocused).collect(Collectors.toList());
         return Lists.newArrayList(focusedAllocationSet);
     }
 
-    public List<Allocation> getBriefAllocationList() {
-        List<Allocation> briefAllocations = new ArrayList<>();
-        Iterator<Allocation> viewAllocationsIterator = focusedAllocationSet.iterator();
-        while (viewAllocationsIterator.hasNext()) {
-            Allocation allocation = viewAllocationsIterator.next();
-            if (briefAllocations.size() > 0) {
-                int prevIdx = briefAllocations.get(briefAllocations.size() - 1).getIndex();
-                int thisIdx = allocation.getIndex();
-                if ((prevIdx + thisIdx) / 2 != prevIdx) {
-                    briefAllocations.add(getAllocationList().get((prevIdx + thisIdx) / 2));
-                }
-            }
-            briefAllocations.add(allocation);
-        }
-        return briefAllocations;
+    public class Special {
+        public HumanStateChange dummyHumamStateChange;
+        public ProgressChange dummyProgressChange;
+        public ResourceStateChange dummyResourceStateChange;
+        public ChronoProperty dummyChronoProperty;
+        public TimelineProperty dummyTimelineProperty;
+        public String dummyLocation;
+        public String dummyTime;
     }
 }

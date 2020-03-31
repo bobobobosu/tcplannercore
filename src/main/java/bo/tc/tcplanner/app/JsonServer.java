@@ -33,20 +33,20 @@ public class JsonServer {
     private static final int PORT = 8080;
     private static final int BACKLOG = 1;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
-
+    //Global
+    public static StringBuffer consoleBuffer = new StringBuffer();
     //Solvers
     SolverThread solverThread;
     FirebaseServer firebaseServer;
     //Latest Solutions
     private TimelineBlock problemTimelineBlock;
     private Schedule latestBestSolutions;
-
     //Locks
     private Object resumeSolvingLock;
     private Object newTimelineBlockLock;
 
-    //Global
-    public static StringBuffer consoleBuffer = new StringBuffer();
+    public JsonServer() {
+    }
 
     public static String updateConsole(String s) {
         consoleBuffer.append(s).append("\n");
@@ -57,9 +57,6 @@ public class JsonServer {
         String buff = consoleBuffer.toString();
         consoleBuffer.setLength(0);
         return buff;
-    }
-
-    public JsonServer() {
     }
 
     public static void main(final String... args) throws IOException {
@@ -166,6 +163,53 @@ public class JsonServer {
 
     public void setFirebaseServer(FirebaseServer firebaseServer) {
         this.firebaseServer = firebaseServer;
+    }
+
+    private void setFiles(Map<String, Map> updatedfiles) throws IllegalArgumentException {
+        for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
+            if (entry.getKey().equals("TimeHierarchyMap.json")) {
+                TimeHierarchyMap tmptimeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), TimeHierarchyMap.class);
+                tmptimeHierarchyMap.checkValid();
+                timeHierarchyMap = tmptimeHierarchyMap;
+//                    firebaseServer.fullUpload("TimeHierarchyMap", timeHierarchyMap);
+                System.out.println(updateConsole("TimeHierarchyMap Updated"));
+            }
+            if (entry.getKey().equals("LocationHierarchyMap.json")) {
+                LocationHierarchyMap tmplocationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
+                tmplocationHierarchyMap.checkValid();
+                locationHierarchyMap = tmplocationHierarchyMap;
+//                    firebaseServer.fullUpload("LocationHierarchyMap", locationHierarchyMap);
+                System.out.println(updateConsole("LocationHierarchyMap Updated"));
+
+            }
+            if (entry.getKey().equals("ValueHierarchyMap.json")) {
+                ValueHierarchyMap tmpvalueHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), ValueHierarchyMap.class);
+                tmpvalueHierarchyMap.checkValid();
+                valueHierarchyMap = tmpvalueHierarchyMap;
+//                    firebaseServer.fullUpload("ValueHierarchyMap", valueHierarchyMap);
+                System.out.println(updateConsole("ValueHierarchyMap Updated"));
+            }
+            if (entry.getKey().equals("ValueEntryMap.json")) {
+                ValueEntryMap tmpvalueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
+                tmpvalueEntryMap.checkValid();
+                valueEntryMap = tmpvalueEntryMap;
+//                    firebaseServer.fullUpload("ValueEntryMap", valueEntryMap);
+                System.out.println(updateConsole("ValueEntryMap Updated"));
+            }
+            if (entry.getKey().equals("Timeline.json")) {
+                Timeline tmptimeline = new ObjectMapper().convertValue(entry.getValue(), Timeline.class);
+                tmptimeline.checkValid();
+                timeline = tmptimeline;
+//                    firebaseServer.fullUpload("Timeline", timeline);
+                System.out.println(updateConsole("Timeline Updated"));
+            }
+            if (entry.getKey().equals("TimelineBlock.json")) {
+                TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
+                timelineBlock.checkValid();
+                setProblemTimelineBlock(timelineBlock);
+                System.out.println(updateConsole("TimelineBlock Updated"));
+            }
+        }
     }
 
     public enum StatusCode {
@@ -346,53 +390,6 @@ public class JsonServer {
             }).start();
 
 
-        }
-    }
-
-    private void setFiles(Map<String, Map> updatedfiles) throws IllegalArgumentException {
-        for (Map.Entry<String, Map> entry : updatedfiles.entrySet()) {
-            if (entry.getKey().equals("TimeHierarchyMap.json")) {
-                TimeHierarchyMap tmptimeHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), TimeHierarchyMap.class);
-                tmptimeHierarchyMap.checkValid();
-                timeHierarchyMap = tmptimeHierarchyMap;
-//                    firebaseServer.fullUpload("TimeHierarchyMap", timeHierarchyMap);
-                System.out.println(updateConsole("TimeHierarchyMap Updated"));
-            }
-            if (entry.getKey().equals("LocationHierarchyMap.json")) {
-                LocationHierarchyMap tmplocationHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), LocationHierarchyMap.class);
-                tmplocationHierarchyMap.checkValid();
-                locationHierarchyMap = tmplocationHierarchyMap;
-//                    firebaseServer.fullUpload("LocationHierarchyMap", locationHierarchyMap);
-                System.out.println(updateConsole("LocationHierarchyMap Updated"));
-
-            }
-            if (entry.getKey().equals("ValueHierarchyMap.json")) {
-                ValueHierarchyMap tmpvalueHierarchyMap = new ObjectMapper().convertValue(entry.getValue(), ValueHierarchyMap.class);
-                tmpvalueHierarchyMap.checkValid();
-                valueHierarchyMap = tmpvalueHierarchyMap;
-//                    firebaseServer.fullUpload("ValueHierarchyMap", valueHierarchyMap);
-                System.out.println(updateConsole("ValueHierarchyMap Updated"));
-            }
-            if (entry.getKey().equals("ValueEntryMap.json")) {
-                ValueEntryMap tmpvalueEntryMap = new ObjectMapper().convertValue(entry.getValue(), ValueEntryMap.class);
-                tmpvalueEntryMap.checkValid();
-                valueEntryMap = tmpvalueEntryMap;
-//                    firebaseServer.fullUpload("ValueEntryMap", valueEntryMap);
-                System.out.println(updateConsole("ValueEntryMap Updated"));
-            }
-            if (entry.getKey().equals("Timeline.json")) {
-                Timeline tmptimeline = new ObjectMapper().convertValue(entry.getValue(), Timeline.class);
-                tmptimeline.checkValid();
-                timeline = tmptimeline;
-//                    firebaseServer.fullUpload("Timeline", timeline);
-                System.out.println(updateConsole("Timeline Updated"));
-            }
-            if (entry.getKey().equals("TimelineBlock.json")) {
-                TimelineBlock timelineBlock = new ObjectMapper().convertValue(entry.getValue(), TimelineBlock.class);
-                timelineBlock.checkValid();
-                setProblemTimelineBlock(timelineBlock);
-                System.out.println(updateConsole("TimelineBlock Updated"));
-            }
         }
     }
 

@@ -2,10 +2,10 @@ package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.SwiftGui.StartStopGui;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
-import bo.tc.tcplanner.datastructure.ValueEntryMap;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
-import bo.tc.tcplanner.datastructure.persistence.TimelineBlockScheduleFileIO;
+import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
+import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import org.optaplanner.core.api.score.Score;
@@ -15,20 +15,21 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
+import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionFilter;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.persistence.xstream.impl.domain.solution.XStreamSolutionFileIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.Benchmark.initializeFiles;
+import static bo.tc.tcplanner.PropertyConstants.fpath_ScheduleSolution;
+import static bo.tc.tcplanner.PropertyConstants.initializeFiles;
 import static bo.tc.tcplanner.app.JsonServer.updateConsole;
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.displayTray;
@@ -38,26 +39,30 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class SolverThread extends Thread {
     public static final Logger logger
             = LoggerFactory.getLogger(SolverThread.class);
-
+    static ScoreDirector<Schedule> scoringScoreDirector;
+    static Object[] lastNewBestSolution = {0L, 0L, null, null};
+    public Schedule currentSchedule;
     // links
     JsonServer jsonServer;
     StartStopGui startStopGui;
-
     boolean continuetosolve = true;
     String P1_mode = "global";
     String P2_mode = "global";
-    private List<Solver<Schedule>> solverList;
-
     // current
     String solvingStatus;
     Solver<Schedule> currentSolver;
-    static ScoreDirector<Schedule> scoringScoreDirector;
-    public Schedule currentSchedule;
-    static Object[] lastNewBestSolution = {0L, 0L, null, null};
-
+    private List<Solver<Schedule>> solverList;
     // locks
     private StringBuffer resumeSolvingLock;
     private Object newTimelineBlockLock;
+
+    public static ScoreDirector<Schedule> getScoringScoreDirector() {
+        if (scoringScoreDirector == null) {
+            SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
+            scoringScoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
+        }
+        return scoringScoreDirector;
+    }
 
     public Solver<Schedule> getCurrentSolver() {
         return currentSolver;
@@ -206,7 +211,7 @@ public class SolverThread extends Thread {
             currentSchedule = DSB.getSchedule();
         } else if (resumeSolvingLock.toString().equals("Restart")) {
             if (valueEntryMap == null || locationHierarchyMap == null || timeHierarchyMap == null) initializeFiles();
-            currentSchedule = new XStreamSolutionFileIO<Schedule>().read(new File(Benchmark.fpath_ScheduleSolution));
+            currentSchedule = new XStreamSolutionFileIO<Schedule>().read(new File(fpath_ScheduleSolution));
         } else if (resumeSolvingLock.toString().equals("Resume")) {
 
         } else {
@@ -240,7 +245,7 @@ public class SolverThread extends Thread {
         }
 
         currentSchedule.valueRangeMode = "default";
-        new XStreamSolutionFileIO<>(Schedule.class).write(currentSchedule, new File(Benchmark.fpath_ScheduleSolution));
+        new XStreamSolutionFileIO<>(Schedule.class).write(currentSchedule, new File(fpath_ScheduleSolution));
     }
 
     public JsonServer getJsonServer() {
@@ -291,14 +296,6 @@ public class SolverThread extends Thread {
                 return false;
         }
         return true;
-    }
-
-    public static ScoreDirector<Schedule> getScoringScoreDirector() {
-        if (scoringScoreDirector == null) {
-            SolverFactory solverFactory = SolverFactory.createFromXmlResource("solverPhase1.xml");
-            scoringScoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
-        }
-        return scoringScoreDirector;
     }
 
     public StartStopGui getStartStopGui() {

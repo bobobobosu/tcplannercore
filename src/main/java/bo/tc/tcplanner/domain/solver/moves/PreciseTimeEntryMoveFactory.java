@@ -5,25 +5,42 @@ import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.heuristic.selector.move.factory.MoveListFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
 import static bo.tc.tcplanner.domain.solver.filters.FilterTools.TimelineEntryCanChange;
 
 public class PreciseTimeEntryMoveFactory implements MoveListFactory<Schedule> {
+    Map<String, List<TimelineEntry>> avareq2timelineEntryMap = new HashMap<>();
 
     @Override
     public List<SetValueMove> createMoveList(Schedule schedule) {
-        Iterator<Allocation> allocationIterator = schedule.getCondensedAllocationIterator();
 
         List<SetValueMove> moveList = new ArrayList<>();
-        while (allocationIterator.hasNext()) {
-            Allocation allocation = allocationIterator.next();
-            if (!TimelineEntryCanChange(allocation)) continue;
-            for (TimelineEntry timelineEntry : allocation.getTimelineEntryRange()) {
-                if (timelineEntry.equals(allocation.getTimelineEntry())) continue;
+
+        List<Allocation> dummyAllocationList = schedule.getDummyAllocationList();
+        for (Allocation allocation : dummyAllocationList) {
+            Allocation nextAllocation = allocation.getNextAllocation();
+            if (nextAllocation == null ||
+                    locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                            nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) continue;
+            String available = nextAllocation.getPreviousStandstill();
+            String requirement = nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation();
+            List<TimelineEntry> matchTimelineEntries = avareq2timelineEntryMap.computeIfAbsent(available + requirement,
+                    key -> {
+                        List<TimelineEntry> timelineEntries = new ArrayList<>();
+                        for (TimelineEntry timelineEntry : schedule.getTimelineEntryList()) {
+                            if (locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                    timelineEntry.getHumanStateChange().getCurrentLocation()) &&
+                                    locationRestrictionCheck(timelineEntry.getHumanStateChange().getMovetoLocation(),
+                                            nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
+                                timelineEntries.add(timelineEntry);
+                            }
+                        }
+                        return timelineEntries;
+                    });
+
+            for (TimelineEntry timelineEntry : matchTimelineEntries) {
                 moveList.add(new SetValueMove(
                         Arrays.asList(allocation, allocation.getFocusedAllocationSet().higher(allocation)),
                         Arrays.asList(
@@ -35,7 +52,6 @@ public class PreciseTimeEntryMoveFactory implements MoveListFactory<Schedule> {
                 ));
             }
         }
-//        Collections.reverse(moveList);
         return moveList;
 
     }

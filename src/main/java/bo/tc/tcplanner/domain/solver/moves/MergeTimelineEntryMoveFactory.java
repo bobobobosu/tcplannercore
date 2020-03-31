@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 public class MergeTimelineEntryMoveFactory implements MoveListFactory<Schedule> {
     @Override
     public List<MergeTimelineEntryMove> createMoveList(Schedule schedule) {
-        Map<TimelineEntry, List<Allocation>> map = schedule
-                .getAllocationList()
+        List<Allocation> focusedAllocationList = schedule.getFocusedAllocationList();
+        Map<TimelineEntry, List<Allocation>> map = focusedAllocationList
                 .stream()
                 .collect(Collectors.groupingBy(Allocation::getTimelineEntry));
 
         List<MergeTimelineEntryMove> moveList = new ArrayList<>();
-        for (Allocation thisAllocation : schedule.getFocusedAllocationList()) {
+        for (Allocation thisAllocation : focusedAllocationList) {
             if (map.containsKey(thisAllocation.getTimelineEntry())) {
                 for (Allocation toAllocation : map.get(thisAllocation.getTimelineEntry())) {
                     moveList.add(new MergeTimelineEntryMove(thisAllocation, toAllocation));

@@ -68,6 +68,7 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     private String previousStandstill;
     private Duration plannedDuration;
     private ResourceElementMap resourceElementMap;
+    private List<TimelineEntry> timelineEntryRange = null;
 
     public Allocation() {
 
@@ -144,7 +145,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         this.delay = delay;
     }
 
-
     @PlanningVariable(valueRangeProviderRefs = {
             "progressdeltaRange"}, strengthComparatorClass = ProgressDeltaStrengthComparator.class)
     public Integer getProgressdelta() {
@@ -203,7 +203,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         this.plannedDuration = plannedDuration;
     }
 
-
     @CustomShadowVariable(variableListenerClass = FocusedAllocationSetUpdatingVariableListener.class,
             sources = {
                     @PlanningVariableReference(variableName = "timelineEntry")})
@@ -215,21 +214,20 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         schedule.focusedAllocationSet = focusedAllocationSet;
     }
 
-
     @PlanningPin
     public boolean isPinned() {
         return pinned;
     }
+
+    // ************************************************************************
+    // Scores
+    // ************************************************************************
 
     public Allocation setPinned(boolean pinned) {
         this.pinned = timelineEntry.getTimelineProperty().getPlanningWindowType()
                 .equals(PropertyConstants.PlanningWindowTypes.types.History.name()) || pinned;
         return this;
     }
-
-    // ************************************************************************
-    // Scores
-    // ************************************************************************
 
     public Double getResourceElementMapUtilizationScore() {
         double score = 0;
@@ -285,11 +283,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         Range<ZonedDateTime> thisRange = Range.closed(getStartDate(), getEndDate());
         RangeSet<ZonedDateTime> restrictionRangeSet = schedule.getTimeEntryMap()
                 .get(restriction);
-        try{
-            var ff=  restrictionRangeSet.encloses(thisRange);
-        }catch (Exception ex){
-            int g=0;
-        }
         return restrictionRangeSet.encloses(thisRange);
     }
 
@@ -305,15 +298,13 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getRequirementTimerange());
     }
 
-    public long getAdviceTimerangeScore() {
-        return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getAdviceTimerange());
-    }
-
     // ************************************************************************
     // Ranges
     // ************************************************************************
 
-    private List<TimelineEntry> timelineEntryRange = null;
+    public long getAdviceTimerangeScore() {
+        return getTimeRestrictionScore(timelineEntry.getHumanStateChange().getAdviceTimerange());
+    }
 
     @ValueRangeProvider(id = "timelineEntryRange")
     public List<TimelineEntry> getTimelineEntryRange() {
@@ -379,27 +370,6 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         return this;
     }
 
-    public Allocation getNextFocusedAllocation() {
-        Allocation result = null;
-        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
-            if (schedule.getAllocationList().get(i).isFocused()) {
-                result = schedule.getAllocationList().get(i);
-                break;
-            }
-        }
-        return result;
-    }
-
-    public Allocation getPrevFocusedAllocation() {
-        Allocation result = null;
-        for (int i = index - 1; i >= 0; i--) {
-            if (schedule.getAllocationList().get(i).isFocused()) {
-                result = schedule.getAllocationList().get(i);
-                break;
-            }
-        }
-        return result;
-    }
 
     public Integer getIndex() {
         return index;
@@ -421,9 +391,7 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     }
 
     public boolean isFocused() {
-        return this.equals(schedule.getSourceAllocation()) ||
-                this.equals(schedule.getSinkAllocation()) ||
-                !timelineEntry.equals(schedule.getDummyTimelineEntry());
+        return !timelineEntry.equals(schedule.getDummyTimelineEntry());
     }
 
     public boolean isScored() {
@@ -434,8 +402,12 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         this.scored = scored;
     }
 
-    public Allocation getNextAllocation(){
+    public Allocation getNextAllocation() {
         return getFocusedAllocationSet().higher(this);
+    }
+
+    public Allocation getPrevAllocation() {
+        return getFocusedAllocationSet().lower(this);
     }
 
 }
@@ -483,4 +455,27 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
 //            focusedAllocationsTillEnd.add(allocation);
 //        }
 //        return focusedAllocationsTillEnd;
+//    }
+
+
+//    public Allocation getNextFocusedAllocation() {
+//        Allocation result = null;
+//        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
+//            if (schedule.getAllocationList().get(i).isFocused()) {
+//                result = schedule.getAllocationList().get(i);
+//                break;
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public Allocation getPrevFocusedAllocation() {
+//        Allocation result = null;
+//        for (int i = index - 1; i >= 0; i--) {
+//            if (schedule.getAllocationList().get(i).isFocused()) {
+//                result = schedule.getAllocationList().get(i);
+//                break;
+//            }
+//        }
+//        return result;
 //    }

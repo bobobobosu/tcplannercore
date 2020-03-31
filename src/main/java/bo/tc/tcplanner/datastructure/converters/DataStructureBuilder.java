@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static bo.tc.tcplanner.PropertyConstants.dummyCountBetween;
 import static bo.tc.tcplanner.app.DroolsTools.getConstrintedTimeRange;
 import static bo.tc.tcplanner.domain.solver.listeners.ListenerTools.*;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -197,13 +198,14 @@ public class DataStructureBuilder {
 
         // add dummy jobs
         for (int i = schedule.getAllocationList().size() - 1; i >= 0; i--) {
-            if (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getStartTime() != null &&
-                    schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isBefore(
-                            schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter())) break;
+            if (schedule.getAllocationList().get(i) == schedule.getSourceAllocation() ||
+                    (schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getStartTime() != null &&
+                            schedule.getAllocationList().get(i).getTimelineEntry().getChronoProperty().getZonedStartTime().isBefore(
+                                    schedule.getProblemTimelineBlock().getZonedBlockScheduleAfter()))) break;
 
             // add dummy jobs between
             int finalI = i;
-            IntStream.rangeClosed(1, 30).forEach(x -> {
+            IntStream.rangeClosed(1, dummyCountBetween).forEach(x -> {
                 Allocation allocation = new Allocation()
                         .setVolatileFlag(true)
                         .setSchedule(schedule);
@@ -268,7 +270,9 @@ public class DataStructureBuilder {
         for (int i = 1; i < schedule.getAllocationList().size(); i++)
             schedule.getAllocationList().get(i).setPreviousStandstill(null);
         if (schedule.getSourceAllocation().getPreviousStandstill() == null)
-            schedule.getSourceAllocation().setPreviousStandstill(schedule.special.dummyLocation);
+            schedule.getSourceAllocation().setPreviousStandstill(
+                    schedule.getSourceAllocation().getNextAllocation()
+                            .getTimelineEntry().getHumanStateChange().getCurrentLocation());
 
         for (int prevIdx = 0, thidIdx = 1; thidIdx < focusedAllocationList.size(); prevIdx++, thidIdx++) {
             updateAllocationPreviousStandstill(focusedAllocationList.get(thidIdx), focusedAllocationList.get(prevIdx));
