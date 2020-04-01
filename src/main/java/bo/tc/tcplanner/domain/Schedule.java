@@ -16,21 +16,19 @@
 
 package bo.tc.tcplanner.domain;
 
+import bo.tc.tcplanner.PropertyConstants.SolverPhase;
 import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.solver.filters.AllocationProbabilityWeightFactory;
-import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
-import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -41,7 +39,7 @@ public class Schedule extends AbstractPersistable {
     public Special special;
     public TreeSet<Allocation> focusedAllocationSet;
     // Settings
-    public String valueRangeMode = "default";
+    public SolverPhase solverPhase;
     // Domain
     private List<Allocation> allocationList;
     private List<TimelineEntry> timelineEntryList;
@@ -52,7 +50,8 @@ public class Schedule extends AbstractPersistable {
     // Easy Access
     private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
     //    @XStreamConverter(BendableScoreXStreamConverter.class)
-    private BendableScore score;
+
+    private HardMediumSoftLongScore score;
 
     public Schedule() {
         //Initialize
@@ -145,12 +144,12 @@ public class Schedule extends AbstractPersistable {
         return this;
     }
 
-    @PlanningScore(bendableHardLevelsSize = 5, bendableSoftLevelsSize = 4)
-    public BendableScore getScore() {
+    @PlanningScore()
+    public HardMediumSoftLongScore getScore() {
         return score;
     }
 
-    public void setScore(BendableScore score) {
+    public void setScore(HardMediumSoftLongScore score) {
         this.score = score;
     }
 

@@ -4,10 +4,6 @@ import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import org.optaplanner.core.impl.heuristic.selector.common.nearby.NearbyDistanceMeter;
 
-import java.util.Set;
-
-import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
-
 public class AllocationNearbyDistanceMeter implements NearbyDistanceMeter<Allocation, TimelineEntry> {
     @Override
     public double getNearbyDistance(Allocation origin, TimelineEntry destination) {

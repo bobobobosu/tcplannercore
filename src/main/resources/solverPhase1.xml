@@ -5,13 +5,10 @@
         <packageInclude>bo.tc.tcplanner</packageInclude>
     </scanAnnotatedClasses>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1.drl</scoreDrl>
+        <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>
+        <constraintStreamImplType>BAVET</constraintStreamImplType>
     </scoreDirectorFactory>
     <localSearch>
-        <termination>
-            <millisecondsSpentLimit>180000</millisecondsSpentLimit>
-            <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>
-        </termination>
         <unionMoveSelector>
             <swapMoveSelector>
                 <fixedProbabilityWeight>0.1</fixedProbabilityWeight>

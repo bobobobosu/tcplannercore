@@ -43,7 +43,7 @@
     <#list ['<moveTabuSize>3</moveTabuSize>'] as mtabu>
     <#list ['<undoMoveTabuSize>5</undoMoveTabuSize>'] as umtabu>
     <#list ['REPRODUCIBLE'] as envmode>
-    <#list ['TCRules_P1.drl'] as scoreDrl>
+    <#list ['TCRules_P1_0.drl'] as scoreDrl>
     <#list ['<constructionHeuristic>
                  <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
              </constructionHeuristic>'] as constructionHeuristic>
@@ -57,6 +57,9 @@
 <#--                  <sorterManner>DECREASING_DIFFICULTY</sorterManner>',''] as entitySelector>-->
 <#--    <#list ['','${simulatedAnnealing}'] as algorithm>-->
     <#list [''] as algorithm>
+    <#list ['<constraintStreamImplType>BAVET</constraintStreamImplType>
+             <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>'] as scoreProvider>
+<#--    <#list ['<scoreDrl>${scoreDrl}</scoreDrl>'] as scoreProvider>-->
     <#list [0.08] as delayWeight>
     <#list ['${(1-delayWeight)/2}'?number] as progressWeight>
     <#list ['${(1-delayWeight)/2}'?number] as timelineEntryWeight>
@@ -203,30 +206,49 @@
             ${mergeMove}
             ${splitMove}'] as customMoves>
     <#list ['<constructionHeuristic>
-                    <queuedEntityPlacer>
-                        <entitySelector id="placerEntitySelector">
-                            <cacheType>PHASE</cacheType>
-                            <selectionOrder>SORTED</selectionOrder>
-                            <sorterManner>DECREASING_DIFFICULTY</sorterManner>
-                            ${TimelineEntryCanChangeFilter}
-                        </entitySelector>
-                            <changeMoveSelector>
-                                <entitySelector mimicSelectorRef="placerEntitySelector"/>
-                                <valueSelector variableName="timelineEntry"/>
-                            </changeMoveSelector>
-                    </queuedEntityPlacer>
-                </constructionHeuristic>'] as constructionHeuristic>
-
+                <queuedEntityPlacer>
+                    <entitySelector id="placerEntitySelector2">
+                        <cacheType>PHASE</cacheType>
+                        <selectionOrder>SORTED</selectionOrder>
+                        <sorterManner>DECREASING_DIFFICULTY</sorterManner>
+                        ${DelayCanChangeFilter}
+                    </entitySelector>
+                    <changeMoveSelector>
+                        <entitySelector mimicSelectorRef="placerEntitySelector2"/>
+                        <valueSelector variableName="delay"/>
+                    </changeMoveSelector>
+                </queuedEntityPlacer>
+            </constructionHeuristic>
+            <constructionHeuristic>
+                <queuedEntityPlacer>
+                    <entitySelector id="placerEntitySelector">
+                        <cacheType>PHASE</cacheType>
+                        <selectionOrder>SORTED</selectionOrder>
+                        <sorterManner>DECREASING_DIFFICULTY</sorterManner>
+                        ${TimelineEntryCanChangeFilter}
+                    </entitySelector>
+                    <changeMoveSelector>
+                        <entitySelector mimicSelectorRef="placerEntitySelector"/>
+                        <valueSelector variableName="timelineEntry"/>
+                    </changeMoveSelector>
+                    <changeMoveSelector>
+                        <entitySelector mimicSelectorRef="placerEntitySelector"/>
+                        <valueSelector variableName="progressdelta"/>
+                    </changeMoveSelector>
+                </queuedEntityPlacer>
+            </constructionHeuristic>'] as constructionHeuristic>
+<#--        <termination>-->
+<#--            <millisecondsSpentLimit>1800</millisecondsSpentLimit>-->
+<#--        </termination>-->
     <solverBenchmark>
-        <name>a${constructionHeuristic?index}b${timelineEntryPrecise?index}c${finalistPodiumType?index}d${pickEarlyType?index}</name>
+        <name>a${constructionHeuristic?index}b${timelineEntryPrecise?index}c${finalistPodiumType?index}d${scoreProvider?index}</name>
         <problemBenchmarks>
             <inputSolutionFile>S:/root/Code/tcplannercore/src/main/resources/Solutions/${solution}.json</inputSolutionFile>
         </problemBenchmarks>
         <solver>
             <environmentMode>${envmode}</environmentMode>
             <scoreDirectorFactory>
-                <scoreDrl>${scoreDrl}</scoreDrl>
-<#--                <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>-->
+                ${scoreProvider}
             </scoreDirectorFactory>
             ${constructionHeuristic}
             <localSearch>
@@ -250,13 +272,14 @@
                         <pickEarlyType>${pickEarlyType}</pickEarlyType>
                 </forager>
                 <termination>
-<#--                    <bestScoreLimit>[0/0/0/0/0]hard/[-2147483648/-2147483648/-2147483648/-2147483648]soft</bestScoreLimit>-->
+                    <bestScoreLimit>0hard/-2147483648medium/-2147483648soft</bestScoreLimit>
                     <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                    <millisecondsSpentLimit>180000</millisecondsSpentLimit>
+                    <millisecondsSpentLimit>1800</millisecondsSpentLimit>
                 </termination>
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

@@ -5,8 +5,23 @@
         <packageInclude>bo.tc.tcplanner</packageInclude>
     </scanAnnotatedClasses>
     <scoreDirectorFactory>
-        <scoreDrl>TCRules_P1.drl</scoreDrl>
+        <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>
+        <constraintStreamImplType>BAVET</constraintStreamImplType>
     </scoreDirectorFactory>
+    <constructionHeuristic>
+        <queuedEntityPlacer>
+            <entitySelector id="placerEntitySelector2">
+                <cacheType>PHASE</cacheType>
+                <selectionOrder>SORTED</selectionOrder>
+                <filterClass>bo.tc.tcplanner.domain.solver.filters.DelayCanChangeFilter</filterClass>
+                <sorterManner>DECREASING_DIFFICULTY</sorterManner>
+            </entitySelector>
+            <changeMoveSelector>
+                <entitySelector mimicSelectorRef="placerEntitySelector2"/>
+                <valueSelector variableName="delay"/>
+            </changeMoveSelector>
+        </queuedEntityPlacer>
+    </constructionHeuristic>
     <constructionHeuristic>
         <queuedEntityPlacer>
             <entitySelector id="placerEntitySelector">
@@ -18,6 +33,10 @@
             <changeMoveSelector>
                 <entitySelector mimicSelectorRef="placerEntitySelector"/>
                 <valueSelector variableName="timelineEntry"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <entitySelector mimicSelectorRef="placerEntitySelector"/>
+                <valueSelector variableName="progressdelta"/>
             </changeMoveSelector>
         </queuedEntityPlacer>
     </constructionHeuristic>

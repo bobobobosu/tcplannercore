@@ -6,7 +6,7 @@ import bo.tc.tcplanner.domain.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakewharton.fliptables.FlipTable;
 import org.optaplanner.core.api.score.Score;
-import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 import org.optaplanner.core.api.score.constraint.ConstraintMatch;
 import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.score.constraint.Indictment;
@@ -98,7 +98,7 @@ public class Toolbox {
         solverList = new ArrayList<>();
     }
 
-    public static void printCurrentSolution(Schedule schedule, boolean showTimeline, String solvingStatus) {
+    public static void printCurrentSolution(Schedule schedule, boolean showTimeline) {
         try {
             //Debug
             List<Allocation> debugAllocationList = new ArrayList<>(schedule.focusedAllocationSet);
@@ -141,7 +141,8 @@ public class Toolbox {
             fulltimeline.add(timelineHeader);
 
             String status = "\n"
-                    + "Status: " + SolverThread.lastNewBestSolution[1] + "ms " + solvingStatus
+                    + "Status: " + SolverThread.lastNewBestSolution[1] + "ms " +
+                    (schedule.solverPhase != null ? schedule.solverPhase.name() : "")
                     + " \nScore:" + scoreDirector.calculateScore().toShortString()
                     + " \nRate: "
                     + ((SolverThread.lastNewBestSolution[3] != null ?
@@ -166,11 +167,11 @@ public class Toolbox {
         Iterator<ConstraintMatch> constraintMatchSetIterator = ConstraintMatchSet.iterator();
         while (constraintMatchSetIterator.hasNext()) {
             ConstraintMatch constraintMatch = constraintMatchSetIterator.next();
-            if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x < 0)) {
+            if (((HardMediumSoftLongScore) constraintMatch.getScore()).getHardScore() < 0) {
                 result.append(constraintMatch.getConstraintName())
-                        .append("\n")
-                        .append(Arrays.toString(((BendableScore) (constraintMatch.getScore())).getHardScores()))
-                        .append("\n");
+                        .append("[")
+                        .append(((HardMediumSoftLongScore) constraintMatch.getScore()).getHardScore())
+                        .append("]\n");
             }
         }
         return result.toString();
@@ -187,13 +188,14 @@ public class Toolbox {
 
         public PrettyPrintAlloc(ScoreDirector<Schedule> scoreDirector) {
             this.scoreDirector = scoreDirector;
+            this.scoreDirector.calculateScore();
             for (ConstraintMatchTotal constraintMatch : scoreDirector.getConstraintMatchTotals()) {
-                if (Arrays.stream(((BendableScore) constraintMatch.getScore()).getHardScores()).anyMatch(x -> x != 0))
+                if (((HardMediumSoftLongScore) (constraintMatch.getScore())).getHardScore() < 0)
                     breakByRules.add(new String[]{constraintMatch.toString()});
             }
             for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
                 if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
-                        Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
+                        ((HardMediumSoftLongScore) indictmentEntry.getValue().getScore()).getHardScore() < 0) {
                     Allocation matchAllocation = (Allocation) indictmentEntry.getValue().getJustification();
                     breakByTasks.put(matchAllocation, indictmentEntry.getValue());
                 }

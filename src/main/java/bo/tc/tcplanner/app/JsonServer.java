@@ -298,7 +298,7 @@ public class JsonServer {
                         if (timelineBlock.getOrigin().equals("TCxlsb")) {
                             Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
                                     .constructChainProperty().getSchedule();
-                            printCurrentSolution(result, true, "");
+                            printCurrentSolution(result, true);
                             timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
                             response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(timelineBlock).getBytes(StandardCharsets.UTF_8);
                         }
@@ -369,7 +369,7 @@ public class JsonServer {
                             TimelineBlock timelineBlock = problemTimelineBlock;
                             Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
                                     .constructChainProperty().getSchedule();
-                            printCurrentSolution(result, true, "");
+                            printCurrentSolution(result, true);
                             response = "{\"Updated\":true}".getBytes(StandardCharsets.UTF_8);
                         }
                     } catch (IllegalArgumentException ex) {

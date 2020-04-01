@@ -8,7 +8,6 @@ import org.optaplanner.core.impl.heuristic.selector.move.factory.MoveListFactory
 import java.util.*;
 
 import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
-import static bo.tc.tcplanner.domain.solver.filters.FilterTools.TimelineEntryCanChange;
 
 public class PreciseTimeEntryMoveFactory implements MoveListFactory<Schedule> {
     Map<String, List<TimelineEntry>> avareq2timelineEntryMap = new HashMap<>();

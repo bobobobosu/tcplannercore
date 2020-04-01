@@ -17,6 +17,7 @@
 package bo.tc.tcplanner.domain;
 
 import bo.tc.tcplanner.PropertyConstants;
+import bo.tc.tcplanner.PropertyConstants.SolverPhase;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
@@ -24,7 +25,6 @@ import bo.tc.tcplanner.domain.solver.comparators.AllocationDifficultyComparator;
 import bo.tc.tcplanner.domain.solver.comparators.DelayStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.ProgressDeltaStrengthComparator;
 import bo.tc.tcplanner.domain.solver.comparators.TimelineEntryStrengthComparator;
-import bo.tc.tcplanner.domain.solver.filters.CondensedAllocationFilter;
 import bo.tc.tcplanner.domain.solver.filters.ReinitializeAllocationFilter;
 import bo.tc.tcplanner.domain.solver.listeners.*;
 import bo.tc.tcplanner.persistable.AbstractPersistable;
@@ -140,7 +140,8 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     }
 
     @PlanningVariable(valueRangeProviderRefs = {
-            "delayRange"}, strengthComparatorClass = DelayStrengthComparator.class)
+            "delayRange"}, strengthComparatorClass = DelayStrengthComparator.class,
+            reinitializeVariableEntityFilter = ReinitializeAllocationFilter.class)
     public Integer getDelay() {
         return delay;
     }
@@ -313,7 +314,7 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
 
     @ValueRangeProvider(id = "timelineEntryRange")
     public List<TimelineEntry> getTimelineEntryRange() {
-        if (schedule.valueRangeMode.equals("reduce")) {
+        if (schedule.solverPhase == SolverPhase.REDUCE) {
             if (timelineEntryRange == null) {
                 timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toCollection(ArrayList::new));
             }
@@ -325,22 +326,33 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
         }
 
         return timelineEntryRange;
-//        return schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
-//                .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toList());
     }
 
     @ValueRangeProvider(id = "delayRange")
     public CountableValueRange<Integer> getDelayRange() {
         if (timelineEntry.equals(schedule.getDummyTimelineEntry()))
             return ValueRangeFactory.createIntValueRange(0, 1, 1);
-        return ValueRangeFactory.createIntValueRange(0, 60 * 24);
+        if (schedule.solverPhase == SolverPhase.CH) {
+            return ValueRangeFactory.createIntValueRange(0, 60 * 24, 1);
+        } else if (schedule.solverPhase == SolverPhase.FAST) {
+            return ValueRangeFactory.createIntValueRange(0, 60 * 24, 10);
+        } else {
+            return ValueRangeFactory.createIntValueRange(0, 60 * 24);
+        }
+
     }
 
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
         if (timelineEntry.equals(schedule.getDummyTimelineEntry()))
             return ValueRangeFactory.createIntValueRange(100, 110, 10);
-        return ValueRangeFactory.createIntValueRange(0, 101, 1);
+        if (schedule.solverPhase == SolverPhase.CH) {
+            return ValueRangeFactory.createIntValueRange(100, 101, 1);
+        } else if (schedule.solverPhase == SolverPhase.FAST) {
+            return ValueRangeFactory.createIntValueRange(0, 101, 25);
+        } else {
+            return ValueRangeFactory.createIntValueRange(0, 101, 1);
+        }
     }
 
 
@@ -424,71 +436,3 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     }
 
 }
-
-
-//    public long getDistributionScore() {
-//        long score = -2;
-//        Allocation prevAllocation = getFocusedAllocationSet().lower(this);
-//        Allocation nextAllocation = getFocusedAllocationSet().higher(this);
-//        if (prevAllocation != null) score += Math.min(3, index - prevAllocation.getIndex());
-//        if (nextAllocation != null) score += Math.min(3, nextAllocation.getIndex() - index);
-//        return score;
-//    }
-//
-//    public Iterator<Allocation> getFocusedAllocationsTillEndIterator() {
-//        Allocation allocation = this;
-//        Allocation tmpAllocation;
-//        // Go back two allocations
-//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-//        Allocation finalAllocation = allocation;
-//        return new Iterator<Allocation>() {
-//            Allocation thisAllocation = finalAllocation;
-//
-//            @Override
-//            public boolean hasNext() {
-//                return thisAllocation.getNextFocusedAllocation() != null;
-//            }
-//
-//            @Override
-//            public Allocation next() {
-//                return (thisAllocation = thisAllocation.getNextFocusedAllocation());
-//            }
-//        };
-//    }
-//
-//    public List<Allocation> getFocusedAllocationsTillEnd() {
-//        List<Allocation> focusedAllocationsTillEnd = new LinkedList<>();
-//        Allocation allocation = this;
-//        Allocation tmpAllocation = null;
-//        // Go back two allocations
-//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-//        if ((tmpAllocation = allocation.getPrevFocusedAllocation()) != null) allocation = tmpAllocation;
-//        while ((allocation = allocation.getNextFocusedAllocation()) != null) {
-//            focusedAllocationsTillEnd.add(allocation);
-//        }
-//        return focusedAllocationsTillEnd;
-//    }
-
-
-//    public Allocation getNextFocusedAllocation() {
-//        Allocation result = null;
-//        for (int i = index + 1; i < schedule.getAllocationList().size(); i++) {
-//            if (schedule.getAllocationList().get(i).isFocused()) {
-//                result = schedule.getAllocationList().get(i);
-//                break;
-//            }
-//        }
-//        return result;
-//    }
-//
-//    public Allocation getPrevFocusedAllocation() {
-//        Allocation result = null;
-//        for (int i = index - 1; i >= 0; i--) {
-//            if (schedule.getAllocationList().get(i).isFocused()) {
-//                result = schedule.getAllocationList().get(i);
-//                break;
-//            }
-//        }
-//        return result;
-//    }

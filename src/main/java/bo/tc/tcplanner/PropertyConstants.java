@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
-import static bo.tc.tcplanner.app.Toolbox.genPathFromConstants;
 
 public class PropertyConstants {
     // paths
@@ -64,6 +63,14 @@ public class PropertyConstants {
             absolute,
             absolute_full
         }
+    }
+
+    // Solver Phases
+    public enum SolverPhase {
+        CH,
+        FAST,
+        ACCURATE,
+        REDUCE
     }
 
 

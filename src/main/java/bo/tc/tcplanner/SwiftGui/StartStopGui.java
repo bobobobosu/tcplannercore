@@ -8,7 +8,7 @@ import bo.tc.tcplanner.domain.Schedule;
 import bo.tc.tcplanner.domain.solver.moves.SetValueMove;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
@@ -17,7 +17,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 
 public class StartStopGui extends JPanel {
@@ -238,12 +237,12 @@ public class StartStopGui extends JPanel {
     }
 
     private String scoreString(Allocation allocation) {
-        BendableScore thisScore = null;
+        HardMediumSoftLongScore thisScore = null;
         if (guiScoreDirector.getIndictmentMap().containsKey(allocation)) {
-            thisScore = (BendableScore) guiScoreDirector.getIndictmentMap().get(allocation).getScore();
+            thisScore = (HardMediumSoftLongScore) guiScoreDirector.getIndictmentMap().get(allocation).getScore();
         }
-        return thisScore != null && Arrays.stream(thisScore.getHardScores()).anyMatch(x -> x != 0) ?
-                Arrays.toString(thisScore.getHardScores()) : "";
+        return thisScore != null && thisScore.getHardScore() != 0 ?
+                thisScore.toShortString() : "";
     }
 
     private String detailString(Allocation allocation) {

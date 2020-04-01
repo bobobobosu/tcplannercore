@@ -6,7 +6,7 @@ import bo.tc.tcplanner.datastructure.*;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
 import com.google.common.collect.Sets;
-import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
+import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
 import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
@@ -22,10 +22,12 @@ public class DataStructureWriter {
     public TimelineBlock generateTimelineBlockScore(Schedule result) {
         TimelineBlock timelineBlock = generateTimelineBlock(result);
         ScoreDirector<Schedule> scoreDirector = SolverThread.getScoringScoreDirector();
+        scoreDirector.setWorkingSolution(result);
+        scoreDirector.calculateScore();
         Map<Integer, Indictment> breakByTasks = new HashMap<>();
         for (Map.Entry<Object, Indictment> indictmentEntry : scoreDirector.getIndictmentMap().entrySet()) {
             if (indictmentEntry.getValue().getJustification() instanceof Allocation &&
-                    Arrays.stream(((BendableScore) indictmentEntry.getValue().getScore()).getHardScores()).anyMatch(x -> x != 0)) {
+                    ((HardMediumSoftLongScore) indictmentEntry.getValue().getScore()).getHardScore() < 0) {
                 Allocation matchAllocation = (Allocation) indictmentEntry.getValue().getJustification();
                 if (matchAllocation.getTimelineEntry().getTimelineProperty().getTimelineid() != null)
                     breakByTasks.put(matchAllocation.getTimelineEntry().getTimelineProperty().getTimelineid(), indictmentEntry.getValue());
