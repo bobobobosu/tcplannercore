@@ -80,7 +80,10 @@ public class DataStructureWriter {
 
             // Chronological Property
             TE.setChronoProperty(new ChronoProperty(allocation.getTimelineEntry().getChronoProperty())
-                    .setStartTime(allocation.getStartDate().withZoneSameInstant(ZoneId.systemDefault()).format(dtf_TimelineEntry)));
+                    .setStartTime(allocation.getStartDate().withZoneSameInstant(
+                            allocation.getTimelineEntry().getChronoProperty().getZonedStartTime() != null ?
+                                    allocation.getTimelineEntry().getChronoProperty().getZonedStartTime().getZone() :
+                                    ZoneId.systemDefault()).format(dtf_TimelineEntry)));
 
 
             // Timeline Property Reset timelineid

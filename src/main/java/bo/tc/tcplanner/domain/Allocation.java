@@ -345,11 +345,11 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     @ValueRangeProvider(id = "progressdeltaRange")
     public CountableValueRange<Integer> getProgressDeltaRange() {
         if (timelineEntry.equals(schedule.getDummyTimelineEntry()))
-            return ValueRangeFactory.createIntValueRange(100, 110, 10);
-        if (schedule.solverPhase == SolverPhase.CH) {
             return ValueRangeFactory.createIntValueRange(100, 101, 1);
+        if (schedule.solverPhase == SolverPhase.CH) {
+            return ValueRangeFactory.createIntValueRange(0, 200, 100);
         } else if (schedule.solverPhase == SolverPhase.FAST) {
-            return ValueRangeFactory.createIntValueRange(0, 101, 25);
+            return ValueRangeFactory.createIntValueRange(0, 125, 25);
         } else {
             return ValueRangeFactory.createIntValueRange(0, 101, 1);
         }

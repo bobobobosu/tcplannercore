@@ -8,9 +8,6 @@
         <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>
         <constraintStreamImplType>BAVET</constraintStreamImplType>
     </scoreDirectorFactory>
-    <termination>
-        <millisecondsSpentLimit>1800</millisecondsSpentLimit>
-    </termination>
     <localSearch>
         <unionMoveSelector>
             <swapMoveSelector>

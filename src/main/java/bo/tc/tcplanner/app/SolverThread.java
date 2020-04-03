@@ -125,7 +125,7 @@ public class SolverThread extends Thread {
          */
         solverConfig2.withTerminationConfig(
                 new TerminationConfig()
-                        .withUnimprovedSecondsSpentLimit(15L)
+                        .withUnimprovedSecondsSpentLimit(90L)
                         .withBestScoreFeasible(true));
         solverFactory = SolverFactory.create(solverConfig2);
         Solver<Schedule> solver2 = solverFactory.buildSolver();

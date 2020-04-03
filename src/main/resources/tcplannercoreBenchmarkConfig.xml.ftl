@@ -29,7 +29,7 @@
 
 
 <#--    files-->
-    <#list ['TimelineBlockProblemSpring2020Full'] as solution>
+    <#list ['TimelineBlockProblem'] as solution>
 <#--    numbers-->
     <#list [1500] as acceptedCountLimit>
     <#list [10000] as startingTemperature>
@@ -57,7 +57,8 @@
 <#--                  <sorterManner>DECREASING_DIFFICULTY</sorterManner>',''] as entitySelector>-->
 <#--    <#list ['','${simulatedAnnealing}'] as algorithm>-->
     <#list [''] as algorithm>
-    <#list ['<constraintStreamImplType>BAVET</constraintStreamImplType>
+    <#list ['<scoreDrl>${scoreDrl}</scoreDrl>',
+            '<constraintStreamImplType>BAVET</constraintStreamImplType>
              <constraintProviderClass>bo.tc.tcplanner.domain.solver.score.ScheduleConstraintProvider</constraintProviderClass>'] as scoreProvider>
 <#--    <#list ['<scoreDrl>${scoreDrl}</scoreDrl>'] as scoreProvider>-->
     <#list [0.08] as delayWeight>
@@ -218,8 +219,8 @@
                         <valueSelector variableName="delay"/>
                     </changeMoveSelector>
                 </queuedEntityPlacer>
-            </constructionHeuristic>
-            <constructionHeuristic>
+            </constructionHeuristic>'] as constructionHeuristic1>
+    <#list ['<constructionHeuristic>
                 <queuedEntityPlacer>
                     <entitySelector id="placerEntitySelector">
                         <cacheType>PHASE</cacheType>
@@ -236,10 +237,11 @@
                         <valueSelector variableName="progressdelta"/>
                     </changeMoveSelector>
                 </queuedEntityPlacer>
-            </constructionHeuristic>'] as constructionHeuristic>
+            </constructionHeuristic>'] as constructionHeuristic2>
 <#--        <termination>-->
 <#--            <millisecondsSpentLimit>1800</millisecondsSpentLimit>-->
 <#--        </termination>-->
+
     <solverBenchmark>
         <name>a${constructionHeuristic?index}b${timelineEntryPrecise?index}c${finalistPodiumType?index}d${scoreProvider?index}</name>
         <problemBenchmarks>
@@ -250,7 +252,8 @@
             <scoreDirectorFactory>
                 ${scoreProvider}
             </scoreDirectorFactory>
-            ${constructionHeuristic}
+            ${constructionHeuristic1}
+            ${constructionHeuristic2}
             <localSearch>
                 <unionMoveSelector>
                     ${customMoves}
@@ -273,12 +276,13 @@
                 </forager>
                 <termination>
                     <bestScoreLimit>0hard/-2147483648medium/-2147483648soft</bestScoreLimit>
-                    <#--                <unimprovedSecondsSpentLimit>30</unimprovedSecondsSpentLimit>-->
-                    <millisecondsSpentLimit>1800</millisecondsSpentLimit>
+                                    <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
+<#--                    <millisecondsSpentLimit>100</millisecondsSpentLimit>-->
                 </termination>
             </localSearch>
         </solver>
     </solverBenchmark>
+    </#list>
     </#list>
     </#list>
     </#list>

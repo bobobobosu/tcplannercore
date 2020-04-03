@@ -107,7 +107,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
                                 allocation.getPreviousStandstill(),
                                 allocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
                 .penalizeLong("checkPreviousStandstill",
-                        HardMediumSoftLongScore.ONE_HARD, (allocation) -> 1L);
+                        HardMediumSoftLongScore.ONE_HARD, (allocation) -> 100L);
     }
 
     private Constraint checkRequirementsDeficit(ConstraintFactory factory) {
@@ -197,7 +197,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return factory.from(Allocation.class)
                 .filter(allocation -> allocation.isScored() && allocation.isFocused() &&
                         allocation.getTimelineEntry().getChronoProperty().getGravity() == 1)
-                .penalizeLong("laterTheBetter", HardMediumSoftLongScore.ONE_SOFT,
+                .rewardLong("laterTheBetter", HardMediumSoftLongScore.ONE_SOFT,
                         (a -> (Duration.between(a.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
                                 a.getStartDate())).toMinutes()));
     }
@@ -206,7 +206,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return factory.from(Allocation.class)
                 .filter(allocation -> allocation.isScored() && allocation.isFocused() &&
                         allocation.getTimelineEntry().getChronoProperty().getGravity() == -1)
-                .rewardLong("earlierTheBetter", HardMediumSoftLongScore.ONE_SOFT,
+                .penalizeLong("earlierTheBetter", HardMediumSoftLongScore.ONE_SOFT,
                         (a -> (Duration.between(a.getSchedule().getProblemTimelineBlock().getZonedBlockStartTime(),
                                 a.getStartDate())).toMinutes()));
     }
