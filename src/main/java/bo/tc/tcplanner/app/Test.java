@@ -19,7 +19,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.*;
+import static bo.tc.tcplanner.PropertyConstants.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
 
 public class Test {

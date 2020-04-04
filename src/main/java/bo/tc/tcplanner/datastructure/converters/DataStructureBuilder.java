@@ -21,14 +21,16 @@ public class DataStructureBuilder {
     Schedule schedule;
     List<Allocation> fullAllocationList;
 
-    public DataStructureBuilder(ValueEntryMap valueEntryMap, TimelineBlock timelineBlock, TimeHierarchyMap timeHierarchyMap) {
+    public DataStructureBuilder(ValueEntryMap valueEntryMap, TimelineBlock timelineBlock, TimeHierarchyMap timeHierarchyMap, LocationHierarchyMap locationHierarchyMap) {
         checkArgument(valueEntryMap.checkValid());
         checkArgument(timelineBlock.checkValid());
         checkArgument(timeHierarchyMap.checkValid());
+        checkArgument(locationHierarchyMap.checkValid());
 
         schedule = new Schedule()
                 .setValueEntryMap(new ValueEntryMap(valueEntryMap))
                 .setTimeEntryMap(new TimeEntryMap())
+                .setLocationHierarchyMap(new LocationHierarchyMap(locationHierarchyMap))
                 .setProblemTimelineBlock(new TimelineBlock(timelineBlock));
         schedule.getTimeEntryMap().putAll(timeHierarchyMap.keySet().stream().collect(Collectors.toMap(
                 x -> x,
@@ -309,6 +311,7 @@ public class DataStructureBuilder {
         for (int i = 0; i < schedule.getAllocationList().size(); i++)
             schedule.getAllocationList().get(i).setResourceElementMap(null);
         var newResourceElementMap = updateAllocationResourceStateChange(
+                schedule,
                 focusedAllocationList,
                 schedule.getAllocationList().stream().flatMap(x ->
                         x.getTimelineEntry().getResourceStateChange().getResourceChange().keySet().stream())

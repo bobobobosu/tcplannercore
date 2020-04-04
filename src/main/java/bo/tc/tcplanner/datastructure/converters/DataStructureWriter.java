@@ -14,7 +14,7 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.dtf_TimelineEntry;
+import static bo.tc.tcplanner.PropertyConstants.dtf_TimelineEntry;
 import static bo.tc.tcplanner.app.Toolbox.hardConstraintMatchToString;
 import static bo.tc.tcplanner.app.Toolbox.jacksonDeepCopy;
 

@@ -104,6 +104,7 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return factory.from(Allocation.class)
                 .filter(allocation -> allocation.isScored() && allocation.isFocused() && allocation.getIndex() > 1 &&
                         !locationRestrictionCheck(
+                                allocation.getSchedule().getLocationHierarchyMap(),
                                 allocation.getPreviousStandstill(),
                                 allocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
                 .penalizeLong("checkPreviousStandstill",
@@ -114,14 +115,14 @@ public class ScheduleConstraintProvider implements ConstraintProvider {
         return factory.from(Allocation.class)
                 .filter(allocation -> allocation.isScored() && allocation.isFocused())
                 .penalizeLong("checkRequirementsDeficit", HardMediumSoftLongScore.ONE_HARD,
-                        (allocation) -> -Math.round(allocation.getResourceElementMapDeficitScore().longValue() * 100));
+                        (allocation) -> -Math.round(allocation.getResourceElementMapDeficitScore() * 100));
     }
 
     private Constraint checkCapacityRequirements(ConstraintFactory factory) {
         return factory.from(Allocation.class)
                 .filter(allocation -> allocation.isScored() && allocation.isFocused())
                 .penalizeLong("checkCapacityRequirements", HardMediumSoftLongScore.ONE_HARD,
-                        (allocation) -> -Math.round(allocation.getResourceElementMapExcessScore().longValue() * 100));
+                        (allocation) -> -Math.round(allocation.getResourceElementMapExcessScore() * 100));
     }
 
     private Constraint checkSplittable(ConstraintFactory factory) {

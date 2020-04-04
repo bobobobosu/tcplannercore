@@ -11,8 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.timeHierarchyMap;
-import static bo.tc.tcplanner.app.TCSchedulingApp.valueEntryMap;
+import static bo.tc.tcplanner.PropertyConstants.*;
 
 public class TimelineBlockScheduleFileIO implements SolutionFileIO {
     private static TimelineBlock oldTimelineBlock;
@@ -30,7 +29,7 @@ public class TimelineBlockScheduleFileIO implements SolutionFileIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new DataStructureBuilder(valueEntryMap, oldTimelineBlock, timeHierarchyMap)
+        return new DataStructureBuilder(valueEntryMap, oldTimelineBlock, timeHierarchyMap, locationHierarchyMap)
                 .constructChainProperty().getSchedule();
     }
 

@@ -1,8 +1,6 @@
 package bo.tc.tcplanner;
 
-import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
-import bo.tc.tcplanner.datastructure.TimeHierarchyMap;
-import bo.tc.tcplanner.datastructure.ValueEntryMap;
+import bo.tc.tcplanner.datastructure.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 
@@ -10,11 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.*;
 
 public class PropertyConstants {
@@ -27,9 +25,22 @@ public class PropertyConstants {
     public static String fpath_TimeHierarchyMap;
     public static String fpath_ScheduleSolution = "Schedule.xml";
 
+    // global objects
+    public static LocationHierarchyMap locationHierarchyMap = null;
+    public static TimeHierarchyMap timeHierarchyMap = null;
+    public static ValueHierarchyMap valueHierarchyMap = null;
+    public static ValueEntryMap valueEntryMap = null;
+    public static Timeline timeline = null;
+    public static DateTimeFormatter dtf_TimelineEntry = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+
     // solver
     public static int focused2dummyRatio = 25;
     public static int dummyCountBetween = 30;
+
+    // rmi server
+    public static int rmiport = 1091;
+    public static String rmilistenadd = "0.0.0.0";
+    public static String rmiip = "192.168.43.109";
 
     // dummyLocation, dummyTime
     public static String dummyLocation = "Undefined";

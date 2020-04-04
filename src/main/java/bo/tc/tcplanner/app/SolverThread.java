@@ -1,7 +1,6 @@
 package bo.tc.tcplanner.app;
 
 import bo.tc.tcplanner.PropertyConstants.SolverPhase;
-import bo.tc.tcplanner.SwiftGui.StartStopGui;
 import bo.tc.tcplanner.datastructure.TimelineBlock;
 import bo.tc.tcplanner.datastructure.converters.DataStructureBuilder;
 import bo.tc.tcplanner.domain.Schedule;
@@ -9,7 +8,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
-import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.SolverConfig;
@@ -28,7 +26,7 @@ import java.util.List;
 import static bo.tc.tcplanner.PropertyConstants.fpath_ScheduleSolution;
 import static bo.tc.tcplanner.PropertyConstants.initializeFiles;
 import static bo.tc.tcplanner.app.JsonServer.updateConsole;
-import static bo.tc.tcplanner.app.TCSchedulingApp.*;
+import static bo.tc.tcplanner.PropertyConstants.*;
 import static bo.tc.tcplanner.app.Toolbox.displayTray;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -36,18 +34,18 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class SolverThread extends Thread {
     public static final Logger logger
             = LoggerFactory.getLogger(SolverThread.class);
-    static Object[] lastNewBestSolution = {0L, 0L, null, null};
-    public Schedule currentSchedule;
+
     // links
     JsonServer jsonServer;
-    StartStopGui startStopGui;
     boolean continuetosolve = true;
     // current
-    Solver<Schedule> currentSolver;
+    public Solver<Schedule> currentSolver;
+    static Object[] lastNewBestSolution = {0L, 0L, null, null};
+    public Schedule currentSchedule;
     private List<Solver<Schedule>> solverList;
     // locks
     private StringBuffer resumeSolvingLock;
-    private Object newTimelineBlockLock;
+    public Object newSolutionLock;
 
     public static ScoreDirector<Schedule> getScoringScoreDirector() {
         ScoreDirector<Schedule> scoringScoreDirector;
@@ -157,6 +155,9 @@ public class SolverThread extends Thread {
             lastNewBestSolution[2] = solver.getBestScore();
             printCurrentSolution(bestSolutionChangedEvent.getNewBestSolution(), false);
             currentSchedule = bestSolutionChangedEvent.getNewBestSolution();
+            synchronized (newSolutionLock) {
+                newSolutionLock.notify();
+            }
         });
     }
 
@@ -221,7 +222,7 @@ public class SolverThread extends Thread {
             checkArgument(jsonServer.getProblemTimelineBlock().checkValid());
 
             continuetosolve = true;
-            DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getProblemTimelineBlock(), timeHierarchyMap)
+            DataStructureBuilder DSB = new DataStructureBuilder(valueEntryMap, jsonServer.getProblemTimelineBlock(), timeHierarchyMap, locationHierarchyMap)
                     .constructChainProperty();
             currentSchedule = DSB.getSchedule();
         } else if (resumeSolvingLock.toString().equals("Restart")) {
@@ -256,6 +257,11 @@ public class SolverThread extends Thread {
             }
         }
         displayTray("Planning Done!", (getBestSolution() != null ? getBestSolution().getScore().toString() : ""));
+        ScoreDirector<Schedule> gg = getScoringScoreDirector();
+        gg.setWorkingSolution(currentSchedule);
+        gg.calculateScore();
+        var weade = gg.getConstraintMatchTotalMap();
+        var ggh = gg.getIndictmentMap();
 
         //Solve Soft
         currentSolver = solverList.get(3);
@@ -284,6 +290,14 @@ public class SolverThread extends Thread {
         this.resumeSolvingLock = resumeSolvingLock;
     }
 
+    public Object getNewSolutionLock() {
+        return newSolutionLock;
+    }
+
+    public void setNewSolutionLock(Object newSolutionLock) {
+        this.newSolutionLock = newSolutionLock;
+    }
+
     public List<Solver<Schedule>> getSolverList() {
         return solverList;
     }
@@ -300,26 +314,11 @@ public class SolverThread extends Thread {
         this.continuetosolve = continuetosolve;
     }
 
-    public Object getNewTimelineBlockLock() {
-        return newTimelineBlockLock;
-    }
-
-    public void setNewTimelineBlockLock(Object newTimelineBlockLock) {
-        this.newTimelineBlockLock = newTimelineBlockLock;
-    }
-
     private boolean isSolved(Schedule schedule) {
         ScoreDirector<Schedule> scoreDirector = getScoringScoreDirector();
         scoreDirector.setWorkingSolution(schedule);
         scoreDirector.calculateScore();
         return !(((HardMediumSoftLongScore) scoreDirector.calculateScore()).getHardScore() < 0);
     }
-
-    public StartStopGui getStartStopGui() {
-        return startStopGui;
-    }
-
-    public void setStartStopGui(StartStopGui startStopGui) {
-        this.startStopGui = startStopGui;
-    }
 }
+

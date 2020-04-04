@@ -263,6 +263,9 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
                 score += (resourceElement.getAmt() < 0) ? resourceElement.getAmt() : 0;
             }
         }
+        if(getTimelineEntry() != null && getTimelineEntry().getTimelineProperty().getTimelineid()!=null && getTimelineEntry().getTimelineProperty().getTimelineid() == 35){
+            int gggg =0 ;
+        }
         return score;
     }
 
@@ -316,12 +319,17 @@ public class Allocation extends AbstractPersistable implements Comparable<Alloca
     public List<TimelineEntry> getTimelineEntryRange() {
         if (schedule.solverPhase == SolverPhase.REDUCE) {
             if (timelineEntryRange == null) {
-                timelineEntryRange = schedule.getAllocationList().stream().map(Allocation::getTimelineEntry).collect(Collectors.toCollection(ArrayList::new));
+                timelineEntryRange = schedule.getAllocationList().stream()
+                        .map(Allocation::getTimelineEntry)
+                        .distinct()
+                        .collect(Collectors.toCollection(ArrayList::new));
             }
         } else {
             if (timelineEntryRange == null) {
-                timelineEntryRange = schedule.getTimelineEntryList().stream().filter(x -> x.getTimelineProperty().getPlanningWindowType()
-                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name())).collect(Collectors.toCollection(ArrayList::new));
+                timelineEntryRange = schedule.getTimelineEntryList().stream()
+                        .filter(x -> x.getTimelineProperty().getPlanningWindowType()
+                        .equals(PropertyConstants.PlanningWindowTypes.types.Draft.name()))
+                        .collect(Collectors.toCollection(ArrayList::new));
             }
         }
 

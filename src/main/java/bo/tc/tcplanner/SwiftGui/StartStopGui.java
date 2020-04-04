@@ -1,6 +1,6 @@
 package bo.tc.tcplanner.SwiftGui;
 
-import bo.tc.tcplanner.app.SolverThread;
+import bo.tc.tcplanner.app.RMIInterface;
 import bo.tc.tcplanner.app.Toolbox;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
@@ -15,6 +15,9 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,21 +25,23 @@ import java.util.List;
 public class StartStopGui extends JPanel {
     public ScoreDirector<Schedule> guiScoreDirector;
     public Schedule guiSchedule;
-    SolverThread solverThread;
+    private RMIInterface rmiInterface;
     JTable table;
     JTextArea detailTextField;
     List<Allocation> guiAllocationList;
+    SwingWorker<Void, Void> consoleWorker;
     // current
     Allocation selectedAllocation = null;
     boolean isSelecting = false;
     private JComboBox<TimelineEntry> timelineEntryComboBox;
     private JComboBox<Integer> progressDeltaComboBox;
     private JComboBox<Integer> delayComboBox;
+    public int ggg = 0;
 
-    public StartStopGui(SolverThread solverThread) {
+    public StartStopGui(RMIInterface rmiInterface) {
         initializeScoreDirector();
         initializeUI();
-        this.solverThread = solverThread;
+        this.rmiInterface = rmiInterface;
     }
 
     private void populateSchedule() {
@@ -71,8 +76,8 @@ public class StartStopGui extends JPanel {
         guiScoreDirector = solverFactory.getScoreDirectorFactory().buildScoreDirector();
     }
 
-    public void refreshSchedule() {
-        guiSchedule = solverThread.currentSchedule;
+    public void refreshSchedule() throws RemoteException {
+        guiSchedule = rmiInterface.getCurrentSchedule();
         guiAllocationList = guiSchedule.getCondensedAllocationList();
         populateSchedule();
         this.revalidate();
@@ -89,30 +94,69 @@ public class StartStopGui extends JPanel {
 
         JButton b = new JButton("STOP");
         b.addActionListener(e -> {
-            solverThread.terminateSolver();
-            refreshSchedule();
+            try {
+                rmiInterface.stopSolver();
+                refreshSchedule();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         });
         buttonPanel.add(b);
 
         JButton b2 = new JButton("START");
         b2.addActionListener(e -> {
-            solverThread.terminateSolver();
-            solverThread.currentSchedule = guiSchedule;
-            solverThread.resumeSolvers();
+            try {
+                rmiInterface.startSolver(guiSchedule);
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         });
         buttonPanel.add(b2);
 
         JButton b3 = new JButton("RESET");
         b3.addActionListener(e -> {
-            solverThread.restartSolvers();
+            try {
+                rmiInterface.resetSolver();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         });
         buttonPanel.add(b3);
 
         JButton b4 = new JButton("REFRESH");
         b4.addActionListener(e -> {
-            refreshSchedule();
+            try {
+                refreshSchedule();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         });
         buttonPanel.add(b4);
+
+
+        JCheckBox c1 = new JCheckBox("CONSOLE");
+        c1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (c1.isSelected()) {
+                    consoleWorker = new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            while (!this.isCancelled()) detailTextField.setText(rmiInterface.getConsoleBuffer());
+                            return null;
+                        }
+                    };
+                    consoleWorker.execute();
+                } else {
+                    if (consoleWorker != null) {
+                        consoleWorker.cancel(true);
+                        consoleWorker = null;
+                    }
+                }
+            }
+        });
+        buttonPanel.add(c1);
 
         // Table
         table = new JTable();
@@ -215,13 +259,12 @@ public class StartStopGui extends JPanel {
     }
 
     public void showFrame() {
-        JPanel panel = new StartStopGui(solverThread);
-        panel.setOpaque(true);
+        this.setOpaque(true);
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setTitle("TCPlanner");
-        frame.setContentPane(panel);
+        frame.setContentPane(this);
         frame.pack();
         frame.setVisible(true);
     }

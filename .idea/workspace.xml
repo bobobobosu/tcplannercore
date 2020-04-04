@@ -6,28 +6,55 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="v20200325">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Solutions/TimelineBlockProblem.json" afterDir="false" />
+    <list default="true" id="ff1479fe-a26d-4b59-b0d8-550e27256742" name="Default Changelist" comment="Added">
+      <change afterPath="$PROJECT_DIR$/dd.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/Gui/TCGuiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/TCCore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/TCRemote.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/RMIInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/RMIServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCCoreApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCRemoteApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bo/tc/tcplanner/app/TCGui.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tcplanner_client.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tcplanner_server.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Schedule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Schedule.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.1.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.2.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.3.log.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local/log/optaplanner.log" beforeDir="false" afterPath="$PROJECT_DIR$/local/log/optaplanner.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/run.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/run.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/runBench.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/tcplannercore_jar/runBench.cmd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/PropertyConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/PropertyConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/SwiftGui/StartStopGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/SwiftGui/StartStopGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/DroolsTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/DroolsTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/JsonServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/SolverThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/TCSchedulingApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/app/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/LocationHierarchyMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/LocationHierarchyMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/converters/DataStructureWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/persistence/TimelineBlockScheduleFileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/datastructure/persistence/TimelineBlockScheduleFileIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Allocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ListenerTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/listeners/ResourceStateChangeVariableListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseTimeEntryMoveFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseTimeEntryMoveFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseTimeEntryMoveIteratorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/moves/PreciseTimeEntryMoveIteratorFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/score/ScheduleConstraintProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bo/tc/tcplanner/domain/solver/score/ScheduleConstraintProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/solverPhase2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tcplannercoreBenchmarkConfig.xml.ftl" afterDir="false" />
     </list>
     <list id="6df2b124-dab0-48db-b3b1-3ad2a096093e" name="cached zoned date time" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="CoverageViewManager">
     <option name="myElementSize" value="159" />
@@ -56,6 +83,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -98,30 +126,39 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/bo/tc/tcplanner/app" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.testRunning" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
       <recent name="bo.tc.tcplanner.app" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner\domain\solver\filters\delete" />
-      <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\tcplanner\Gui" />
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\tcplanner" />
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\" />
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\tcplanner\app" />
+      <recent name="S:\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner\app" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="bo.tc.tcplanner" />
+      <recent name="bo.tc.tcplanner.app" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="bo.tc.tcplanner.domain.solver.filters" />
     </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\tcplanner\app" />
+      <recent name="S:\root\Code\tcplannercore\src\main\resources\bo\tc\tcplanner\" />
       <recent name="S:\root\Code\tcplannercore\src\main\resources" />
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\resources" />
       <recent name="C:\_DATA\_Storage\_Sync\Devices\root\Code\tcplannercore\src\main\java\bo\tc\tcplanner" />
@@ -133,11 +170,72 @@
       <command value="mvn exec" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Benchmark">
-    <configuration name="Benchmark" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.Benchmark" />
+  <component name="RunManager" selected="Application.TCCore">
+    <configuration name="TCCore" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.TCCore" />
       <module name="tcplannercore" />
-      <option name="VM_PARAMETERS" value="-server" />
+      <option name="VM_PARAMETERS" value="-server -ea -Djava.rmi.server.hostname=192.168.192.18" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCCoreApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.TCCoreApp" />
+      <module name="tcplannercore" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCGui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TCGui" />
+      <module name="tcplannercore" />
+      <option name="VM_PARAMETERS" value="--add-modules javafx.base,javafx.graphics" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCGui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.Gui.TCGui" />
+      <module name="tcplannercore" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.Gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCRemote" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.TCRemote" />
+      <module name="tcplannercore" />
+      <option name="PROGRAM_PARAMETERS" value="--address=192.168.192.18 --port=1091" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="bo.tc.tcplanner.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TCRemoteApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.TCRemoteApp" />
+      <module name="tcplannercore" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
@@ -148,12 +246,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StartStopGui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.SwiftGui.StartStopGui" />
+    <configuration name="eeee" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.eeee" />
       <module name="tcplannercore" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="bo.tc.tcplanner.SwiftGui.*" />
+          <option name="PATTERN" value="bo.tc.tcplanner.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -161,67 +259,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TCSchedulingApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="13" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.TCSchedulingApp" />
-      <module name="tcplannercore" />
-      <option name="VM_PARAMETERS" value="-server -ea" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BenchmarkTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tcplannercore" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="bo.tc.tcplanner.app" />
-      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.BenchmarkTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BenchmarkTest.setConstants" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tcplannercore" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="bo.tc.tcplanner.app.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="bo.tc.tcplanner.app" />
-      <option name="MAIN_CLASS_NAME" value="bo.tc.tcplanner.app.BenchmarkTest" />
-      <option name="METHOD_NAME" value="setConstants" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="exec:java" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Benchmark" />
-      <item itemvalue="Application.TCSchedulingApp" />
-      <item itemvalue="Application.StartStopGui" />
-      <item itemvalue="JUnit.BenchmarkTest" />
-      <item itemvalue="JUnit.BenchmarkTest.setConstants" />
+      <item itemvalue="Application.eeee" />
+      <item itemvalue="Application.TCCoreApp" />
+      <item itemvalue="Application.TCCore" />
+      <item itemvalue="Application.TCRemote" />
+      <item itemvalue="Application.TCRemoteApp" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Benchmark" />
-        <item itemvalue="Application.TCSchedulingApp" />
-        <item itemvalue="JUnit.BenchmarkTest.setConstants" />
-        <item itemvalue="JUnit.BenchmarkTest" />
-        <item itemvalue="Application.StartStopGui" />
+        <item itemvalue="Application.TCCore" />
+        <item itemvalue="Application.TCRemoteApp" />
+        <item itemvalue="Application.TCRemote" />
+        <item itemvalue="Application.TCCoreApp" />
+        <item itemvalue="Application.eeee" />
       </list>
     </recent_temporary>
   </component>
@@ -411,14 +487,15 @@
       <workItem from="1585634535785" duration="131000" />
       <workItem from="1585643531737" duration="41428000" />
       <workItem from="1585719705359" duration="14937000" />
-      <workItem from="1585896252406" duration="1693000" />
-    </task>
-    <task id="LOCAL-00001" summary="Add benchmark">
-      <created>1573965651431</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1573965651431</updated>
+      <workItem from="1585896252406" duration="4647000" />
+      <workItem from="1585916979401" duration="6406000" />
+      <workItem from="1585937180800" duration="2311000" />
+      <workItem from="1585939791130" duration="720000" />
+      <workItem from="1585940529209" duration="1422000" />
+      <workItem from="1585991656579" duration="466000" />
+      <workItem from="1585992156625" duration="4250000" />
+      <workItem from="1585996421363" duration="363000" />
+      <workItem from="1585996794921" duration="32254000" />
     </task>
     <task id="LOCAL-00002" summary="Added selected count limit for delay change move">
       <created>1573971899254</created>
@@ -756,7 +833,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585728517120</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="v20200403">
+      <created>1585898135150</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1585898135150</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -789,7 +873,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="20.1.1" />
     <MESSAGE value="20.1.1 Optimized Drools rules" />
     <MESSAGE value="Removed ExecutionMode class, use TimelineEntry instead" />
     <MESSAGE value="cached zoned date time" />
@@ -814,7 +897,8 @@
     <MESSAGE value="v20200331" />
     <MESSAGE value="Add Construction Heuristic" />
     <MESSAGE value="Added 2 phases of CH&#10;Switched to Constraint Stream Score Calculate&#10;Switched to HardMediumSoftLong score" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 2 phases of CH&#10;Switched to Constraint Stream Score Calculate&#10;Switched to HardMediumSoftLong score" />
+    <MESSAGE value="v20200403" />
+    <option name="LAST_COMMIT_MESSAGE" value="v20200403" />
   </component>
   <component name="WindowStateProjectService">
     <state x="403" y="100" key="#All_in_tcplannercore" timestamp="1585123216714">
@@ -829,43 +913,75 @@
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="142" y="176" width="1487" height="674" key="#Project_Structure/91.0.1829.1080@91.0.1829.1080" timestamp="1583702510977" />
+    <state x="327" y="98" key="#TCGui" timestamp="1585983937456">
+      <screen x="91" y="0" width="1021" height="834" />
+    </state>
+    <state x="327" y="98" key="#TCGui/91.0.1021.834@91.0.1021.834" timestamp="1585983937456" />
+    <state x="732" y="221" key="#TCGui_(1)" timestamp="1585988295271">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="732" y="221" key="#TCGui_(1)/91.0.1829.1080@91.0.1829.1080" timestamp="1585988295271" />
     <state x="520" y="91" width="579" height="683" key="#TCSchedulingApp" timestamp="1578532432896">
       <screen x="65" y="0" width="1471" height="864" />
     </state>
     <state x="520" y="91" width="579" height="683" key="#TCSchedulingApp/65.0.1471.864@65.0.1471.864" timestamp="1578532432896" />
-    <state x="462" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585249779449">
-      <screen x="91" y="0" width="1829" height="1080" />
+    <state x="298" y="154" width="765" height="558" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586030674435">
+      <screen x="91" y="0" width="1021" height="834" />
     </state>
+    <state x="187" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog/75.0.1461.864@75.0.1461.864" timestamp="1585942427976" />
     <state x="460" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311610066" />
-    <state x="462" y="199" key="#com.intellij.execution.impl.EditConfigurationsDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585249779449" />
-    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser" timestamp="1585706409085">
+    <state x="298" y="154" width="765" height="558" key="#com.intellij.execution.impl.EditConfigurationsDialog/91.0.1021.834@91.0.1021.834" timestamp="1586030674435" />
+    <state x="202" y="106" key="#com.intellij.execution.impl.EditConfigurationsDialog/91.0.1445.864@91.0.1445.864" timestamp="1585942788072" />
+    <state x="462" y="199" width="1102" height="722" key="#com.intellij.execution.impl.EditConfigurationsDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1586025982835" />
+    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser" timestamp="1586027842499">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="604" y="127" key="#com.intellij.ide.util.MemberChooser/64.0.1472.864@64.0.1472.864" timestamp="1585159572135" />
+    <state x="611" y="127" key="#com.intellij.ide.util.MemberChooser/75.0.1461.864@75.0.1461.864" timestamp="1585928895788" />
+    <state x="466" y="123" key="#com.intellij.ide.util.MemberChooser/91.0.1021.834@91.0.1021.834" timestamp="1585984068193" />
     <state x="621" y="127" key="#com.intellij.ide.util.MemberChooser/91.0.1445.864@91.0.1445.864" timestamp="1583377523342" />
-    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser/91.0.1829.1080@91.0.1829.1080" timestamp="1585706409085" />
+    <state x="762" y="159" key="#com.intellij.ide.util.MemberChooser/91.0.1829.1080@91.0.1829.1080" timestamp="1586027842499" />
+    <state x="390" y="455" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1585988071808">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="390" y="455" key="#com.intellij.ide.util.TreeClassChooserDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585988071808" />
+    <state x="760" y="379" width="394" height="265" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586002251070">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="609" y="303" width="394" height="265" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/75.0.1461.864@75.0.1461.864" timestamp="1585924793846" />
+    <state x="760" y="379" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/91.0.1829.1080@91.0.1829.1080" timestamp="1586002251070" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585726284062">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585726284062" />
+    <state x="735" y="290" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586003313124">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="735" y="290" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1586003313124" />
     <state x="737" y="291" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1583406480907">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="737" y="291" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1583406480907" />
+    <state x="760" y="366" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1585988025856">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="760" y="366" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585988025856" />
     <state x="553" y="294" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1585123188081">
       <screen x="64" y="0" width="1472" height="864" />
     </state>
     <state x="553" y="294" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/64.0.1472.864@64.0.1472.864" timestamp="1585123188081" />
-    <state x="395" y="116" width="1335" height="802" key="CommitChangelistDialog2" timestamp="1585898089802">
-      <screen x="91" y="0" width="1829" height="1080" />
+    <state x="261" y="90" width="1335" height="802" key="CommitChangelistDialog2" timestamp="1586030626757">
+      <screen x="91" y="0" width="1021" height="834" />
     </state>
     <state x="194" y="126" key="CommitChangelistDialog2/64.0.1472.864@64.0.1472.864" timestamp="1585120478617" />
     <state x="250" y="158" width="1356" height="800" key="CommitChangelistDialog2/88.0.1832.1080@88.0.1832.1080" timestamp="1583315257021" />
-    <state x="395" y="116" width="1335" height="802" key="CommitChangelistDialog2/91.0.1829.1080@91.0.1829.1080" timestamp="1585898089802" />
-    <state x="181" y="93" width="1645" height="893" key="DiffContextDialog" timestamp="1583317495462">
-      <screen x="88" y="0" width="1832" height="1080" />
+    <state x="261" y="90" key="CommitChangelistDialog2/91.0.1021.834@91.0.1021.834" timestamp="1586030626757" />
+    <state x="395" y="116" width="1335" height="802" key="CommitChangelistDialog2/91.0.1829.1080@91.0.1829.1080" timestamp="1586024495796" />
+    <state x="184" y="93" width="1643" height="893" key="DiffContextDialog" timestamp="1586001455793">
+      <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="181" y="93" width="1645" height="893" key="DiffContextDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583317495462" />
+    <state x="184" y="93" width="1643" height="893" key="DiffContextDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1586001455793" />
     <state x="581" y="166" key="FileChooserDialogImpl" timestamp="1585187132638">
       <screen x="64" y="0" width="1472" height="864" />
     </state>
@@ -874,84 +990,99 @@
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
     <state x="73" y="0" key="FileDocumentManager.FileCacheConflict/88.0.1832.1080@88.0.1832.1080" timestamp="1583309675904" />
-    <state width="1786" height="214" key="GridCell.Tab.0.bottom" timestamp="1585897710844">
+    <state width="1786" height="298" key="GridCell.Tab.0.bottom" timestamp="1586029593695">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.0.bottom/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="418" key="GridCell.Tab.0.bottom/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
+    <state width="1418" height="315" key="GridCell.Tab.0.bottom/75.0.1461.864@75.0.1461.864" timestamp="1585942572931" />
     <state width="1790" height="269" key="GridCell.Tab.0.bottom/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="356" key="GridCell.Tab.0.bottom/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1786" height="214" key="GridCell.Tab.0.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1585897710844" />
-    <state width="1786" height="214" key="GridCell.Tab.0.center" timestamp="1585897710844">
+    <state width="979" height="262" key="GridCell.Tab.0.bottom/91.0.1021.834@91.0.1021.834" timestamp="1585984093681" />
+    <state width="1402" height="363" key="GridCell.Tab.0.bottom/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="298" key="GridCell.Tab.0.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1586029593695" />
+    <state width="1786" height="298" key="GridCell.Tab.0.center" timestamp="1586029593695">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.0.center/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="418" key="GridCell.Tab.0.center/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
+    <state width="1418" height="315" key="GridCell.Tab.0.center/75.0.1461.864@75.0.1461.864" timestamp="1585942572930" />
     <state width="1790" height="269" key="GridCell.Tab.0.center/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="356" key="GridCell.Tab.0.center/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1786" height="214" key="GridCell.Tab.0.center/91.0.1829.1080@91.0.1829.1080" timestamp="1585897710844" />
-    <state width="1786" height="214" key="GridCell.Tab.0.left" timestamp="1585897710843">
+    <state width="979" height="262" key="GridCell.Tab.0.center/91.0.1021.834@91.0.1021.834" timestamp="1585984093681" />
+    <state width="1402" height="363" key="GridCell.Tab.0.center/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="298" key="GridCell.Tab.0.center/91.0.1829.1080@91.0.1829.1080" timestamp="1586029593695" />
+    <state width="1786" height="298" key="GridCell.Tab.0.left" timestamp="1586029593695">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.0.left/64.0.1472.864@64.0.1472.864" timestamp="1585201277386" />
     <state width="1428" height="418" key="GridCell.Tab.0.left/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
+    <state width="1418" height="315" key="GridCell.Tab.0.left/75.0.1461.864@75.0.1461.864" timestamp="1585942572930" />
     <state width="1790" height="269" key="GridCell.Tab.0.left/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="356" key="GridCell.Tab.0.left/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1786" height="214" key="GridCell.Tab.0.left/91.0.1829.1080@91.0.1829.1080" timestamp="1585897710843" />
-    <state width="1786" height="214" key="GridCell.Tab.0.right" timestamp="1585897710844">
+    <state width="979" height="262" key="GridCell.Tab.0.left/91.0.1021.834@91.0.1021.834" timestamp="1585984093681" />
+    <state width="1402" height="363" key="GridCell.Tab.0.left/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="298" key="GridCell.Tab.0.left/91.0.1829.1080@91.0.1829.1080" timestamp="1586029593695" />
+    <state width="1786" height="298" key="GridCell.Tab.0.right" timestamp="1586029593695">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.0.right/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="418" key="GridCell.Tab.0.right/65.0.1471.864@65.0.1471.864" timestamp="1578535337620" />
+    <state width="1418" height="315" key="GridCell.Tab.0.right/75.0.1461.864@75.0.1461.864" timestamp="1585942572930" />
     <state width="1790" height="269" key="GridCell.Tab.0.right/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="356" key="GridCell.Tab.0.right/91.0.1445.864@91.0.1445.864" timestamp="1583382329243" />
-    <state width="1786" height="214" key="GridCell.Tab.0.right/91.0.1829.1080@91.0.1829.1080" timestamp="1585897710844" />
-    <state width="1786" height="93" key="GridCell.Tab.1.bottom" timestamp="1585736066562">
+    <state width="979" height="262" key="GridCell.Tab.0.right/91.0.1021.834@91.0.1021.834" timestamp="1585984093681" />
+    <state width="1402" height="363" key="GridCell.Tab.0.right/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="298" key="GridCell.Tab.0.right/91.0.1829.1080@91.0.1829.1080" timestamp="1586029593695" />
+    <state width="1786" height="365" key="GridCell.Tab.1.bottom" timestamp="1586029041645">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.1.bottom/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="88" key="GridCell.Tab.1.bottom/65.0.1471.864@65.0.1471.864" timestamp="1578535337613" />
+    <state width="1418" height="361" key="GridCell.Tab.1.bottom/75.0.1461.864@75.0.1461.864" timestamp="1585942114175" />
     <state width="1790" height="269" key="GridCell.Tab.1.bottom/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="139" key="GridCell.Tab.1.bottom/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1786" height="93" key="GridCell.Tab.1.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1585736066562" />
-    <state width="1786" height="93" key="GridCell.Tab.1.center" timestamp="1585736066562">
+    <state width="1402" height="363" key="GridCell.Tab.1.bottom/91.0.1445.864@91.0.1445.864" timestamp="1585942331572" />
+    <state width="1786" height="365" key="GridCell.Tab.1.bottom/91.0.1829.1080@91.0.1829.1080" timestamp="1586029041645" />
+    <state width="1786" height="365" key="GridCell.Tab.1.center" timestamp="1586029041645">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.1.center/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="88" key="GridCell.Tab.1.center/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
+    <state width="1418" height="361" key="GridCell.Tab.1.center/75.0.1461.864@75.0.1461.864" timestamp="1585942114175" />
     <state width="1790" height="269" key="GridCell.Tab.1.center/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="139" key="GridCell.Tab.1.center/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1786" height="93" key="GridCell.Tab.1.center/91.0.1829.1080@91.0.1829.1080" timestamp="1585736066562" />
-    <state width="1786" height="93" key="GridCell.Tab.1.left" timestamp="1585736066562">
+    <state width="1402" height="363" key="GridCell.Tab.1.center/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="365" key="GridCell.Tab.1.center/91.0.1829.1080@91.0.1829.1080" timestamp="1586029041645" />
+    <state width="1786" height="365" key="GridCell.Tab.1.left" timestamp="1586029041645">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.1.left/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="88" key="GridCell.Tab.1.left/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
+    <state width="1418" height="361" key="GridCell.Tab.1.left/75.0.1461.864@75.0.1461.864" timestamp="1585942114175" />
     <state width="1790" height="269" key="GridCell.Tab.1.left/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="139" key="GridCell.Tab.1.left/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1786" height="93" key="GridCell.Tab.1.left/91.0.1829.1080@91.0.1829.1080" timestamp="1585736066562" />
-    <state width="1786" height="93" key="GridCell.Tab.1.right" timestamp="1585736066562">
+    <state width="1402" height="363" key="GridCell.Tab.1.left/91.0.1445.864@91.0.1445.864" timestamp="1585942331571" />
+    <state width="1786" height="365" key="GridCell.Tab.1.left/91.0.1829.1080@91.0.1829.1080" timestamp="1586029041645" />
+    <state width="1786" height="365" key="GridCell.Tab.1.right" timestamp="1586029041645">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state width="1429" height="205" key="GridCell.Tab.1.right/64.0.1472.864@64.0.1472.864" timestamp="1585201277387" />
     <state width="1428" height="88" key="GridCell.Tab.1.right/65.0.1471.864@65.0.1471.864" timestamp="1578535337612" />
+    <state width="1418" height="361" key="GridCell.Tab.1.right/75.0.1461.864@75.0.1461.864" timestamp="1585942114175" />
     <state width="1790" height="269" key="GridCell.Tab.1.right/88.0.1832.1080@88.0.1832.1080" timestamp="1583351998628" />
-    <state width="1402" height="139" key="GridCell.Tab.1.right/91.0.1445.864@91.0.1445.864" timestamp="1583382279131" />
-    <state width="1786" height="93" key="GridCell.Tab.1.right/91.0.1829.1080@91.0.1829.1080" timestamp="1585736066562" />
-    <state x="331" y="92" key="Maven.ArtifactSearchDialog" timestamp="1585123462492">
-      <screen x="64" y="0" width="1472" height="864" />
+    <state width="1402" height="363" key="GridCell.Tab.1.right/91.0.1445.864@91.0.1445.864" timestamp="1585942331572" />
+    <state width="1786" height="365" key="GridCell.Tab.1.right/91.0.1829.1080@91.0.1829.1080" timestamp="1586029041645" />
+    <state x="7" y="153" key="Maven.ArtifactSearchDialog" timestamp="1585983464121">
+      <screen x="91" y="0" width="1021" height="834" />
     </state>
     <state x="331" y="92" key="Maven.ArtifactSearchDialog/64.0.1472.864@64.0.1472.864" timestamp="1585123462492" />
-    <state x="510" y="186" key="SettingsEditor" timestamp="1583701504259">
+    <state x="340" y="92" key="Maven.ArtifactSearchDialog/75.0.1461.864@75.0.1461.864" timestamp="1585924528599" />
+    <state x="7" y="153" key="Maven.ArtifactSearchDialog/91.0.1021.834@91.0.1021.834" timestamp="1585983464121" />
+    <state x="510" y="186" width="1021" height="834" key="SettingsEditor" timestamp="1585989241162">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
-    <state x="510" y="186" key="SettingsEditor/91.0.1829.1080@91.0.1829.1080" timestamp="1583701504259" />
-    <state x="599" y="278" key="Vcs.Push.Dialog.v2" timestamp="1585728519756">
+    <state x="91" y="0" width="1021" height="834" key="SettingsEditor/91.0.1021.834@91.0.1021.834" timestamp="1585983531338" />
+    <state x="510" y="186" key="SettingsEditor/91.0.1829.1080@91.0.1829.1080" timestamp="1585989241162" />
+    <state x="599" y="278" key="Vcs.Push.Dialog.v2" timestamp="1585898163428">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="473" y="222" key="Vcs.Push.Dialog.v2/64.0.1472.864@64.0.1472.864" timestamp="1585120524476" />
     <state x="597" y="277" key="Vcs.Push.Dialog.v2/88.0.1832.1080@88.0.1832.1080" timestamp="1583312296905" />
-    <state x="599" y="278" key="Vcs.Push.Dialog.v2/91.0.1829.1080@91.0.1829.1080" timestamp="1585728519756" />
+    <state x="599" y="278" key="Vcs.Push.Dialog.v2/91.0.1829.1080@91.0.1829.1080" timestamp="1585898163428" />
     <state x="745" y="278" key="VcsDiffUtil.ChangesDialog" timestamp="1583312045579">
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
@@ -960,29 +1091,34 @@
       <screen x="88" y="0" width="1832" height="1080" />
     </state>
     <state x="181" y="93" width="1645" height="893" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311797024" />
-    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585665935088">
+    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586010973038">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="139" y="74" width="1323" height="715" key="com.intellij.history.integration.ui.views.FileHistoryDialog/64.0.1472.864@64.0.1472.864" timestamp="1585126143099" />
     <state x="181" y="93" width="1645" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583349331153" />
-    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585665935088" />
+    <state x="184" y="93" width="1643" height="893" key="com.intellij.history.integration.ui.views.FileHistoryDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1586010973038" />
     <state x="210" y="118" width="1593" height="847" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1585721386806">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="185" y="94" width="1258" height="677" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/91.0.1445.864@91.0.1445.864" timestamp="1583377689076" />
     <state x="210" y="118" width="1593" height="847" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585721386806" />
-    <state x="633" y="320" key="com.intellij.ide.util.TipDialog" timestamp="1585896252858">
+    <state x="633" y="320" key="com.intellij.ide.util.TipDialog" timestamp="1585996802025">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="500" y="256" key="com.intellij.ide.util.TipDialog/64.0.1472.864@64.0.1472.864" timestamp="1585126095276" />
     <state x="501" y="256" key="com.intellij.ide.util.TipDialog/65.0.1471.864@65.0.1471.864" timestamp="1578525090366" />
+    <state x="508" y="256" key="com.intellij.ide.util.TipDialog/75.0.1461.864@75.0.1461.864" timestamp="1585940567379" />
     <state x="631" y="320" key="com.intellij.ide.util.TipDialog/88.0.1832.1080@88.0.1832.1080" timestamp="1583311583291" />
     <state x="519" y="256" key="com.intellij.ide.util.TipDialog/91.0.1445.864@91.0.1445.864" timestamp="1583354257303" />
-    <state x="633" y="320" key="com.intellij.ide.util.TipDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585896252858" />
+    <state x="633" y="320" key="com.intellij.ide.util.TipDialog/91.0.1829.1080@91.0.1829.1080" timestamp="1585996802025" />
     <state x="686" y="201" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1585731620000">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="686" y="201" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/91.0.1829.1080@91.0.1829.1080" timestamp="1585731620000" />
+    <state x="816" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585977147861">
+      <screen x="91" y="0" width="1829" height="1080" />
+    </state>
+    <state x="816" y="459" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/91.0.1829.1080@91.0.1829.1080" timestamp="1585977147861" />
     <state x="572" y="154" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1585123409843">
       <screen x="64" y="0" width="1472" height="864" />
     </state>
@@ -1004,11 +1140,11 @@
     </state>
     <state x="526" y="202" width="672" height="542" key="run.anything.popup/64.0.1472.864@64.0.1472.864" timestamp="1585187101757" />
     <state x="664" y="252" width="672" height="677" key="run.anything.popup/91.0.1829.1080@91.0.1829.1080" timestamp="1585212894339" />
-    <state x="581" y="229" width="851" height="848" key="search.everywhere.popup" timestamp="1585403487304">
+    <state x="581" y="229" width="851" height="848" key="search.everywhere.popup" timestamp="1586003122168">
       <screen x="91" y="0" width="1829" height="1080" />
     </state>
     <state x="477" y="182" width="672" height="678" key="search.everywhere.popup/91.0.1445.864@91.0.1445.864" timestamp="1583367495746" />
-    <state x="581" y="229" width="851" height="848" key="search.everywhere.popup/91.0.1829.1080@91.0.1829.1080" timestamp="1585403487304" />
+    <state x="581" y="229" width="851" height="848" key="search.everywhere.popup/91.0.1829.1080@91.0.1829.1080" timestamp="1586003122168" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

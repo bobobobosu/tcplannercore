@@ -27,9 +27,12 @@ import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactProperty;
 import org.optaplanner.core.api.score.buildin.hardmediumsoftlong.HardMediumSoftLongScore;
+import org.optaplanner.core.impl.score.director.ScoreDirector;
 
+import java.io.Serializable;
 import java.util.*;
 
+import static bo.tc.tcplanner.app.SolverThread.getScoringScoreDirector;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -47,6 +50,7 @@ public class Schedule extends AbstractPersistable {
     private TimelineBlock problemTimelineBlock;
     private ValueEntryMap valueEntryMap;
     private TimeEntryMap timeEntryMap;
+    private LocationHierarchyMap locationHierarchyMap;
     // Easy Access
     private Map<TimelineEntry, TimelineEntry> job2jobcloneMap;
     //    @XStreamConverter(BendableScoreXStreamConverter.class)
@@ -79,11 +83,14 @@ public class Schedule extends AbstractPersistable {
         checkNotNull(problemTimelineBlock);
         checkNotNull(valueEntryMap);
         checkNotNull(timeEntryMap);
+        checkNotNull(locationHierarchyMap);
         checkNotNull(job2jobcloneMap);
         checkArgument(allocationList.stream().allMatch(Allocation::checkValid));
         checkArgument(timelineEntryList.stream().allMatch(TimelineEntry::checkValid));
         checkArgument(job2jobcloneMap.entrySet().stream().allMatch(x -> x.getValue().getResourceStateChange().equals(x.getKey().getResourceStateChange())));
         checkArgument(valueEntryMap.checkValid());
+        checkArgument(timeEntryMap.checkValid());
+        checkArgument(locationHierarchyMap.checkValid());
         return true;
     }
 
@@ -111,6 +118,16 @@ public class Schedule extends AbstractPersistable {
 
     public Schedule setValueEntryMap(ValueEntryMap valueEntryMap) {
         this.valueEntryMap = valueEntryMap;
+        return this;
+    }
+
+    @ProblemFactProperty
+    public LocationHierarchyMap getLocationHierarchyMap() {
+        return locationHierarchyMap;
+    }
+
+    public Schedule setLocationHierarchyMap(LocationHierarchyMap locationHierarchyMap) {
+        this.locationHierarchyMap = locationHierarchyMap;
         return this;
     }
 
@@ -191,7 +208,7 @@ public class Schedule extends AbstractPersistable {
         return Lists.newArrayList(focusedAllocationSet);
     }
 
-    public class Special {
+    public class Special implements Serializable {
         public HumanStateChange dummyHumamStateChange;
         public ProgressChange dummyProgressChange;
         public ResourceStateChange dummyResourceStateChange;
@@ -199,5 +216,17 @@ public class Schedule extends AbstractPersistable {
         public TimelineProperty dummyTimelineProperty;
         public String dummyLocation;
         public String dummyTime;
+    }
+
+    public static double percentSolved(Schedule schedule) {
+        ScoreDirector<Schedule> scheduleScoreDirector = getScoringScoreDirector();
+        scheduleScoreDirector.setWorkingSolution(schedule);
+        scheduleScoreDirector.calculateScore();
+        double totalAllocations = schedule.focusedAllocationSet.size();
+        double unsolvedAllocations = schedule.focusedAllocationSet.stream()
+                .filter(x -> scheduleScoreDirector.getIndictmentMap().containsKey(x) &&
+                        ((HardMediumSoftLongScore) scheduleScoreDirector.getIndictmentMap().get(x).getScore())
+                                .getHardScore() < 0).count();
+        return (totalAllocations - unsolvedAllocations) / totalAllocations;
     }
 }

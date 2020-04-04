@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.domain.solver.moves;
 
+import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
 import bo.tc.tcplanner.domain.Schedule;
@@ -42,9 +43,10 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
             }
 
             private List<TimelineEntry> getMatchingTimelineEntries(Allocation allocation) {
+                LocationHierarchyMap locationHierarchyMap = allocation.getSchedule().getLocationHierarchyMap();
                 Allocation nextAllocation = allocation.getNextAllocation();
                 if (nextAllocation == null ||
-                        locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                        locationRestrictionCheck(locationHierarchyMap, nextAllocation.getPreviousStandstill(),
                                 nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
                     return new ArrayList<>();
                 String available = nextAllocation.getPreviousStandstill();
@@ -53,9 +55,9 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
                         key -> {
                             List<TimelineEntry> timelineEntries = new ArrayList<>();
                             for (TimelineEntry timelineEntry : allocation.getSchedule().getTimelineEntryList()) {
-                                if (locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                if (locationRestrictionCheck(locationHierarchyMap, nextAllocation.getPreviousStandstill(),
                                         timelineEntry.getHumanStateChange().getCurrentLocation()) &&
-                                        locationRestrictionCheck(timelineEntry.getHumanStateChange().getMovetoLocation(),
+                                        locationRestrictionCheck(locationHierarchyMap, timelineEntry.getHumanStateChange().getMovetoLocation(),
                                                 nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
                                     timelineEntries.add(timelineEntry);
                                 }
@@ -109,9 +111,10 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
             }
 
             private List<TimelineEntry> getMatchingTimelineEntries(Allocation allocation) {
+                LocationHierarchyMap locationHierarchyMap = allocation.getSchedule().getLocationHierarchyMap();
                 Allocation nextAllocation = allocation.getNextAllocation();
                 if (nextAllocation == null ||
-                        locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                        locationRestrictionCheck(locationHierarchyMap, nextAllocation.getPreviousStandstill(),
                                 nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation()))
                     return new ArrayList<>();
                 String available = nextAllocation.getPreviousStandstill();
@@ -120,9 +123,9 @@ public class PreciseTimeEntryMoveIteratorFactory implements MoveIteratorFactory<
                         key -> {
                             List<TimelineEntry> timelineEntries = new ArrayList<>();
                             for (TimelineEntry timelineEntry : allocation.getSchedule().getTimelineEntryList()) {
-                                if (locationRestrictionCheck(nextAllocation.getPreviousStandstill(),
+                                if (locationRestrictionCheck(locationHierarchyMap, nextAllocation.getPreviousStandstill(),
                                         timelineEntry.getHumanStateChange().getCurrentLocation()) &&
-                                        locationRestrictionCheck(timelineEntry.getHumanStateChange().getMovetoLocation(),
+                                        locationRestrictionCheck(locationHierarchyMap, timelineEntry.getHumanStateChange().getMovetoLocation(),
                                                 nextAllocation.getTimelineEntry().getHumanStateChange().getCurrentLocation())) {
                                     timelineEntries.add(timelineEntry);
                                 }

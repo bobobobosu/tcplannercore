@@ -1,5 +1,6 @@
 package bo.tc.tcplanner.app;
 
+import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
 import com.google.common.collect.TreeRangeSet;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 import static bo.tc.tcplanner.app.Toolbox.castList;
 import static bo.tc.tcplanner.app.Toolbox.castString;
 
@@ -82,7 +82,7 @@ public class DroolsTools {
         return result;
     }
 
-    public static boolean locationRestrictionCheck(String available, String requirement) {
+    public static boolean locationRestrictionCheck(LocationHierarchyMap locationHierarchyMap, String available, String requirement) {
         return locationHierarchyMap.containsKey(available) ?
                 locationHierarchyMap.get(available).contains(requirement) :
                 available.equals(requirement);

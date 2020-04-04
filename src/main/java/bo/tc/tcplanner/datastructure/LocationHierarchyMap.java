@@ -15,4 +15,11 @@ public class LocationHierarchyMap extends HashMap<String, HashSet<String>> {
             throw new IllegalArgumentException(this.toString(), ex);
         }
     }
+
+    public LocationHierarchyMap() {
+    }
+
+    public LocationHierarchyMap(LocationHierarchyMap locationHierarchyMap) {
+        locationHierarchyMap.forEach((k, v) -> this.put(k, new HashSet<>(v)));
+    }
 }

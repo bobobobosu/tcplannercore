@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bo.tc.tcplanner.Gui.TCGuiController">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" text="Revert" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="564.0" prefWidth="1139.0" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                            <tabs>
+                                <Tab text="Editor">
+                                    <content>
+                                        <AnchorPane>
+                                            <children>
+                                                <SplitPane dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <items>
+                                                        <AnchorPane>
+                                                            <children>
+                                                                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="297.0" prefWidth="618.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                    <content>
+                                                                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                                            <children>
+                                                                                <TableView fx:id="editor_table" layoutX="8.0" layoutY="22.0" prefHeight="285.0" prefWidth="559.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                    <columns>
+                                                                                    </columns>
+                                                                                </TableView>
+                                                                            </children>
+                                                                        </AnchorPane>
+                                                                    </content>
+                                                                </ScrollPane>
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="205.0" prefWidth="598.0">
+                                                            <children>
+                                                                <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="32.0" layoutY="14.0" prefHeight="124.0" prefWidth="460.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                    <content>
+                                                                        <TextArea fx:id="editor_textarea" />
+                                                                    </content>
+                                                                </ScrollPane>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </items>
+                                                </SplitPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Console">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                                            <children>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="37.0" layoutY="19.0" prefHeight="275.0" prefWidth="868.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <content>
+                                                        <TextArea fx:id="console_textarea" />
+                                                    </content>
+                                                </ScrollPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </TabPane>
+                        <ButtonBar>
+                            <buttons>
+                                <Button fx:id="start_btn" mnemonicParsing="false" text="Start" ButtonBar.buttonData="LEFT" />
+                                <Button fx:id="stop_btn" mnemonicParsing="false" text="Stop" ButtonBar.buttonData="LEFT" />
+                                <Button fx:id="reset_btn" mnemonicParsing="false" text="Reset" ButtonBar.buttonData="LEFT" />
+                                <Button fx:id="refresh_btn" mnemonicParsing="false" text="Refresh" ButtonBar.buttonData="LEFT" />
+                                <ToggleButton fx:id="update_toggle" mnemonicParsing="false" text="Update" />
+                        <ProgressIndicator fx:id="solving_progress" progress="0.0" />
+                            </buttons>
+                        </ButtonBar>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

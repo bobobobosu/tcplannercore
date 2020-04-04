@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static bo.tc.tcplanner.app.TCSchedulingApp.*;
 import static bo.tc.tcplanner.app.Toolbox.printCurrentSolution;
+import static bo.tc.tcplanner.PropertyConstants.*;
 
 public class JsonServer {
     private static final String HOSTNAME = "0.0.0.0";
@@ -34,7 +34,8 @@ public class JsonServer {
     private static final int BACKLOG = 1;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     //Global
-    public static StringBuffer consoleBuffer = new StringBuffer();
+    public static final StringBuffer consoleBuffer = new StringBuffer();
+
     //Solvers
     SolverThread solverThread;
     FirebaseServer firebaseServer;
@@ -50,10 +51,21 @@ public class JsonServer {
 
     public static String updateConsole(String s) {
         consoleBuffer.append(s).append("\n");
-        return s;
+        synchronized (consoleBuffer) {
+            consoleBuffer.notify();
+            return s;
+        }
     }
 
     public static String flushConsole() {
+        if (consoleBuffer.length() == 0) {
+            synchronized (consoleBuffer) {
+                try {
+                    consoleBuffer.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+        }
         String buff = consoleBuffer.toString();
         consoleBuffer.setLength(0);
         return buff;
@@ -296,7 +308,7 @@ public class JsonServer {
                         setFiles(updatedfiles);
                         TimelineBlock timelineBlock = problemTimelineBlock;
                         if (timelineBlock.getOrigin().equals("TCxlsb")) {
-                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap, locationHierarchyMap)
                                     .constructChainProperty().getSchedule();
                             printCurrentSolution(result, true);
                             timelineBlock = new DataStructureWriter().generateTimelineBlockScore(result);
@@ -367,7 +379,7 @@ public class JsonServer {
                             }
 
                             TimelineBlock timelineBlock = problemTimelineBlock;
-                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap)
+                            Schedule result = new DataStructureBuilder(valueEntryMap, timelineBlock, timeHierarchyMap, locationHierarchyMap)
                                     .constructChainProperty().getSchedule();
                             printCurrentSolution(result, true);
                             response = "{\"Updated\":true}".getBytes(StandardCharsets.UTF_8);

@@ -2,6 +2,7 @@ package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.Schedule;
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 
@@ -63,7 +64,7 @@ public class ResourceStateChangeVariableListener implements VariableListener<All
             scoreDirector.afterVariableChanged(originalAllocation, "resourceElementMap");
         }
 
-        var newResourceElementMap = updateAllocationResourceStateChange(focusedAllocationList, dirty);
+        var newResourceElementMap = updateAllocationResourceStateChange((Schedule) scoreDirector.getWorkingSolution(), focusedAllocationList, dirty);
         for (int i = 0; i < focusedAllocationList.size(); i++) {
             scoreDirector.beforeVariableChanged(focusedAllocationList.get(i), "resourceElementMap");
             focusedAllocationList.get(i).setResourceElementMap(newResourceElementMap.get(i));

@@ -1,10 +1,12 @@
 package bo.tc.tcplanner.domain.solver.listeners;
 
 import bo.tc.tcplanner.PropertyConstants;
+import bo.tc.tcplanner.datastructure.LocationHierarchyMap;
 import bo.tc.tcplanner.datastructure.ResourceElement;
 import bo.tc.tcplanner.datastructure.ResourceElementMap;
 import bo.tc.tcplanner.datastructure.TimelineEntry;
 import bo.tc.tcplanner.domain.Allocation;
+import bo.tc.tcplanner.domain.Schedule;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import java.time.Duration;
@@ -13,7 +15,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static bo.tc.tcplanner.app.DroolsTools.locationRestrictionCheck;
-import static bo.tc.tcplanner.app.TCSchedulingApp.locationHierarchyMap;
 
 public class ListenerTools {
     public static boolean updatePlanningDuration(Allocation allocation) {
@@ -36,6 +37,7 @@ public class ListenerTools {
 
     public static boolean updateAllocationPreviousStandstill(Allocation allocation, Allocation prevAllocation) {
         String PreviousStandStill = prevAllocation.getPreviousStandstill();
+        LocationHierarchyMap locationHierarchyMap = allocation.getSchedule().getLocationHierarchyMap();
 
         if (!locationHierarchyMap.containsKey(PreviousStandStill) ||
                 !locationHierarchyMap.get(PreviousStandStill).contains(
@@ -55,8 +57,9 @@ public class ListenerTools {
         return changed;
     }
 
-    public static List<ResourceElementMap> updateAllocationResourceStateChange(List<Allocation> focusedAllocationList, Set<String> dirty) {
+    public static List<ResourceElementMap> updateAllocationResourceStateChange(Schedule schedule, List<Allocation> focusedAllocationList, Set<String> dirty) {
         ResourceChangeChain resourceChangeChain = new ResourceChangeChain(focusedAllocationList, dirty);
+        LocationHierarchyMap locationHierarchyMap = schedule.getLocationHierarchyMap();
 
         // Pull
         for (int i = 0; i < focusedAllocationList.size(); i++) {
@@ -87,7 +90,7 @@ public class ListenerTools {
                         ResourceElement nextResourceElement = v.get(negIdx);
 
                         // locationRestrictionCheck
-                        if ((locationRestrictionCheck(thisResourceElement.getLocation(), "") || true) &&
+                        if ((locationRestrictionCheck(locationHierarchyMap, thisResourceElement.getLocation(), "") || true) &&
                                 (delta = Math.min(thisResourceElement.getAmt(), -nextResourceElement.getAmt())) > 0 &&
                                 (thisResourceElement.getAmt() >= 1 || thisResourceElement.getSuppliedTimelineIdList().size() == 0)) {
 
@@ -145,14 +148,15 @@ public class ListenerTools {
                                                  Map<ResourceElement, Integer> resourceSourceMap,
                                                  List<Allocation> allocationList,
                                                  TimelineEntry timelineEntry) {
+        LocationHierarchyMap locationHierarchyMap = allocationList.get(0).getSchedule().getLocationHierarchyMap();
         TimelineEntry o1TimelineEntry = allocationList.get(resourceSourceMap.get(o1)).getTimelineEntry();
         TimelineEntry o2TimelineEntry = allocationList.get(resourceSourceMap.get(o2)).getTimelineEntry();
         return new CompareToBuilder()
                 .append(o1.getPriorityTimelineIdList().size(), o2.getPriorityTimelineIdList().size())
                 .append(o2TimelineEntry.getDescription().equals(timelineEntry.getDescription()),
                         o1TimelineEntry.getDescription().equals(timelineEntry.getDescription()))
-                .append(locationRestrictionCheck(o2.getLocation(), o1.getLocation()),
-                        locationRestrictionCheck(o1.getLocation(), o2.getLocation()))
+                .append(locationRestrictionCheck(locationHierarchyMap, o2.getLocation(), o1.getLocation()),
+                        locationRestrictionCheck(locationHierarchyMap, o1.getLocation(), o2.getLocation()))
                 .toComparison();
 
     }
